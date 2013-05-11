@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="triggers" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/triggers.png" width="128" height="128"/>
+ </tileset>
+ <layer name="collision" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2dEKgDAIBdD2/z/dezDbsuAS50AQDF8U1NVxAAB/M15+6Hkzh+rRpx5ZxuW96kEr5/Tc5bN7zh71yFLlc9avVuPZN8tnldsnMayp5nUVY55/w76bRT2y6FdZzPMs9t0s7oNZ1COL74lZ7LtZ1CNL9//s6p0FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBvndMRAJk=
+  </data>
+ </layer>
+</map>
