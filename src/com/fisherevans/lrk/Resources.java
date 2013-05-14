@@ -55,7 +55,7 @@ public class Resources
     {
         try
         {
-            Image img = new Image(location, Image.FILTER_NEAREST);
+            Image img = new Image(location, false, Image.FILTER_NEAREST);
             return img;
         }
         catch(Exception e)

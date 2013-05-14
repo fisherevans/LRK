@@ -1,6 +1,5 @@
 package com.fisherevans.lrk.states.splash;
 
-import com.fisherevans.lrk.KeyMapping;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.Resources;
@@ -69,9 +68,9 @@ public class SplashState extends LRKState
         }
     }
 
-    public void keyReleased(int key, char c)
+    public void keyPressed(int key, char c)
     {
-        if(KeyMapping.isSelect(key))
+        if(Options.isSelect(key))
             _game.enterState(OptionsState.ID);
     }
 }

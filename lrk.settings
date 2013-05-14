@@ -1,4 +1,3 @@
 version=0.0.1
-scale=1
-fullscreen=false
-firstRun=true
+display.scale=3
+display.fullscreen=false

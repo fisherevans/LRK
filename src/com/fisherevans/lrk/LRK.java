@@ -1,5 +1,8 @@
 package com.fisherevans.lrk;
 
+import com.fisherevans.lrk.launcher.*;
+import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.options.OptionsState;
 import com.fisherevans.lrk.states.overlays.Overlay;
 import com.fisherevans.lrk.states.overlays.OverlayState;
@@ -7,6 +10,7 @@ import com.fisherevans.lrk.states.profile.ProfileState;
 import com.fisherevans.lrk.states.splash.SplashState;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
+import sun.misc.Launcher;
 
 /**
  * User: Fisher
@@ -15,19 +19,19 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class LRK extends StateBasedGame
 {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     private OverlayState _overlayState;
 
     public LRK(String name)
     {
         super(name);
-        Options.load();
     }
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException
     {
+        addState(new AdventureState());
         addState(new SplashState());
         addState(new ProfileState());
         addState(new OptionsState());
@@ -54,5 +58,10 @@ public class LRK extends StateBasedGame
     public static void log(String text)
     {
         System.out.println(text);
+    }
+
+    public Input getInput()
+    {
+        return Game.app.getInput();
     }
 }

@@ -3,10 +3,7 @@ package com.fisherevans.lrk.states;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.Resources;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.AngelCodeFont;
-import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +38,7 @@ public class GFX
         img.draw(x+dx, y+dy, img.getWidth(), img.getHeight());
     }
 
-    public static void drawTextAbsolute(float x, float y, AngelCodeFont font, Color c, String text)
+    public static void drawTextAbsolute(float x, float y, UnicodeFont font, Color c, String text)
     {
         font.drawString(x, y, text, c);
     }
@@ -118,5 +115,12 @@ public class GFX
         }
 
         return lineHeight*texts.size();
+    }
+
+    public static void fill(Graphics g, Color c)
+    {
+        g.setColor(c);
+        g.fillRect(0, 0, Options.getGameWidth(), Options.getDisplayHeight());
+
     }
 }

@@ -30,6 +30,6 @@ public class MenuItemResolution extends MenuItem
     @Override
     public boolean isSelected()
     {
-        return Options.getScale() == _scale;
+        return Options.getDisplayScale() == _scale;
     }
 }

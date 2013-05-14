@@ -1,12 +1,12 @@
 package com.fisherevans.lrk;
 
-import com.fisherevans.lrk.launcher.Launcher;
+import com.fisherevans.lrk.launcher.Game;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.ScalableGame;
 
 import java.io.File;
 import java.nio.file.*;
 import java.util.Scanner;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,8 +25,21 @@ public class Options
             SETTINGS_LOCATION = "lrk.settings";
 
     // SETTINGS
-    private static int _scale = 1;
-    private static boolean _fullscreen = false, _firstRun = true;
+    private static int _displayScale = 1;
+    private static boolean _displayFullscreen = false;
+
+    private static int
+            _controlUp = Input.KEY_W,
+            _controlDown = Input.KEY_S,
+            _controlLeft = Input.KEY_A,
+            _controlRight = Input.KEY_D,
+            _controlSelect = Input.KEY_SPACE,
+            _controlBack = Input.KEY_BACK;
+
+    private static float
+        _audioMaster = 1f,
+        _audioMusic = 0.8f,
+        _audioSFX = 1f;
 
     public static void load()
     {
@@ -47,14 +60,35 @@ public class Options
             System.out.println("Opened Settings file.");
 
             Scanner input = new Scanner(settings);
+            String line;
+            String[] setting;
             while(input.hasNextLine())
             {
-                String[] setting = input.nextLine().split("=");
-                switch(setting[0])
+                line = input.nextLine();
+                setting = line.split("=");
+                try
                 {
-                    case "scale": _scale = Integer.parseInt(setting[1]); break;
-                    case "fullscreen": _fullscreen = Boolean.parseBoolean(setting[1]); break;
-                    case "firstRun": _firstRun = Boolean.parseBoolean(setting[1]); break;
+                    switch(setting[0])
+                    {
+                        case "display.scale": _displayScale = Integer.parseInt(setting[1]); break;
+                        case "display.fullscreen": _displayFullscreen = Boolean.parseBoolean(setting[1]); break;
+
+                        case "controls.up": _controlUp = Integer.parseInt(setting[1]); break;
+                        case "controls.down": _controlDown = Integer.parseInt(setting[1]); break;
+                        case "controls.left": _controlLeft = Integer.parseInt(setting[1]); break;
+                        case "controls.right": _controlRight = Integer.parseInt(setting[1]); break;
+                        case "controls.select": _controlSelect = Integer.parseInt(setting[1]); break;
+                        case "controls.back": _controlBack = Integer.parseInt(setting[1]); break;
+
+                        case "audio.master": _audioMaster = Float.parseFloat(setting[1]); break;
+                        case "audio.music": _audioMusic = Float.parseFloat(setting[1]); break;
+                        case "audio.sfx": _audioSFX = Float.parseFloat(setting[1]); break;
+                    }
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                    LRK.log("Failed to load a configuration line: " + line);
                 }
             }
         }
@@ -65,21 +99,129 @@ public class Options
         }
     }
 
-    public static void updateDependencies()
+    public static void setScale(int scale)
     {
-        Resources.generateFonts();
+        boolean changed = (scale != _displayScale);
+        if(changed)
+        {
+            _displayScale = scale;
+            Game.updateDisplay();
+        }
+    }
+
+    public static boolean isControlSet(int key)
+    {
+        boolean conflict = false;
+        conflict = key == _controlUp ? true : conflict;
+        conflict = key == _controlDown ? true : conflict;
+        conflict = key == _controlLeft ? true : conflict;
+        conflict = key == _controlRight ? true : conflict;
+        conflict = key == _controlSelect ? true : conflict;
+        conflict = key == _controlBack ? true : conflict;
+        return conflict;
+    }
+
+    public static void setFullscreen(boolean fullscreen)
+    {
+        _displayFullscreen = fullscreen;
     }
 
     public static void setScreenProperties(int scale, boolean fullscreen)
     {
-        _scale = scale;
-        _fullscreen = fullscreen;
-        Launcher.scalable = new ScalableGame(Launcher.lrk, getDisplayWidth(), getDisplayHeight(), true);
+        _displayScale = scale;
+        _displayFullscreen = fullscreen;
+        Game.scalable = new ScalableGame(Game.lrk, getDisplayWidth(), getDisplayHeight(), true);
     }
 
-    public static int getScale()
+    public static boolean setControlUp(int controlUp)
     {
-        return _scale;
+        int old = _controlUp;
+        _controlUp = -1;
+        boolean conflict = isControlSet(controlUp);
+        if(conflict)
+        {
+            _controlUp = old;
+            return false;
+        }
+        _controlUp = controlUp;
+        return true;
+    }
+
+    public static boolean setControlDown(int controlDown)
+    {
+        int old = _controlDown;
+        _controlDown = -1;
+        boolean conflict = isControlSet(controlDown);
+        if(conflict)
+        {
+            _controlDown = old;
+            return false;
+        }
+        _controlDown = controlDown;
+        return true;
+    }
+
+    public static boolean setControlLeft(int controlLeft)
+    {
+        int old = _controlLeft;
+        _controlLeft = -1;
+        boolean conflict = isControlSet(controlLeft);
+        if(conflict)
+        {
+            _controlLeft = old;
+            return false;
+        }
+        _controlLeft = controlLeft;
+        return true;
+    }
+
+    public static boolean setControlRight(int controlRight)
+    {
+        int old = _controlRight;
+        _controlRight = -1;
+        boolean conflict = isControlSet(controlRight);
+        if(conflict)
+        {
+            _controlRight = old;
+            return false;
+        }
+        _controlRight = controlRight;
+        return true;
+    }
+
+    public static boolean setControlSelect(int controlSelect)
+    {
+        int old = _controlSelect;
+        _controlSelect = -1;
+        boolean conflict = isControlSet(controlSelect);
+        if(conflict)
+        {
+            _controlSelect = old;
+            return false;
+        }
+        _controlSelect = controlSelect;
+        return true;
+    }
+
+    public static boolean setControlBack(int controlBack)
+    {
+        int old = _controlBack;
+        _controlBack = -1;
+        boolean conflict = isControlSet(controlBack);
+        if(conflict)
+        {
+            _controlBack = old;
+            return false;
+        }
+        _controlBack = controlBack;
+        return true;
+    }
+
+    // GETTERS
+
+    public static int getDisplayScale()
+    {
+        return _displayScale;
     }
 
     public static int getGameWidth()
@@ -94,42 +236,91 @@ public class Options
 
     public static int getDisplayWidth()
     {
-        return BASE_SCREEN_WIDTH*_scale;
+        return BASE_SCREEN_WIDTH*_displayScale;
     }
 
     public static int getDisplayHeight()
     {
-        return BASE_SCREEN_HEIGHT*_scale;
+        return BASE_SCREEN_HEIGHT*_displayScale;
     }
 
-    public static boolean getFullscreen()
+    public static boolean getDisplayFullscreen()
     {
-        return _fullscreen;
+        return _displayFullscreen;
     }
 
-    public static void setScale(int scale)
+    public static boolean isUp(int key)
     {
-        boolean changed = (scale != _scale);
-        if(changed)
-        {
-            _scale = scale;
-            updateDependencies();
-            Launcher.updateDisplay();
-        }
+        return _controlUp == key;
     }
 
-    public static void setFullscreen(boolean fullscreen)
+    public static boolean isDown(int key)
     {
-        _fullscreen = fullscreen;
+        return _controlDown == key;
     }
 
-    public static boolean isFirstRun()
+    public static boolean isLeft(int key)
     {
-        return _firstRun;
+        return _controlLeft == key;
     }
 
-    public static void setFirstRun(boolean firstRun)
+    public static boolean isRight(int key)
     {
-        _firstRun = firstRun;
+        return _controlRight == key;
+    }
+
+    public static boolean isSelect(int key)
+    {
+        return _controlSelect == key;
+    }
+
+    public static boolean isBack(int key)
+    {
+        return _controlBack == key;
+    }
+
+    public static int getControlUp()
+    {
+        return _controlUp;
+    }
+
+    public static int getControlDown()
+    {
+        return _controlDown;
+    }
+
+    public static int getControlLeft()
+    {
+        return _controlLeft;
+    }
+
+    public static int getControlRight()
+    {
+        return _controlRight;
+    }
+
+    public static int getControlSelect()
+    {
+        return _controlSelect;
+    }
+
+    public static int getControlBack()
+    {
+        return _controlBack;
+    }
+
+    public static float getAudioMaster()
+    {
+        return _audioMaster;
+    }
+
+    public static float getAudioMusic()
+    {
+        return _audioMusic;
+    }
+
+    public static float getAudioSFX()
+    {
+        return _audioSFX;
     }
 }

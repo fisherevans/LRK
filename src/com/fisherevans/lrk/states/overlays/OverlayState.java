@@ -1,7 +1,7 @@
 package com.fisherevans.lrk.states.overlays;
 
 import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.launcher.Launcher;
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.GameStateEnum;
 import com.fisherevans.lrk.states.LRKState;
 import org.newdawn.slick.GameContainer;
@@ -53,7 +53,7 @@ public class OverlayState extends LRKState
         else
         {
             LRK.log("Overlay is updating, but it shouldn't be... Exiting overlay... again.");
-            Launcher.lrk.exitOverlayState();
+            Game.lrk.exitOverlayState();
         }
     }
 

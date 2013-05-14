@@ -1,13 +1,15 @@
 package com.fisherevans.lrk.states.options;
 
-import com.fisherevans.lrk.KeyMapping;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.GameStateEnum;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.options.menu_items.MenuItemControl;
 import com.fisherevans.lrk.states.options.menu_items.MenuItemResolution;
+import com.fisherevans.lrk.states.options.menu_items.MenuItemSetInterface;
+import com.fisherevans.lrk.states.options.menu_items.MenuItemSetMovement;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -45,8 +47,8 @@ public class OptionsState extends LRKState
 
         _mainMenu = new Menu();
 
-            Menu video = new Menu("Video", "Adjust various video and display settings.");
-                Menu resolution = new Menu("Resolution", "Change the resolution the game is rendered at.");
+            Menu video = new Menu("Video", "Various video and display settings.");
+                Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
                     resolution.add(
                         new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
                         new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
@@ -60,27 +62,17 @@ public class OptionsState extends LRKState
                     );
             video.add(resolution, displayMode);
 
-            Menu audio = new Menu("Audio", "Adjust the audo levels for the game.");
+            Menu audio = new Menu("Audio", "Audio levels for the game.");
             audio.add(
-                new MenuItemStub("Master Volume", "Adjust the volume for the whole game."),
-                new MenuItemStub("Music", "Adjust the volume for the just the background music."),
-                new MenuItemStub("Special Effects", "Adjust the volume for just the special effects.")
+                new MenuItemStub("Master Volume", "Volume for the whole game."),
+                new MenuItemStub("Music", "Volume for the just the background music."),
+                new MenuItemStub("Special Effects", "Volume for just the special effects.")
             );
 
-            Menu controls = new Menu("Controls", "Adjust the keyboard controls.");
-                Menu movementControls = new Menu("Movement", "Adjust the keyboard controls for moving your character.");
-                movementControls.add(
-                    new MenuItemStub("Up", "Up is currently set to \"W\" and \"Up Arrow\"."),
-                    new MenuItemStub("Down", "Down is currently set to \"S\" and \"Down Arrow\""),
-                    new MenuItemStub("Left", "Left is currently set to \"A\" and \"Left Arrow\""),
-                    new MenuItemStub("Right", "Right is currently set to \"D\" and \"Right Arrow\"")
-                );
-                Menu interfaceControls = new Menu("Interface", "Adjust the keyboard controls for interacting things.");
-                interfaceControls.add(
-                        new MenuItemStub("Select", "Left is currently set to \"space\" and \"Enter\""),
-                        new MenuItemStub("Back", "Back is currently set to \"Backspace\" and \"Escape\"")
-                );
-            controls.add(movementControls, interfaceControls);
+            Menu controls = new Menu("Controls", "Keyboard controls.");
+                MenuItemSetMovement controlsMovement = new MenuItemSetMovement("Movement", "Keyboard controls for moving your character.");
+                MenuItemSetInterface interfaceControls = new MenuItemSetInterface("Interface", "Keyboard controls for interacting things.");
+            controls.add(controlsMovement, interfaceControls);
 
         _mainMenu.add(video, audio, controls);
         _currentMenu = _mainMenu;
@@ -133,19 +125,20 @@ public class OptionsState extends LRKState
 
     public void keyPressed(int key, char c)
     {
-        if(KeyMapping.isUp(key))
+        LRK.log("Hello");
+        if(Options.isUp(key))
         {
             if(_hTran != 0 || _vTran != 0) return;
             if(_currentMenu.shiftCurrentId(-1))
                 _vTran += 1f;
         }
-        else if(KeyMapping.isDown(key))
+        else if(Options.isDown(key))
         {
             if(_hTran != 0 || _vTran != 0) return;
             if(_currentMenu.shiftCurrentId(1))
                 _vTran += -1f;
         }
-        else if(KeyMapping.isRight(key) || KeyMapping.isSelect(key))
+        else if(Options.isRight(key) || Options.isSelect(key))
         {
             if(_hTran != 0 || _vTran != 0) return;
             Menu newMenu = _currentMenu.getCurrentItem().select();
@@ -155,7 +148,7 @@ public class OptionsState extends LRKState
                 _hTran = 1f;
             }
         }
-        else if(KeyMapping.isLeft(key) || KeyMapping.isBack(key))
+        else if(Options.isLeft(key) || Options.isBack(key))
         {
             if(_hTran != 0 || _vTran != 0) return;
             Menu newMenu = _currentMenu.getParent();

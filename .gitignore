@@ -1,0 +1,6 @@
+# Ignore
+.git
+.hg
+.idea
+out
+LRK.iml

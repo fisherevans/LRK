@@ -14,15 +14,16 @@ import java.io.File;
  * Date: 5/6/13
  * Time: 8:36 PM
  */
-public class Launcher
+public class Game
 {
     public static LRK lrk;
     public static ScalableGame scalable;
     public static AppGameContainer app;
 
-    public Launcher()
+    public Game()
     {
         checkOS();
+        Options.load();
         startGame();
     }
 
@@ -56,9 +57,9 @@ public class Launcher
         try
         {
             lrk = new LRK("Lost Relics of Kazar - A Prequel [ALPHA]");
-            scalable = new ScalableGame(lrk, Options.getDisplayWidth(), Options.getDisplayHeight(), true);
+            scalable = new ScalableGame(lrk, Options.getGameWidth(), Options.getGameHeight(), true);
             app = new AppGameContainer(scalable);
-            app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getFullscreen());
+            app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getDisplayFullscreen());
             app.setUpdateOnlyWhenVisible(false);
             app.setAlwaysRender(true);
             app.setShowFPS(LRK.DEBUG);
@@ -76,7 +77,7 @@ public class Launcher
     {
         try
         {
-            app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getFullscreen());
+            app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getDisplayFullscreen());
         }
         catch(Exception e)
         {
@@ -86,6 +87,6 @@ public class Launcher
 
     public static void main(String[] args)
     {
-        new Launcher();
+        new Game();
     }
 }
