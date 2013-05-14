@@ -33,7 +33,7 @@ public class AdventureState extends LRKState
         TILES_WIDE_SHIFT = ((float)(Options.getGameWidth()))/((float)(TILE_SIZE))%1f,
         TILES_HIGH_SHIFT = ((float)Options.getGameHeight()/TILE_SIZE)%1f;
 
-    private ArrayList<LRKEntity> _enitites;
+    private ArrayList<LRKEntity> _entities;
     private Player _player, _camera;
     private TiledMap _map;
 
@@ -50,11 +50,11 @@ public class AdventureState extends LRKState
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException
     {
-        _enitites = new ArrayList<>();
-        _player = new Player(5, 6);
+        _entities = new ArrayList<>();
+        _player = new Player(5f, 6f);
         _camera = _player;
 
-        _enitites.add(_player);
+        _entities.add(_player);
 
         try
         {
@@ -71,14 +71,7 @@ public class AdventureState extends LRKState
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException
     {
-        // render(int x, int y, int sx, int sy, int width, int height, int l, boolean lineByLine)
-
-        int startY = (int)_player.getY()-TILES_HIGH/2;
-        int endY = startY + TILES_HIGH;
-        int startX = (int)_player.getX()-TILES_WIDE/2;
-        int endX = startX + TILES_WIDE;
-        _map.render((int)(-_camera.getX()%1f*TILE_SIZE), (int)(-_camera.getY()%1f*TILE_SIZE), startX, startY, TILES_WIDE, TILES_HIGH, _map.getLayerIndex("collision"), false);
-        //drawMap("collision");
+        drawMap("collision");
 
         GFX.drawImageCentered(Options.getGameWidth()/2, Options.getGameHeight()/2, _player.getImage());
     }
@@ -87,32 +80,19 @@ public class AdventureState extends LRKState
     {
         int layerId = _map.getLayerIndex(layer);
 
-        float xShift = (-_camera.getX() + ((float)TILES_WIDE)/2f)*TILE_SIZE;
-        float yShift = (-_camera.getY() + ((float)TILES_HIGH+TILES_HIGH_SHIFT)/2f - _camera.getRadius())*TILE_SIZE;
+        float xShift = (-_camera.getX()%1f - _camera.getRadius())*TILE_SIZE;
+        float yShift = (-_camera.getY()%1f + TILES_HIGH_SHIFT/2f - 1f)*TILE_SIZE;
 
-        int startY = (int)_player.getY()-TILES_HIGH/2;
-        int endY = startY + TILES_HIGH;
-        int startX = (int)_player.getX()-TILES_WIDE/2;
-        int endX = startX + TILES_WIDE;
+        int startY = (int)_camera.getY()-TILES_HIGH/2;
+        int startX = (int)_camera.getX()-TILES_WIDE/2;
 
-        for(int y = startY-1;y <= endY;y++)
-        {
-            for(int x = startX-1;x <= endX;x++)
-            {
-                try
-                {
-                    GFX.drawImage(xShift + x*TILE_SIZE, yShift + y*TILE_SIZE, _map.getTileImage(x, y, layerId));
-                }
-                catch(Exception e) { }
-            }
-        }
-
+        _map.render(xShift, yShift, startX-1, startY-1, TILES_WIDE+2, TILES_HIGH+2, _map.getLayerIndex("collision"), true);
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException
     {
-        for(LRKEntity e:_enitites)
+        for(LRKEntity e: _entities)
         {
             e.update(delta);
         }

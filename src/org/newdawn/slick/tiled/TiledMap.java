@@ -293,7 +293,7 @@ public class TiledMap {
 	 * @param x The x location to render at 
 	 * @param y The y location to render at
 	 */
-	public void render(int x,int y) {
+	public void render(float x,float y) {
 		render(x,y,0,0,width,height,false);
 	}
 
@@ -307,7 +307,7 @@ public class TiledMap {
 	 * @param width The width of the section to render (in tiles)
 	 * @param height The height of the secton to render (in tiles)
 	 */
-	public void render(int x,int y,int sx,int sy,int width,int height) {
+	public void render(float x,float y,int sx,int sy,int width,int height) {
 		render(x,y,sx,sy,width,height,false);
 	}
 
@@ -324,7 +324,7 @@ public class TiledMap {
 	 * @param lineByLine True if we should render line by line, i.e. giving us a chance
 	 * to render something else between lines (@see {@link #renderedLine(int, int, int)}
 	 */
-	public void render(int x,int y,int sx,int sy,int width,int height,int l,boolean lineByLine) {
+	public void render(float x,float y,int sx,int sy,int width,int height,int l,boolean lineByLine) {
 		Layer layer = (Layer) layers.get(l);
 		for (int ty=0;ty<height;ty++) {
 			layer.render(x,y,sx,sy,width,ty,lineByLine, tileWidth, tileHeight);
@@ -343,7 +343,7 @@ public class TiledMap {
 	 * @param lineByLine True if we should render line by line, i.e. giving us a chance
 	 * to render something else between lines (@see {@link #renderedLine(int, int, int)}
 	 */
-	public void render(int x,int y,int sx,int sy,int width,int height, boolean lineByLine) {
+	public void render(float x,float y,int sx,int sy,int width,int height, boolean lineByLine) {
 		for (int ty=0;ty<height;ty++) {
 			for (int i=0;i<layers.size();i++) {
 				Layer layer = (Layer) layers.get(i);

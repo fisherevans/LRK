@@ -41,8 +41,9 @@ public class Player extends LRKEntity
         if(Game.lrk.getInput().isKeyDown(Options.getControlRight()))
             v.x += 1;
 
-        v.normalise();
-        v.scale(_speed);
+        if(v.x != 0 || v.y != 0)
+            v.normalise().scale(_speed);
+
         setVel(v);
 
         stepPos(delta);

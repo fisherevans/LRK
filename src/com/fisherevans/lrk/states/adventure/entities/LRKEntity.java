@@ -29,7 +29,6 @@ public abstract class LRKEntity
 
     public abstract Image getImage();
 
-
     public float getAngle()
     {
         return _angle;

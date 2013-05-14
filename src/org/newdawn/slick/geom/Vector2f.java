@@ -9,9 +9,9 @@ import org.newdawn.slick.util.FastTrig;
  */
 public strictfp class Vector2f {
 	/** The x component of this vector */
-	public float x;
+	public float x = 0f;
 	/** The y component of this vector */
-	public float y;
+	public float y = 0f;
 	
 	/**
 	 * Create an empty vector

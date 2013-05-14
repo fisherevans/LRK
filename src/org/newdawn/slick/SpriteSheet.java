@@ -247,7 +247,7 @@ public class SpriteSheet extends Image {
 	 * @param sx The x location of the cell to render
 	 * @param sy The y location of the cell to render
 	 */
-	public void renderInUse(int x,int y,int sx,int sy) {
+	public void renderInUse(float x,float y,int sx,int sy) {
 		subImages[sx][sy].drawEmbedded(x, y, tw, th);
 	}
 

@@ -177,7 +177,7 @@ public class Layer {
 	 * @param mapTileWidth the tile width specified in the map file
 	 * @param mapTileHeight the tile height specified in the map file
 	 */
-	public void render(int x,int y,int sx,int sy,int width, int ty,boolean lineByLine, int mapTileWidth, int mapTileHeight) {
+	public void render(float x,float y,int sx,int sy,int width, int ty,boolean lineByLine, int mapTileWidth, int mapTileHeight) {
 		for (int tileset=0;tileset<map.getTileSetCount();tileset++) {
 			TileSet set = null;
 			
