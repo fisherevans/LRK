@@ -3,9 +3,27 @@
  <tileset firstgid="1" name="triggers" tilewidth="32" tileheight="32">
   <image source="../tilesheets/triggers.png" width="128" height="128"/>
  </tileset>
+ <tileset firstgid="17" name="minecraft" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/minecraft.png" width="512" height="512"/>
+ </tileset>
  <layer name="collision" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3ZyQqDMBQFULXD/39y6UIowUxNmr7FOfBASNy8Cxn02LbtaCjWePf6mSnWO/O4XRTrfeZxzxTrpHk8MsUaaR775KLPVR6zyKPfeZaVRwzp3WJPnktrUMs4Y2r9HB2njzxiKfUzt161vk+/XD9Lvf3mHdqU9ut0vDQvN5c+rT1smSePcTP7LI9xtfXqaq716nfs57E478biPhiLPGLxPTEW39tjkUcsvf9jawUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwH+8AEV4uaBAnAAA
+   H4sIAAAAAAAAC+3a4WqDMBiGUXdTvf9LG2N/RBajq/V7E0/gQKktNHnAtNrXsiwvAAAAAAAAAICH+7pY9XxG97OGVw099JjNukfrHHTmePV8Rrddz+04e7x6PqPTI8veerfOV9vXrB9Xz2d0rR57+/zee6rnM7q9/bo17Of39Hh36KHHbJyvstjPs/i+m8XvwSx6ZHE9MYvvu1n0yHLkHux6vXuq5zM7+0MWPbLokUWPLHpk0SOLHjla16uqP9cT9e5/VH++J+ndB9GktsVfjzWpbdF6TpPPdDjSonVMk+t79Na8d0yTz/c4cg1ej3t6nB166DErPbLokUWPPO800UKP2emR5z9NtNDjSc400eK+Jr3riVrUdfEfXQAAAAAAAAAAAAAAgF/fwuxrHkCcAAA=
+  </data>
+ </layer>
+ <layer name="background" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
+  </data>
+ </layer>
+ <layer name="objects" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
+  </data>
+ </layer>
+ <layer name="foreground" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3aTW7CMABE4VyCA3AJjsL9j8KGBYryYycexmO/kb5NQWqdp0JU+lqW5QUAQdRzny+Neu7zpVHPfb406rnPl0Y99/nSqOc+Xxr13OdLo577fGnUc58vjXru86VRz32+NOq5z5dGPff50qjnPl8a9dznS6Oe+3xp1HOfL4167vOlUe/3ez0bc1+7EXo8GqHHtdEjo8fea1DN4+5rN1qP9c9y9/ERqEePvB5nr1f0aLfSHiXv2/S4v6MeW78XWz14P2+3vR7c79IjgXp7PXi96q9Hye8N7+dtV9qD+91+erR6fATq0SOnB39P7KcH97v0SKDeuseZ91fJc93XLr3HmXUP97WhBz3Uowc9kqlHD3okU6+mxdb9rvv6zNhj7zOQGZuod7XFrE3Uq21x9DX3tRq5x9F1n7mJerUtap4zIvWutJi5iXpb17jmb+e1z0edo/vas88E6fGfHnwWRQ/Qo0f06As9+nOnCS3oMTp69OdKE1rQYyY1TWjxvyZ8Ptifmf5HFwAAAAAAAAAAAAAAAAAAAAAAoMQHSillg0CcAAA=
   </data>
  </layer>
 </map>

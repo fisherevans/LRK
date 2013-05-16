@@ -2,13 +2,19 @@ package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
+import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.GameStateEnum;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.LRKEntity;
 import com.fisherevans.lrk.states.adventure.entities.Player;
+import com.fisherevans.lrk.states.adventure.entities.Wall;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -33,9 +39,13 @@ public class AdventureState extends LRKState
         TILES_WIDE_SHIFT = ((float)(Options.getGameWidth()))/((float)(TILE_SIZE))%1f,
         TILES_HIGH_SHIFT = ((float)Options.getGameHeight()/TILE_SIZE)%1f;
 
-    private ArrayList<LRKEntity> _entities;
+    private ArrayList<LRKEntity> _entities, _walls;
     private Player _player, _camera;
     private TiledMap _map;
+
+    private World _world;
+
+    private Image _cursor;
 
     public AdventureState()
     {
@@ -50,8 +60,12 @@ public class AdventureState extends LRKState
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException
     {
+        _cursor = Resources.getImage("res/test/images/cursor.png");
+
+        _world = new World(new Vec2(0, 0f), true);
+
         _entities = new ArrayList<>();
-        _player = new Player(5f, 6f);
+        _player = new Player(38f, 31f, _world);
         _camera = _player;
 
         _entities.add(_player);
@@ -66,35 +80,51 @@ public class AdventureState extends LRKState
             LRK.log("FAILED TO LOAD MAP");
             System.exit(111);
         }
+
+        _walls = new ArrayList<LRKEntity>();
+        int layerId = _map.getLayerIndex("collision");
+        int wallId = 1;
+        for(int x = 0;x < _map.getWidth();x++)
+        {
+            for(int y = 0;y < _map.getHeight();y++)
+            {
+                int id = _map.getTileId(x, y, layerId);
+                if(id == wallId)
+                {
+                    _walls.add(new Wall(x, y, _world));
+                    LRK.log("WALL");
+                }
+            }
+        }
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException
     {
-        drawMap("collision");
+        Vec2 mouseShift = new Vec2(Game.lrk.getInput().getMouseX()-Options.getGameWidth()/2f, Game.lrk.getInput().getMouseY()-Options.getGameHeight()/2f);
+        mouseShift.mulLocal(0.3f);
+        _player.setDegrees((float) Math.toDegrees(Math.atan2(mouseShift.y, mouseShift.x)));
 
-        GFX.drawImageCentered(Options.getGameWidth()/2, Options.getGameHeight()/2, _player.getImage());
-    }
+        float xShift = Options.getGameWidth()/2f - _camera.getX()*TILE_SIZE - mouseShift.x;
+        float yShift = Options.getGameHeight()/2f - _camera.getY()*TILE_SIZE - mouseShift.y;
 
-    private void drawMap(String layer)
-    {
-        int layerId = _map.getLayerIndex(layer);
+        _map.render(xShift - TILE_SIZE/2f, yShift - TILE_SIZE/2);//, _map.getLayerIndex("background"));
 
-        float xShift = (-_camera.getX()%1f - _camera.getRadius())*TILE_SIZE;
-        float yShift = (-_camera.getY()%1f + TILES_HIGH_SHIFT/2f - 1f)*TILE_SIZE;
+        for(LRKEntity ent:_entities)
+            GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
 
-        int startY = (int)_camera.getY()-TILES_HIGH/2;
-        int startX = (int)_camera.getX()-TILES_WIDE/2;
-
-        _map.render(xShift, yShift, startX-1, startY-1, TILES_WIDE+2, TILES_HIGH+2, _map.getLayerIndex("collision"), true);
+        GFX.drawImageCentered(Game.lrk.getInput().getMouseX(), Game.lrk.getInput().getMouseY(), _cursor);
+        //LRK.log(Game.lrk.getInput().getMouseX() + " - " + Game.lrk.getInput().getMouseY());
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException
     {
+        float step = delta/1000f;
         for(LRKEntity e: _entities)
         {
             e.update(delta);
         }
+        _world.step(step, 5, 5);
     }
 }

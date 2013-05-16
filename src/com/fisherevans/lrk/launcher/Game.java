@@ -63,7 +63,8 @@ public class Game
             app.setUpdateOnlyWhenVisible(false);
             app.setAlwaysRender(true);
             app.setShowFPS(LRK.DEBUG);
-            app.setTargetFrameRate(60);
+            app.setMouseGrabbed(true);
+            //app.setTargetFrameRate(60);
             app.start();
         }
         catch(Exception e)
