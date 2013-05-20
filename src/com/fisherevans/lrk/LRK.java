@@ -31,10 +31,10 @@ public class LRK extends StateBasedGame
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException
     {
-        addState(new AdventureState());
         addState(new SplashState());
         addState(new ProfileState());
         addState(new OptionsState());
+        addState(new AdventureState());
 
         _overlayState = new OverlayState();
         addState(_overlayState);

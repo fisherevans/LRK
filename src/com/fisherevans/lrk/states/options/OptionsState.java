@@ -6,10 +6,9 @@ import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.GameStateEnum;
 import com.fisherevans.lrk.states.LRKState;
-import com.fisherevans.lrk.states.options.menu_items.MenuItemControl;
+import com.fisherevans.lrk.states.options.menu_items.MenuItemPlayTest;
+import com.fisherevans.lrk.states.options.menu_items.MenuItemQuit;
 import com.fisherevans.lrk.states.options.menu_items.MenuItemResolution;
-import com.fisherevans.lrk.states.options.menu_items.MenuItemSetInterface;
-import com.fisherevans.lrk.states.options.menu_items.MenuItemSetMovement;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -47,34 +46,33 @@ public class OptionsState extends LRKState
 
         _mainMenu = new Menu();
 
-            Menu video = new Menu("Video", "Various video and display settings.");
-                Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
-                    resolution.add(
-                        new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
-                        new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
-                        new MenuItemResolution("1440x810","Sets the resolution to: 1440x810", 3),
-                        new MenuItemResolution("1920x1080","Sets the resolution to: 1920x1080", 4)
-                    );
-                Menu displayMode = new Menu("Display Mode", "Choose between Windowed and Fullscreen mode.");
-                    displayMode.add(
-                        new MenuItemStub("Windowed", "Display the game in a window."),
-                        new MenuItemStub("Fullscreen", "Use your entire screen (primary) to display the game.")
-                    );
-            video.add(resolution, displayMode);
+        Menu video = new Menu("Video", "Various video and display settings.");
+            Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
+                resolution.add(
+                    new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
+                    new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
+                    new MenuItemResolution("1440x810","Sets the resolution to: 1440x810", 3),
+                    new MenuItemResolution("1920x1080","Sets the resolution to: 1920x1080", 4)
+                );
+            Menu displayMode = new Menu("Display Mode", "Choose between Windowed and Fullscreen mode.");
+                displayMode.add(
+                    new MenuItemStub("Windowed", "Display the game in a window."),
+                    new MenuItemStub("Fullscreen", "Use your entire screen (primary) to display the game.")
+                );
+        video.add(resolution, displayMode);
 
-            Menu audio = new Menu("Audio", "Audio levels for the game.");
-            audio.add(
-                new MenuItemStub("Master Volume", "Volume for the whole game."),
-                new MenuItemStub("Music", "Volume for the just the background music."),
-                new MenuItemStub("Special Effects", "Volume for just the special effects.")
-            );
+        Menu audio = new Menu("Audio", "Audio levels for the game.");
+        audio.add(
+            new MenuItemStub("Master Volume", "Volume for the whole game."),
+            new MenuItemStub("Music", "Volume for the just the background music."),
+            new MenuItemStub("Special Effects", "Volume for just the special effects.")
+        );
 
-            Menu controls = new Menu("Controls", "Keyboard controls.");
-                MenuItemSetMovement controlsMovement = new MenuItemSetMovement("Movement", "Keyboard controls for moving your character.");
-                MenuItemSetInterface interfaceControls = new MenuItemSetInterface("Interface", "Keyboard controls for interacting things.");
-            controls.add(controlsMovement, interfaceControls);
+        MenuItemPlayTest playTest = new MenuItemPlayTest("Playtest", "play a test level in the Adventure Mode");
 
-        _mainMenu.add(video, audio, controls);
+        MenuItemQuit quit = new MenuItemQuit("Quit", "Exit the game without saving");
+
+        _mainMenu.add(video, audio, playTest, quit);
         _currentMenu = _mainMenu;
     }
 

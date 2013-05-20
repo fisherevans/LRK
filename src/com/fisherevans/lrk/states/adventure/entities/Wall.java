@@ -12,23 +12,14 @@ import org.newdawn.slick.Image;
  */
 public class Wall extends LRKEntity
 {
-    public Wall(float x, float y, World world)
+    public Wall(float x, float y, FixtureDef def, World world)
     {
         BodyDef bd = new BodyDef();
         bd.position.set(x, y);
         bd.type = BodyType.STATIC;
 
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.5f, 0.5f);
-
-        FixtureDef fd = new FixtureDef();
-        fd.shape = shape;
-        fd.density = 1f;
-        fd.friction = 0.2f;
-        fd.restitution = 0.0f;
-
         Body body = world.createBody(bd);
-        body.createFixture(fd);
+        body.createFixture(def);
 
         setBody(body);
     }

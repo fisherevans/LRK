@@ -64,7 +64,6 @@ public class Game
             app.setAlwaysRender(true);
             app.setShowFPS(LRK.DEBUG);
             app.setMouseGrabbed(true);
-            //app.setTargetFrameRate(60);
             app.start();
         }
         catch(Exception e)
@@ -80,6 +79,8 @@ public class Game
         try
         {
             app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getDisplayFullscreen());
+            scalable.init(app);
+            LRK.log("Scalable Size: " + Options.getGameWidth() + "x" + Options.getGameHeight() + " - App Size: " + Options.getDisplayWidth() + "x" + Options.getDisplayHeight());
         }
         catch(Exception e)
         {

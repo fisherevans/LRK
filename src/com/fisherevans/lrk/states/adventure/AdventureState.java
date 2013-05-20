@@ -11,12 +11,11 @@ import com.fisherevans.lrk.states.adventure.entities.LRKEntity;
 import com.fisherevans.lrk.states.adventure.entities.Player;
 import com.fisherevans.lrk.states.adventure.entities.Wall;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.tiled.TileSet;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
@@ -31,13 +30,11 @@ public class AdventureState extends LRKState
 {
     private static final int ID = GameStateEnum.ADVENTURE.ordinal();
 
-    public static final float TILE_SIZE = 32;
-    public static final int
-        TILES_WIDE = (int) Math.ceil(Options.BASE_SCREEN_WIDTH/TILE_SIZE),
-        TILES_HIGH = (int) Math.ceil(Options.BASE_SCREEN_HEIGHT/TILE_SIZE);
     public static final float
-        TILES_WIDE_SHIFT = ((float)(Options.getGameWidth()))/((float)(TILE_SIZE))%1f,
-        TILES_HIGH_SHIFT = ((float)Options.getGameHeight()/TILE_SIZE)%1f;
+        TILE_SIZE = 32f;
+    public static final float
+        TILES_WIDE = (float) Math.floor(Options.BASE_SCREEN_WIDTH/TILE_SIZE),
+        TILES_HIGH = (float) Math.floor(Options.BASE_SCREEN_HEIGHT/TILE_SIZE);
 
     private ArrayList<LRKEntity> _entities, _walls;
     private Player _player, _camera;
@@ -65,7 +62,7 @@ public class AdventureState extends LRKState
         _world = new World(new Vec2(0, 0f), true);
 
         _entities = new ArrayList<>();
-        _player = new Player(38f, 31f, _world);
+        _player = new Player(12f, 9f, _world);
         _camera = _player;
 
         _entities.add(_player);
@@ -83,19 +80,19 @@ public class AdventureState extends LRKState
 
         _walls = new ArrayList<LRKEntity>();
         int layerId = _map.getLayerIndex("collision");
-        int wallId = 1;
-        for(int x = 0;x < _map.getWidth();x++)
-        {
-            for(int y = 0;y < _map.getHeight();y++)
+        for(int y = 0;y < _map.getHeight();y++)
+            for (int x = 0; x < _map.getWidth(); x++)
             {
                 int id = _map.getTileId(x, y, layerId);
-                if(id == wallId)
+                if(id > 0)
                 {
-                    _walls.add(new Wall(x, y, _world));
-                    LRK.log("WALL");
+                    FixtureDef def = JBox2DUtils.generateFixture(id);
+                    if (def != null)
+                    {
+                        _walls.add(new Wall(x, y, def, _world));
+                    }
                 }
             }
-        }
     }
 
     @Override
@@ -105,16 +102,45 @@ public class AdventureState extends LRKState
         mouseShift.mulLocal(0.3f);
         _player.setDegrees((float) Math.toDegrees(Math.atan2(mouseShift.y, mouseShift.x)));
 
-        float xShift = Options.getGameWidth()/2f - _camera.getX()*TILE_SIZE - mouseShift.x;
-        float yShift = Options.getGameHeight()/2f - _camera.getY()*TILE_SIZE - mouseShift.y;
+        float xShift = (-_camera.getX() + TILES_WIDE/2f)*TILE_SIZE - mouseShift.x;
+        float mapXShift = (int)(xShift*Options.getDisplayScale());
+        mapXShift /= Options.getDisplayScale();
 
-        _map.render(xShift - TILE_SIZE/2f, yShift - TILE_SIZE/2);//, _map.getLayerIndex("background"));
+        float yShift = (-_camera.getY() + TILES_HIGH/2f)*TILE_SIZE - mouseShift.y;
+        float mapYShift = (int)(yShift*Options.getDisplayScale());
+        mapYShift /= Options.getDisplayScale();
+
+        int startX = (int)(_camera.getX()+mouseShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
+        int startY = (int)(_camera.getY()+mouseShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
+
+        drawMapLayer("collision", mapXShift, mapYShift, startX, startY);
+        drawMapLayer("background", mapXShift, mapYShift, startX, startY);
 
         for(LRKEntity ent:_entities)
+        {
             GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
+        }
 
         GFX.drawImageCentered(Game.lrk.getInput().getMouseX(), Game.lrk.getInput().getMouseY(), _cursor);
-        //LRK.log(Game.lrk.getInput().getMouseX() + " - " + Game.lrk.getInput().getMouseY());
+    }
+
+    private void drawMapLayer(String layer, float xShift, float yShift, int startX, int startY)
+    {
+        int layerId = _map.getLayerIndex(layer);
+        startX--;
+        startY--;
+
+        for(int y = startY;y <= startY+TILES_HIGH+2;y++)
+        {
+            for(int x = startX;x <= startX+TILES_WIDE+2;x++)
+            {
+                try
+                {
+                    GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, _map.getTileImage(x, y, layerId));
+                }
+                catch(Exception e) { }
+            }
+        }
     }
 
     @Override
@@ -126,5 +152,10 @@ public class AdventureState extends LRKState
             e.update(delta);
         }
         _world.step(step, 5, 5);
+    }
+
+    public void keyPressed(int key, char c)
+    {
+        if(key == Input.KEY_BACKSLASH) System.exit(0);
     }
 }

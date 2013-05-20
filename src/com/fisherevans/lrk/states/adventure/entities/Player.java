@@ -21,7 +21,7 @@ public class Player extends LRKEntity
 {
     private Image _image;
 
-    private float _speed = 4f;
+    private float _speed = 1.5f;
 
     private CircleShape _shape;
 
@@ -32,13 +32,13 @@ public class Player extends LRKEntity
         bd.type = BodyType.DYNAMIC;
 
         _shape = new CircleShape();
-        _shape.m_radius = 0.45f;
+        _shape.m_radius = 0.40625f;
 
         FixtureDef fd = new FixtureDef();
         fd.shape = _shape;
         fd.density = 1f;
         fd.friction = 0.2f;
-        fd.restitution = 0.0f;
+        fd.restitution = -1.0f;
 
         Body body = world.createBody(bd);
         body.createFixture(fd);
@@ -53,22 +53,24 @@ public class Player extends LRKEntity
     {
         Vec2 v = new Vec2(0, 0);
 
-        if(Game.lrk.getInput().isKeyDown(Options.getControlUp()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlUp1()) || Game.lrk.getInput().isKeyDown(Options.getControlUp2()))
             v.y -= 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlDown()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlDown1()) || Game.lrk.getInput().isKeyDown(Options.getControlDown2()))
             v.y += 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlLeft()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlLeft1()) || Game.lrk.getInput().isKeyDown(Options.getControlLeft2()))
             v.x -= 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlRight()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlRight1()) || Game.lrk.getInput().isKeyDown(Options.getControlRight2()))
             v.x += 1f;
 
         if(v.x != 0 || v.y != 0)
         {
-            float moveAngle = (float) Math.toDegrees(Math.atan2(v.y, v.x));
-            float angleDiff = Math.abs((180f-Math.abs(Math.abs((moveAngle + 180f -  getDegrees()) % 360f - 180f)))/180f*0.333f + 0.667f);
-            LRK.log(angleDiff+"");
+            float aimAngle = (float)Math.toRadians(getDegrees());
+            double moveAngle = Math.atan2(v.y, v.x);
+            float diff = (float)Math.abs(Math.atan2(Math.sin(aimAngle - moveAngle), Math.cos(aimAngle - moveAngle)));
+            float aimScale = (float) ((Math.PI*2-diff)/Math.PI*2*0.666f + 0.333f);
+
             v.normalize();
-            v.mulLocal(_speed*angleDiff);
+            v.mulLocal(_speed*aimScale);
         }
 
         getBody().setLinearVelocity(v);

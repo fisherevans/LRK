@@ -52,6 +52,8 @@ public class SplashState extends LRKState
 
         if(_fade >= 1)
             GFX.drawText(0, quarterHeight, Options.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
+
+
     }
 
     @Override

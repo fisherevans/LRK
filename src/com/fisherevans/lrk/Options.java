@@ -29,12 +29,18 @@ public class Options
     private static boolean _displayFullscreen = false;
 
     private static int
-            _controlUp = Input.KEY_W,
-            _controlDown = Input.KEY_S,
-            _controlLeft = Input.KEY_A,
-            _controlRight = Input.KEY_D,
-            _controlSelect = Input.KEY_SPACE,
-            _controlBack = Input.KEY_BACK;
+            _controlUp1 = Input.KEY_W,
+            _controlDown1 = Input.KEY_S,
+            _controlLeft1 = Input.KEY_A,
+            _controlRight1 = Input.KEY_D,
+            _controlSelect1 = Input.KEY_SPACE,
+            _controlBack1 = Input.KEY_BACK,
+            _controlUp2 = Input.KEY_UP,
+            _controlDown2 = Input.KEY_DOWN,
+            _controlLeft2 = Input.KEY_LEFT,
+            _controlRight2 = Input.KEY_RIGHT,
+            _controlSelect2 = Input.KEY_ENTER,
+            _controlBack2 = Input.KEY_ESCAPE;
 
     private static float
         _audioMaster = 1f,
@@ -73,13 +79,6 @@ public class Options
                         case "display.scale": _displayScale = Integer.parseInt(setting[1]); break;
                         case "display.fullscreen": _displayFullscreen = Boolean.parseBoolean(setting[1]); break;
 
-                        case "controls.up": _controlUp = Integer.parseInt(setting[1]); break;
-                        case "controls.down": _controlDown = Integer.parseInt(setting[1]); break;
-                        case "controls.left": _controlLeft = Integer.parseInt(setting[1]); break;
-                        case "controls.right": _controlRight = Integer.parseInt(setting[1]); break;
-                        case "controls.select": _controlSelect = Integer.parseInt(setting[1]); break;
-                        case "controls.back": _controlBack = Integer.parseInt(setting[1]); break;
-
                         case "audio.master": _audioMaster = Float.parseFloat(setting[1]); break;
                         case "audio.music": _audioMusic = Float.parseFloat(setting[1]); break;
                         case "audio.sfx": _audioSFX = Float.parseFloat(setting[1]); break;
@@ -109,18 +108,6 @@ public class Options
         }
     }
 
-    public static boolean isControlSet(int key)
-    {
-        boolean conflict = false;
-        conflict = key == _controlUp ? true : conflict;
-        conflict = key == _controlDown ? true : conflict;
-        conflict = key == _controlLeft ? true : conflict;
-        conflict = key == _controlRight ? true : conflict;
-        conflict = key == _controlSelect ? true : conflict;
-        conflict = key == _controlBack ? true : conflict;
-        return conflict;
-    }
-
     public static void setFullscreen(boolean fullscreen)
     {
         _displayFullscreen = fullscreen;
@@ -131,90 +118,6 @@ public class Options
         _displayScale = scale;
         _displayFullscreen = fullscreen;
         Game.scalable = new ScalableGame(Game.lrk, getDisplayWidth(), getDisplayHeight(), true);
-    }
-
-    public static boolean setControlUp(int controlUp)
-    {
-        int old = _controlUp;
-        _controlUp = -1;
-        boolean conflict = isControlSet(controlUp);
-        if(conflict)
-        {
-            _controlUp = old;
-            return false;
-        }
-        _controlUp = controlUp;
-        return true;
-    }
-
-    public static boolean setControlDown(int controlDown)
-    {
-        int old = _controlDown;
-        _controlDown = -1;
-        boolean conflict = isControlSet(controlDown);
-        if(conflict)
-        {
-            _controlDown = old;
-            return false;
-        }
-        _controlDown = controlDown;
-        return true;
-    }
-
-    public static boolean setControlLeft(int controlLeft)
-    {
-        int old = _controlLeft;
-        _controlLeft = -1;
-        boolean conflict = isControlSet(controlLeft);
-        if(conflict)
-        {
-            _controlLeft = old;
-            return false;
-        }
-        _controlLeft = controlLeft;
-        return true;
-    }
-
-    public static boolean setControlRight(int controlRight)
-    {
-        int old = _controlRight;
-        _controlRight = -1;
-        boolean conflict = isControlSet(controlRight);
-        if(conflict)
-        {
-            _controlRight = old;
-            return false;
-        }
-        _controlRight = controlRight;
-        return true;
-    }
-
-    public static boolean setControlSelect(int controlSelect)
-    {
-        int old = _controlSelect;
-        _controlSelect = -1;
-        boolean conflict = isControlSet(controlSelect);
-        if(conflict)
-        {
-            _controlSelect = old;
-            return false;
-        }
-        _controlSelect = controlSelect;
-        return true;
-    }
-
-    public static boolean setControlBack(int controlBack)
-    {
-        int old = _controlBack;
-        _controlBack = -1;
-        boolean conflict = isControlSet(controlBack);
-        if(conflict)
-        {
-            _controlBack = old;
-            return false;
-        }
-        _controlBack = controlBack;
-        return true;
     }
 
     // GETTERS
@@ -251,62 +154,92 @@ public class Options
 
     public static boolean isUp(int key)
     {
-        return _controlUp == key;
+        return (_controlUp1 == key || _controlUp2 == key);
     }
 
     public static boolean isDown(int key)
     {
-        return _controlDown == key;
+        return (_controlDown1 == key || _controlDown2 == key);
     }
 
     public static boolean isLeft(int key)
     {
-        return _controlLeft == key;
+        return (_controlLeft1 == key || _controlLeft2 == key);
     }
 
     public static boolean isRight(int key)
     {
-        return _controlRight == key;
+        return (_controlRight1 == key || _controlRight2 == key);
     }
 
     public static boolean isSelect(int key)
     {
-        return _controlSelect == key;
+        return (_controlSelect1 == key || _controlSelect2 == key);
     }
 
     public static boolean isBack(int key)
     {
-        return _controlBack == key;
+        return (_controlBack1 == key || _controlBack2 == key);
     }
 
-    public static int getControlUp()
+    public static int getControlUp1()
     {
-        return _controlUp;
+        return _controlUp1;
     }
 
-    public static int getControlDown()
+    public static int getControlDown1()
     {
-        return _controlDown;
+        return _controlDown1;
     }
 
-    public static int getControlLeft()
+    public static int getControlLeft1()
     {
-        return _controlLeft;
+        return _controlLeft1;
     }
 
-    public static int getControlRight()
+    public static int getControlRight1()
     {
-        return _controlRight;
+        return _controlRight1;
     }
 
-    public static int getControlSelect()
+    public static int getControlSelect1()
     {
-        return _controlSelect;
+        return _controlSelect1;
     }
 
-    public static int getControlBack()
+    public static int getControlBack1()
     {
-        return _controlBack;
+        return _controlBack1;
+    }
+
+    public static int getControlUp2()
+    {
+        return _controlUp2;
+    }
+
+    public static int getControlDown2()
+    {
+        return _controlDown2;
+    }
+
+    public static int getControlLeft2()
+    {
+        return _controlLeft2;
+    }
+
+    public static int getControlRight2()
+    {
+        return _controlRight2;
+    }
+
+    public static int getControlSelect2()
+    {
+        return _controlSelect2;
+    }
+
+    public static int getControlBack2()
+    {
+        return _controlBack2;
     }
 
     public static float getAudioMaster()

@@ -1,20 +1,21 @@
 package com.fisherevans.lrk.states.options.menu_items;
 
-import com.fisherevans.lrk.launcher.Game;
-import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.states.options.Menu;
 import com.fisherevans.lrk.states.options.MenuItem;
-import com.fisherevans.lrk.states.overlays.SetMovementKeys;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Fisher evans
- * Date: 5/11/13
- * Time: 10:48 PM
+ * Date: 5/9/13
+ * Time: 7:17 PM
  */
-public class MenuItemSetMovement extends MenuItem
+public class MenuItemQuit extends MenuItem
 {
-    public MenuItemSetMovement(String text, String description)
+    private int _scale = 1;
+
+    public MenuItemQuit(String text, String description)
     {
         super(text, description);
     }
@@ -22,7 +23,8 @@ public class MenuItemSetMovement extends MenuItem
     @Override
     public Menu select()
     {
-        Game.lrk.setOverlayState(new SetMovementKeys((LRKState) Game.lrk.getCurrentState(), false, true));
+        LRK.log("Quitting, goodbye :)");
+        System.exit(0);
         return null;
     }
 
