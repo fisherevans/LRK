@@ -40,12 +40,19 @@ public class LRK extends StateBasedGame
         addState(_overlayState);
     }
 
+    /**
+     * starts an overlay
+     * @param overlay the overlay to use and render
+     */
     public void setOverlayState(Overlay overlay)
     {
         _overlayState.setOverlay(overlay);
         this.enterState(_overlayState.getID());
     }
 
+    /**
+     * return from the current overlay to the previous state
+     */
     public void exitOverlayState()
     {
         if(!_overlayState.isOverlayed()) return;
@@ -55,11 +62,17 @@ public class LRK extends StateBasedGame
         this.enterState(id);
     }
 
+    /**
+     * @param text text to log
+     */
     public static void log(String text)
     {
         System.out.println(text);
     }
 
+    /**
+     * @return keyboard and mouse input of this game
+     */
     public Input getInput()
     {
         return Game.app.getInput();

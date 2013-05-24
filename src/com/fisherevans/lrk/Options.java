@@ -47,16 +47,29 @@ public class Options
         _audioMusic = 0.8f,
         _audioSFX = 1f;
 
+    /**
+     * loads predefined options from the default settings file location
+     */
     public static void load()
+    {
+        load(SETTINGS_LOCATION);
+    }
+
+
+    /**
+     * loads predefined options from the default settings file location
+     * @param filename location of the settings file
+     */
+    public static void load(String filename)
     {
         try
         {
-            File settings = new File(SETTINGS_LOCATION);
+            File settings = new File(filename);
             if(!settings.isFile())
             {
                 LRK.log("No settings file, creating one.");
-                Files.copy(Paths.get(DEFAULT_SETTINGS_LOCATION), Paths.get(SETTINGS_LOCATION), StandardCopyOption.REPLACE_EXISTING);
-                settings = new File(SETTINGS_LOCATION);
+                Files.copy(Paths.get(DEFAULT_SETTINGS_LOCATION), Paths.get(filename), StandardCopyOption.REPLACE_EXISTING);
+                settings = new File(filename);
                 if(!settings.isFile())
                 {
                     LRK.log("Failed to load settings.");
@@ -98,6 +111,10 @@ public class Options
         }
     }
 
+    /**
+     * sets the scale of the display window and then resizes the screen
+     * @param scale new scale to be used based on the BASE SCREEN vars
+     */
     public static void setScale(int scale)
     {
         boolean changed = (scale != _displayScale);
@@ -108,16 +125,78 @@ public class Options
         }
     }
 
+    /**
+     * turns fullscreen on and off
+     * @param fullscreen
+     */
     public static void setFullscreen(boolean fullscreen)
     {
         _displayFullscreen = fullscreen;
     }
 
+    /**
+     * calls both setScale and setFullscreen
+     * @param scale
+     * @param fullscreen
+     */
     public static void setScreenProperties(int scale, boolean fullscreen)
     {
-        _displayScale = scale;
-        _displayFullscreen = fullscreen;
-        Game.scalable = new ScalableGame(Game.lrk, getDisplayWidth(), getDisplayHeight(), true);
+        setScale(scale);
+        setFullscreen(fullscreen);
+    }
+
+    /**
+     * @param key key id to check
+     * @return if the key is an UP key
+     */
+    public static boolean isUp(int key)
+    {
+        return (_controlUp1 == key || _controlUp2 == key);
+    }
+
+    /**
+     * @param key key id to check
+     * @return if the key is an DOWN key
+     */
+    public static boolean isDown(int key)
+    {
+        return (_controlDown1 == key || _controlDown2 == key);
+    }
+
+    /**
+     * @param key key id to check
+     * @return if the key is an LEFT key
+     */
+    public static boolean isLeft(int key)
+    {
+        return (_controlLeft1 == key || _controlLeft2 == key);
+    }
+
+    /**
+     * @param key key id to check
+     * @return if the key is an RIGHT key
+     */
+    public static boolean isRight(int key)
+    {
+        return (_controlRight1 == key || _controlRight2 == key);
+    }
+
+    /**
+     * @param key key id to check
+     * @return if the key is an SELECT key
+     */
+    public static boolean isSelect(int key)
+    {
+        return (_controlSelect1 == key || _controlSelect2 == key);
+    }
+
+    /**
+     * @param key key id to check
+     * @return if the key is an BACK key
+     */
+    public static boolean isBack(int key)
+    {
+        return (_controlBack1 == key || _controlBack2 == key);
     }
 
     // GETTERS
@@ -127,59 +206,42 @@ public class Options
         return _displayScale;
     }
 
+    /**
+     * @return width of render window
+     */
     public static int getGameWidth()
     {
         return BASE_SCREEN_WIDTH;
     }
 
+
+    /**
+     * @return height of render window
+     */
     public static int getGameHeight()
     {
         return BASE_SCREEN_HEIGHT;
     }
 
+
+    /**
+     * @return width of the actual window
+     */
     public static int getDisplayWidth()
     {
         return BASE_SCREEN_WIDTH*_displayScale;
     }
 
+    /**
+     * @return height of the actual window
+     */
     public static int getDisplayHeight()
     {
         return BASE_SCREEN_HEIGHT*_displayScale;
     }
-
     public static boolean getDisplayFullscreen()
     {
         return _displayFullscreen;
-    }
-
-    public static boolean isUp(int key)
-    {
-        return (_controlUp1 == key || _controlUp2 == key);
-    }
-
-    public static boolean isDown(int key)
-    {
-        return (_controlDown1 == key || _controlDown2 == key);
-    }
-
-    public static boolean isLeft(int key)
-    {
-        return (_controlLeft1 == key || _controlLeft2 == key);
-    }
-
-    public static boolean isRight(int key)
-    {
-        return (_controlRight1 == key || _controlRight2 == key);
-    }
-
-    public static boolean isSelect(int key)
-    {
-        return (_controlSelect1 == key || _controlSelect2 == key);
-    }
-
-    public static boolean isBack(int key)
-    {
-        return (_controlBack1 == key || _controlBack2 == key);
     }
 
     public static int getControlUp1()

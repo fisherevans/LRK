@@ -19,6 +19,11 @@ public class Resources
 
     private static UnicodeFont[] fonts = null;
 
+    /**
+     * the sizes are based on this object's static vars
+     * @param size the size of the font to get
+     * @return the font of that size
+     */
     public static UnicodeFont getFont(int size)
     {
         if(fonts == null)
@@ -28,6 +33,9 @@ public class Resources
         return fonts[size-1];
     }
 
+    /**
+     * generates premade fonts for general use
+     */
     public static void generateFonts()
     {
         try
@@ -51,6 +59,11 @@ public class Resources
         }
     }
 
+    /**
+     * loads an image
+     * @param location file name of the image (relative)
+     * @return the image
+     */
     public static Image getImage(String location)
     {
         try

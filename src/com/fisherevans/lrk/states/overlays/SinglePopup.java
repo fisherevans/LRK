@@ -18,6 +18,13 @@ public class SinglePopup extends Overlay
 {
     private String _message = "404";
 
+    /**
+     * creates the popup
+     * @param state the previous state
+     * @param update update the previous state?
+     * @param render render the previous state
+     * @param message the message to display
+     */
     public SinglePopup(LRKState state, boolean update, boolean render, String message)
     {
         super(state, update, render);

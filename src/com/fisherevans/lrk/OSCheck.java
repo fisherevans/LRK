@@ -12,6 +12,9 @@ public class OSCheck
 
     public enum OSType { Windows, Mac, Linux, Solaris }
 
+    /**
+     * @return the OS enum of the current OS
+     */
     public static OSType getOSType()
     {
         if(OS.indexOf("win") >= 0) return OSType.Windows;
