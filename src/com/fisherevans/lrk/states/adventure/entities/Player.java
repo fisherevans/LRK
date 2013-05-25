@@ -25,6 +25,12 @@ public class Player extends LRKEntity
 
     private CircleShape _shape;
 
+    /**
+     * create a new player object in the given world starting at the given position
+     * @param x the x position to start the player entity at
+     * @param y the y position to start the player entity at
+     * @param world the world to keep the player in.
+     */
     public Player(float x, float y, World world)
     {
         BodyDef bd = new BodyDef();

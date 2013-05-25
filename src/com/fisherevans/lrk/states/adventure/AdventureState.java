@@ -124,6 +124,14 @@ public class AdventureState extends LRKState
         GFX.drawImageCentered(Game.lrk.getInput().getMouseX(), Game.lrk.getInput().getMouseY(), _cursor);
     }
 
+    /**
+     * Draws a tiled map layer ont he primary graphics element
+     * @param layer the layer name to draw
+     * @param xShift the sub tile x shift to move the whole layer by
+     * @param yShift the sub tile x shift to move the whole layer by
+     * @param startX the x index of the tile to begin drawing at
+     * @param startY the y index of the tile to begin drawing at
+     */
     private void drawMapLayer(String layer, float xShift, float yShift, int startX, int startY)
     {
         int layerId = _map.getLayerIndex(layer);

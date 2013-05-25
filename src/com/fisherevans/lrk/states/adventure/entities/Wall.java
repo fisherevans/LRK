@@ -12,6 +12,14 @@ import org.newdawn.slick.Image;
  */
 public class Wall extends LRKEntity
 {
+    /**
+     * create a wall entity in the given world. This entity does not move and the shape of the entity is defined by the
+     * given id
+     * @param x the x position to center this entity
+     * @param y the y position to center this entity
+     * @param def the fixture definationt o use as the shape of this wall
+     * @param world the world to put the wal in
+     */
     public Wall(float x, float y, FixtureDef def, World world)
     {
         BodyDef bd = new BodyDef();

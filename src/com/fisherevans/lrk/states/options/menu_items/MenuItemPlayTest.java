@@ -26,7 +26,7 @@ public class MenuItemPlayTest extends MenuItem
     }
 
     @Override
-    public boolean isSelected()
+    public boolean isActive()
     {
         return false;
     }

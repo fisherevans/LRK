@@ -13,8 +13,6 @@ import com.fisherevans.lrk.states.options.MenuItem;
  */
 public class MenuItemQuit extends MenuItem
 {
-    private int _scale = 1;
-
     public MenuItemQuit(String text, String description)
     {
         super(text, description);
@@ -29,7 +27,7 @@ public class MenuItemQuit extends MenuItem
     }
 
     @Override
-    public boolean isSelected()
+    public boolean isActive()
     {
         return false;
     }

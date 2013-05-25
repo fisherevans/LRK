@@ -13,6 +13,11 @@ import org.newdawn.slick.geom.Polygon;
  */
 public class JBox2DUtils
 {
+    /**
+     * returns a predefined fixturedef for a shape predefined specifically for the collision layer of the tiled map.
+     * @param id the tile id to get the shape for
+     * @return the fixture def that has the predefined shape in it
+     */
     public static FixtureDef generateFixture(int id)
     {
         FixtureDef fd = new FixtureDef();
@@ -31,15 +36,12 @@ public class JBox2DUtils
             case 5: vs = new Vec2 [] { new Vec2(-0.5f, -0.0f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.0f),  }; break;
             case 6: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.0f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 7: vs = new Vec2 [] { new Vec2(-0.5f, -0.0f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.0f),  }; break;
-            case 8: vs = new Vec2 [] {  }; break;
-            case 9: vs = new Vec2 [] {  }; break;
             case 10: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 11: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 12: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, -0.0f), new Vec2(-0.5f, -0.5f),  }; break;
             case 13: vs = new Vec2 [] { new Vec2(-0.5f, -0.0f), new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, -0.0f),  }; break;
             case 14: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, -0.0f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 15: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(-0.5f, -0.0f), new Vec2(-0.5f, -0.5f),  }; break;
-            case 16: vs = new Vec2 [] {  }; break;
             case 17: vs = new Vec2 [] { new Vec2(0.0f, 0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(0.0f, 0.5f),  }; break;
             case 18: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.0f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 19: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(0.0f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;

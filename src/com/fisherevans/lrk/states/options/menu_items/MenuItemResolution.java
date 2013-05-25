@@ -14,6 +14,11 @@ public class MenuItemResolution extends MenuItem
 {
     private int _scale = 1;
 
+    /**
+     * @param text
+     * @param description
+     * @param scale the new scale to set the display window to
+     */
     public MenuItemResolution(String text, String description, int scale)
     {
         super(text, description);
@@ -28,7 +33,7 @@ public class MenuItemResolution extends MenuItem
     }
 
     @Override
-    public boolean isSelected()
+    public boolean isActive()
     {
         return Options.getDisplayScale() == _scale;
     }
