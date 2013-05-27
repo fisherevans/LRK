@@ -59,13 +59,13 @@ public class Player extends LRKEntity
     {
         Vec2 v = new Vec2(0, 0);
 
-        if(Game.lrk.getInput().isKeyDown(Options.getControlUp1()) || Game.lrk.getInput().isKeyDown(Options.getControlUp2()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlUp()))
             v.y -= 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlDown1()) || Game.lrk.getInput().isKeyDown(Options.getControlDown2()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlDown()))
             v.y += 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlLeft1()) || Game.lrk.getInput().isKeyDown(Options.getControlLeft2()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlLeft()))
             v.x -= 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlRight1()) || Game.lrk.getInput().isKeyDown(Options.getControlRight2()))
+        if(Game.lrk.getInput().isKeyDown(Options.getControlRight()))
             v.x += 1f;
 
         if(v.x != 0 || v.y != 0)
@@ -87,10 +87,5 @@ public class Player extends LRKEntity
     {
         _image.setRotation(getDegrees());
         return _image;
-    }
-
-    public float getRadius()
-    {
-        return _shape.m_radius;
     }
 }

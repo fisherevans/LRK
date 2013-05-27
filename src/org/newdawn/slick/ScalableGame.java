@@ -56,6 +56,54 @@ public class ScalableGame implements Game {
 		this.normalHeight = normalHeight;
 		this.maintainAspect = maintainAspect;
 	}
+
+    public void updateDisplay(GameContainer container)
+    {
+        targetWidth = container.getWidth();
+        targetHeight = container.getHeight();
+        if (maintainAspect) {
+            boolean normalIsWide = (normalWidth / normalHeight > 1.6 ? true : false);
+            boolean containerIsWide = ((float) targetWidth / (float) targetHeight > 1.6 ? true : false);
+            float wScale = targetWidth / normalWidth;
+            float hScale = targetHeight / normalHeight;
+
+            if (normalIsWide & containerIsWide) {
+                float scale = (wScale < hScale ? wScale : hScale);
+                targetWidth = (int) (normalWidth * scale);
+                targetHeight = (int) (normalHeight * scale);
+            } else if (normalIsWide & !containerIsWide) {
+                targetWidth = (int) (normalWidth * wScale);
+                targetHeight = (int) (normalHeight * wScale);
+            } else if (!normalIsWide & containerIsWide) {
+                targetWidth = (int) (normalWidth * hScale);
+                targetHeight = (int) (normalHeight * hScale);
+            } else {
+                float scale = (wScale < hScale ? wScale : hScale);
+                targetWidth = (int) (normalWidth * scale);
+                targetHeight = (int) (normalHeight * scale);
+            }
+
+        }
+
+        if (held instanceof InputListener) {
+            container.getInput().addListener((InputListener) held);
+        }
+        container.getInput().setScale(normalWidth / targetWidth,
+                normalHeight / targetHeight);
+
+
+        int yoffset = 0;
+        int xoffset = 0;
+
+        if (targetHeight < container.getHeight()) {
+            yoffset = (container.getHeight() - targetHeight) / 2;
+        }
+        if (targetWidth < container.getWidth()) {
+            xoffset = (container.getWidth() - targetWidth) / 2;
+        }
+        container.getInput().setOffset(-xoffset / (targetWidth / normalWidth),
+                -yoffset / (targetHeight / normalHeight));
+    }
 	
 	/**
 	 * @see BasicGame#init(org.newdawn.slick.GameContainer)

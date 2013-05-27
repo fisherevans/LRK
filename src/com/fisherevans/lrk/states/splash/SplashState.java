@@ -3,16 +3,10 @@ package com.fisherevans.lrk.states.splash;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.states.GFX;
-import com.fisherevans.lrk.states.GameStateEnum;
 import com.fisherevans.lrk.states.LRKState;
-import com.fisherevans.lrk.states.options.OptionsState;
-import com.fisherevans.lrk.states.profile.ProfileState;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.GameState;
-import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.CrossStateTransition;
-import org.newdawn.slick.state.transition.EmptyTransition;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,25 +17,28 @@ import org.newdawn.slick.state.transition.EmptyTransition;
  */
 public class SplashState extends LRKState
 {
-    public final static int ID = GameStateEnum.SPLASH.ordinal();
-    private StateBasedGame _game;
+    private float _fade, _flash;
 
-    private float _fade = -0.1f, _flash = 0f;
+    public SplashState(LRK lrk) throws SlickException
+    {
+        super(lrk);
+    }
 
     @Override
     public int getID()
     {
-        return ID;
+        return StateLibrary.getID("splash");
     }
 
     @Override
-    public void init(GameContainer gameContainer, StateBasedGame game) throws SlickException
+    public void init() throws SlickException
     {
-        _game = game;
+        _fade = 0f;
+        _flash = 0f;
     }
 
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException
+    public void render(Graphics gfx) throws SlickException
     {
         Color c = new Color(1f, 1f, 1f, (_fade >= 0 ? _fade : 0));
         Color c2 = new Color(1f, 1f, 1f, (float)(-Math.cos(_flash)+1)/4f);
@@ -52,27 +49,29 @@ public class SplashState extends LRKState
 
         if(_fade >= 1)
             GFX.drawText(0, quarterHeight, Options.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
-
-
     }
 
     @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException
+    public void update(float delta) throws SlickException
     {
         if(_fade < 1)
         {
-            _fade += 0.00023*delta;
+            _fade += 0.25f*delta;
             _fade = _fade > 1 ? 1 : _fade;
         }
         else
         {
-            _flash += 0.0025f*delta;
+            _flash += 3.5f*delta;
         }
     }
 
-    public void keyPressed(int key, char c)
+    @Override
+    public void destroy() throws SlickException
     {
-        if(Options.isSelect(key))
-            _game.enterState(OptionsState.ID);
+    }
+
+    public void keySelect()
+    {
+        StateLibrary.setActiveState("options");
     }
 }

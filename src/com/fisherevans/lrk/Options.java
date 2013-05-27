@@ -5,6 +5,9 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.ScalableGame;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.*;
 import java.util.Scanner;
 
@@ -29,23 +32,58 @@ public class Options
     private static boolean _displayFullscreen = false;
 
     private static int
-            _controlUp1 = Input.KEY_W,
-            _controlDown1 = Input.KEY_S,
-            _controlLeft1 = Input.KEY_A,
-            _controlRight1 = Input.KEY_D,
-            _controlSelect1 = Input.KEY_SPACE,
-            _controlBack1 = Input.KEY_BACK,
-            _controlUp2 = Input.KEY_UP,
-            _controlDown2 = Input.KEY_DOWN,
-            _controlLeft2 = Input.KEY_LEFT,
-            _controlRight2 = Input.KEY_RIGHT,
-            _controlSelect2 = Input.KEY_ENTER,
-            _controlBack2 = Input.KEY_ESCAPE;
+            _controlUp = Input.KEY_W,
+            _controlDown = Input.KEY_S,
+            _controlLeft = Input.KEY_A,
+            _controlRight = Input.KEY_D,
+            _controlSelect = Input.KEY_SPACE,
+            _controlBack = Input.KEY_BACK;
 
     private static float
         _audioMaster = 1f,
         _audioMusic = 0.8f,
         _audioSFX = 1f;
+
+    /**
+     * saves the current settings to a the default settings file location
+     */
+    public static void save()
+    {
+        save(SETTINGS_LOCATION);
+    }
+
+    /**
+     * saves the current settings to a settings file location
+     * @param filename location of the settings file
+     */
+    public static void save(String filename)
+    {
+        try
+        {
+            FileWriter outFile = new FileWriter(filename);
+            PrintWriter out = new PrintWriter(outFile);
+
+            out.println("display.scale=" + Options.getDisplayScale());
+            out.println("display.fullscreen=" + Options.getDisplayFullscreen());
+
+            out.println("audio.master=" + Options.getAudioMaster());
+            out.println("audio.music=" + Options.getAudioMusic());
+            out.println("audio.sfx=" + Options.getAudioSFX());
+
+            out.println("control.up=" + Options.getControlUp());
+            out.println("control.down=" + Options.getControlDown());
+            out.println("control.left=" + Options.getControlLeft());
+            out.println("control.right=" + Options.getControlRight());
+            out.println("control.select=" + Options.getControlSelect());
+            out.println("control.back=" + Options.getControlBack());
+
+            out.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * loads predefined options from the default settings file location
@@ -54,7 +92,6 @@ public class Options
     {
         load(SETTINGS_LOCATION);
     }
-
 
     /**
      * loads predefined options from the default settings file location
@@ -95,6 +132,13 @@ public class Options
                         case "audio.master": _audioMaster = Float.parseFloat(setting[1]); break;
                         case "audio.music": _audioMusic = Float.parseFloat(setting[1]); break;
                         case "audio.sfx": _audioSFX = Float.parseFloat(setting[1]); break;
+
+                        case "control.up": _controlUp = Integer.parseInt(setting[1]); break;
+                        case "control.down": _controlDown = Integer.parseInt(setting[1]); break;
+                        case "control.left": _controlLeft = Integer.parseInt(setting[1]); break;
+                        case "control.right": _controlRight = Integer.parseInt(setting[1]); break;
+                        case "control.select": _controlSelect = Integer.parseInt(setting[1]); break;
+                        case "control.back": _controlBack = Integer.parseInt(setting[1]); break;
                     }
                 }
                 catch(Exception e)
@@ -151,7 +195,7 @@ public class Options
      */
     public static boolean isUp(int key)
     {
-        return (_controlUp1 == key || _controlUp2 == key);
+        return (_controlUp == key);
     }
 
     /**
@@ -160,7 +204,7 @@ public class Options
      */
     public static boolean isDown(int key)
     {
-        return (_controlDown1 == key || _controlDown2 == key);
+        return (_controlDown == key);
     }
 
     /**
@@ -169,7 +213,7 @@ public class Options
      */
     public static boolean isLeft(int key)
     {
-        return (_controlLeft1 == key || _controlLeft2 == key);
+        return (_controlLeft == key);
     }
 
     /**
@@ -178,7 +222,7 @@ public class Options
      */
     public static boolean isRight(int key)
     {
-        return (_controlRight1 == key || _controlRight2 == key);
+        return (_controlRight == key);
     }
 
     /**
@@ -187,7 +231,7 @@ public class Options
      */
     public static boolean isSelect(int key)
     {
-        return (_controlSelect1 == key || _controlSelect2 == key);
+        return (_controlSelect == key);
     }
 
     /**
@@ -196,7 +240,7 @@ public class Options
      */
     public static boolean isBack(int key)
     {
-        return (_controlBack1 == key || _controlBack2 == key);
+        return (_controlBack == key);
     }
 
     // GETTERS
@@ -239,69 +283,40 @@ public class Options
     {
         return BASE_SCREEN_HEIGHT*_displayScale;
     }
+
     public static boolean getDisplayFullscreen()
     {
         return _displayFullscreen;
     }
 
-    public static int getControlUp1()
+    public static int getControlUp()
     {
-        return _controlUp1;
+        return _controlUp;
     }
 
-    public static int getControlDown1()
+    public static int getControlDown()
     {
-        return _controlDown1;
+        return _controlDown;
     }
 
-    public static int getControlLeft1()
+    public static int getControlLeft()
     {
-        return _controlLeft1;
+        return _controlLeft;
     }
 
-    public static int getControlRight1()
+    public static int getControlRight()
     {
-        return _controlRight1;
+        return _controlRight;
     }
 
-    public static int getControlSelect1()
+    public static int getControlSelect()
     {
-        return _controlSelect1;
+        return _controlSelect;
     }
 
-    public static int getControlBack1()
+    public static int getControlBack()
     {
-        return _controlBack1;
-    }
-
-    public static int getControlUp2()
-    {
-        return _controlUp2;
-    }
-
-    public static int getControlDown2()
-    {
-        return _controlDown2;
-    }
-
-    public static int getControlLeft2()
-    {
-        return _controlLeft2;
-    }
-
-    public static int getControlRight2()
-    {
-        return _controlRight2;
-    }
-
-    public static int getControlSelect2()
-    {
-        return _controlSelect2;
-    }
-
-    public static int getControlBack2()
-    {
-        return _controlBack2;
+        return _controlBack;
     }
 
     public static float getAudioMaster()
@@ -317,5 +332,50 @@ public class Options
     public static float getAudioSFX()
     {
         return _audioSFX;
+    }
+
+    public static void setControlUp(int controlUp)
+    {
+        _controlUp = controlUp;
+    }
+
+    public static void setControlDown(int controlDown)
+    {
+        _controlDown = controlDown;
+    }
+
+    public static void setControlLeft(int controlLeft)
+    {
+        _controlLeft = controlLeft;
+    }
+
+    public static void setControlRight(int controlRight)
+    {
+        _controlRight = controlRight;
+    }
+
+    public static void setControlSelect(int controlSelect)
+    {
+        _controlSelect = controlSelect;
+    }
+
+    public static void setControlBack(int controlBack)
+    {
+        _controlBack = controlBack;
+    }
+
+    public static void setAudioMaster(float audioMaster)
+    {
+        _audioMaster = audioMaster;
+    }
+
+    public static void setAudioMusic(float audioMusic)
+    {
+        _audioMusic = audioMusic;
+    }
+
+    public static void setAudioSFX(float audioSFX)
+    {
+        _audioSFX = audioSFX;
     }
 }

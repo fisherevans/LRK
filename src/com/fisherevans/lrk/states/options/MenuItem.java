@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states.options;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.SlickException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,7 +35,7 @@ public abstract class MenuItem
      * executes this menu items select function (command action)
      * @return if the item is a sub menu, it will return the net menu to use. null other wise
      */
-    public abstract Menu select();
+    public abstract Menu select() throws SlickException;
 
     /**
      * USed to detirmine if this menu item is the currently set property (settings, etc) used for display colors

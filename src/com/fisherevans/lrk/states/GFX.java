@@ -192,4 +192,11 @@ public class GFX
         g.fillRect(0, 0, Options.getGameWidth(), Options.getDisplayHeight());
 
     }
+
+    public static float filterDrawPosition(float original)
+    {
+        float filtered = (int)(original*Options.getDisplayScale());
+        filtered /= Options.getDisplayScale();
+        return filtered;
+    }
 }

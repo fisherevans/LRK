@@ -3,9 +3,9 @@ package com.fisherevans.lrk.states.adventure;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.GFX;
-import com.fisherevans.lrk.states.GameStateEnum;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.LRKEntity;
 import com.fisherevans.lrk.states.adventure.entities.Player;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class AdventureState extends LRKState
 {
-    private static final int ID = GameStateEnum.ADVENTURE.ordinal();
+    private int _id;
 
     public static final float
         TILE_SIZE = 32f;
@@ -39,23 +39,23 @@ public class AdventureState extends LRKState
     private ArrayList<LRKEntity> _entities, _walls;
     private Player _player, _camera;
     private TiledMap _map;
-
     private World _world;
-
     private Image _cursor;
 
-    public AdventureState()
+    public AdventureState(LRK lrk) throws SlickException
     {
+        super(lrk);
+        _id = StateLibrary.getTempID();
     }
 
     @Override
     public int getID()
     {
-        return ID;
+        return _id;
     }
 
     @Override
-    public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException
+    public void init() throws SlickException
     {
         _cursor = Resources.getImage("res/test/images/cursor.png");
 
@@ -81,51 +81,57 @@ public class AdventureState extends LRKState
         _walls = new ArrayList<LRKEntity>();
         int layerId = _map.getLayerIndex("collision");
         for(int y = 0;y < _map.getHeight();y++)
-            for (int x = 0; x < _map.getWidth(); x++)
+            for (int x = 0; x < _map.getWidth(); x++) // loop through each tile in the map
             {
-                int id = _map.getTileId(x, y, layerId);
-                if(id > 0)
+                int id = _map.getTileId(x, y, layerId); // get the global id
+                if(id > 0) // if the tile isn't empty
                 {
-                    FixtureDef def = JBox2DUtils.generateFixture(id);
-                    if (def != null)
+                    FixtureDef def = JBox2DUtils.generateFixture(id); // get the shape based on the id
+                    if (def != null) // null means the tile id doesn't have a predefined shape
                     {
-                        _walls.add(new Wall(x, y, def, _world));
+                        _walls.add(new Wall(x, y, def, _world)); // but if it does, add the tile shape to the world
                     }
                 }
             }
     }
 
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException
+    public void render(Graphics gfx) throws SlickException
     {
-        Vec2 mouseShift = new Vec2(Game.lrk.getInput().getMouseX()-Options.getGameWidth()/2f, Game.lrk.getInput().getMouseY()-Options.getGameHeight()/2f);
-        mouseShift.mulLocal(0.3f);
-        _player.setDegrees((float) Math.toDegrees(Math.atan2(mouseShift.y, mouseShift.x)));
+        // get the vector from the center of the screen to the mouse
+        Vec2 aimShift = new Vec2(Game.lrk.getInput().getMouseX()-Options.getGameWidth()/2f, Game.lrk.getInput().getMouseY()-Options.getGameHeight()/2f);
+        aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
+        _player.setDegrees((float) Math.toDegrees(Math.atan2(aimShift.y, aimShift.x)));
 
-        float xShift = (-_camera.getX() + TILES_WIDE/2f)*TILE_SIZE - mouseShift.x;
-        float mapXShift = (int)(xShift*Options.getDisplayScale());
-        mapXShift /= Options.getDisplayScale();
+        // when drawing entities, shift each by x and y shift
+        // subtract the camera pos and add half the display and subtract the aim shift
+        float xShift = (-_camera.getX() + TILES_WIDE/2f)*TILE_SIZE - aimShift.x;
+        float yShift = (-_camera.getY() + TILES_HIGH/2f)*TILE_SIZE - aimShift.y;
 
-        float yShift = (-_camera.getY() + TILES_HIGH/2f)*TILE_SIZE - mouseShift.y;
-        float mapYShift = (int)(yShift*Options.getDisplayScale());
-        mapYShift /= Options.getDisplayScale();
+        // the map shift is scaled to the nearest real display pixel
+        // stops screen tares
+        float mapYShift = GFX.filterDrawPosition(yShift);
+        float mapXShift = GFX.filterDrawPosition(xShift);
 
-        int startX = (int)(_camera.getX()+mouseShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
-        int startY = (int)(_camera.getY()+mouseShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
+        // what tile to start drawing at
+        int startX = (int)(_camera.getX()+aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
+        int startY = (int)(_camera.getY()+aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
 
         drawMapLayer("collision", mapXShift, mapYShift, startX, startY);
         drawMapLayer("background", mapXShift, mapYShift, startX, startY);
 
-        for(LRKEntity ent:_entities)
+        for(LRKEntity ent:_entities) // for each entity
         {
+            // draw them with the x and y shifts
             GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
         }
 
+        // finally, draw the courser on top
         GFX.drawImageCentered(Game.lrk.getInput().getMouseX(), Game.lrk.getInput().getMouseY(), _cursor);
     }
 
     /**
-     * Draws a tiled map layer ont he primary graphics element
+     * Draws a tiled map layer on the primary graphics element
      * @param layer the layer name to draw
      * @param xShift the sub tile x shift to move the whole layer by
      * @param yShift the sub tile x shift to move the whole layer by
@@ -135,15 +141,18 @@ public class AdventureState extends LRKState
     private void drawMapLayer(String layer, float xShift, float yShift, int startX, int startY)
     {
         int layerId = _map.getLayerIndex(layer);
+
+        // the position of each tile is one less than the tile id
         startX--;
         startY--;
 
         for(int y = startY;y <= startY+TILES_HIGH+2;y++)
         {
-            for(int x = startX;x <= startX+TILES_WIDE+2;x++)
+            for(int x = startX;x <= startX+TILES_WIDE+2;x++) // for each tile on the screen
             {
                 try
                 {
+                    // draw that tiles image
                     GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, _map.getTileImage(x, y, layerId));
                 }
                 catch(Exception e) { }
@@ -152,14 +161,18 @@ public class AdventureState extends LRKState
     }
 
     @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException
+    public void update(float delta) throws SlickException
     {
-        float step = delta/1000f;
         for(LRKEntity e: _entities)
         {
-            e.update(delta);
+            e.update((int)delta); // logic
         }
-        _world.step(step, 5, 5);
+        _world.step(delta, 5, 5); // physics
+    }
+
+    @Override
+    public void destroy() throws SlickException
+    {
     }
 
     public void keyPressed(int key, char c)

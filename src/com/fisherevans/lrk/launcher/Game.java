@@ -16,8 +16,19 @@ import java.io.File;
  */
 public class Game
 {
+    /**
+     * the actual game object
+     */
     public static LRK lrk;
+
+    /**
+     * scalable game wrapper
+     */
     public static ScalableGame scalable;
+
+    /**
+     * the window holding the scalable game
+     */
     public static AppGameContainer app;
 
     public Game()
@@ -27,6 +38,9 @@ public class Game
         startGame();
     }
 
+    /**
+     * loads the lwjgl natives based on the current os
+     */
     private void checkOS()
     {
         OSCheck.OSType os = OSCheck.getOSType();
@@ -52,11 +66,14 @@ public class Game
         }
     }
 
+    /**
+     * initiates the game objects
+     */
     private void startGame()
     {
         try
         {
-            lrk = new LRK("Lost Relics of Kazar - A Prequel [ALPHA]");
+            lrk = new LRK("Lost Relics of Kazar - A Prequel [" + LRK.VERSION + "]");
             scalable = new ScalableGame(lrk, Options.getGameWidth(), Options.getGameHeight(), true);
             app = new AppGameContainer(scalable);
             app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getDisplayFullscreen());
@@ -74,12 +91,15 @@ public class Game
         }
     }
 
+    /**
+     * updates the game window based on the static options
+     */
     public static void updateDisplay()
     {
         try
         {
             app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getDisplayFullscreen());
-            scalable.init(app);
+            scalable.updateDisplay(app);
             LRK.log("Scalable Size: " + Options.getGameWidth() + "x" + Options.getGameHeight() + " - App Size: " + Options.getDisplayWidth() + "x" + Options.getDisplayHeight());
         }
         catch(Exception e)
@@ -88,6 +108,10 @@ public class Game
         }
     }
 
+    /**
+     * starts everything
+     * @param args
+     */
     public static void main(String[] args)
     {
         new Game();

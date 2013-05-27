@@ -2,64 +2,66 @@ package com.fisherevans.lrk;
 
 import com.fisherevans.lrk.launcher.*;
 import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.options.OptionsState;
-import com.fisherevans.lrk.states.overlays.Overlay;
-import com.fisherevans.lrk.states.overlays.OverlayState;
-import com.fisherevans.lrk.states.profile.ProfileState;
 import com.fisherevans.lrk.states.splash.SplashState;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import sun.misc.Launcher;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * User: Fisher
  * Date: 5/5/13
  * Time: 7:08 PM
  */
-public class LRK extends StateBasedGame
+public class LRK extends BasicGame
 {
-    public static final boolean DEBUG = true;
+    public static boolean DEBUG = true;
+    public static final String VERSION = "0.2 Alpha";
 
-    private OverlayState _overlayState;
+    private InputManager _inputManager;
 
-    public LRK(String name)
+    /**
+     * Create a new basic game
+     *
+     * @param title The title for the game
+     */
+    public LRK(String title)
     {
-        super(name);
+        super(title);
     }
 
     @Override
-    public void initStatesList(GameContainer gameContainer) throws SlickException
+    public void init(GameContainer container) throws SlickException
     {
-        addState(new SplashState());
-        addState(new ProfileState());
-        addState(new OptionsState());
-        addState(new AdventureState());
+        _inputManager = new InputManager(getInput(), this);
+        StateLibrary.resetStates();
 
-        _overlayState = new OverlayState();
-        addState(_overlayState);
+        StateLibrary.setActiveState("splash");
     }
 
-    /**
-     * starts an overlay
-     * @param overlay the overlay to use and render
-     */
-    public void setOverlayState(Overlay overlay)
+    @Override
+    public void update(GameContainer container, int deltaMS) throws SlickException
     {
-        _overlayState.setOverlay(overlay);
-        this.enterState(_overlayState.getID());
+        float delta = deltaMS/1000f;
+        StateLibrary.getActiveState().update(delta);
     }
 
-    /**
-     * return from the current overlay to the previous state
-     */
-    public void exitOverlayState()
+    @Override
+    public void render(GameContainer container, Graphics gfx) throws SlickException
     {
-        if(!_overlayState.isOverlayed()) return;
+        StateLibrary.getActiveState().render(gfx);
+    }
 
-        int id = _overlayState.getCurrentOverlay().getLastState().getID();
-        _overlayState.destroyOverlay();
-        this.enterState(id);
+    public void exit()
+    {
+        LRK.log("Quitting, goodbye :)");
+        Options.save();
+        System.exit(0);
     }
 
     /**
@@ -67,7 +69,11 @@ public class LRK extends StateBasedGame
      */
     public static void log(String text)
     {
-        System.out.println(text);
+        if(DEBUG)
+        {
+            String time = new Timestamp(System.currentTimeMillis()).toString();
+            System.out.println("[LRK " + VERSION + " | " + time + "] " + text);
+        }
     }
 
     /**

@@ -1,9 +1,11 @@
 package com.fisherevans.lrk.states.options.menu_items;
 
+import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
-import com.fisherevans.lrk.states.GameStateEnum;
+import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.options.Menu;
 import com.fisherevans.lrk.states.options.MenuItem;
+import org.newdawn.slick.SlickException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,9 +21,9 @@ public class MenuItemPlayTest extends MenuItem
     }
 
     @Override
-    public Menu select()
+    public Menu select() throws SlickException
     {
-        Game.lrk.enterState(GameStateEnum.ADVENTURE.ordinal());
+        StateLibrary.setActiveState(new AdventureState(Game.lrk));
         return null;
     }
 

@@ -2,7 +2,6 @@ package com.fisherevans.lrk.states.options;
 
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
-import com.fisherevans.lrk.states.overlays.SinglePopup;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +19,7 @@ public class MenuItemStub extends MenuItem
     @Override
     public Menu select()
     {
-        Game.lrk.setOverlayState(new SinglePopup((LRKState) Game.lrk.getCurrentState(), false, true, "This menu item is not yet implemented. Please, check back later."));
+        //Game.lrk.setOverlayState(new SinglePopup((LRKState) Game.lrk.getCurrentState(), false, true, "This menu item is not yet implemented. Please, check back later."));
         return null;
     }
 
