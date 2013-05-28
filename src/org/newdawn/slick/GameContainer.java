@@ -1,7 +1,5 @@
 package org.newdawn.slick;
 
-import java.util.Properties;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Cursor;
@@ -16,6 +14,8 @@ import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
+
+import java.util.Properties;
 
 /**
  * A generic game container that handles the game loop, fps recording and

@@ -1,11 +1,11 @@
 package org.newdawn.slick.svg.inkscape;
 
-import java.util.StringTokenizer;
-
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.svg.NonGeometricData;
 import org.newdawn.slick.svg.ParsingException;
 import org.w3c.dom.Element;
+
+import java.util.StringTokenizer;
 
 /**
  * A set of utility for processing the SVG documents produced by Inkscape

@@ -1,10 +1,10 @@
 package org.newdawn.slick;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
 import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.ImageData;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * A utility for creating images from pixel operations

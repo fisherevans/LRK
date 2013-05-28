@@ -1,23 +1,6 @@
 
 package org.newdawn.slick;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextAttribute;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.newdawn.slick.font.Glyph;
 import org.newdawn.slick.font.GlyphPage;
 import org.newdawn.slick.font.HieroSettings;
@@ -26,6 +9,15 @@ import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.util.ResourceLoader;
+
+import java.awt.Font;
+import java.awt.*;
+import java.awt.font.GlyphVector;
+import java.awt.font.TextAttribute;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.List;
 
 /**
  * A Slick bitmap font that can display unicode glyphs from a TrueTypeFont.

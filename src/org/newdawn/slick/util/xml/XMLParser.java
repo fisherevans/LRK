@@ -1,13 +1,12 @@
 package org.newdawn.slick.util.xml;
 
-import java.io.InputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.ResourceLoader;
 import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStream;
 
 /**
  * A simple utility wrapper around the Java DOM implementation to hopefully

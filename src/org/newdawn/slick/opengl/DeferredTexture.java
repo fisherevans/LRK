@@ -1,10 +1,10 @@
 package org.newdawn.slick.opengl;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * A texture proxy that can be used to load a texture at a later date while still

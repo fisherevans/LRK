@@ -1,9 +1,9 @@
 package org.newdawn.slick.geom;
 
+import org.newdawn.slick.util.FastTrig;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.newdawn.slick.util.FastTrig;
 
 /**
  * Class to create rounded rectangles with.

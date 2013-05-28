@@ -1,12 +1,11 @@
 package org.newdawn.slick;
 
-import java.awt.Canvas;
-
-import javax.swing.SwingUtilities;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.util.Log;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * A game container that displays the game on an AWT Canvas.

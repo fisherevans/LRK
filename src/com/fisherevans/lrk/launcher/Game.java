@@ -1,9 +1,8 @@
 package com.fisherevans.lrk.launcher;
 
-import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
-import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.managers.DisplayManager;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.ScalableGame;
 

@@ -1,8 +1,8 @@
 package org.newdawn.slick;
 
-import java.io.UnsupportedEncodingException;
-
 import org.newdawn.slick.util.Log;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * A font implementation that will use the graphics inside a SpriteSheet for its data.

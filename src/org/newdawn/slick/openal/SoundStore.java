@@ -1,5 +1,13 @@
 package org.newdawn.slick.openal;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.Sys;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
+import org.lwjgl.openal.OpenALException;
+import org.newdawn.slick.util.Log;
+import org.newdawn.slick.util.ResourceLoader;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,14 +17,6 @@ import java.nio.IntBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.Sys;
-import org.lwjgl.openal.AL;
-import org.lwjgl.openal.AL10;
-import org.lwjgl.openal.OpenALException;
-import org.newdawn.slick.util.Log;
-import org.newdawn.slick.util.ResourceLoader;
 
 /**
  * Responsible for holding and playing the sounds used in the game.

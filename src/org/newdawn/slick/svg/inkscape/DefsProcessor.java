@@ -1,7 +1,5 @@
 package org.newdawn.slick.svg.inkscape;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.svg.Diagram;
@@ -11,6 +9,8 @@ import org.newdawn.slick.svg.ParsingException;
 import org.newdawn.slick.util.Log;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
 
 /**
  * A processor for the defs node

@@ -1,13 +1,13 @@
 package org.newdawn.slick.opengl;
 
+import org.lwjgl.BufferUtils;
+
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-import org.lwjgl.BufferUtils;
 
 /**
  * A utility to load TGAs. Note: NOT THREAD SAFE

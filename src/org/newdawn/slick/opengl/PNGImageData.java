@@ -1,5 +1,7 @@
 package org.newdawn.slick.opengl;
 
+import org.lwjgl.BufferUtils;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,8 +9,6 @@ import java.nio.ByteBuffer;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
-
-import org.lwjgl.BufferUtils;
 
 /**
  * The PNG imge data source that is pure java reading PNGs

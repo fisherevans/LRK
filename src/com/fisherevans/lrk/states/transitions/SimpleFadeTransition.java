@@ -1,12 +1,9 @@
 package com.fisherevans.lrk.states.transitions;
 
-import com.fisherevans.lrk.launcher.Game;
-import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**

@@ -1,13 +1,5 @@
 package org.newdawn.slick.openal;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
-import org.lwjgl.BufferUtils;
-import org.newdawn.slick.util.Log;
-
 import com.jcraft.jogg.Packet;
 import com.jcraft.jogg.Page;
 import com.jcraft.jogg.StreamState;
@@ -16,6 +8,13 @@ import com.jcraft.jorbis.Block;
 import com.jcraft.jorbis.Comment;
 import com.jcraft.jorbis.DspState;
 import com.jcraft.jorbis.Info;
+import org.lwjgl.BufferUtils;
+import org.newdawn.slick.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * An input stream that can extract ogg data. This class is a bit of an experiment with continuations

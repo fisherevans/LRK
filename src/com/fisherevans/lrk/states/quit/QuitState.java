@@ -1,6 +1,9 @@
 package com.fisherevans.lrk.states.quit;
 
-import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Options;
+import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;

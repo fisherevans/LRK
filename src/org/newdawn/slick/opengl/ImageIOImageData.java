@@ -1,22 +1,14 @@
 package org.newdawn.slick.opengl;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Hashtable;
-
-import javax.imageio.ImageIO;
 
 /**
  * An image data provider that uses ImageIO to retrieve image data in a format

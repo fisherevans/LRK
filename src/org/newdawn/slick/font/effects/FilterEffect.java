@@ -1,12 +1,12 @@
 
 package org.newdawn.slick.font.effects;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.Glyph;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 
 /**
  * Applys a {@link java.awt.image.BufferedImageOp} filter to glyphs. Many filters can be found

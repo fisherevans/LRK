@@ -1,7 +1,5 @@
 package com.fisherevans.lrk.launcher;
 
-import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Options;
 import org.newdawn.slick.*;
 
 import java.io.File;

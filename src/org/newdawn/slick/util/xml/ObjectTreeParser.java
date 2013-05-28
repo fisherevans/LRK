@@ -1,14 +1,14 @@
 package org.newdawn.slick.util.xml;
 
+import org.newdawn.slick.util.Log;
+import org.newdawn.slick.util.ResourceLoader;
+
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.newdawn.slick.util.Log;
-import org.newdawn.slick.util.ResourceLoader;
 
 /**
  * Provides a method of parsing XML into an existing data model. This does not

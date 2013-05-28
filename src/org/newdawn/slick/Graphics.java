@@ -1,12 +1,5 @@
 package org.newdawn.slick;
 
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.geom.Rectangle;
@@ -18,6 +11,13 @@ import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.util.FastTrig;
 import org.newdawn.slick.util.Log;
+
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
 
 /**
  * A graphics context that can be used to render primatives to the accelerated

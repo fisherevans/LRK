@@ -1,10 +1,10 @@
 package org.newdawn.slick;
 
-import java.io.Serializable;
-import java.nio.FloatBuffer;
-
 import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
+
+import java.io.Serializable;
+import java.nio.FloatBuffer;
 
 /**
  * A simple wrapper round the values required for a colour

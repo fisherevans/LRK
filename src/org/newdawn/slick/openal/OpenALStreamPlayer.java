@@ -1,16 +1,16 @@
 package org.newdawn.slick.openal;
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.OpenALException;
 import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
+
+import java.io.IOException;
+import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 /**
  * A generic tool to work on a supplied stream, pulling out PCM data and buffered it to OpenAL

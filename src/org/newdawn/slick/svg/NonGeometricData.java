@@ -1,8 +1,8 @@
 package org.newdawn.slick.svg;
 
-import java.util.Properties;
-
 import org.newdawn.slick.Color;
+
+import java.util.Properties;
 
 /**
  * A set of data about a shape that doesn't fit into it's geometric 

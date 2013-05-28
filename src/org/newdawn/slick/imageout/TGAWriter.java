@@ -1,12 +1,12 @@
 package org.newdawn.slick.imageout;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
+
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 
 /**
  * A utility to save TGA's given a Slick image.

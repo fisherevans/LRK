@@ -1,12 +1,12 @@
 package org.newdawn.slick;
 
-import java.net.URL;
-import java.util.ArrayList;
-
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioImpl;
 import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.util.Log;
+
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * A piece of music loaded and playable within the game. Only one piece of music can

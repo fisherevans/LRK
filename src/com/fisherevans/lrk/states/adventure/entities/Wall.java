@@ -1,6 +1,5 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.*;
 import org.newdawn.slick.Image;
 

@@ -1,10 +1,10 @@
 package org.newdawn.slick.opengl.renderer;
 
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 
 /**
  * A renderer that caches all operations into an array, creates an opengl vertex array when

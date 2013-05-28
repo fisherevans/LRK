@@ -1,5 +1,13 @@
 package org.newdawn.slick.particles;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.TextureImpl;
+import org.newdawn.slick.opengl.renderer.Renderer;
+import org.newdawn.slick.opengl.renderer.SGL;
+import org.newdawn.slick.util.Log;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,14 +16,6 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.TextureImpl;
-import org.newdawn.slick.opengl.renderer.Renderer;
-import org.newdawn.slick.opengl.renderer.SGL;
-import org.newdawn.slick.util.Log;
 
 /**
  * A particle syste responsible for maintaining a set of data about individual 

@@ -1,13 +1,12 @@
 
 package org.newdawn.slick.font;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.GlyphMetrics;
-import java.awt.font.GlyphVector;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.UnicodeFont;
+
+import java.awt.*;
+import java.awt.font.GlyphMetrics;
+import java.awt.font.GlyphVector;
 
 /**
  * Represents the glyph in a font for a unicode codepoint.

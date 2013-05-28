@@ -1,11 +1,16 @@
 package com.fisherevans.lrk.states.options;
 
-import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.options.menu_items.*;
-import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 
 /**
  * Created with IntelliJ IDEA.

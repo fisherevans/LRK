@@ -1,6 +1,5 @@
 package com.fisherevans.lrk;
 
-import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.options.OptionsState;
 import com.fisherevans.lrk.states.splash.SplashState;

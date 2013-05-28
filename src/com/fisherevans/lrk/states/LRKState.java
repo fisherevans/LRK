@@ -1,10 +1,8 @@
 package com.fisherevans.lrk.states;
 
-import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
 
 /**
  * Created with IntelliJ IDEA.
@@ -68,22 +66,22 @@ public abstract class LRKState
     public abstract void destroy() throws SlickException;
 
     /** called when the user presses the UP key */
-    public void keyUp()     { return; }
+    public void keyUp()     { }
 
     /** called when the user presses the DOWN key */
-    public void keyDown()   { return; }
+    public void keyDown()   { }
 
     /** called when the user presses the LEFT key */
-    public void keyLeft()   { return; }
+    public void keyLeft()   { }
 
     /** called when the user presses the RIGHT key */
-    public void keyRight()  { return; }
+    public void keyRight()  { }
 
     /** called when the user presses the SELECT key */
-    public void keySelect() { return; }
+    public void keySelect() { }
 
     /** called when the user presses the BACK key */
-    public void keyBack()   { return; }
+    public void keyBack()   { }
 
     /** called when the user presses the BACK key */
     public void keyMenu()   { StateLibrary.setActiveState("options"); }
@@ -92,5 +90,5 @@ public abstract class LRKState
      * called whenever a character key is pressed
      * @param c the character pressed
      */
-    public void keyTyped(char c) { return; }
+    public void keyTyped(char c) { }
 }

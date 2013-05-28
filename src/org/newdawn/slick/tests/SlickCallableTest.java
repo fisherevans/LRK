@@ -1,19 +1,11 @@
 package org.newdawn.slick.tests;
 
-import java.nio.FloatBuffer;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.AngelCodeFont;
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.*;
 import org.newdawn.slick.opengl.SlickCallable;
+
+import java.nio.FloatBuffer;
 
 /**
  * A test for slick callables giving the chance to perform normal GL in mid Slick render

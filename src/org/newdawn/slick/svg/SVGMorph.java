@@ -1,8 +1,8 @@
 package org.newdawn.slick.svg;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.geom.MorphShape;
+
+import java.util.ArrayList;
 
 /**
  * A utility to allow morphing between a set of similar SVG diagrams

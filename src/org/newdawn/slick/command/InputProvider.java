@@ -1,13 +1,9 @@
 package org.newdawn.slick.command;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.newdawn.slick.Input;
 import org.newdawn.slick.util.InputAdapter;
+
+import java.util.*;
 
 /**
  * The central provider that maps real device input into abstract commands

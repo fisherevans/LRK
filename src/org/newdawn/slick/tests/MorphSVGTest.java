@@ -1,10 +1,6 @@
 package org.newdawn.slick.tests;
 
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.svg.Diagram;
 import org.newdawn.slick.svg.InkscapeLoader;
 import org.newdawn.slick.svg.SVGMorph;

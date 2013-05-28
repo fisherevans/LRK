@@ -1,9 +1,5 @@
 package org.newdawn.slick.tests;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -18,6 +14,10 @@ import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.Log;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * A simple utility test to use the internal slick API without 

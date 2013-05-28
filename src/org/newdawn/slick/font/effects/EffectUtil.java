@@ -1,34 +1,14 @@
 
 package org.newdawn.slick.font.effects;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import org.newdawn.slick.font.GlyphPage;
+import org.newdawn.slick.font.effects.ConfigurableEffect.Value;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.SpinnerNumberModel;
-
-import org.newdawn.slick.font.GlyphPage;
-import org.newdawn.slick.font.effects.ConfigurableEffect.Value;
 
 /**
  * Provides utility methods for effects.

@@ -1,14 +1,13 @@
 package org.newdawn.slick;
 
-import java.io.IOException;
-import java.util.HashMap;
-
-import javax.jnlp.ServiceManager;
-
 import org.newdawn.slick.muffin.FileMuffin;
 import org.newdawn.slick.muffin.Muffin;
 import org.newdawn.slick.muffin.WebstartMuffin;
 import org.newdawn.slick.util.Log;
+
+import javax.jnlp.ServiceManager;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * A utility to allow game setup/state to be stored locally. This utility will adapt to the

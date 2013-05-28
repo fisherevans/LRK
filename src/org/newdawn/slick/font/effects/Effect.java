@@ -1,11 +1,11 @@
 
 package org.newdawn.slick.font.effects;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.Glyph;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * A graphical effect that is applied to glyphs in a {@link UnicodeFont}.

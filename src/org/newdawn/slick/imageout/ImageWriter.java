@@ -1,9 +1,9 @@
 package org.newdawn.slick.imageout;
 
+import org.newdawn.slick.Image;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import org.newdawn.slick.Image;
 
 /**
  * The description of any class that can produce data to an output stream reprsenting

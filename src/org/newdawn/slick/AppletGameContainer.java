@@ -1,33 +1,24 @@
 package org.newdawn.slick;
 
-import java.applet.Applet;
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.TextArea;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.nio.ByteBuffer;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
-import org.newdawn.slick.Game;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.opengl.CursorLoader;
 import org.newdawn.slick.opengl.ImageData;
 import org.newdawn.slick.opengl.InternalTextureLoader;
 import org.newdawn.slick.util.Log;
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.ByteBuffer;
 
 /**
  * A game container that displays the game as an applet. Note however that the

@@ -1,18 +1,18 @@
 package org.newdawn.slick;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-
 import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.ImageData;
 import org.newdawn.slick.opengl.ImageDataFactory;
 import org.newdawn.slick.opengl.LoadableImageData;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.opengl.renderer.Renderer;
+import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.util.OperationNotSupportedException;
 import org.newdawn.slick.util.ResourceLoader;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 /**
  * An image implementation that handles loaded images that are larger than the 

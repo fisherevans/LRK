@@ -5,7 +5,10 @@ import com.fisherevans.lrk.managers.AudioManager;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.quit.QuitState;
-import org.newdawn.slick.*;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
 import java.sql.Timestamp;
 

@@ -13,10 +13,7 @@
 
 package org.newdawn.slick.font.effects;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;

@@ -1,8 +1,5 @@
 package org.newdawn.slick;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.lwjgl.opengl.EXTSecondaryColor;
 import org.lwjgl.opengl.EXTTextureMirrorClamp;
 import org.lwjgl.opengl.GL11;
@@ -15,6 +12,9 @@ import org.newdawn.slick.opengl.pbuffer.GraphicsFactory;
 import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An image loaded from a file and renderable to the canvas

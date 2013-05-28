@@ -1,9 +1,9 @@
 package org.newdawn.slick.opengl;
 
+import org.newdawn.slick.util.Log;
+
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-
-import org.newdawn.slick.util.Log;
 
 /**
  * A static utility to create the appropriate image data for a particular reference.

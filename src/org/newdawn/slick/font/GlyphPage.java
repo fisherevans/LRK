@@ -1,20 +1,6 @@
 
 package org.newdawn.slick.font;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.font.FontRenderContext;
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.newdawn.slick.Color;
@@ -25,6 +11,18 @@ import org.newdawn.slick.font.effects.Effect;
 import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
+
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Stores a number of glyphs on a single texture.

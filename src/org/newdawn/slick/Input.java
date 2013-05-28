@@ -1,12 +1,5 @@
 package org.newdawn.slick;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controller;
 import org.lwjgl.input.Controllers;
@@ -14,6 +7,13 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.util.Log;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * A wrapped for all keyboard, mouse and controller input

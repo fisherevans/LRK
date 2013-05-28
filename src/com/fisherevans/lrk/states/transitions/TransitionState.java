@@ -1,9 +1,7 @@
 package com.fisherevans.lrk.states.transitions;
 
-import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.states.LRKState;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 /**

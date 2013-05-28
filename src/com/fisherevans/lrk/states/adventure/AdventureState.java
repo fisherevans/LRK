@@ -1,6 +1,8 @@
 package com.fisherevans.lrk.states.adventure;
 
-import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.GFX;
@@ -11,7 +13,10 @@ import com.fisherevans.lrk.states.adventure.entities.Wall;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.newdawn.slick.*;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;

@@ -1,14 +1,14 @@
 package org.newdawn.slick.opengl;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
 
 /**
  * A utility to load cursors (thanks go to Kappa for the animated cursor

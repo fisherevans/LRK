@@ -1,16 +1,12 @@
 package org.newdawn.slick.tests;
 
-import java.awt.Frame;
-import java.awt.GridLayout;
+import org.newdawn.slick.*;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.util.Log;
+
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.CanvasGameContainer;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.util.Log;
 
 /**
  * Quick test to confirm canvas size is reported correctly

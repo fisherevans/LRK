@@ -2,7 +2,6 @@ package com.fisherevans.lrk.states.options.menu_items;
 
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
-import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.options.Menu;
 import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;

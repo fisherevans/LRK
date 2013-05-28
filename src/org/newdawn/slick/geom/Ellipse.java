@@ -1,8 +1,8 @@
 package org.newdawn.slick.geom;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.util.FastTrig;
+
+import java.util.ArrayList;
 
 /**
  * An ellipse meeting the <code>Shape</code> contract. The ellipse is actually an approximation using 

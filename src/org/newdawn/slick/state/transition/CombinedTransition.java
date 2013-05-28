@@ -1,12 +1,12 @@
 package org.newdawn.slick.state.transition;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import java.util.ArrayList;
 
 /**
  * A transition thats built of a set of other transitions which are chained

@@ -1,11 +1,11 @@
 package org.newdawn.slick.svg;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.geom.Transform;
+
+import java.util.ArrayList;
 
 /**
  * A gradient definition from an SVG file, includes the stops, name and transform.

@@ -1,12 +1,12 @@
 package org.newdawn.slick;
 
+import org.newdawn.slick.util.Log;
+import org.newdawn.slick.util.ResourceLoader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-
-import org.newdawn.slick.util.Log;
-import org.newdawn.slick.util.ResourceLoader;
 
 /**
  * A sprite sheet packed and defined by the Pacific Software Image Packer available

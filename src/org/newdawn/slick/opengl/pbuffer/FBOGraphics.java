@@ -1,7 +1,5 @@
 package org.newdawn.slick.opengl.pbuffer;
 
-import java.nio.IntBuffer;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
@@ -13,6 +11,8 @@ import org.newdawn.slick.opengl.InternalTextureLoader;
 import org.newdawn.slick.opengl.SlickCallable;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.Log;
+
+import java.nio.IntBuffer;
 
 /**
  * A graphics implementation that renders to an FBO

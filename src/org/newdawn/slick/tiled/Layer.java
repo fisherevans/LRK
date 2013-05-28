@@ -1,15 +1,15 @@
 package org.newdawn.slick.tiled;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.zip.GZIPInputStream;
-
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.zip.GZIPInputStream;
 
 /**
  * A layer of tiles on the map

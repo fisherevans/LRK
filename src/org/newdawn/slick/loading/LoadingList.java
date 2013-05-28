@@ -1,10 +1,10 @@
 package org.newdawn.slick.loading;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.opengl.InternalTextureLoader;
 import org.newdawn.slick.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * A central list where all deferred loading resoures end up when deferred loading is in use. Each

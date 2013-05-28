@@ -1,18 +1,14 @@
 package org.newdawn.slick.opengl.pbuffer;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.Pbuffer;
-import org.lwjgl.opengl.PixelFormat;
-import org.lwjgl.opengl.RenderTexture;
+import org.lwjgl.opengl.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.InternalTextureLoader;
 import org.newdawn.slick.opengl.SlickCallable;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureImpl;
-import org.newdawn.slick.opengl.InternalTextureLoader;
 import org.newdawn.slick.util.Log;
 
 /**

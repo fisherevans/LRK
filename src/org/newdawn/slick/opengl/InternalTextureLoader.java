@@ -1,19 +1,15 @@
 package org.newdawn.slick.opengl;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.util.ResourceLoader;
+
+import java.io.*;
 import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.HashMap;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.util.ResourceLoader;
 
 /**
  * A texture loaded based on many old versions that will load image data from a file

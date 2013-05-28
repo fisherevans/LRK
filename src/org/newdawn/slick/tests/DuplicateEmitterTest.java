@@ -1,16 +1,11 @@
 package org.newdawn.slick.tests;
 
-import java.io.IOException;
-
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
+
+import java.io.IOException;
 
 /**
  * A test for duplicating a ConfigurableEmitter several times

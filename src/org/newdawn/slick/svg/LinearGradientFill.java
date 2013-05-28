@@ -1,10 +1,6 @@
 package org.newdawn.slick.svg;
 
-import org.newdawn.slick.geom.Line;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.TexCoordGenerator;
-import org.newdawn.slick.geom.Transform;
-import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.geom.*;
 
 /**
  * A filler for shapes that applys SVG linear gradients

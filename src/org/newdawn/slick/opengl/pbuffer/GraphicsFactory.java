@@ -1,13 +1,13 @@
 package org.newdawn.slick.opengl.pbuffer;
 
-import java.util.HashMap;
-
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.Pbuffer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
+
+import java.util.HashMap;
 
 /**
  * A factory to produce an appropriate render to texture graphics context based on current

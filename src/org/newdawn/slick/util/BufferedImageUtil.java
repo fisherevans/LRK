@@ -1,24 +1,17 @@
 package org.newdawn.slick.util;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Hashtable;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.InternalTextureLoader;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureImpl;
+
+import java.awt.*;
+import java.awt.color.ColorSpace;
+import java.awt.image.*;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Hashtable;
 
 /**
  * This is a utility class that allows you to convert a BufferedImage into a

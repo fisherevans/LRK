@@ -3,7 +3,6 @@ package com.fisherevans.lrk;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
-import sun.security.util.UntrustedCertificates;
 
 /**
  * Created with IntelliJ IDEA.
@@ -68,8 +67,7 @@ public class Resources
     {
         try
         {
-            Image img = new Image(location, false, Image.FILTER_NEAREST);
-            return img;
+            return new Image(location, false, Image.FILTER_NEAREST);
         }
         catch(Exception e)
         {

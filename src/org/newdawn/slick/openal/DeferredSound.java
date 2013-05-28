@@ -1,11 +1,11 @@
 package org.newdawn.slick.openal;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * A sound implementation that can load the actual sound file at a later 

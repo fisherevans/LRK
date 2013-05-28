@@ -1,6 +1,6 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
-import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.InputManager;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;

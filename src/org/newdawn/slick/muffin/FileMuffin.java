@@ -1,15 +1,9 @@
 package org.newdawn.slick.muffin;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
-
 import org.newdawn.slick.util.Log;
+
+import java.io.*;
+import java.util.HashMap;
 
 /**
  * An implementation of the muffin load/save mechanism based around using the

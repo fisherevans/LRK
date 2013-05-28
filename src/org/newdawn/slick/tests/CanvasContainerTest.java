@@ -1,17 +1,12 @@
 package org.newdawn.slick.tests;
 
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.CanvasGameContainer;
-import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * A test for the AWT Canvas container

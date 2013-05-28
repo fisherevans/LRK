@@ -1,20 +1,16 @@
 
 package org.newdawn.slick.font.effects;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.Glyph;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.Glyph;
 
 /**
  * An effect to generate soft shadows beneath text 

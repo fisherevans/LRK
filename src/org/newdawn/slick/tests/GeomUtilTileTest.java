@@ -1,20 +1,10 @@
 package org.newdawn.slick.tests;
 
+import org.newdawn.slick.*;
+import org.newdawn.slick.geom.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.GeomUtil;
-import org.newdawn.slick.geom.GeomUtilListener;
-import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * A test to try shape building from multiple tiles

@@ -1,21 +1,16 @@
 
 package org.newdawn.slick.font;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ConfigurableEffect;
 import org.newdawn.slick.font.effects.ConfigurableEffect.Value;
 import org.newdawn.slick.util.ResourceLoader;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Holds the settings needed to configure a UnicodeFont.

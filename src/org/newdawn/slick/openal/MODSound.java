@@ -2,13 +2,12 @@ package org.newdawn.slick.openal;
 
 import ibxm.Module;
 import ibxm.OpenALMODPlayer;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.openal.AL10;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.openal.AL10;
 
 /**
  * A sound as a MOD file - can only be played as music

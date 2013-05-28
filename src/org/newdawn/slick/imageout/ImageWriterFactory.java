@@ -1,10 +1,9 @@
 package org.newdawn.slick.imageout;
 
-import java.util.HashMap;
+import org.newdawn.slick.SlickException;
 
 import javax.imageio.ImageIO;
-
-import org.newdawn.slick.SlickException;
+import java.util.HashMap;
 
 /**
  * A factory to produce image writers based on format names

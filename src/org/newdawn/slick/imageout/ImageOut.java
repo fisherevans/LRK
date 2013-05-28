@@ -1,11 +1,11 @@
 package org.newdawn.slick.imageout;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /**
  * A static hook to access all the Image output utilities. The list of format strings 

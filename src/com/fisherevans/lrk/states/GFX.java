@@ -1,7 +1,10 @@
 package com.fisherevans.lrk.states;
 
 import com.fisherevans.lrk.managers.DisplayManager;
-import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.UnicodeFont;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,7 +146,7 @@ public class GFX
         {
             String lineBuffer;
             line = textSplit.remove(0);
-            while(textSplit.size() > 0 && true)
+            while(textSplit.size() > 0)
             {
                 lineBuffer = line + textSplit.get(0);
                 if(font.getWidth(lineBuffer) <= wrapWidth)

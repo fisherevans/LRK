@@ -1,23 +1,15 @@
 package org.newdawn.slick.imageout;
 
-import java.awt.Point;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-
-import javax.imageio.ImageIO;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 
 /**
  * A utility to write a Slick image out using ImageIO

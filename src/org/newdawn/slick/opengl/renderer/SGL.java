@@ -1,11 +1,11 @@
 package org.newdawn.slick.opengl.renderer;
 
+import org.lwjgl.opengl.GL11;
+
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-
-import org.lwjgl.opengl.GL11;
 
 /**
  * The description of the OpenGL functions used Slick. Any other rendering method will

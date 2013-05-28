@@ -1,16 +1,14 @@
 
 package org.newdawn.slick.font.effects;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.Glyph;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.Glyph;
 
 /**
  * Paints glyphs with a gradient fill.

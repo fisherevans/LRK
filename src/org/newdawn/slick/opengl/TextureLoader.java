@@ -1,9 +1,9 @@
 package org.newdawn.slick.opengl;
 
+import org.lwjgl.opengl.GL11;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.lwjgl.opengl.GL11;
 
 /**
  * A utility class to wrap the Slick internal texture loader and present a

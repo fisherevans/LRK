@@ -1,10 +1,10 @@
 package org.newdawn.slick;
 
-import java.net.URL;
-
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.util.Log;
+
+import java.net.URL;
 
 /**
  * A single sound effect loaded from either OGG or XM/MOD file. Sounds are allocated to 

@@ -1,16 +1,12 @@
 package org.newdawn.slick.svg.inkscape;
 
-import java.util.StringTokenizer;
-
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
-import org.newdawn.slick.svg.Diagram;
-import org.newdawn.slick.svg.Figure;
-import org.newdawn.slick.svg.Loader;
-import org.newdawn.slick.svg.NonGeometricData;
-import org.newdawn.slick.svg.ParsingException;
+import org.newdawn.slick.svg.*;
 import org.w3c.dom.Element;
+
+import java.util.StringTokenizer;
 
 /**
  * A processor for the <line> element

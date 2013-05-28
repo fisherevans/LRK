@@ -1,9 +1,9 @@
 package org.newdawn.slick;
 
-import java.util.ArrayList;
-
 import org.lwjgl.Sys;
 import org.newdawn.slick.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * A utility to hold and render animations

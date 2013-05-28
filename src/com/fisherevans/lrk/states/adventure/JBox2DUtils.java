@@ -3,7 +3,6 @@ package com.fisherevans.lrk.states.adventure;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
-import org.newdawn.slick.geom.Polygon;
 
 /**
  * Created with IntelliJ IDEA.

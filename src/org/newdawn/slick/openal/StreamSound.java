@@ -1,11 +1,11 @@
 package org.newdawn.slick.openal;
 
-import java.io.IOException;
-import java.nio.IntBuffer;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
 import org.newdawn.slick.util.Log;
+
+import java.io.IOException;
+import java.nio.IntBuffer;
 
 /**
  * A sound implementation wrapped round a player which reads (and potentially) rereads
