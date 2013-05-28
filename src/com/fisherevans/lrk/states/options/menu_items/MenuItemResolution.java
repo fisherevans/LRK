@@ -1,8 +1,7 @@
 package com.fisherevans.lrk.states.options.menu_items;
 
-import com.fisherevans.lrk.Options;
+import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.options.Menu;
-import com.fisherevans.lrk.states.options.MenuItem;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,13 +27,13 @@ public class MenuItemResolution extends MenuItem
     @Override
     public Menu select()
     {
-        Options.setScale(_scale);
+        DisplayManager.setScale(_scale);
         return null;
     }
 
     @Override
     public boolean isActive()
     {
-        return Options.getDisplayScale() == _scale;
+        return DisplayManager.getDisplayScale() == _scale;
     }
 }

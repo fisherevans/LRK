@@ -1,11 +1,10 @@
 package com.fisherevans.lrk.states.splash;
 
-import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Options;
-import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
 import org.newdawn.slick.*;
 
 /**
@@ -19,15 +18,9 @@ public class SplashState extends LRKState
 {
     private float _fade, _flash;
 
-    public SplashState(LRK lrk) throws SlickException
+    public SplashState() throws SlickException
     {
-        super(lrk);
-    }
-
-    @Override
-    public int getID()
-    {
-        return StateLibrary.getID("splash");
+        super(StateLibrary.getID("splash"));
     }
 
     @Override
@@ -42,13 +35,13 @@ public class SplashState extends LRKState
     {
         Color c = new Color(1f, 1f, 1f, (_fade >= 0 ? _fade : 0));
         Color c2 = new Color(1f, 1f, 1f, (float)(-Math.cos(_flash)+1)/4f);
-        float halfHeight = Options.getGameHeight()/2f;
-        float quarterHeight = Options.getGameHeight()/4f;
-        GFX.drawText(0, quarterHeight, Options.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_TOP, Resources.getFont(3), c, "Lost Relics of Kazar");
-        GFX.drawText(0, quarterHeight, Options.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), c, "A Prequel");
+        float halfHeight = DisplayManager.getGameHeight()/2f;
+        float quarterHeight = DisplayManager.getGameHeight()/4f;
+        GFX.drawText(0, quarterHeight, DisplayManager.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_TOP, Resources.getFont(3), c, "Lost Relics of Kazar");
+        GFX.drawText(0, quarterHeight, DisplayManager.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), c, "A Prequel");
 
         if(_fade >= 1)
-            GFX.drawText(0, quarterHeight, Options.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
+            GFX.drawText(0, quarterHeight, DisplayManager.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
     }
 
     @Override
@@ -72,6 +65,17 @@ public class SplashState extends LRKState
 
     public void keySelect()
     {
-        StateLibrary.setActiveState("options");
+        LRKState options = StateLibrary.getState("options");
+
+        try
+        {
+            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), this, options, 2f));
+        }
+        catch (SlickException e)
+        {
+            e.printStackTrace();
+            LRK.log("failed to leave splash state");
+            System.exit(1);
+        }
     }
 }

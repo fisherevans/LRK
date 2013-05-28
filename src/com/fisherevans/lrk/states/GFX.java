@@ -1,13 +1,10 @@
 package com.fisherevans.lrk.states;
 
-import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Options;
-import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.managers.DisplayManager;
 import org.newdawn.slick.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -189,14 +186,14 @@ public class GFX
     public static void fill(Graphics g, Color c)
     {
         g.setColor(c);
-        g.fillRect(0, 0, Options.getGameWidth(), Options.getDisplayHeight());
+        g.fillRect(0, 0, DisplayManager.getGameWidth(), DisplayManager.getDisplayHeight());
 
     }
 
     public static float filterDrawPosition(float original)
     {
-        float filtered = (int)(original*Options.getDisplayScale());
-        filtered /= Options.getDisplayScale();
+        float filtered = (int)(original*DisplayManager.getDisplayScale());
+        filtered /= DisplayManager.getDisplayScale();
         return filtered;
     }
 }

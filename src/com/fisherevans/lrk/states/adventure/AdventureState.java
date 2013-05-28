@@ -1,10 +1,8 @@
 package com.fisherevans.lrk.states.adventure;
 
-import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Options;
-import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.StateLibrary;
-import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.LRKEntity;
@@ -14,8 +12,6 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.tiled.TileSet;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
@@ -28,13 +24,12 @@ import java.util.ArrayList;
  */
 public class AdventureState extends LRKState
 {
-    private int _id;
 
     public static final float
         TILE_SIZE = 32f;
     public static final float
-        TILES_WIDE = (float) Math.floor(Options.BASE_SCREEN_WIDTH/TILE_SIZE),
-        TILES_HIGH = (float) Math.floor(Options.BASE_SCREEN_HEIGHT/TILE_SIZE);
+        TILES_WIDE = (float) Math.floor(DisplayManager.BASE_SCREEN_WIDTH/TILE_SIZE),
+        TILES_HIGH = (float) Math.floor(DisplayManager.BASE_SCREEN_HEIGHT/TILE_SIZE);
 
     private ArrayList<LRKEntity> _entities, _walls;
     private Player _player, _camera;
@@ -42,16 +37,9 @@ public class AdventureState extends LRKState
     private World _world;
     private Image _cursor;
 
-    public AdventureState(LRK lrk) throws SlickException
+    public AdventureState() throws SlickException
     {
-        super(lrk);
-        _id = StateLibrary.getTempID();
-    }
-
-    @Override
-    public int getID()
-    {
-        return _id;
+        super(StateLibrary.getTempID());
     }
 
     @Override
@@ -99,7 +87,8 @@ public class AdventureState extends LRKState
     public void render(Graphics gfx) throws SlickException
     {
         // get the vector from the center of the screen to the mouse
-        Vec2 aimShift = new Vec2(Game.lrk.getInput().getMouseX()-Options.getGameWidth()/2f, Game.lrk.getInput().getMouseY()-Options.getGameHeight()/2f);
+        Vec2 aimShift = new Vec2(InputManager.getInput().getMouseX()-DisplayManager.getGameWidth()/2f,
+                InputManager.getInput().getMouseY()-DisplayManager.getGameHeight()/2f);
         aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
         _player.setDegrees((float) Math.toDegrees(Math.atan2(aimShift.y, aimShift.x)));
 
@@ -127,7 +116,8 @@ public class AdventureState extends LRKState
         }
 
         // finally, draw the courser on top
-        GFX.drawImageCentered(Game.lrk.getInput().getMouseX(), Game.lrk.getInput().getMouseY(), _cursor);
+        GFX.drawImageCentered(InputManager.getInput().getMouseX(),
+                InputManager.getInput().getMouseY(), _cursor);
     }
 
     /**

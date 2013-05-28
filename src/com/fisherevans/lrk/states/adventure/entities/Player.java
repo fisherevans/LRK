@@ -1,15 +1,11 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
-import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Options;
-import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.managers.InputManager;
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,13 +55,13 @@ public class Player extends LRKEntity
     {
         Vec2 v = new Vec2(0, 0);
 
-        if(Game.lrk.getInput().isKeyDown(Options.getControlUp()))
+        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Up)))
             v.y -= 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlDown()))
+        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Down)))
             v.y += 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlLeft()))
+        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Left)))
             v.x -= 1f;
-        if(Game.lrk.getInput().isKeyDown(Options.getControlRight()))
+        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Right)))
             v.x += 1f;
 
         if(v.x != 0 || v.y != 0)

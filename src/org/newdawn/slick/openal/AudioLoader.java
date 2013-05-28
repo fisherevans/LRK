@@ -57,7 +57,7 @@ public class AudioLoader {
 			return SoundStore.get().getOgg(in);
 		}
 		
-		throw new IOException("Unsupported format for non-streaming Audio: "+format);
+		throw new IOException("Unsupported format for non-streaming AudioManager: "+format);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class AudioLoader {
 			return SoundStore.get().getMOD(url.openStream());
 		}
 		
-		throw new IOException("Unsupported format for streaming Audio: "+format);
+		throw new IOException("Unsupported format for streaming AudioManager: "+format);
 	}
 	
 	/**

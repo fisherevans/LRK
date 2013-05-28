@@ -1,17 +1,13 @@
 package com.fisherevans.lrk;
 
-import com.fisherevans.lrk.launcher.*;
 import com.fisherevans.lrk.launcher.Game;
-import com.fisherevans.lrk.states.LRKState;
-import com.fisherevans.lrk.states.adventure.AdventureState;
-import com.fisherevans.lrk.states.options.OptionsState;
-import com.fisherevans.lrk.states.splash.SplashState;
+import com.fisherevans.lrk.managers.AudioManager;
+import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.states.quit.QuitState;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.StateBasedGame;
-import sun.misc.Launcher;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * User: Fisher
@@ -24,6 +20,8 @@ public class LRK extends BasicGame
     public static final String VERSION = "0.2 Alpha";
 
     private InputManager _inputManager;
+    private AudioManager _audioManager;
+    private DisplayManager _displayManager;
 
     /**
      * Create a new basic game
@@ -33,15 +31,20 @@ public class LRK extends BasicGame
     public LRK(String title)
     {
         super(title);
+
+        _displayManager = new DisplayManager();
+        _inputManager = new InputManager();
+        _audioManager = new AudioManager();
     }
 
     @Override
     public void init(GameContainer container) throws SlickException
     {
-        _inputManager = new InputManager(getInput(), this);
         StateLibrary.resetStates();
 
         StateLibrary.setActiveState("splash");
+
+        InputManager.connectInput(Game.app.getInput());
     }
 
     @Override
@@ -57,11 +60,23 @@ public class LRK extends BasicGame
         StateLibrary.getActiveState().render(gfx);
     }
 
+    public static void setTransition(long ms)
+    {
+
+    }
+
     public void exit()
     {
-        LRK.log("Quitting, goodbye :)");
-        Options.save();
-        System.exit(0);
+        try
+        {
+            StateLibrary.setActiveState(new QuitState());
+        }
+        catch (SlickException e)
+        {
+            e.printStackTrace();
+            LRK.log("Failed to exit the game properly!");
+            System.exit(1);
+        }
     }
 
     /**
@@ -76,11 +91,18 @@ public class LRK extends BasicGame
         }
     }
 
-    /**
-     * @return keyboard and mouse input of this game
-     */
-    public Input getInput()
+    public InputManager getInputManager()
     {
-        return Game.app.getInput();
+        return _inputManager;
+    }
+
+    public DisplayManager getDisplayManager()
+    {
+        return _displayManager;
+    }
+
+    public AudioManager getAudioManager()
+    {
+        return _audioManager;
     }
 }

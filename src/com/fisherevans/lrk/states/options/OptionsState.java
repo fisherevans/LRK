@@ -1,16 +1,11 @@
 package com.fisherevans.lrk.states.options;
 
-import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Options;
-import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.*;
+import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
-import com.fisherevans.lrk.states.options.menu_items.MenuItemPlayTest;
-import com.fisherevans.lrk.states.options.menu_items.MenuItemQuit;
-import com.fisherevans.lrk.states.options.menu_items.MenuItemResolution;
+import com.fisherevans.lrk.states.options.menu_items.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,17 +18,14 @@ public class OptionsState extends LRKState
     private static final float
         lastMenuColorScale = 0.5f,
         thisMenuColorScale = 1f;
-    private static final Color
-        currentItemColor = Color.white;
 
-    private Image _testImg;
     private float _hTran = 0, _vTran = 0;
 
     private Menu _mainMenu, _currentMenu;
 
-    public OptionsState(LRK lrk) throws SlickException
+    public OptionsState() throws SlickException
     {
-        super(lrk);
+        super(StateLibrary.getID("options"));
     }
 
     @Override
@@ -45,8 +37,6 @@ public class OptionsState extends LRKState
     @Override
     public void init() throws SlickException
     {
-        _testImg = Resources.getImage("res/test/images/32x32char.png");
-
         _mainMenu = new Menu();
 
         Menu video = new Menu("Video", "Various video and display settings.");
@@ -82,15 +72,15 @@ public class OptionsState extends LRKState
     @Override
     public void render(Graphics gfx) throws SlickException
     {
-        int thirdWidth = (int) (Options.BASE_SCREEN_WIDTH/3f);
-        int halfWidth = (int) (Options.BASE_SCREEN_WIDTH/2f);
+        int thirdWidth = (int) (DisplayManager.BASE_SCREEN_WIDTH/3f);
+        int halfWidth = (int) (DisplayManager.BASE_SCREEN_WIDTH/2f);
         displayMenu(_currentMenu.getParent(), 1, lastMenuColorScale+(thisMenuColorScale-lastMenuColorScale)*(Math.abs(_hTran)), 0, (int)(0 + _hTran*thirdWidth), thirdWidth);
         displayMenu(_currentMenu, 2, thisMenuColorScale*(1f-Math.abs(_hTran)), _vTran, (int)(thirdWidth + _hTran*thirdWidth), thirdWidth);
         //displayMenu(_currentMenu.getParent(), 2, lastMenuColorScale, 0, 0, halfWidth);
         //displayMenu(_currentMenu, 1, thisMenuColorScale*(1f-Math.abs(_hTran)), _vTran, 0, halfWidth);
 
         Color descColor = (new Color(1f, 1f, 1f)).scaleCopy(1-Math.abs(_vTran+_hTran));
-        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, Options.BASE_SCREEN_HEIGHT, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
+        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.BASE_SCREEN_HEIGHT, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
     }
 
     private void displayMenu(Menu menu, int scale, float colorScale, float yDiffScale, int xDiff, int width)
@@ -107,7 +97,7 @@ public class OptionsState extends LRKState
             yShift = (displayId-menu.getCurrentId())*fontHeight - fontHeight*yDiffScale;
             displayItem = menu.getItem(displayId);
             displayColor = (menu.getCurrentId() == displayId ? displayItem.getColorHover() : displayItem.getColor()).scaleCopy(colorScale);
-            GFX.drawText(xDiff, GFX.filterDrawPosition(Options.BASE_SCREEN_HEIGHT/2f + yShift), width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
+            GFX.drawText(xDiff, GFX.filterDrawPosition(DisplayManager.BASE_SCREEN_HEIGHT/2f + yShift), width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
         }
     }
 
@@ -116,11 +106,11 @@ public class OptionsState extends LRKState
     {
         _hTran *= 1f - 10f*delta;
         _hTran += -Math.signum(_hTran)*delta;
-        _hTran = (Math.abs(_hTran)) < 0.005 ? 0 : _hTran;
+        _hTran = (Math.abs(_hTran)) < 0.1 ? 0 : _hTran;
 
         _vTran *= 1f - 25*delta;
         _vTran += -Math.signum(_vTran)*0.003*delta;
-        _vTran = (Math.abs(_vTran)) < 0.005 ? 0 : _vTran;
+        _vTran = (Math.abs(_vTran)) < 0.1 ? 0 : _vTran;
     }
 
     @Override

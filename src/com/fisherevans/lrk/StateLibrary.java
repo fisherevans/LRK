@@ -33,8 +33,8 @@ public class StateLibrary
         _nextTempID = START_TEMP_ID;
         _states = new HashMap<Integer, LRKState>();
 
-        addState(getID("splash"), new SplashState(Game.lrk));
-        addState(getID("options"), new OptionsState(Game.lrk));
+        addState(getID("splash"), new SplashState());
+        addState(getID("options"), new OptionsState());
     }
 
     /**

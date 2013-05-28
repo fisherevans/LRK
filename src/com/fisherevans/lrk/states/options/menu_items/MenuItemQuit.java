@@ -1,10 +1,9 @@
 package com.fisherevans.lrk.states.options.menu_items;
 
 import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.options.Menu;
-import com.fisherevans.lrk.states.options.MenuItem;
+import org.newdawn.slick.SlickException;
 
 /**
  * Created with IntelliJ IDEA.

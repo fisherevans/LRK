@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states;
 
 import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.StateLibrary;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -14,29 +15,27 @@ import org.newdawn.slick.state.BasicGameState;
  */
 public abstract class LRKState
 {
-    private LRK _lrk = null;
+    private int _id;
 
-    public LRKState(LRK lrk) throws SlickException
+    public LRKState(int id) throws SlickException
     {
-        setLRK(lrk);
+        setID(id);
 
         init();
-    }
-
-    public LRK getLRK()
-    {
-        return _lrk;
-    }
-
-    public void setLRK(LRK lrk)
-    {
-        _lrk = lrk;
     }
 
     /**
      * @return the state library id for this state
      */
-    public abstract int getID();
+    public int getID()
+    {
+        return _id;
+    }
+
+    public void setID(int id)
+    {
+        _id = id;
+    }
 
     /**
      * initiates this state and prepares it to be used
@@ -81,6 +80,9 @@ public abstract class LRKState
 
     /** called when the user presses the BACK key */
     public void keyBack()   { return; }
+
+    /** called when the user presses the BACK key */
+    public void keyMenu()   { StateLibrary.setActiveState("options"); }
 
     /**
      * called whenever a character key is pressed

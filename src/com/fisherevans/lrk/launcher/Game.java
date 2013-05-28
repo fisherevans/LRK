@@ -1,8 +1,9 @@
 package com.fisherevans.lrk.launcher;
 
+import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.OSCheck;
 import com.fisherevans.lrk.Options;
+import com.fisherevans.lrk.managers.InputManager;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.ScalableGame;
 
@@ -31,10 +32,11 @@ public class Game
      */
     public static AppGameContainer app;
 
+    public enum OSType { Windows, Mac, Linux, Solaris }
+
     public Game()
     {
         checkOS();
-        Options.load();
         startGame();
     }
 
@@ -43,7 +45,7 @@ public class Game
      */
     private void checkOS()
     {
-        OSCheck.OSType os = OSCheck.getOSType();
+        OSType os = getOSType();
         System.out.println("OS Type: " + os);
 
         switch(os)
@@ -74,9 +76,12 @@ public class Game
         try
         {
             lrk = new LRK("Lost Relics of Kazar - A Prequel [" + LRK.VERSION + "]");
-            scalable = new ScalableGame(lrk, Options.getGameWidth(), Options.getGameHeight(), true);
+            scalable = new ScalableGame(lrk, DisplayManager.getGameWidth(), DisplayManager.getGameHeight(), true);
             app = new AppGameContainer(scalable);
-            app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getDisplayFullscreen());
+
+            Options.load();
+
+            app.setDisplayMode(DisplayManager.getDisplayWidth(), DisplayManager.getDisplayHeight(), DisplayManager.getDisplayFullscreen());
             app.setUpdateOnlyWhenVisible(false);
             app.setAlwaysRender(true);
             app.setShowFPS(LRK.DEBUG);
@@ -98,14 +103,30 @@ public class Game
     {
         try
         {
-            app.setDisplayMode(Options.getDisplayWidth(), Options.getDisplayHeight(), Options.getDisplayFullscreen());
+            app.setDisplayMode(DisplayManager.getDisplayWidth(), DisplayManager.getDisplayHeight(), DisplayManager.getDisplayFullscreen());
             scalable.updateDisplay(app);
-            LRK.log("Scalable Size: " + Options.getGameWidth() + "x" + Options.getGameHeight() + " - App Size: " + Options.getDisplayWidth() + "x" + Options.getDisplayHeight());
+            LRK.log("Scalable Size: " + DisplayManager.getGameWidth() + "x" + DisplayManager.getGameHeight() + " - App Size: " + DisplayManager.getDisplayWidth() + "x" + DisplayManager.getDisplayHeight());
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @return the OS enum of the current OS
+     */
+    public static OSType getOSType()
+    {
+        String OS = System.getProperty("os.name").toLowerCase();
+
+        if(OS.indexOf("win") >= 0) return OSType.Windows;
+        if(OS.indexOf("mac") >= 0) return OSType.Mac;
+        if(OS.indexOf("nix") >= 0) return OSType.Linux;
+        if(OS.indexOf("sunos") >= 0) return OSType.Solaris;
+
+        System.out.println("Waring! OS type is undetermined, defaulting to Linux!!!");
+        return OSType.Linux;
     }
 
     /**
