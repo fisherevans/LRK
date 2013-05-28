@@ -29,25 +29,25 @@ public class Player extends LRKEntity
      */
     public Player(float x, float y, World world)
     {
-        BodyDef bd = new BodyDef();
+        BodyDef bd = new BodyDef(); // define the body of the entity
         bd.position.set(x, y);
         bd.type = BodyType.DYNAMIC;
 
-        _shape = new CircleShape();
+        _shape = new CircleShape(); // create the shape of the entity
         _shape.m_radius = 0.40625f;
 
-        FixtureDef fd = new FixtureDef();
+        FixtureDef fd = new FixtureDef(); // define the body fixture
         fd.shape = _shape;
         fd.density = 1f;
         fd.friction = 0.2f;
         fd.restitution = -1.0f;
 
-        Body body = world.createBody(bd);
+        Body body = world.createBody(bd); // combine it all and add the entity to the world
         body.createFixture(fd);
 
         setBody(body);
 
-        _image = Resources.getImage("res/test/images/32x32char.png");
+        _image = Resources.getImage("res/test/images/32x32char.png"); // the image of this entity
     }
 
     @Override
@@ -55,6 +55,7 @@ public class Player extends LRKEntity
     {
         Vec2 v = new Vec2(0, 0);
 
+        // if a movement key is pressed, adjustt he movement vector
         if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Up)))
             v.y -= 1f;
         if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Down)))
@@ -64,15 +65,15 @@ public class Player extends LRKEntity
         if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Right)))
             v.x += 1f;
 
-        if(v.x != 0 || v.y != 0)
+        if(v.x != 0 || v.y != 0) // if we're moving
         {
-            float aimAngle = (float)Math.toRadians(getDegrees());
-            double moveAngle = Math.atan2(v.y, v.x);
-            float diff = (float)Math.abs(Math.atan2(Math.sin(aimAngle - moveAngle), Math.cos(aimAngle - moveAngle)));
-            float aimScale = (float) ((Math.PI*2-diff)/Math.PI*2*0.666f + 0.333f);
+            float aimAngle = (float)Math.toRadians(getDegrees()); // get the angle of the mouse vs center of the screen
+            double moveAngle = Math.atan2(v.y, v.x); // then the angle of the movement vector
+            float diff = (float)Math.abs(Math.atan2(Math.sin(aimAngle - moveAngle), Math.cos(aimAngle - moveAngle))); // get the smallest positive angle between those two
+            float aimScale = (float) ((Math.PI*2-diff)/Math.PI*2*0.666f + 0.333f); // the float scale to move by
 
-            v.normalize();
-            v.mulLocal(_speed*aimScale);
+            v.normalize(); // normalize the move vecotr (same speed in all directors (not faster to move diagnally)
+            v.mulLocal(_speed*aimScale); // scale the speed by the angle difference (move slower walking backwards)
         }
 
         getBody().setLinearVelocity(v);

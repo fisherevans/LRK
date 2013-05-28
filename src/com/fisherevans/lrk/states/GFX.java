@@ -190,6 +190,11 @@ public class GFX
 
     }
 
+    /**
+     * adjusts a floating point value to match a real pixel value of the current display window. prevents visual taring
+     * @param original the float position
+     * @return the adjust position (moved to the nearest (floored) pixel)
+     */
     public static float filterDrawPosition(float original)
     {
         float filtered = (int)(original*DisplayManager.getDisplayScale());

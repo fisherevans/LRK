@@ -45,17 +45,18 @@ public class AdventureState extends LRKState
     @Override
     public void init() throws SlickException
     {
-        _cursor = Resources.getImage("res/test/images/cursor.png");
+        _cursor = Resources.getImage("res/test/images/cursor.png"); // create the mouse image
 
         _world = new World(new Vec2(0, 0f), true);
 
+        // a list of entities in the world
         _entities = new ArrayList<>();
         _player = new Player(12f, 9f, _world);
         _camera = _player;
 
         _entities.add(_player);
 
-        try
+        try // load the map
         {
             _map = new TiledMap("res/maps/test.tmx");
         }
@@ -66,6 +67,7 @@ public class AdventureState extends LRKState
             System.exit(111);
         }
 
+        // a list of wall's in the world
         _walls = new ArrayList<LRKEntity>();
         int layerId = _map.getLayerIndex("collision");
         for(int y = 0;y < _map.getHeight();y++)

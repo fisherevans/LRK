@@ -40,12 +40,19 @@ public class InputManager extends ComponentManager implements KeyListener
         _itself = this;
     }
 
+    /**
+     * Tells this object what input object to pull triggers from
+     * @param input the input object to use
+     */
     public static void connectInput(Input input)
     {
         _input = input;
         _input.addKeyListener(_itself);
     }
 
+    /**
+     * Loads the default controls (for first run or control resets)
+     */
     public static void loadDefaultControls()
     {
         _controls = new HashMap<>();
@@ -61,6 +68,11 @@ public class InputManager extends ComponentManager implements KeyListener
         _controls.put(ControlKey.ForceQuit, Input.KEY_F10);
     }
 
+    /**
+     * gets the enum of a given key (hard codded mapping)
+     * @param key the string of the key to look for
+     * @return the corresponding enum. null if no string key is defined
+     */
     public static ControlKey stringTotControlKey(String key)
     {
         switch(key)
@@ -164,6 +176,11 @@ public class InputManager extends ComponentManager implements KeyListener
         return _input;
     }
 
+    /**
+     * gets the key id of the given enum
+     * @param key the key enum to look for
+     * @return the key id. returns -1 if the key is not found.
+     */
     public static int getControlKey(ControlKey key)
     {
         if(!_controls.containsKey(key))
@@ -172,6 +189,11 @@ public class InputManager extends ComponentManager implements KeyListener
         return _controls.get(key);
     }
 
+    /**
+     * gets the key id of the given string
+     * @param key the key string to look for
+     * @return the key id. returns -1 if the key is not found.
+     */
     public static int getControlKey(String key)
     {
         return getControlKey(stringTotControlKey(key));

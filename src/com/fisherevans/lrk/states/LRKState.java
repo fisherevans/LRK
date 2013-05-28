@@ -32,6 +32,10 @@ public abstract class LRKState
         return _id;
     }
 
+    /**
+     * sets the ID of this state for the State Library
+     * @param id the id to use
+     */
     public void setID(int id)
     {
         _id = id;

@@ -60,7 +60,7 @@ public class JBox2DUtils
             case 32: vs = new Vec2 [] { new Vec2(0.0f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(0.0f, 0.5f), new Vec2(0.0f, -0.5f),  }; break;
         }
 
-        if(vs.length <= 3) return null;
+        if(vs.length <= 3) return null; // if it's not a valid shape (not even a triangle) return null
 
         try
         {

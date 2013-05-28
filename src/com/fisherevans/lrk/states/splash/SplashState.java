@@ -33,13 +33,18 @@ public class SplashState extends LRKState
     @Override
     public void render(Graphics gfx) throws SlickException
     {
-        Color c = new Color(1f, 1f, 1f, (_fade >= 0 ? _fade : 0));
-        Color c2 = new Color(1f, 1f, 1f, (float)(-Math.cos(_flash)+1)/4f);
+        Color c = new Color(1f, 1f, 1f, (_fade >= 0 ? _fade : 0)); // color of the title
+        Color c2 = new Color(1f, 1f, 1f, (float)(-Math.cos(_flash)+1)/4f); // color of the "press select"
+
+        // used for positioning of the text
         float halfHeight = DisplayManager.getGameHeight()/2f;
         float quarterHeight = DisplayManager.getGameHeight()/4f;
+
+        // draw the title
         GFX.drawText(0, quarterHeight, DisplayManager.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_TOP, Resources.getFont(3), c, "Lost Relics of Kazar");
         GFX.drawText(0, quarterHeight, DisplayManager.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), c, "A Prequel");
 
+        // draw the "press select" if the title is 100% visible
         if(_fade >= 1)
             GFX.drawText(0, quarterHeight, DisplayManager.getGameWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
     }
@@ -47,12 +52,12 @@ public class SplashState extends LRKState
     @Override
     public void update(float delta) throws SlickException
     {
-        if(_fade < 1)
+        if(_fade < 1) // fade in until 100% opaque
         {
             _fade += 0.25f*delta;
             _fade = _fade > 1 ? 1 : _fade;
         }
-        else
+        else // once fully opaque, flash "press select"
         {
             _flash += 3.5f*delta;
         }
@@ -63,6 +68,7 @@ public class SplashState extends LRKState
     {
     }
 
+    @Override
     public void keySelect()
     {
         LRKState options = StateLibrary.getState("options");

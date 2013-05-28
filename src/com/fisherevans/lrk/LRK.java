@@ -60,11 +60,9 @@ public class LRK extends BasicGame
         StateLibrary.getActiveState().render(gfx);
     }
 
-    public static void setTransition(long ms)
-    {
-
-    }
-
+    /**
+     * Gracefuly closes the program, saves settings and progress, displays a quitting dialogue
+     */
     public void exit()
     {
         try
