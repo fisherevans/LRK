@@ -56,7 +56,7 @@ public class AdventureState extends LRKState
 
         // a list of entities in the world
         _entities = new ArrayList<>();
-        _player = new Player(12f, 9f, _world);
+        _player = new Player(14f, 14f, _world);
         _camera = _player;
 
         _entities.add(_player);

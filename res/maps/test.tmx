@@ -3,22 +3,17 @@
  <tileset firstgid="1" name="triggers" tilewidth="32" tileheight="32">
   <image source="../tilesheets/triggers.png" width="256" height="256"/>
  </tileset>
- <tileset firstgid="65" name="minecraft" tilewidth="32" tileheight="32">
-  <image source="../tilesheets/minecraft.png" width="512" height="512"/>
+ <tileset firstgid="65" name="test" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/test.png" width="512" height="512"/>
  </tileset>
  <layer name="collision" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3Z227TQBAAUJcWKkEBpeWWFkj+/yvxqF51NFqT1HF4IOdIq9ibdWTNeG/OMAAAl+LqiHLMb3C6D0e2e5ip/zSWz9Px+9Nv56LVZ/puLN/H8nF4jnMct1g/da7v5VJOlqv5uBnLj7G8Hcu76fg2fZ9j/aXzezfTtSwXcb892OpF9KHoPz9L/ZvV7ojQ8tLi3ebxGvceuVhfm5fzmJPHpBzzzfCSP7k4j9o/QusbEfOcm/2/u62LVftHjn+sdfO4Vddar92rcFjtHxH/GJfuh/5aN+Ke9x6ZNe/perHdjuWx1LX+c2gfKSfL9fYSIWKa4976Tq5r+bmeuZ7Xq32giXn8evqc26dEzOfGrWA+WaY+320dG33hUMyzmG826Vw+lmvvSNr+429zxL6c30+fu/KdfKxjbk6Jd4y/x/Kr1O/S5z7Vy8c6Wnxj7KnzxrexfB2e+1JrIx/n1eIba6r6DmtXzrepLtrm/Yp8rGNuzVW1eb/XftOpY7neniL/R1Kf/dp+e46bunB5zXXM2FPXaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA/+EPoG9Lm0CcAAA=
+   H4sIAAAAAAAAC+3Y0QqDMBAEQP3/n+5rCdlL0oaawgwIajQPt3hRrwsAAOB/3Z2NZ6Tay+QZ8jjLSh562h699eF+G+td15tj5hy1qmZt7VNuKxlRW8lj59z0yeM8qe/czXh7fTpu72feaP1O+/LYr61Xej7SfsoxzU9tJo+qj1VzpXNkn9Zr5ltQFut25sH3Ur+q+lR652KPUX8Z/S+RyW+N6i2P35LHWeRxFnmcZ+UfOwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADD2AsDbPiFAnAAA
   </data>
  </layer>
- <layer name="background" width="100" height="100" opacity="0.45">
+ <layer name="background" width="100" height="100" opacity="0.83">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3RQQ6DMAwEQPj/p3uvKCRtYGV3VpoTCcra+7ZtOwDwF0Yy8o90jw5mMnI/3aey2YzeT/eq6puM3E33qmxl0l06+TXp93dzNN/RpN/e0dGMz5J+b3ezudolz+7jKuk+1d2RdKeq7ky6W0V3J92vok9zXJF0t6reZ7gq6V4drEy6Swcrk+7Swcqku3QwO++zbzy3k6vz6Q7dzM7XLgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgpxcNbmlwQJwAAA==
-  </data>
- </layer>
- <layer name="objects" width="100" height="100" visible="0">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
+   H4sIAAAAAAAAC+3YWw6CMBAFULZGfC3A1wLU/W9BTCQ2zSCiSEo4H+ej8EPmwkxLXVVVDQAAMEOrxjqwKeDZlmjfOASOBTzbEsmjLJ/mEfU1PW24rvnQ1jPNY9u4Pt0+yM03NFzX+9/WM71/epPdWR6T5zGUPOQxd5fqNRMedlk9L8H1bc9aHt/JZ3k+v9N65tffreXxnbyGUZ278ki/q5s8/pLHY/90ztbR/imqszzGz+OXOZ3PoeiMwnR5MH4e6fk72m+19733/5H3mKjOfedz/6im1dfT9C55LJk8yiKPskTnCmcMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+M0djD67P0CcAAA=
   </data>
  </layer>
  <layer name="foreground" width="100" height="100" visible="0" opacity="0.48">
