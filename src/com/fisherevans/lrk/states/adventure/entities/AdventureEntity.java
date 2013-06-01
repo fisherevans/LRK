@@ -9,7 +9,7 @@ import org.newdawn.slick.Image;
  * Date: 5/12/13
  * Time: 5:30 PM
  */
-public abstract class LRKEntity
+public abstract class AdventureEntity
 {
     private Body _body;
 

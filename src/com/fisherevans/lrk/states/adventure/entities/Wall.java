@@ -9,7 +9,7 @@ import org.newdawn.slick.Image;
  * Date: 5/14/13
  * Time: 10:34 PM
  */
-public class Wall extends LRKEntity
+public class Wall extends AdventureEntity
 {
     /**
      * create a wall entity in the given world. This entity does not move and the shape of the entity is defined by the

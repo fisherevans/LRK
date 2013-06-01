@@ -2,6 +2,7 @@ package com.fisherevans.lrk.rpg.entitycomponents;
 
 import com.fisherevans.lrk.rpg.RPGEntity;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -9,11 +10,12 @@ import java.util.ArrayList;
  * Date: 5/29/13
  * Time: 9:19 PM
  */
-public class Health
+public class Health extends EntityComponent
 {
+    public static final int BASE_HEALTH = 50;
+
     private int _maximumHealth, _currentHealth;
     private ArrayList<HealthListener> _listeners;
-    private RPGEntity _parentEntity;
 
     /**
      * Creates the health object with a maximum health, sets it to it
@@ -33,11 +35,21 @@ public class Health
      */
     public Health(RPGEntity parentEntity, int maximumHealth, int currentHealth)
     {
-        _parentEntity = parentEntity;
+        super(parentEntity);
         _maximumHealth = maximumHealth;
         _currentHealth = currentHealth;
 
         _listeners = new ArrayList<>();
+    }
+
+    @Override
+    public void readFromFile(String key, String value)
+    {
+    }
+
+    @Override
+    public void saveToFile(PrintWriter out)
+    {
     }
 
     /**
@@ -131,12 +143,12 @@ public class Health
     private void callFullListeners()
     {
         for(HealthListener listener:_listeners)
-            listener.healthFull(_parentEntity);
+            listener.healthFull(getParentEntity());
     }
     private void callDepletedListeners()
     {
         for(HealthListener listener:_listeners)
-            listener.healthDepleted(_parentEntity);
+            listener.healthDepleted(getParentEntity());
     }
 
     // GETTERS
@@ -151,8 +163,19 @@ public class Health
         return _currentHealth;
     }
 
-    public RPGEntity getParentEntity()
+    // SUB CLASSES
+    public abstract class HealthListener
     {
-        return _parentEntity;
+        /**
+         * called when an entity's health is changed to 0
+         * @param entity the entity who "died"
+         */
+        public abstract void healthDepleted(RPGEntity entity);
+
+        /**
+         * Called when the given entity's health changed to it's maximum
+         * @param entity the entity who's health maxed out
+         */
+        public abstract void healthFull(RPGEntity entity);
     }
 }

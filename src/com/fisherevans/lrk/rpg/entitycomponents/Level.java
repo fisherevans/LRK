@@ -2,6 +2,7 @@ package com.fisherevans.lrk.rpg.entitycomponents;
 
 import com.fisherevans.lrk.rpg.RPGEntity;
 
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -10,11 +11,22 @@ import java.util.ArrayList;
  * Date: 5/29/13
  * Time: 8:37 PM
  */
-public class Level
+public class Level extends EntityComponent
 {
+    public static final int BASE_LEVEL = 1;
+
     private int _level, _levelStartXP, _progressXP, _levelUpRequiredXP;
     private ArrayList<LevelListener> _listeners;
-    private RPGEntity _parentEntity;
+
+    /**
+     * Creates the level object for a given entity - sets no progress on this level
+     * @param parentEntity the entity who has this level object
+     * @param level the current level of this entity
+     */
+    public Level(RPGEntity parentEntity, int level)
+    {
+        this(parentEntity, level, 0);
+    }
 
     /**
      * Creates the level object for a given entity
@@ -24,7 +36,7 @@ public class Level
      */
     public Level(RPGEntity parentEntity, int level, int progressXP)
     {
-        _parentEntity = parentEntity;
+        super(parentEntity);
 
         _level = level;
         _progressXP = progressXP;
@@ -32,6 +44,16 @@ public class Level
         calculateLevelStats();
 
         _listeners = new ArrayList<>();
+    }
+
+    @Override
+    public void readFromFile(String key, String value)
+    {
+    }
+
+    @Override
+    public void saveToFile(PrintWriter out)
+    {
     }
 
     /**
@@ -81,7 +103,6 @@ public class Level
     {
         _level++;
         calculateLevelStats();
-
         callListeners();
     }
 
@@ -90,11 +111,8 @@ public class Level
      */
     public void levelUp()
     {
-        _level++;
+        increaseLevel(); // calls listeners and calcs stats
         _progressXP = 0;
-        calculateLevelStats();
-
-        callListeners();
     }
 
     // PRIVATE
@@ -102,7 +120,7 @@ public class Level
     private void callListeners()
     {
         for(LevelListener listener:_listeners)
-            listener.leveledUp(getLevel(), _parentEntity);
+            listener.leveledUp(getParentEntity());
     }
 
     private void calculateLevelStats()
@@ -112,11 +130,6 @@ public class Level
     }
 
     // GETTERS
-
-    public RPGEntity getParentEntity()
-    {
-        return _parentEntity;
-    }
 
     public int getXPLeft()
     {
@@ -158,5 +171,16 @@ public class Level
     public static int totalXPRequired(int level)
     {
         return (level*(level-1)) + level*50;
+    }
+
+    // SUB CLASSES
+
+    public abstract class LevelListener
+    {
+        /**
+         * whenever an entity levels up.
+         * @param entity the entity that leveled up
+         */
+        public abstract void leveledUp(RPGEntity entity);
     }
 }
