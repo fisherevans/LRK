@@ -7,7 +7,7 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
-import com.fisherevans.lrk.states.adventure.entities.LRKEntity;
+import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import com.fisherevans.lrk.states.adventure.entities.Player;
 import com.fisherevans.lrk.states.adventure.entities.Wall;
 import org.jbox2d.common.Vec2;
@@ -38,7 +38,7 @@ public class AdventureState extends LRKState
         TILES_WIDE = (float) Math.floor(DisplayManager.BASE_SCREEN_WIDTH/TILE_SIZE),
         TILES_HIGH = (float) Math.floor(DisplayManager.BASE_SCREEN_HEIGHT/TILE_SIZE);
 
-    private ArrayList<LRKEntity> _entities, _walls;
+    private ArrayList<AdventureEntity> _entities, _walls;
     private Player _player, _camera;
     private TiledMap _map;
     private World _world;
@@ -75,7 +75,7 @@ public class AdventureState extends LRKState
         }
 
         // a list of wall's in the world
-        _walls = new ArrayList<LRKEntity>();
+        _walls = new ArrayList<AdventureEntity>();
         int layerId = _map.getLayerIndex("collision");
         for(int y = 0;y < _map.getHeight();y++)
             for (int x = 0; x < _map.getWidth(); x++) // loop through each tile in the map
@@ -118,7 +118,7 @@ public class AdventureState extends LRKState
         drawMapLayer("collision", mapXShift, mapYShift, startX, startY);
         drawMapLayer("background", mapXShift, mapYShift, startX, startY);
 
-        for(LRKEntity ent:_entities) // for each entity
+        for(AdventureEntity ent:_entities) // for each entity
         {
             // draw them with the x and y shifts
             GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
@@ -162,7 +162,7 @@ public class AdventureState extends LRKState
     @Override
     public void update(float delta) throws SlickException
     {
-        for(LRKEntity e: _entities)
+        for(AdventureEntity e: _entities)
         {
             e.update((int)delta); // logic
         }

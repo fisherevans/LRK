@@ -13,7 +13,7 @@ import org.newdawn.slick.Image;
  * Date: 5/12/13
  * Time: 5:31 PM
  */
-public class Player extends LRKEntity
+public class Player extends AdventureEntity
 {
     private Image _image;
 
