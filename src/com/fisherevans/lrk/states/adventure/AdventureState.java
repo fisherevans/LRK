@@ -32,6 +32,8 @@ public class AdventureState extends LRKState
 
     public static final float
         TILE_SIZE = 32f;
+
+
     public static final float
         TILES_WIDE = (float) Math.floor(DisplayManager.BASE_SCREEN_WIDTH/TILE_SIZE),
         TILES_HIGH = (float) Math.floor(DisplayManager.BASE_SCREEN_HEIGHT/TILE_SIZE);

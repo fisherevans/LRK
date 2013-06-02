@@ -74,6 +74,8 @@ public class Game
     {
         try
         {
+            DisplayManager.DetermineAspectRatio();
+            DisplayManager.SetBaseResolution();
             lrk = new LRK("Lost Relics of Kazar - A Prequel [" + LRK.VERSION + "]");
             scalable = new ScalableGame(lrk, DisplayManager.getGameWidth(), DisplayManager.getGameHeight(), true);
             app = new AppGameContainer(scalable);

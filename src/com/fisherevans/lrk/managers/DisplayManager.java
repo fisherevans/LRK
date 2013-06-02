@@ -2,6 +2,7 @@ package com.fisherevans.lrk.managers;
 
 import com.fisherevans.lrk.launcher.Game;
 
+import java.awt.*;
 import java.io.PrintWriter;
 
 /**
@@ -11,13 +12,19 @@ import java.io.PrintWriter;
  */
 public class DisplayManager extends ComponentManager
 {
-    public static final int
-            BASE_SCREEN_WIDTH = 480,
-            BASE_SCREEN_HEIGHT = 270;
+    public static int
+            BASE_SCREEN_WIDTH,
+            BASE_SCREEN_HEIGHT;
 
-    private static int _displayScale = 1;
+    private static double _displayScale = 1;
     private static boolean _displayFullscreen = false;
-    
+
+
+    public static double _aspectRatio;
+
+
+
+
     @Override
     public void saveProperties(PrintWriter out)
     {
@@ -30,7 +37,7 @@ public class DisplayManager extends ComponentManager
     {
         switch(key)
         {
-            case "scale": _displayScale = Integer.parseInt(value); break;
+            case "scale": _displayScale = Double.parseDouble(value); break;
             case "fullscreen": _displayFullscreen = Boolean.parseBoolean(value); break;
         }
     }
@@ -39,7 +46,7 @@ public class DisplayManager extends ComponentManager
      * sets the scale of the display window and then resizes the screen
      * @param scale new scale to be used based on the BASE SCREEN vars
      */
-    public static void setScale(int scale)
+    public static void setScale(double scale)
     {
         boolean changed = (scale != _displayScale);
         if(changed)
@@ -71,7 +78,7 @@ public class DisplayManager extends ComponentManager
 
     // GETTERS
 
-    public static int getDisplayScale()
+    public static double getDisplayScale()
     {
         return _displayScale;
     }
@@ -81,6 +88,7 @@ public class DisplayManager extends ComponentManager
      */
     public static int getGameWidth()
     {
+
         return BASE_SCREEN_WIDTH;
     }
 
@@ -90,6 +98,7 @@ public class DisplayManager extends ComponentManager
      */
     public static int getGameHeight()
     {
+
         return BASE_SCREEN_HEIGHT;
     }
 
@@ -99,7 +108,8 @@ public class DisplayManager extends ComponentManager
      */
     public static int getDisplayWidth()
     {
-        return BASE_SCREEN_WIDTH*_displayScale;
+        double dWidth = BASE_SCREEN_WIDTH * _displayScale;
+        return (int)dWidth;
     }
 
     /**
@@ -107,11 +117,37 @@ public class DisplayManager extends ComponentManager
      */
     public static int getDisplayHeight()
     {
-        return BASE_SCREEN_HEIGHT*_displayScale;
+        double dHeight = BASE_SCREEN_HEIGHT * _displayScale;
+        return (int)dHeight;
     }
 
     public static boolean getDisplayFullscreen()
     {
         return _displayFullscreen;
+    }
+
+    public static void DetermineAspectRatio()
+    {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        _aspectRatio = screenSize.getWidth() / screenSize.getHeight();
+    }
+
+    /**
+     * Sets the base resolution based on the aspect ratio of the viewing device
+     * Currently this only has support for 5:4 and 16:9 resolutions
+     */
+    public static void SetBaseResolution()
+    {
+        if(_aspectRatio == 1.25)
+        {
+            BASE_SCREEN_WIDTH = 600;
+            BASE_SCREEN_HEIGHT = 480;
+        }
+        else
+        {
+            BASE_SCREEN_WIDTH = 480;
+            BASE_SCREEN_HEIGHT = 270;
+        }
     }
 }

@@ -1,11 +1,11 @@
-display.scale=3
+display.scale=1.0
 display.fullscreen=false
 input.up=17
 input.down=31
 input.left=30
 input.right=32
 input.select=57
-input.back=14
+input.back=29
 input.menu=1
 input.forcequit=68
 audio.master=1.0

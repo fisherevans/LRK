@@ -7,10 +7,13 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.options.menu_items.*;
+import com.fisherevans.lrk.states.options.menu_items.MenuItem;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
+
+import java.awt.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,17 +45,15 @@ public class OptionsState extends LRKState
     @Override
     public void init() throws SlickException
     {
+
+
         _mainMenu = new Menu(); // the main menu - no parnet means can't go up the tree
 
         // construct the menu system
         Menu video = new Menu("Video", "Various video and display settings.");
-        Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
-        resolution.add(
-                new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
-                new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
-                new MenuItemResolution("1440x810","Sets the resolution to: 1440x810", 3),
-                new MenuItemResolution("1920x1080","Sets the resolution to: 1920x1080", 4)
-        );
+        // fill resolutions based on aspect ratio
+        Menu resolution = DetermineResolutionsToUse();
+
         Menu displayMode = new Menu("Display Mode", "Choose between Windowed and Fullscreen mode.");
         displayMode.add(
                 new MenuItemStub("Windowed", "Display the game in a window."),
@@ -177,6 +178,34 @@ public class OptionsState extends LRKState
             _currentMenu = newMenu;
             _hTran = 1f;
         }
+    }
+
+    private Menu DetermineResolutionsToUse()
+    {
+
+        Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
+
+        if(DisplayManager._aspectRatio == 1.25)
+        {
+            resolution.add(
+                    new MenuItemResolution("600x480","Sets the resolution to: 600x480", 1),
+                    new MenuItemResolution("750x600","Sets the resolution to: 750x600", 1.25),
+                    new MenuItemResolution("960x768","Sets the resolution to: 960x768", 1.6),
+                    new MenuItemResolution("1200x960","Sets the resolution to: 1200x960", 2)
+            );
+        }
+        else
+        {
+            resolution.add(
+                    new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
+                    new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
+                    new MenuItemResolution("1440x810","Sets the resolution to: 1440x810", 3),
+                    new MenuItemResolution("1920x1080","Sets the resolution to: 1920x1080", 4)
+            );
+        }
+
+
+        return resolution;
     }
 
     /** go up the menu tree */

@@ -189,7 +189,7 @@ public class GFX
     public static void fill(Graphics g, Color c)
     {
         g.setColor(c);
-        g.fillRect(0, 0, DisplayManager.getGameWidth(), DisplayManager.getDisplayHeight());
+        g.fillRect(0, 0, DisplayManager.getDisplayWidth(), DisplayManager.getDisplayHeight());
 
     }
 
