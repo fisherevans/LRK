@@ -15,7 +15,7 @@ public class RPGEntity
     private Characteristics _characteristics;
     private Level _level;
     private Health _health;
-    private Map<CombatSkillType, CombatSkill> _combatSkills;
+    private Map<CombatSkill.CombatSkillType, CombatSkill> _combatSkills;
 
     public RPGEntity(String name, Characteristics.Gender gender, int level, int health, int magic, int strength, int stamina)
     {
@@ -24,9 +24,9 @@ public class RPGEntity
         _health = new Health(this, health);
 
         _combatSkills = new HashMap<>();
-        addSkill(new CombatSkill(this, CombatSkillType.Magic, magic));
-        addSkill(new CombatSkill(this, CombatSkillType.Strength, strength));
-        addSkill(new CombatSkill(this, CombatSkillType.Stamina, stamina));
+        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Magic, magic));
+        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Strength, strength));
+        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Stamina, stamina));
     }
 
     /**
@@ -48,7 +48,7 @@ public class RPGEntity
      * @param combatSkillType the type to look for
      * @return the skill object or null if the skill type isn't found
      */
-    public CombatSkill getSkill(CombatSkillType combatSkillType)
+    public CombatSkill getSkill(CombatSkill.CombatSkillType combatSkillType)
     {
         if(!_combatSkills.containsKey(combatSkillType))
             return null;
@@ -61,7 +61,7 @@ public class RPGEntity
      * @param combatSkillType the type of skill to remove
      * @return returns false if the skill was not present
      */
-    public boolean removeSkill(CombatSkillType combatSkillType)
+    public boolean removeSkill(CombatSkill.CombatSkillType combatSkillType)
     {
         if(!_combatSkills.containsKey(combatSkillType))
             return false;

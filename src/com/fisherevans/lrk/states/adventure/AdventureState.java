@@ -147,7 +147,7 @@ public class AdventureState extends LRKState
 
         for(int y = startY;y <= startY+TILES_HIGH+2;y++)
         {
-            for(int x = startX;x <= startX+TILES_WIDE+2;x++) // for each tile on the screen
+            for(int x = startX;x <= startX+TILES_WIDE+3;x++) // for each tile on the screen
             {
                 try
                 {
