@@ -185,14 +185,25 @@ public class OptionsState extends LRKState
 
         Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
 
+
         if(DisplayManager._aspectRatio == 1.25)
         {
             resolution.add(
-                    new MenuItemResolution("600x480","Sets the resolution to: 600x480", 1),
-                    new MenuItemResolution("750x600","Sets the resolution to: 750x600", 1.25),
-                    new MenuItemResolution("960x768","Sets the resolution to: 960x768", 1.6),
-                    new MenuItemResolution("1200x960","Sets the resolution to: 1200x960", 2)
+                    new MenuItemResolution("640x512","Sets the resolution to: 640x512", 1),
+                    new MenuItemResolution("800x640","Sets the resolution to: 800x640", 1.25),
+                    new MenuItemResolution("960x768","Sets the resolution to: 960x768", 1.5),
+                    new MenuItemResolution("1280x1024","Sets the resolution to: 1280x1024", 2)
             );
+        }
+        else if (DisplayManager._aspectRatio == 1.3333333333333333)
+        {
+            resolution.add(
+                    new MenuItemResolution("640x480","Sets the resolution to: 640x480", 1),
+                    new MenuItemResolution("800x600","Sets the resolution to: 800x600", 1.25),
+                    new MenuItemResolution("960x720","Sets the resolution to: 960x720", 1.5),
+                    new MenuItemResolution("1600x1200","Sets the resolution to: 1600x1200", 2.5)
+            );
+
         }
         else
         {

@@ -70,7 +70,7 @@ public class DisplayManager extends ComponentManager
      * @param scale
      * @param fullscreen
      */
-    public static void setScreenProperties(int scale, boolean fullscreen)
+    public static void setScreenProperties(double scale, boolean fullscreen)
     {
         setScale(scale);
         setFullscreen(fullscreen);
@@ -139,9 +139,15 @@ public class DisplayManager extends ComponentManager
      */
     public static void SetBaseResolution()
     {
+
         if(_aspectRatio == 1.25)
         {
-            BASE_SCREEN_WIDTH = 600;
+            BASE_SCREEN_WIDTH = 640;
+            BASE_SCREEN_HEIGHT = 512;
+        }
+        else if (_aspectRatio == 1.3333333333333333)
+        {
+            BASE_SCREEN_WIDTH = 640;
             BASE_SCREEN_HEIGHT = 480;
         }
         else
