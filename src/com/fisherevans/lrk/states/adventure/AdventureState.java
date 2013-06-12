@@ -34,9 +34,7 @@ public class AdventureState extends LRKState
         TILE_SIZE = 32f;
 
 
-    public static final float
-        TILES_WIDE = (float) Math.floor(DisplayManager.BASE_SCREEN_WIDTH/TILE_SIZE),
-        TILES_HIGH = (float) Math.floor(DisplayManager.BASE_SCREEN_HEIGHT/TILE_SIZE);
+    public static float TILES_WIDE, TILES_HIGH;
 
     private ArrayList<AdventureEntity> _entities, _walls;
     private Player _player, _camera;
@@ -52,6 +50,8 @@ public class AdventureState extends LRKState
     @Override
     public void init() throws SlickException
     {
+        resize();
+
         _cursor = Resources.getImage("res/test/images/cursor.png"); // create the mouse image
 
         _world = new World(new Vec2(0, 0f), true);
@@ -141,13 +141,9 @@ public class AdventureState extends LRKState
     {
         int layerId = _map.getLayerIndex(layer);
 
-        // the position of each tile is one less than the tile id
-        startX--;
-        startY--;
-
         for(int y = startY;y <= startY+TILES_HIGH+2;y++)
         {
-            for(int x = startX;x <= startX+TILES_WIDE+3;x++) // for each tile on the screen
+            for(int x = startX;x <= startX+TILES_WIDE+2;x++) // for each tile on the screen
             {
                 try
                 {
@@ -172,6 +168,13 @@ public class AdventureState extends LRKState
     @Override
     public void destroy() throws SlickException
     {
+    }
+
+    @Override
+    public void resize()
+    {
+        TILES_WIDE = (float) Math.floor(DisplayManager.getWidth()/TILE_SIZE);
+        TILES_HIGH = (float) Math.floor(DisplayManager.getHeight()/TILE_SIZE);
     }
 
     public void keyPressed(int key, char c)

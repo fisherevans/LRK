@@ -1,5 +1,9 @@
-display.scale=1.0
+display.scale=4.0
 display.fullscreen=false
+new.display.scale=4
+new.display.width=800
+new.display.height=600
+new.display.fullscreen=false
 input.up=17
 input.down=31
 input.left=30

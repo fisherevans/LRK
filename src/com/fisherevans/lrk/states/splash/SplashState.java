@@ -88,4 +88,10 @@ public class SplashState extends LRKState
             System.exit(1);
         }
     }
+
+    @Override
+    public void resize()
+    {
+
+    }
 }

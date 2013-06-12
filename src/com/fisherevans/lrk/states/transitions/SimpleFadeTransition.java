@@ -49,4 +49,11 @@ public class SimpleFadeTransition extends TransitionState
     public void destroy() throws SlickException
     {
     }
+
+    @Override
+    public void resize()
+    {
+        getState1().resize();
+        getState2().resize();
+    }
 }

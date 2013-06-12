@@ -53,9 +53,7 @@ public class Window extends JFrame implements ComponentListener, WindowListener
     @Override
     public void windowClosing(WindowEvent e)
     {
-        Game.gameCanvas.dispose();
-        dispose();
-        System.exit(0);
+        Game.finalClose();
     }
 
     @Override

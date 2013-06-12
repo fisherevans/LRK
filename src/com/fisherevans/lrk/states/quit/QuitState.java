@@ -4,6 +4,7 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
@@ -45,12 +46,17 @@ public class QuitState extends LRKState
         {
             LRK.log("Quitting, goodbye :)");
             Options.save();
-            System.exit(0);
+            Game.finalClose();
         }
     }
 
     @Override
     public void destroy() throws SlickException
+    {
+    }
+
+    @Override
+    public void resize()
     {
     }
 }

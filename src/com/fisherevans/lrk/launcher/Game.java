@@ -101,6 +101,13 @@ public class Game
         return "linux";
     }
 
+    public static void finalClose()
+    {
+        gameCanvas.dispose();
+        window.dispose();
+        System.exit(0);
+    }
+
     /**
      * starts everything
      * @param args

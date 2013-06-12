@@ -80,7 +80,7 @@ public class OptionsState extends LRKState
     public void render(Graphics gfx) throws SlickException
     {
         // used for positioning the elements
-        int thirdWidth = (int) (DisplayManager.BASE_SCREEN_WIDTH/3f);
+        int thirdWidth = (int) (DisplayManager.getWidth()/3f);
 
         // draw the parent (smaller) menu
         displayMenu(_currentMenu.getParent(), 1, lastMenuColorScale+(thisMenuColorScale-lastMenuColorScale)*(Math.abs(_hTran)), 0, (int)(0 + _hTran*thirdWidth), thirdWidth);
@@ -90,7 +90,7 @@ public class OptionsState extends LRKState
 
         // draw the description of the hovered item
         Color descColor = (new Color(1f, 1f, 1f)).scaleCopy(1-Math.abs(_vTran+_hTran));
-        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.BASE_SCREEN_HEIGHT, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
+        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.getHeight(), GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
     }
 
     /**
@@ -118,7 +118,7 @@ public class OptionsState extends LRKState
             displayColor = (menu.getCurrentId() == displayId ? displayItem.getColorHover() : displayItem.getColor()).scaleCopy(colorScale); // the color of the item
 
             // draw the text
-            GFX.drawText(xDiff, GFX.filterDrawPosition(DisplayManager.BASE_SCREEN_HEIGHT/2f + yShift), width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
+            GFX.drawText(xDiff, GFX.filterDrawPosition(DisplayManager.getHeight()/2f + yShift), width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
         }
     }
 
@@ -224,4 +224,9 @@ public class OptionsState extends LRKState
 
     @Override
     public void keyBack()   { back(); }
+
+    @Override
+    public void resize()
+    {
+    }
 }

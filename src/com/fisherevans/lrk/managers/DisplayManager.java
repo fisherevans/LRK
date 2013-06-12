@@ -1,5 +1,9 @@
 package com.fisherevans.lrk.managers;
 
+import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.states.LRKState;
+
 import java.awt.*;
 import java.io.PrintWriter;
 
@@ -10,20 +14,9 @@ import java.io.PrintWriter;
  */
 public class DisplayManager extends ComponentManager
 {
-    public static int
-            BASE_SCREEN_WIDTH,
-            BASE_SCREEN_HEIGHT;
-
-    private static double _displayScale = 1;
-    private static boolean _displayFullscreen = false;
-
-
-    public static double _aspectRatio;
-
-
     private static int _width = 800;
     private static int _height = 600;
-    private static int _scale = 1;
+    private static int _scale = 4;
     private static boolean _fullscreen = false;
 
     @Override
@@ -41,10 +34,10 @@ public class DisplayManager extends ComponentManager
     @Override
     public void setProperty(String key, String value)
     {
+        // TODO
         switch(key)
         {
-            case "scale": _displayScale = Double.parseDouble(value); break;
-            case "fullscreen": _displayFullscreen = Boolean.parseBoolean(value); break;
+
         }
     }
 
@@ -55,6 +48,7 @@ public class DisplayManager extends ComponentManager
     public static void setScale(int scale)
     {
         _scale = scale;
+        refreshDisplay();
     }
 
     /**
@@ -64,6 +58,7 @@ public class DisplayManager extends ComponentManager
     public static void setFullscreen(boolean fullscreen)
     {
         _fullscreen = fullscreen;
+        refreshDisplay();
     }
 
     /**
@@ -73,8 +68,11 @@ public class DisplayManager extends ComponentManager
      */
     public static void setScreenProperties(int width, int height, int scale, boolean fullscreen)
     {
-        setScale(scale);
-        setFullscreen(fullscreen);
+        _fullscreen = fullscreen;
+        _width = width;
+        _height = height;
+        _scale = scale;
+        refreshDisplay();
     }
 
     // GETTERS
@@ -110,6 +108,15 @@ public class DisplayManager extends ComponentManager
     {
         _width = width;
         _height = height;
+        refreshDisplay();
+    }
+
+    public static void refreshDisplay()
+    {
+        LRKState state = StateLibrary.getActiveState();
+        if(state != null)
+            state.resize();
+        Game.gameCanvas.getContainer().getGraphics().scale(_scale, _scale);
     }
 
     public static Dimension getDimensions()

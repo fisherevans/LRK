@@ -91,4 +91,6 @@ public abstract class LRKState
      * @param c the character pressed
      */
     public void keyTyped(char c) { }
+
+    public abstract void resize();
 }
