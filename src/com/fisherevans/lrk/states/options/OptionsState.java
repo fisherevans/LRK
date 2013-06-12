@@ -185,36 +185,12 @@ public class OptionsState extends LRKState
 
         Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
 
-
-        if(DisplayManager._aspectRatio == 1.25)
-        {
-            resolution.add(
-                    new MenuItemResolution("640x512","Sets the resolution to: 640x512", 1),
-                    new MenuItemResolution("800x640","Sets the resolution to: 800x640", 1.25),
-                    new MenuItemResolution("960x768","Sets the resolution to: 960x768", 1.5),
-                    new MenuItemResolution("1280x1024","Sets the resolution to: 1280x1024", 2)
-            );
-        }
-        else if (DisplayManager._aspectRatio == 1.3333333333333333)
-        {
-            resolution.add(
-                    new MenuItemResolution("640x480","Sets the resolution to: 640x480", 1),
-                    new MenuItemResolution("800x600","Sets the resolution to: 800x600", 1.25),
-                    new MenuItemResolution("960x720","Sets the resolution to: 960x720", 1.5),
-                    new MenuItemResolution("1600x1200","Sets the resolution to: 1600x1200", 2.5)
-            );
-
-        }
-        else
-        {
-            resolution.add(
-                    new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
-                    new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
-                    new MenuItemResolution("1440x810","Sets the resolution to: 1440x810", 3),
-                    new MenuItemResolution("1920x1080","Sets the resolution to: 1920x1080", 4)
-            );
-        }
-
+        resolution.add(
+                new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
+                new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
+                new MenuItemResolution("1440x810","Sets the resolution to: 1440x810", 3),
+                new MenuItemResolution("1920x1080","Sets the resolution to: 1920x1080", 4)
+        );
 
         return resolution;
     }

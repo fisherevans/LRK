@@ -47,7 +47,7 @@ public class LRK extends BasicGame
 
         StateLibrary.setActiveState("splash");
 
-        InputManager.connectInput(Game.app.getInput());
+        InputManager.connectInput(Game.getContainer().getInput());
     }
 
     @Override

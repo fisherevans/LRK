@@ -96,8 +96,8 @@ public class AdventureState extends LRKState
     public void render(Graphics gfx) throws SlickException
     {
         // get the vector from the center of the screen to the mouse
-        Vec2 aimShift = new Vec2(InputManager.getInput().getMouseX()-DisplayManager.getGameWidth()/2f,
-                InputManager.getInput().getMouseY()-DisplayManager.getGameHeight()/2f);
+        Vec2 aimShift = new Vec2(InputManager.getInput().getMouseX()-DisplayManager.getWidth()/2f,
+                InputManager.getInput().getMouseY()-DisplayManager.getHeight()/2f);
         aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
         _player.setDegrees((float) Math.toDegrees(Math.atan2(aimShift.y, aimShift.x)));
 

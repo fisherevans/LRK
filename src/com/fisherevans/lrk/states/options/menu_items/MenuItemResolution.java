@@ -11,14 +11,14 @@ import com.fisherevans.lrk.states.options.Menu;
  */
 public class MenuItemResolution extends MenuItem
 {
-    private double _scale = 1;
+    private int _scale = 1;
 
     /**
      * @param text
      * @param description
      * @param scale the new scale to set the display window to
      */
-    public MenuItemResolution(String text, String description, double scale)
+    public MenuItemResolution(String text, String description, int scale)
     {
         super(text, description);
         _scale = scale;
@@ -34,6 +34,6 @@ public class MenuItemResolution extends MenuItem
     @Override
     public boolean isActive()
     {
-        return DisplayManager.getDisplayScale() == _scale;
+        return DisplayManager.getScale() == _scale;
     }
 }

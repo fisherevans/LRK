@@ -1,7 +1,5 @@
 package com.fisherevans.lrk.managers;
 
-import com.fisherevans.lrk.launcher.Game;
-
 import java.awt.*;
 import java.io.PrintWriter;
 
@@ -23,13 +21,21 @@ public class DisplayManager extends ComponentManager
     public static double _aspectRatio;
 
 
-
+    private static int _width = 800;
+    private static int _height = 600;
+    private static int _scale = 1;
+    private static boolean _fullscreen = false;
 
     @Override
     public void saveProperties(PrintWriter out)
     {
-        out.println("display.scale=" + getDisplayScale());
-        out.println("display.fullscreen=" + getDisplayFullscreen());
+        out.println("display.scale=" + getScale());
+        out.println("display.fullscreen=" + getFullscreen());
+
+        out.println("new.display.scale=" + _scale);
+        out.println("new.display.width=" + _width);
+        out.println("new.display.height=" + _height);
+        out.println("new.display.fullscreen=" + _fullscreen);
     }
 
     @Override
@@ -46,14 +52,9 @@ public class DisplayManager extends ComponentManager
      * sets the scale of the display window and then resizes the screen
      * @param scale new scale to be used based on the BASE SCREEN vars
      */
-    public static void setScale(double scale)
+    public static void setScale(int scale)
     {
-        boolean changed = (scale != _displayScale);
-        if(changed)
-        {
-            _displayScale = scale;
-            Game.updateDisplay();
-        }
+        _scale = scale;
     }
 
     /**
@@ -62,7 +63,7 @@ public class DisplayManager extends ComponentManager
      */
     public static void setFullscreen(boolean fullscreen)
     {
-        _displayFullscreen = fullscreen;
+        _fullscreen = fullscreen;
     }
 
     /**
@@ -70,7 +71,7 @@ public class DisplayManager extends ComponentManager
      * @param scale
      * @param fullscreen
      */
-    public static void setScreenProperties(double scale, boolean fullscreen)
+    public static void setScreenProperties(int width, int height, int scale, boolean fullscreen)
     {
         setScale(scale);
         setFullscreen(fullscreen);
@@ -78,82 +79,41 @@ public class DisplayManager extends ComponentManager
 
     // GETTERS
 
-    public static double getDisplayScale()
+    public static double getScale()
     {
-        return _displayScale;
+        return _scale;
     }
 
     /**
      * @return width of render window
      */
-    public static int getGameWidth()
+    public static int getWidth()
     {
-
-        return BASE_SCREEN_WIDTH;
+        return _width;
     }
-
 
     /**
      * @return height of render window
      */
-    public static int getGameHeight()
+    public static int getHeight()
     {
 
-        return BASE_SCREEN_HEIGHT;
+        return _height;
     }
 
-
-    /**
-     * @return width of the actual window
-     */
-    public static int getDisplayWidth()
+    public static boolean getFullscreen()
     {
-        double dWidth = BASE_SCREEN_WIDTH * _displayScale;
-        return (int)dWidth;
+        return _fullscreen;
     }
 
-    /**
-     * @return height of the actual window
-     */
-    public static int getDisplayHeight()
+    public static void setDimensions(int width, int height)
     {
-        double dHeight = BASE_SCREEN_HEIGHT * _displayScale;
-        return (int)dHeight;
+        _width = width;
+        _height = height;
     }
 
-    public static boolean getDisplayFullscreen()
+    public static Dimension getDimensions()
     {
-        return _displayFullscreen;
-    }
-
-    public static void DetermineAspectRatio()
-    {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        _aspectRatio = screenSize.getWidth() / screenSize.getHeight();
-    }
-
-    /**
-     * Sets the base resolution based on the aspect ratio of the viewing device
-     * Currently this only has support for 5:4 and 16:9 resolutions
-     */
-    public static void SetBaseResolution()
-    {
-
-        if(_aspectRatio == 1.25)
-        {
-            BASE_SCREEN_WIDTH = 640;
-            BASE_SCREEN_HEIGHT = 512;
-        }
-        else if (_aspectRatio == 1.3333333333333333)
-        {
-            BASE_SCREEN_WIDTH = 640;
-            BASE_SCREEN_HEIGHT = 480;
-        }
-        else
-        {
-            BASE_SCREEN_WIDTH = 480;
-            BASE_SCREEN_HEIGHT = 270;
-        }
+        return new Dimension(_width, _height);
     }
 }

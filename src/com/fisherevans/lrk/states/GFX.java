@@ -189,7 +189,7 @@ public class GFX
     public static void fill(Graphics g, Color c)
     {
         g.setColor(c);
-        g.fillRect(0, 0, DisplayManager.getDisplayWidth(), DisplayManager.getDisplayHeight());
+        g.fillRect(0, 0, DisplayManager.getWidth(), DisplayManager.getHeight());
 
     }
 
@@ -200,8 +200,8 @@ public class GFX
      */
     public static float filterDrawPosition(float original)
     {
-        float filtered = (int)(original*DisplayManager.getDisplayScale());
-        filtered /= DisplayManager.getDisplayScale();
+        float filtered = (int)(original*DisplayManager.getScale());
+        filtered /= DisplayManager.getScale();
         return filtered;
     }
 }

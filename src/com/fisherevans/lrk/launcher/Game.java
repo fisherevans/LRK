@@ -3,9 +3,10 @@ package com.fisherevans.lrk.launcher;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.managers.DisplayManager;
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.ScalableGame;
+import org.newdawn.slick.*;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -16,22 +17,9 @@ import java.io.File;
  */
 public class Game
 {
-    /**
-     * the actual game object
-     */
+    public static Window window;
+    public static CanvasGameContainer gameCanvas;
     public static LRK lrk;
-
-    /**
-     * scalable game wrapper
-     */
-    public static ScalableGame scalable;
-
-    /**
-     * the window holding the scalable game
-     */
-    public static AppGameContainer app;
-
-    public enum OSType { Windows, Mac, Linux, Solaris }
 
     public Game()
     {
@@ -44,27 +32,9 @@ public class Game
      */
     private void checkOS()
     {
-        OSType os = getOSType();
+        String os = getOS();
         System.out.println("OS Type: " + os);
-
-        switch(os)
-        {
-            case Windows:
-                System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/windows").getAbsolutePath());
-                break;
-            case Mac:
-                System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/macosx").getAbsolutePath());
-                break;
-            case Linux:
-                System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/linux").getAbsolutePath());
-                break;
-            case Solaris:
-                System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/solaris").getAbsolutePath());
-                break;
-            default:
-                System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/linux").getAbsolutePath());
-                break;
-        }
+        System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/" + os).getAbsolutePath());
     }
 
     /**
@@ -74,20 +44,20 @@ public class Game
     {
         try
         {
-            DisplayManager.DetermineAspectRatio();
-            DisplayManager.SetBaseResolution();
             lrk = new LRK("Lost Relics of Kazar - A Prequel [" + LRK.VERSION + "]");
-            scalable = new ScalableGame(lrk, DisplayManager.getGameWidth(), DisplayManager.getGameHeight(), true);
-            app = new AppGameContainer(scalable);
+            gameCanvas = new CanvasGameContainer(lrk);
 
-            Options.load();
+            window = new Window();
+            gameCanvas.setPreferredSize(DisplayManager.getDimensions());
+            window.add(gameCanvas);
+            window.setVisible(true);
+            window.pack();
 
-            app.setDisplayMode(DisplayManager.getDisplayWidth(), DisplayManager.getDisplayHeight(), DisplayManager.getDisplayFullscreen());
-            app.setUpdateOnlyWhenVisible(false);
-            app.setAlwaysRender(true);
-            app.setShowFPS(LRK.DEBUG);
-            app.setMouseGrabbed(true);
-            app.start();
+            getContainer().setAlwaysRender(true);
+            getContainer().setUpdateOnlyWhenVisible(true);
+            getContainer().setVSync(true);
+
+            gameCanvas.start();
         }
         catch(Exception e)
         {
@@ -103,31 +73,32 @@ public class Game
     public static void updateDisplay()
     {
         try
-        {
-            app.setDisplayMode(DisplayManager.getDisplayWidth(), DisplayManager.getDisplayHeight(), DisplayManager.getDisplayFullscreen());
-            scalable.updateDisplay(app);
-            LRK.log("Scalable Size: " + DisplayManager.getGameWidth() + "x" + DisplayManager.getGameHeight() + " - App Size: " + DisplayManager.getDisplayWidth() + "x" + DisplayManager.getDisplayHeight());
-        }
+        {}
         catch(Exception e)
         {
             e.printStackTrace();
         }
     }
 
+    public static GameContainer getContainer()
+    {
+        return gameCanvas.getContainer();
+    }
+
     /**
      * @return the OS enum of the current OS
      */
-    public static OSType getOSType()
+    public static String getOS()
     {
         String OS = System.getProperty("os.name").toLowerCase();
 
-        if(OS.indexOf("win") >= 0) return OSType.Windows;
-        if(OS.indexOf("mac") >= 0) return OSType.Mac;
-        if(OS.indexOf("nix") >= 0) return OSType.Linux;
-        if(OS.indexOf("sunos") >= 0) return OSType.Solaris;
+        if(OS.indexOf("win") >= 0) return "windows";
+        if(OS.indexOf("mac") >= 0) return "mac";
+        if(OS.indexOf("nix") >= 0) return "linux";
+        if(OS.indexOf("sunos") >= 0) return "solaris";
 
         System.out.println("Waring! OS type is undetermined, defaulting to Linux!!!");
-        return OSType.Linux;
+        return "linux";
     }
 
     /**
