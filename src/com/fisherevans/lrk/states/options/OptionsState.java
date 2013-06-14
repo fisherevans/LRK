@@ -52,7 +52,14 @@ public class OptionsState extends LRKState
         // construct the menu system
         Menu video = new Menu("Video", "Various video and display settings.");
         // fill resolutions based on aspect ratio
-        Menu resolution = DetermineResolutionsToUse();
+
+        Menu resolution = new Menu("Scale", "Change the render scale of the game");
+        resolution.add(
+                new MenuItemResolution("One","Sets the resolution to: 1", 1),
+                new MenuItemResolution("Two","Sets the resolution to: 2", 2),
+                new MenuItemResolution("Three","Sets the resolution to: 3", 3),
+                new MenuItemResolution("Four","Sets the resolution to: 4", 4)
+        );
 
         Menu displayMode = new Menu("Display Mode", "Choose between Windowed and Fullscreen mode.");
         displayMode.add(
@@ -77,10 +84,20 @@ public class OptionsState extends LRKState
     }
 
     @Override
+    public void enter() throws SlickException
+    {
+    }
+
+    @Override
+    public void exit() throws SlickException
+    {
+    }
+
+    @Override
     public void render(Graphics gfx) throws SlickException
     {
         // used for positioning the elements
-        int thirdWidth = (int) (DisplayManager.getWidth()/3f);
+        int thirdWidth = (int) (DisplayManager.getRenderWidth()/3f);
 
         // draw the parent (smaller) menu
         displayMenu(_currentMenu.getParent(), 1, lastMenuColorScale+(thisMenuColorScale-lastMenuColorScale)*(Math.abs(_hTran)), 0, (int)(0 + _hTran*thirdWidth), thirdWidth);
@@ -90,7 +107,7 @@ public class OptionsState extends LRKState
 
         // draw the description of the hovered item
         Color descColor = (new Color(1f, 1f, 1f)).scaleCopy(1-Math.abs(_vTran+_hTran));
-        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.getHeight(), GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
+        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.getRenderHeight(), GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
     }
 
     /**
@@ -118,7 +135,7 @@ public class OptionsState extends LRKState
             displayColor = (menu.getCurrentId() == displayId ? displayItem.getColorHover() : displayItem.getColor()).scaleCopy(colorScale); // the color of the item
 
             // draw the text
-            GFX.drawText(xDiff, GFX.filterDrawPosition(DisplayManager.getHeight()/2f + yShift), width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
+            GFX.drawText(xDiff, GFX.filterDrawPosition(DisplayManager.getRenderHeight()/2f + yShift), width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
         }
     }
 
@@ -178,21 +195,6 @@ public class OptionsState extends LRKState
             _currentMenu = newMenu;
             _hTran = 1f;
         }
-    }
-
-    private Menu DetermineResolutionsToUse()
-    {
-
-        Menu resolution = new Menu("Resolution", "The resolution the game is rendered at.");
-
-        resolution.add(
-                new MenuItemResolution("480x270","Sets the resolution to: 480x270", 1),
-                new MenuItemResolution("960x540","Sets the resolution to: 960x540", 2),
-                new MenuItemResolution("1440x810","Sets the resolution to: 1440x810", 3),
-                new MenuItemResolution("1920x1080","Sets the resolution to: 1920x1080", 4)
-        );
-
-        return resolution;
     }
 
     /** go up the menu tree */

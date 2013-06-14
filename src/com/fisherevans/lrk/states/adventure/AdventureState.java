@@ -3,6 +3,7 @@ package com.fisherevans.lrk.states.adventure;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.GFX;
@@ -41,6 +42,7 @@ public class AdventureState extends LRKState
     private TiledMap _map;
     private World _world;
     private Image _cursor;
+    private boolean _takeMouse = false;
 
     public AdventureState() throws SlickException
     {
@@ -78,6 +80,7 @@ public class AdventureState extends LRKState
         _walls = new ArrayList<AdventureEntity>();
         int layerId = _map.getLayerIndex("collision");
         for(int y = 0;y < _map.getHeight();y++)
+        {
             for (int x = 0; x < _map.getWidth(); x++) // loop through each tile in the map
             {
                 int id = _map.getTileId(x, y, layerId); // get the global id
@@ -90,14 +93,27 @@ public class AdventureState extends LRKState
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void enter() throws SlickException
+    {
+        Game.getContainer().setMouseGrabbed(_takeMouse);
+    }
+
+    @Override
+    public void exit() throws SlickException
+    {
+        Game.getContainer().setMouseGrabbed(false);
     }
 
     @Override
     public void render(Graphics gfx) throws SlickException
     {
         // get the vector from the center of the screen to the mouse
-        Vec2 aimShift = new Vec2(InputManager.getInput().getMouseX()-DisplayManager.getWidth()/2f,
-                InputManager.getInput().getMouseY()-DisplayManager.getHeight()/2f);
+        Vec2 aimShift = new Vec2(InputManager.getInput().getMouseX()/DisplayManager.getScale()-DisplayManager.getRenderWidth()/2f,
+                InputManager.getInput().getMouseY()/DisplayManager.getScale()-DisplayManager.getRenderHeight()/2f);
         aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
         _player.setDegrees((float) Math.toDegrees(Math.atan2(aimShift.y, aimShift.x)));
 
@@ -115,31 +131,36 @@ public class AdventureState extends LRKState
         int startX = (int)(_camera.getX()+aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
         int startY = (int)(_camera.getY()+aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
 
-        drawMapLayer("collision", mapXShift, mapYShift, startX, startY);
-        drawMapLayer("background", mapXShift, mapYShift, startX, startY);
+        drawMapLayer(mapXShift, mapYShift, startX, startY, "background");
 
+        gfx.setAntiAlias(true);
         for(AdventureEntity ent:_entities) // for each entity
         {
             // draw them with the x and y shifts
             GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
         }
+        gfx.setAntiAlias(false);
 
         // finally, draw the courser on top
-        GFX.drawImageCentered(InputManager.getInput().getMouseX(),
-                InputManager.getInput().getMouseY(), _cursor);
+        GFX.drawImageCentered(InputManager.getInput().getMouseX()/DisplayManager.getScale(),
+                InputManager.getInput().getMouseY()/DisplayManager.getScale(), _cursor);
     }
 
     /**
      * Draws a tiled map layer on the primary graphics element
-     * @param layer the layer name to draw
      * @param xShift the sub tile x shift to move the whole layer by
      * @param yShift the sub tile x shift to move the whole layer by
      * @param startX the x index of the tile to begin drawing at
      * @param startY the y index of the tile to begin drawing at
+     * @param layers the layers to draw
      */
-    private void drawMapLayer(String layer, float xShift, float yShift, int startX, int startY)
+    private void drawMapLayer(float xShift, float yShift, int startX, int startY, String... layers)
     {
-        int layerId = _map.getLayerIndex(layer);
+        int[] layerIds = new int[layers.length];
+        for(int layerNumber = 0;layerNumber < layers.length;layerNumber++)
+        {
+            layerIds[layerNumber] = _map.getLayerIndex(layers[layerNumber]);
+        }
 
         for(int y = startY;y <= startY+TILES_HIGH+2;y++)
         {
@@ -148,7 +169,8 @@ public class AdventureState extends LRKState
                 try
                 {
                     // draw that tiles image
-                    GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, _map.getTileImage(x, y, layerId));
+                    for(Integer layerId:layerIds)
+                        GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, _map.getTileImage(x, y, layerId));
                 }
                 catch(Exception e) { }
             }
@@ -173,8 +195,8 @@ public class AdventureState extends LRKState
     @Override
     public void resize()
     {
-        TILES_WIDE = (float) Math.floor(DisplayManager.getWidth()/TILE_SIZE);
-        TILES_HIGH = (float) Math.floor(DisplayManager.getHeight()/TILE_SIZE);
+        TILES_WIDE = (float) Math.floor(DisplayManager.getRenderWidth()/TILE_SIZE);
+        TILES_HIGH = (float) Math.floor(DisplayManager.getRenderHeight()/TILE_SIZE);
     }
 
     public void keyPressed(int key, char c)

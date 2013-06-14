@@ -7,29 +7,27 @@ import java.io.PrintWriter;
  * Date: 5/27/13
  * Time: 1:26 PM
  */
-public class AudioManager extends ComponentManager
+public class AudioManager
 {
     private static float
             _audioMaster = 1f,
             _audioMusic = 0.8f,
             _audioSFX = 1f;
 
-    @Override
-    public void saveProperties(PrintWriter out)
+    public static void saveProperties(PrintWriter out)
     {
         out.println("audio.master=" + getAudioMaster());
         out.println("audio.music=" + getAudioMusic());
         out.println("audio.sfx=" + getAudioSFX());
     }
 
-    @Override
-    public void setProperty(String key, String value)
+    public static void setProperty(String key, String value)
     {
         switch(key)
         {
-            case "master": _audioMaster = Float.parseFloat(value); break;
-            case "music": _audioMusic = Float.parseFloat(value); break;
-            case "sfx": _audioSFX = Float.parseFloat(value); break;
+            case "audio.master": _audioMaster = Float.parseFloat(value); break;
+            case "audio.music": _audioMusic = Float.parseFloat(value); break;
+            case "audio.sfx": _audioSFX = Float.parseFloat(value); break;
         }
     }
 

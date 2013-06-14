@@ -1,9 +1,8 @@
-display.scale=4.0
-display.fullscreen=false
-new.display.scale=4
-new.display.width=800
-new.display.height=600
-new.display.fullscreen=false
+display.scale=4.091111
+display.width=1841
+display.height=1057
+display.position.x=71
+display.position.y=-8
 input.up=17
 input.down=31
 input.left=30

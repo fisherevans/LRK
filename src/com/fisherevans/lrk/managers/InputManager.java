@@ -17,7 +17,7 @@ import java.util.Map;
  * Date: 5/26/13
  * Time: 8:17 PM
  */
-public class InputManager extends ComponentManager implements KeyListener
+public class InputManager implements KeyListener
 {
     public enum ControlKey { Up, Down, Left, Right, Select, Back, Menu, ForceQuit }
 
@@ -73,27 +73,26 @@ public class InputManager extends ComponentManager implements KeyListener
      * @param key the string of the key to look for
      * @return the corresponding enum. null if no string key is defined
      */
-    public static ControlKey stringTotControlKey(String key)
+    public static ControlKey stringToControlKey(String key)
     {
         switch(key)
         {
-            case "up": return ControlKey.Up;
-            case "down": return ControlKey.Down;
-            case "left": return ControlKey.Left;
-            case "right": return ControlKey.Right;
-            case "select": return ControlKey.Select;
-            case "back": return ControlKey.Back;
-            case "menu": return ControlKey.Menu;
-            case "forcequit": return ControlKey.ForceQuit;
+            case "input.up": return ControlKey.Up;
+            case "input.down": return ControlKey.Down;
+            case "input.left": return ControlKey.Left;
+            case "input.right": return ControlKey.Right;
+            case "input.select": return ControlKey.Select;
+            case "input.back": return ControlKey.Back;
+            case "input.menu": return ControlKey.Menu;
+            case "input.forcequit": return ControlKey.ForceQuit;
         }
 
         return null;
     }
 
-    @Override
-    public void setProperty(String key, String value)
+    public static void setProperty(String key, String value)
     {
-        ControlKey inputKey = stringTotControlKey(key);
+        ControlKey inputKey = stringToControlKey(key);
 
         if(inputKey == null)
             return;
@@ -109,8 +108,7 @@ public class InputManager extends ComponentManager implements KeyListener
         }
     }
 
-    @Override
-    public void saveProperties(PrintWriter out)
+    public static void saveProperties(PrintWriter out)
     {
         out.println("input.up=" + getControlKey(ControlKey.Up));
         out.println("input.down=" + getControlKey(ControlKey.Down));
@@ -196,6 +194,6 @@ public class InputManager extends ComponentManager implements KeyListener
      */
     public static int getControlKey(String key)
     {
-        return getControlKey(stringTotControlKey(key));
+        return getControlKey(stringToControlKey(key));
     }
 }

@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.launcher;
 
+import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.managers.DisplayManager;
 
 import javax.swing.*;
@@ -18,7 +19,6 @@ public class Window extends JFrame implements ComponentListener, WindowListener
 {
     public Window()
     {
-        getRootPane().addComponentListener(this);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -26,13 +26,21 @@ public class Window extends JFrame implements ComponentListener, WindowListener
     public void componentResized(ComponentEvent e)
     {
         Component c = (Component)e.getSource();
-        System.out.println(c.getWidth() + "x" + c.getHeight());
-        DisplayManager.setDimensions(c.getWidth(), c.getHeight());
+
+        if(c == Game.gameCanvas)
+            DisplayManager.setDimensions(c.getWidth(), c.getHeight());
     }
 
     @Override
     public void componentMoved(ComponentEvent e)
     {
+        Component c = (Component)e.getSource();
+
+        if(c == this)
+        {
+            DisplayManager.setPositionX(this.getX());
+            DisplayManager.setPositionY(this.getY());
+        }
     }
 
     @Override

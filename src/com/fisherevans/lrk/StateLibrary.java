@@ -60,9 +60,7 @@ public class StateLibrary
             return false;
         }
 
-        _activeState = newState;
-
-        return true;
+        return setActiveState(newState);
     }
 
     /**
@@ -76,6 +74,18 @@ public class StateLibrary
 
         if(!_states.containsKey(state.getID()))
             _states.put(state.getID(), state);
+
+        try
+        {
+            state.enter();
+        }
+        catch (Exception e) { }
+
+        try
+        {
+            _activeState.exit();
+        }
+        catch (Exception e) { }
 
         _activeState = state;
         return true;

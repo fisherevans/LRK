@@ -35,22 +35,32 @@ public class SplashState extends LRKState
     }
 
     @Override
+    public void enter() throws SlickException
+    {
+    }
+
+    @Override
+    public void exit() throws SlickException
+    {
+    }
+
+    @Override
     public void render(Graphics gfx) throws SlickException
     {
         Color c = new Color(1f, 1f, 1f, (_fade >= 0 ? _fade : 0)); // color of the title
         Color c2 = new Color(1f, 1f, 1f, (float)(-Math.cos(_flash)+1)/4f); // color of the "press select"
 
         // used for positioning of the text
-        float halfHeight = DisplayManager.getHeight()/2f;
-        float quarterHeight = DisplayManager.getHeight()/4f;
+        float halfHeight = DisplayManager.getRenderHeight()/2f;
+        float quarterHeight = DisplayManager.getRenderHeight()/4f;
 
         // draw the title
-        GFX.drawText(0, quarterHeight, DisplayManager.getWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_TOP, Resources.getFont(3), c, "Lost Relics of Kazar");
-        GFX.drawText(0, quarterHeight, DisplayManager.getWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), c, "A Prequel");
+        GFX.drawText(0, quarterHeight, DisplayManager.getRenderWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_TOP, Resources.getFont(3), c, "Lost Relics of Kazar");
+        GFX.drawText(0, quarterHeight, DisplayManager.getRenderWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), c, "A Prequel");
 
         // draw the "press select" if the title is 100% visible
         if(_fade >= 1)
-            GFX.drawText(0, quarterHeight, DisplayManager.getWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
+            GFX.drawText(0, quarterHeight, DisplayManager.getRenderWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
     }
 
     @Override
@@ -79,7 +89,7 @@ public class SplashState extends LRKState
 
         try
         {
-            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), this, options, 2f));
+            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), this, options, 0.5f));
         }
         catch (SlickException e)
         {

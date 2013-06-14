@@ -24,6 +24,16 @@ public class SimpleFadeTransition extends TransitionState
     }
 
     @Override
+    public void enter() throws SlickException
+    {
+    }
+
+    @Override
+    public void exit() throws SlickException
+    {
+    }
+
+    @Override
     public void render(Graphics gfx) throws SlickException
     {
         float interp = getInterpolation();

@@ -7,6 +7,7 @@ import org.newdawn.slick.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 
 /**
@@ -23,14 +24,14 @@ public class Game
 
     public Game()
     {
-        checkOS();
+        loadNatives();
         startGame();
     }
 
     /**
      * loads the lwjgl natives based on the current os
      */
-    private void checkOS()
+    private void loadNatives()
     {
         String os = getOS();
         System.out.println("OS Type: " + os);
@@ -46,18 +47,25 @@ public class Game
         {
             lrk = new LRK("Lost Relics of Kazar - A Prequel [" + LRK.VERSION + "]");
             gameCanvas = new CanvasGameContainer(lrk);
+            gameCanvas.setBackground(Color.black);
+            gameCanvas.setPreferredSize(DisplayManager.getDimensions());
 
             window = new Window();
-            gameCanvas.setPreferredSize(DisplayManager.getDimensions());
+            window.setBackground(Color.black);
             window.add(gameCanvas);
-            window.setVisible(true);
             window.pack();
+            window.setVisible(true);
 
             getContainer().setAlwaysRender(true);
-            getContainer().setUpdateOnlyWhenVisible(true);
-            getContainer().setVSync(true);
+            getContainer().setUpdateOnlyWhenVisible(false);
 
             gameCanvas.start();
+
+            window.setLocation(DisplayManager.getPositionX(), DisplayManager.getPositionY());
+
+            window.addComponentListener(window);
+            window.addWindowListener(window);
+            gameCanvas.addComponentListener(window);
         }
         catch(Exception e)
         {
@@ -67,17 +75,14 @@ public class Game
         }
     }
 
-    /**
-     * updates the game window based on the static options
-     */
-    public static void updateDisplay()
+    public static void centerWindow()
     {
-        try
-        {}
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        int x = (dim.width-window.getSize().width)/2;
+        int y = (dim.height-window.getSize().height)/2;
+
+        window.setLocation(x, y);
     }
 
     public static GameContainer getContainer()
@@ -103,9 +108,20 @@ public class Game
 
     public static void finalClose()
     {
-        gameCanvas.dispose();
-        window.dispose();
-        System.exit(0);
+        try
+        {
+            Options.save();
+            lrk.exit();
+            gameCanvas.setEnabled(false);
+            gameCanvas.dispose();
+            window.dispose();
+            System.exit(0);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 
     /**

@@ -28,7 +28,7 @@ public class MenuItemPlayTest extends MenuItem
 
         try
         {
-            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), StateLibrary.getActiveState(), adventure, 2f));
+            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), StateLibrary.getActiveState(), adventure, 0.5f));
         }
         catch (SlickException e)
         {

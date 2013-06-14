@@ -1,6 +1,9 @@
 package com.fisherevans.lrk;
 
 import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.managers.AudioManager;
+import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.managers.InputManager;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -86,28 +89,22 @@ public class Options
             System.out.println("Opened Settings file.");
 
             Scanner input = new Scanner(settings);
-            String line, value;
-            String[] setting, property;
+            String line,  property, value;
+            String[] setting;
             while(input.hasNextLine()) // read each line
             {
                 // split it up into a tree array of the property key, and the string value
                 line = input.nextLine();
                 setting = line.split("=");
-                property = setting[0].split("\\.");
+                property = setting[0];
                 value = setting[1];
 
-                switch(property[0]) // set them appropriately
-                {
-                    case "input":
-                        Game.lrk.getInputManager().setProperty(property[1], value);
-                        break;
-                    case "audio":
-                        Game.lrk.getAudioManager().setProperty(property[1], value);
-                        break;
-                    case "display":
-                        Game.lrk.getDisplayManager().setProperty(property[1], value);
-                        break;
-                }
+                if(property.startsWith("input"))
+                    InputManager.setProperty(property, value);
+                else if(property.startsWith("audio"))
+                    AudioManager.setProperty(property, value);
+                else if(property.startsWith("display"))
+                    DisplayManager.setProperty(property, value);
             }
         }
         catch(Exception e)

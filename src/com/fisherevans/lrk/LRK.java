@@ -38,6 +38,8 @@ public class LRK extends BasicGame
         _displayManager = new DisplayManager();
         _inputManager = new InputManager();
         _audioManager = new AudioManager();
+
+        Options.load();
     }
 
     @Override
@@ -60,7 +62,9 @@ public class LRK extends BasicGame
     @Override
     public void render(GameContainer container, Graphics gfx) throws SlickException
     {
+        gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
         StateLibrary.getActiveState().render(gfx);
+        gfx.resetTransform();
     }
 
     /**

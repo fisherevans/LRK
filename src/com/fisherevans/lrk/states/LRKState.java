@@ -46,6 +46,18 @@ public abstract class LRKState
     public abstract void init() throws SlickException;
 
     /**
+     * ran when this state starts being active.
+     * @throws SlickException if there is any error.
+     */
+    public abstract void enter() throws SlickException;
+
+    /**
+     * ran when this state stops being active.
+     * @throws SlickException if there is any error.
+     */
+    public abstract void exit() throws SlickException;
+
+    /**
      * renders this state on gfx
      * @param gfx the graphics element to draw this state on
      * @throws SlickException if there is any error.
