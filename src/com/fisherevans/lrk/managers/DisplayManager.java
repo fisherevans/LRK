@@ -4,8 +4,8 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
-import org.lwjgl.LWJGLException;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.PrintWriter;
 
@@ -16,23 +16,27 @@ import java.io.PrintWriter;
  */
 public class DisplayManager
 {
+    private static boolean _startMaximized = false;
+
+    public static float WIDTH = 450f;
+
     private static int _positionX = 100;
     private static int _positionY = 100;
 
-    private static int _width = 480;
-    private static int _height = 320;
+    private static int _windowWidth = 480;
+    private static int _windowHeight = 320;
 
     private static float _scale = 1;
 
     public static void saveProperties(PrintWriter out)
     {
-        out.println("display.scale=" + _scale);
-
-        out.println("display.width=" + _width);
-        out.println("display.height=" + _height);
+        out.println("display.width=" + _windowWidth);
+        out.println("display.height=" + _windowHeight);
 
         out.println("display.position.x=" + _positionX);
         out.println("display.position.y=" + _positionY);
+
+        out.println("display.maximized=" + (Game.window.getExtendedState() == JFrame.MAXIMIZED_BOTH));
     }
 
     public static void setProperty(String key, String value)
@@ -41,11 +45,11 @@ public class DisplayManager
         {
             switch(key)
             {
-                case "display.scale": _scale = Integer.parseInt(value);
-                case "display.width": _width = Integer.parseInt(value);
-                case "display.height": _height = Integer.parseInt(value);
+                case "display.width": _windowWidth = Integer.parseInt(value);
+                case "display.height": _windowHeight = Integer.parseInt(value);
                 case "display.position.x": _positionX = Integer.parseInt(value);
                 case "display.position.y": _positionY = Integer.parseInt(value);
+                case "display.maximized": _startMaximized = Boolean.parseBoolean(value);
             }
         }
         catch(Exception e)
@@ -53,28 +57,6 @@ public class DisplayManager
             e.printStackTrace();
             LRK.log("Failed to load property: " + key + " = " + value);
         }
-    }
-
-    /**
-     * sets the scale of the display window and then resizes the screen
-     * @param scale new scale to be used based on the BASE SCREEN vars
-     */
-    public static void setScale(int scale)
-    {
-        _scale = scale;
-        refreshDisplay();
-    }
-
-    /**
-     * calls both setScale and setFullscreen
-     * @param scale
-     */
-    public static void setScreenProperties(int width, int height, int scale)
-    {
-        _width = width;
-        _height = height;
-        _scale = scale;
-        refreshDisplay();
     }
 
     // GETTERS
@@ -87,18 +69,18 @@ public class DisplayManager
     /**
      * @return width of actual window
      */
-    public static int getWidth()
+    public static int getWindowWidth()
     {
-        return _width;
+        return _windowWidth;
     }
 
     /**
      * @return height of actual window
      */
-    public static int getHeight()
+    public static int getWindowHeight()
     {
 
-        return _height;
+        return _windowHeight;
     }
 
     /**
@@ -106,7 +88,7 @@ public class DisplayManager
      */
     public static float getRenderWidth()
     {
-        return _width/((float)_scale);
+        return _windowWidth/_scale;
     }
 
     /**
@@ -115,17 +97,26 @@ public class DisplayManager
     public static float getRenderHeight()
     {
 
-        return _height/((float)_scale);
+        return _windowHeight/_scale;
+    }
+
+    public static void updateCanvasStats()
+    {
+        setDimensions(Game.gameCanvas.getWidth(), Game.gameCanvas.getHeight());
     }
 
     public static void setDimensions(int width, int height)
     {
-        _width = width;
-        _height = height;
+        _windowWidth = width;
+        _windowHeight = height;
 
-        _scale = _width/450f;
-        //_scale = _scale > 4 ? 4 : _scale;
-        //_scale = _scale < 1 ? 1 : _scale;
+        _scale = _windowWidth/WIDTH;
+
+        /*
+        _scale = _windowWidth/(int)WIDTH;
+        _scale = _scale < 1 ? 1 : _scale;
+        _scale = _scale > 4 ? 4 : _scale;
+        // */
 
         refreshDisplay();
     }
@@ -141,7 +132,7 @@ public class DisplayManager
 
     public static Dimension getDimensions()
     {
-        return new Dimension(_width, _height);
+        return new Dimension(_windowWidth, _windowHeight);
     }
 
     public static int getPositionX()
@@ -162,5 +153,15 @@ public class DisplayManager
     public static void setPositionY(int positionY)
     {
         _positionY = positionY;
+    }
+
+    public static boolean getStartMaximized()
+    {
+        return _startMaximized;
+    }
+
+    public static void setStartMaximized(boolean startMaximized)
+    {
+        _startMaximized = startMaximized;
     }
 }

@@ -133,13 +133,11 @@ public class AdventureState extends LRKState
 
         drawMapLayer(mapXShift, mapYShift, startX, startY, "background");
 
-        gfx.setAntiAlias(true);
         for(AdventureEntity ent:_entities) // for each entity
         {
             // draw them with the x and y shifts
             GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
         }
-        gfx.setAntiAlias(false);
 
         // finally, draw the courser on top
         GFX.drawImageCentered(InputManager.getInput().getMouseX()/DisplayManager.getScale(),

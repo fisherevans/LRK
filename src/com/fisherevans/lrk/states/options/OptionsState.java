@@ -49,25 +49,6 @@ public class OptionsState extends LRKState
 
         _mainMenu = new Menu(); // the main menu - no parnet means can't go up the tree
 
-        // construct the menu system
-        Menu video = new Menu("Video", "Various video and display settings.");
-        // fill resolutions based on aspect ratio
-
-        Menu resolution = new Menu("Scale", "Change the render scale of the game");
-        resolution.add(
-                new MenuItemResolution("One","Sets the resolution to: 1", 1),
-                new MenuItemResolution("Two","Sets the resolution to: 2", 2),
-                new MenuItemResolution("Three","Sets the resolution to: 3", 3),
-                new MenuItemResolution("Four","Sets the resolution to: 4", 4)
-        );
-
-        Menu displayMode = new Menu("Display Mode", "Choose between Windowed and Fullscreen mode.");
-        displayMode.add(
-                new MenuItemStub("Windowed", "Display the game in a window."),
-                new MenuItemStub("Fullscreen", "Use your entire screen (primary) to display the game.")
-        );
-        video.add(resolution, displayMode);
-
         Menu audio = new Menu("Audio", "Audio levels for the game.");
         audio.add(
                 new MenuItemStub("Master Volume", "Volume for the whole game."),
@@ -79,7 +60,7 @@ public class OptionsState extends LRKState
 
         MenuItemQuit quit = new MenuItemQuit("Quit", "Exit the game without saving");
 
-        _mainMenu.add(video, audio, playTest, quit);
+        _mainMenu.add(audio, playTest, quit);
         _currentMenu = _mainMenu; // set the current menu to the main menu
     }
 

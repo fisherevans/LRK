@@ -200,8 +200,11 @@ public class GFX
      */
     public static float filterDrawPosition(float original)
     {
+        return original;
+        /*
         float filtered = (int)(original*DisplayManager.getScale());
         filtered /= DisplayManager.getScale();
         return filtered;
+        // */
     }
 }

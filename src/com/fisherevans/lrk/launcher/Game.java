@@ -4,6 +4,7 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.managers.DisplayManager;
 import org.newdawn.slick.*;
+import org.newdawn.slick.tests.DuplicateEmitterTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,6 +67,11 @@ public class Game
             window.addComponentListener(window);
             window.addWindowListener(window);
             gameCanvas.addComponentListener(window);
+
+            DisplayManager.updateCanvasStats();
+
+            if(DisplayManager.getStartMaximized())
+                window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
         catch(Exception e)
         {
