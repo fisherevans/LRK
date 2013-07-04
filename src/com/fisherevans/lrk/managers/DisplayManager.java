@@ -18,7 +18,8 @@ public class DisplayManager
 {
     private static boolean _startMaximized = false;
 
-    public static float WIDTH = 450f;
+    public static float MIN_WIDTH = 480f;
+    public static float MIN_HEIGHT = 270f;
 
     private static int _positionX = 100;
     private static int _positionY = 100;
@@ -110,7 +111,10 @@ public class DisplayManager
         _windowWidth = width;
         _windowHeight = height;
 
-        _scale = _windowWidth/WIDTH;
+        float widthRatio = _windowWidth/MIN_WIDTH;
+        float heightRatio = _windowHeight/MIN_HEIGHT;
+
+        _scale = widthRatio > heightRatio ? heightRatio : widthRatio;
 
         /*
         _scale = _windowWidth/(int)WIDTH;
@@ -123,10 +127,15 @@ public class DisplayManager
 
     public static void refreshDisplay()
     {
+        Game.lrk.pause(100);
+
         LRKState state = StateLibrary.getActiveState();
         if(state != null)
             state.resize();
+    }
 
+    public static void refreshPosition()
+    {
         Game.window.setLocation(getPositionX(), getPositionY());
     }
 

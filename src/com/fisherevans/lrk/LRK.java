@@ -26,6 +26,9 @@ public class LRK extends BasicGame
     private AudioManager _audioManager;
     private DisplayManager _displayManager;
 
+    private long pauseEndTime = 0;
+    private boolean paused = false;
+
     /**
      * Create a new basic game
      *
@@ -55,6 +58,12 @@ public class LRK extends BasicGame
     @Override
     public void update(GameContainer container, int deltaMS) throws SlickException
     {
+        if(paused && pauseEndTime < System.currentTimeMillis())
+            paused = false;
+        if(paused)
+            return;
+
+
         float delta = deltaMS/1000f;
         StateLibrary.getActiveState().update(delta);
     }
@@ -62,9 +71,18 @@ public class LRK extends BasicGame
     @Override
     public void render(GameContainer container, Graphics gfx) throws SlickException
     {
+        if(paused)
+            return;
+
         gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
         StateLibrary.getActiveState().render(gfx);
         gfx.resetTransform();
+    }
+
+    public void pause(long time)
+    {
+        paused = true;
+        pauseEndTime = System.currentTimeMillis() + time;
     }
 
     /**
