@@ -3,6 +3,7 @@ package com.fisherevans.lrk.launcher;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.managers.InputManager;
 import org.newdawn.slick.*;
 import org.newdawn.slick.tests.DuplicateEmitterTest;
 
@@ -10,6 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,8 +39,27 @@ public class Game
     private void loadNatives()
     {
         String os = getOS();
-        System.out.println("OS Type: " + os);
+        LRK.log("OS Type: " + os);
         System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/" + os).getAbsolutePath());
+
+        if(os.equals("windows"))
+        {
+            try
+            {
+                File jxNative = new File("lib/jxinput/natives/windows/jxinput.dll");
+                System.load(jxNative.getAbsolutePath());
+                LRK.log("Loaded JXInput natives! :)");
+                InputManager.jxNativesLoaded = true;
+            }
+            catch(Exception e)
+            {
+                LRK.log("Non-fatal error loading JXInput natives. (DLL doesn't exist?)");
+                e.printStackTrace();
+            }
+        }
+        else
+            LRK.log("No controller support in non-windows OS.");
+
     }
 
     /**

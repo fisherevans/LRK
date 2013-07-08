@@ -42,7 +42,7 @@ public class AdventureState extends LRKState
     private TiledMap _map;
     private World _world;
     private Image _cursor;
-    private boolean _takeMouse = true;
+    private boolean _takeMouse = false;
 
     public AdventureState() throws SlickException
     {

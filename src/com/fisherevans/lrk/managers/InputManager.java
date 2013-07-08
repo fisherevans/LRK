@@ -4,6 +4,10 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
+import de.hardcode.jxinput.JXInputDevice;
+import de.hardcode.jxinput.JXInputManager;
+import de.hardcode.jxinput.directinput.DirectInputDevice;
+import de.hardcode.jxinput.event.*;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
@@ -22,22 +26,38 @@ public class InputManager implements KeyListener
     public enum ControlKey { Up, Down, Left, Right, Select, Back, Menu, ForceQuit }
 
     private static Input _input;
-    private static Map<ControlKey, Integer> _controls;
+    private static Map<ControlKey, Integer> _keyboardMap;
     private static InputManager _itself;
 
-    private static int
-            _controlUp = Input.KEY_W,
-            _controlDown = Input.KEY_S,
-            _controlLeft = Input.KEY_A,
-            _controlRight = Input.KEY_D,
-            _controlSelect = Input.KEY_SPACE,
-            _controlBack = Input.KEY_BACK,
-            _controlMenu = Input.KEY_ESCAPE;
+    public static boolean jxNativesLoaded = false;
+    private static XBoxController xboxController = null;
 
     public InputManager()
     {
         loadDefaultControls();
         _itself = this;
+    }
+
+    public static void loadControllers()
+    {
+        if(jxNativesLoaded)
+        {
+            JXInputEventManager.setTriggerIntervall( 50 );
+            String controllerName;
+            for(int controllerId = 0;controllerId < JXInputManager.getNumberOfDevices();controllerId++)
+            {
+                controllerName = JXInputManager.getJXInputDevice(controllerId).getName().toLowerCase();
+                if(controllerName.contains("xbox") && controllerName.contains("360"))
+                {
+                    xboxController = new XBoxController(JXInputManager.getJXInputDevice(controllerId));
+                    break;
+                }
+            }
+        }
+        else
+            xboxController = null;
+
+        LRK.log("Slick Controllers: " + _input.getControllerCount());
     }
 
     /**
@@ -48,6 +68,7 @@ public class InputManager implements KeyListener
     {
         _input = input;
         _input.addKeyListener(_itself);
+        loadControllers();
     }
 
     /**
@@ -55,17 +76,16 @@ public class InputManager implements KeyListener
      */
     public static void loadDefaultControls()
     {
-        _controls = new HashMap<>();
+        _keyboardMap = new HashMap<>();
 
-        _controls.put(ControlKey.Up, Input.KEY_W);
-        _controls.put(ControlKey.Down, Input.KEY_S);
-        _controls.put(ControlKey.Left, Input.KEY_A);
-        _controls.put(ControlKey.Right, Input.KEY_D);
-        _controls.put(ControlKey.Select, Input.KEY_SPACE);
-        _controls.put(ControlKey.Back, Input.KEY_LCONTROL);
-        _controls.put(ControlKey.Menu, Input.KEY_ESCAPE);
-
-        _controls.put(ControlKey.ForceQuit, Input.KEY_F10);
+        _keyboardMap.put(ControlKey.Up, Input.KEY_W);
+        _keyboardMap.put(ControlKey.Down, Input.KEY_S);
+        _keyboardMap.put(ControlKey.Left, Input.KEY_A);
+        _keyboardMap.put(ControlKey.Right, Input.KEY_D);
+        _keyboardMap.put(ControlKey.Select, Input.KEY_SPACE);
+        _keyboardMap.put(ControlKey.Back, Input.KEY_LCONTROL);
+        _keyboardMap.put(ControlKey.Menu, Input.KEY_ESCAPE);
+        _keyboardMap.put(ControlKey.ForceQuit, Input.KEY_F10);
     }
 
     /**
@@ -99,7 +119,7 @@ public class InputManager implements KeyListener
 
         try
         {
-            _controls.put(inputKey, Integer.parseInt(value));
+            _keyboardMap.put(inputKey, Integer.parseInt(value));
         }
         catch(Exception e)
         {
@@ -145,6 +165,36 @@ public class InputManager implements KeyListener
         state.keyTyped(c);
     }
 
+    public static void sendKeyPress(ControlKey key)
+    {
+        LRKState state = StateLibrary.getActiveState();
+
+        switch(key)
+        {
+            case Up:
+                state.keyUp();
+                break;
+            case Down:
+                state.keyDown();
+                break;
+            case Left:
+                state.keyLeft();
+                break;
+            case Right:
+                state.keyRight();
+                break;
+            case Select:
+                state.keySelect();
+                break;
+            case Back:
+                state.keyBack();
+                break;
+            case Menu:
+                state.keyMenu();
+                break;
+        }
+    }
+
     @Override
     public void keyReleased(int key, char c)
     {
@@ -181,10 +231,10 @@ public class InputManager implements KeyListener
      */
     public static int getControlKey(ControlKey key)
     {
-        if(!_controls.containsKey(key))
+        if(!_keyboardMap.containsKey(key))
             return -1;
 
-        return _controls.get(key);
+        return _keyboardMap.get(key);
     }
 
     /**
@@ -195,5 +245,23 @@ public class InputManager implements KeyListener
     public static int getControlKey(String key)
     {
         return getControlKey(stringToControlKey(key));
+    }
+
+    public static boolean isControlKeyDown(ControlKey key)
+    {
+        if(getInput().isKeyDown(getControlKey(key)))
+            return true;
+
+        if(xboxController != null)
+        {
+            if(xboxController.isButtonDown(key))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static XBoxController getXboxController() {
+        return xboxController;
     }
 }

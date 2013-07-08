@@ -63,8 +63,11 @@ public class LRK extends BasicGame
         if(paused)
             return;
 
-
         float delta = deltaMS/1000f;
+
+        InputManager.getXboxController().runKeyQueue();
+        InputManager.getXboxController().moveMouse(delta);
+
         StateLibrary.getActiveState().update(delta);
     }
 

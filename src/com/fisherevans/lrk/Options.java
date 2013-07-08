@@ -86,7 +86,7 @@ public class Options
                     throw new Exception("log file error");
                 }
             }
-            System.out.println("Opened Settings file.");
+            LRK.log("Opened Settings file.");
 
             Scanner input = new Scanner(settings);
             String line,  property, value;

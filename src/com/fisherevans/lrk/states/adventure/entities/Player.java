@@ -56,14 +56,17 @@ public class Player extends AdventureEntity
         Vec2 v = new Vec2(0, 0);
 
         // if a movement key is pressed, adjustt he movement vector
-        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Up)))
-            v.y -= 1f;
-        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Down)))
-            v.y += 1f;
-        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Left)))
-            v.x -= 1f;
-        if(InputManager.getInput().isKeyDown(InputManager.getControlKey(InputManager.ControlKey.Right)))
+        if(InputManager.isControlKeyDown(InputManager.ControlKey.Up))
+            v.y += -1f;
+        if(InputManager.isControlKeyDown(InputManager.ControlKey.Down))
+            v.y -= -1f;
+        v.y += -InputManager.getXboxController().getMoveDY();
+
+        if(InputManager.isControlKeyDown(InputManager.ControlKey.Right))
             v.x += 1f;
+        if(InputManager.isControlKeyDown(InputManager.ControlKey.Left))
+            v.x -= 1f;
+        v.x += InputManager.getXboxController().getMoveDX();
 
         if(v.x != 0 || v.y != 0) // if we're moving
         {
@@ -72,7 +75,9 @@ public class Player extends AdventureEntity
             float diff = (float)Math.abs(Math.atan2(Math.sin(aimAngle - moveAngle), Math.cos(aimAngle - moveAngle))); // get the smallest positive angle between those two
             float aimScale = (float) ((Math.PI*2-diff)/Math.PI*2*0.666f + 0.333f); // the float scale to move by
 
-            v.normalize(); // normalize the move vecotr (same speed in all directors (not faster to move diagnally)
+            if(v.length() > 1)
+                v.normalize(); // normalize the move vecotr (same speed in all directors (not faster to move diagnally)
+
             v.mulLocal(_speed*aimScale); // scale the speed by the angle difference (move slower walking backwards)
         }
 
