@@ -32,10 +32,15 @@ public class InputManager implements KeyListener
     public static boolean jxNativesLoaded = false;
     private static XBoxController xboxController = null;
 
+    private static float _mouseX, _mouseY;
+
     public InputManager()
     {
         loadDefaultControls();
         _itself = this;
+
+        _mouseX = DisplayManager.getRenderWidth()/2f;
+        _mouseY = DisplayManager.getRenderHeight()/2f;
     }
 
     public static void loadControllers()
@@ -263,5 +268,35 @@ public class InputManager implements KeyListener
 
     public static XBoxController getXboxController() {
         return xboxController;
+    }
+
+    public static float getMouseX()
+    {
+        return _mouseX;
+    }
+
+    public static void setMouseX(float mouseX)
+    {
+        _mouseX = mouseX;
+    }
+
+    public static void addMouseX(float mouseX)
+    {
+        _mouseX += mouseX;
+    }
+
+    public static float getMouseY()
+    {
+        return _mouseY;
+    }
+
+    public static void setMouseY(float mouseY)
+    {
+        _mouseY = mouseY;
+    }
+
+    public static void addMouseY(float mouseY)
+    {
+        _mouseY += mouseY;
     }
 }

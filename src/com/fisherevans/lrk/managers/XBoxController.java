@@ -22,8 +22,6 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 {
     private JXInputDevice _controller;
 
-    private Robot _robot;
-
     private Map<Button, Integer> _buttonMap;
     private Directional _dpad;
     private Axis _aim, _move;
@@ -34,7 +32,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 
     private final double AXIS_THRESHOLD_TRIGGER = 0.5;
     private final double AXIS_THRESHOLD_CENTERED = 0.2;
-    private final double MOUSE_MOVE_SCALE = 1000;
+    private final float MOUSE_MOVE_SCALE = 350f;
 
     private final int AXIS_MOVE_LR = 0;
     private final int AXIS_MOVE_UD = 1;
@@ -42,18 +40,25 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
     private final int AXIS_AIM_UD = 4;
     private final int AXIS_TRIGGER = 2;
 
+    private final int BUTTON_A = 0;
+    private final int BUTTON_B = 1;
+    private final int BUTTON_X = 2;
+    private final int BUTTON_Y = 3;
+    private final int BUTTON_RB = 5;
+    private final int BUTTON_LB = 4;
+    private final int BUTTON_R3 = 9;
+    private final int BUTTON_L3 = 8;
+    private final int BUTTON_START = 7;
+    private final int BUTTON_BACK = 6;
+
+    private final int DIRECTIONAL_UP = 0;
+    private final int DIRECTIONAL_RIGHT = 9000;
+    private final int DIRECTIONAL_DOWN = 18000;
+    private final int DIRECTIONAL_LEFT = 27000;
+
     public XBoxController(JXInputDevice controller)
     {
         _keyQueue = new ArrayList<>();
-        try
-        {
-            _robot = new Robot();
-        }
-        catch(Exception e)
-        {
-            LRK.log("Failed to grab mouse controller.");
-            _robot = null;
-        }
 
         _controller = controller;
         LRK.log("Found XBox 360 Controller! Buttons: " + _controller.getNumberOfButtons() + " - Dir's: " + _controller.getNumberOfDirectionals() + " - Axes: " + _controller.getNumberOfAxes());
@@ -125,16 +130,16 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 
         switch(_buttonMap.get(jxInputButtonEvent.getButton()))
         {
-            case 0:
+            case BUTTON_A:
                 _keyQueue.add(InputManager.ControlKey.Select);
                 break;
-            case 1:
+            case BUTTON_B:
                 _keyQueue.add(InputManager.ControlKey.Back);
                 break;
-            case 7:
+            case BUTTON_START:
                 _keyQueue.add(InputManager.ControlKey.Menu);
                 break;
-            case 6:
+            case BUTTON_BACK:
                 Game.lrk.exit();
                 break;
         }
@@ -148,16 +153,16 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 
         switch(jxInputDirectionalEvent.getDirectional().getDirection())
         {
-            case 0:
+            case DIRECTIONAL_UP:
                 _keyQueue.add(InputManager.ControlKey.Up);
                 break;
-            case 9000:
+            case DIRECTIONAL_RIGHT:
                 _keyQueue.add(InputManager.ControlKey.Right);
                 break;
-            case 18000:
+            case DIRECTIONAL_DOWN:
                 _keyQueue.add(InputManager.ControlKey.Down);
                 break;
-            case 27000:
+            case DIRECTIONAL_LEFT:
                 _keyQueue.add(InputManager.ControlKey.Left);
                 break;
         }
@@ -165,33 +170,16 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 
     public void moveMouse(float delta)
     {
-        if(_robot == null || _controller == null)
+        if(_controller == null)
             return;
 
-        try
-        {
-            Axis lr = _controller.getAxis(AXIS_AIM_LR);
-            Axis ud = _controller.getAxis(AXIS_AIM_UD);
+        double lr = _controller.getAxis(AXIS_AIM_LR).getValue();
+        if(Math.abs(lr) > AXIS_THRESHOLD_CENTERED)
+            InputManager.addMouseX((float)lr*delta*MOUSE_MOVE_SCALE);
 
-            int x = (int) (lr.getValue()*MOUSE_MOVE_SCALE*delta);
-            int y = (int) (ud.getValue()*MOUSE_MOVE_SCALE*delta);
-
-            PointerInfo a = MouseInfo.getPointerInfo();
-            Point b = a.getLocation();
-
-            int currentX = (int) b.getX();
-            int currentY = (int) b.getY();
-
-            //LRK.log(currentX + ", " + currentY + " + " + x + ", " + y);
-
-            _robot.mouseMove(x + currentX, y + currentY);
-        }
-        catch(Exception e)
-        {
-            LRK.log("EEE");
-            e.printStackTrace();
-            System.exit(0);
-        }
+        double ud = _controller.getAxis(AXIS_AIM_UD).getValue();
+        if(Math.abs(ud) > AXIS_THRESHOLD_CENTERED)
+            InputManager.addMouseY((float)ud*delta*MOUSE_MOVE_SCALE);
     }
 
     public boolean isButtonDown(InputManager.ControlKey key)
@@ -206,16 +194,6 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
                 return (_dpad.getDirection() == 18000 && !_dpad.isCentered());
             case Left:
                 return (_dpad.getDirection() == 27000 && !_dpad.isCentered());
-    /*
-            case Up:
-                return (_dpad.getDirection() == 0 && !_dpad.isCentered()) || _controller.getAxis(AXIS_MOVE_UD).getValue() < -AXIS_THRESHOLD;
-            case Right:
-                return (_dpad.getDirection() == 9000 && !_dpad.isCentered()) || _controller.getAxis(AXIS_MOVE_LR).getValue() > AXIS_THRESHOLD;
-            case Down:
-                return (_dpad.getDirection() == 18000 && !_dpad.isCentered()) || _controller.getAxis(AXIS_MOVE_UD).getValue() > AXIS_THRESHOLD;
-            case Left:
-                return (_dpad.getDirection() == 27000 && !_dpad.isCentered()) || _controller.getAxis(AXIS_MOVE_LR).getValue() < -AXIS_THRESHOLD;
-    */
         }
 
         return false;

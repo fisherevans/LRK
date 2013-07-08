@@ -42,7 +42,7 @@ public class AdventureState extends LRKState
     private TiledMap _map;
     private World _world;
     private Image _cursor;
-    private boolean _takeMouse = false;
+    private boolean _takeMouse = true;
 
     public AdventureState() throws SlickException
     {
@@ -112,8 +112,8 @@ public class AdventureState extends LRKState
     public void render(Graphics gfx) throws SlickException
     {
         // get the vector from the center of the screen to the mouse
-        Vec2 aimShift = new Vec2(InputManager.getInput().getMouseX()/DisplayManager.getScale()-DisplayManager.getRenderWidth()/2f,
-                InputManager.getInput().getMouseY()/DisplayManager.getScale()-DisplayManager.getRenderHeight()/2f);
+        Vec2 aimShift = new Vec2(InputManager.getMouseX()-DisplayManager.getRenderWidth()/2f,
+                InputManager.getMouseY()-DisplayManager.getRenderHeight()/2f);
         aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
         _player.setDegrees((float) Math.toDegrees(Math.atan2(aimShift.y, aimShift.x)));
 
@@ -140,8 +140,7 @@ public class AdventureState extends LRKState
         }
 
         // finally, draw the courser on top
-        GFX.drawImageCentered(InputManager.getInput().getMouseX()/DisplayManager.getScale(),
-                InputManager.getInput().getMouseY()/DisplayManager.getScale(), _cursor);
+        GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), _cursor);
     }
 
     /**

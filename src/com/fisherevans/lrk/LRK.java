@@ -5,10 +5,7 @@ import com.fisherevans.lrk.managers.AudioManager;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.quit.QuitState;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 
 import java.sql.Timestamp;
 
@@ -17,7 +14,7 @@ import java.sql.Timestamp;
  * Date: 5/5/13
  * Time: 7:08 PM
  */
-public class LRK extends BasicGame
+public class LRK extends BasicGame implements MouseListener
 {
     public static boolean DEBUG = true;
     public static final String VERSION = "0.2 Alpha";
@@ -53,6 +50,7 @@ public class LRK extends BasicGame
         StateLibrary.setActiveState("splash");
 
         InputManager.connectInput(Game.getContainer().getInput());
+        InputManager.getInput().addMouseListener(this);
     }
 
     @Override
@@ -86,6 +84,12 @@ public class LRK extends BasicGame
     {
         paused = true;
         pauseEndTime = System.currentTimeMillis() + time;
+    }
+
+    public void mouseMoved(int oldx, int oldy, int newx, int newy)
+    {
+        InputManager.setMouseX(InputManager.getInput().getMouseX()/DisplayManager.getScale());
+        InputManager.setMouseY(InputManager.getInput().getMouseY()/DisplayManager.getScale());
     }
 
     /**
