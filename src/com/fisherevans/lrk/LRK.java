@@ -5,6 +5,8 @@ import com.fisherevans.lrk.managers.AudioManager;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.quit.QuitState;
+import de.hardcode.jxinput.JXInputManager;
+import de.hardcode.jxinput.event.JXInputEventManager;
 import org.newdawn.slick.*;
 
 import java.sql.Timestamp;
@@ -62,6 +64,8 @@ public class LRK extends BasicGame implements MouseListener
             return;
 
         float delta = deltaMS/1000f;
+
+        InputManager.getXboxController().queryAxes();
 
         InputManager.getXboxController().runKeyQueue();
         InputManager.getXboxController().moveMouse(delta);

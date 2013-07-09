@@ -47,7 +47,7 @@ public class InputManager implements KeyListener
     {
         if(jxNativesLoaded)
         {
-            JXInputEventManager.setTriggerIntervall( 50 );
+            JXInputEventManager.setTriggerIntervall(-1);
             String controllerName;
             for(int controllerId = 0;controllerId < JXInputManager.getNumberOfDevices();controllerId++)
             {

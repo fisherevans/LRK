@@ -27,6 +27,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
     private Axis _aim, _move;
     private Map<Directional, Integer> _directionalMap;
     private Map<Axis, Integer> _axisMap;
+    private Map<Axis, Double> _axisLastValues;
 
     private ArrayList<InputManager.ControlKey> _keyQueue;
 
@@ -81,11 +82,13 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
         }
 
         _axisMap = new HashMap<Axis, Integer> ();
+        _axisLastValues = new HashMap<Axis, Double> ();
         for(int x = 0;x < _controller.getNumberOfAxes();x++)
         {
             _axisMap.put(_controller.getAxis(x), x);
+            _axisLastValues.put(_controller.getAxis(x), 0.0);
             LRK.log(_controller.getAxis(x).getName() + " - " + _controller.getAxis(x));
-            JXInputEventManager.addListener(this, _controller.getAxis(x), AXIS_THRESHOLD_TRIGGER);
+            //JXInputEventManager.addListener(this, _controller.getAxis(x), AXIS_THRESHOLD_TRIGGER);
         }
     }
 
@@ -97,29 +100,43 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
             return;
 
         int id = _axisMap.get(axis);
-        double v = axis.getValue();
 
-        switch(id)
+        double v = axis.getValue();
+        double va = Math.abs(v);
+
+        LRK.log(id + " - " + v);
+
+        if(va >= AXIS_THRESHOLD_TRIGGER)
         {
-            case AXIS_TRIGGER:
-                if(v > 0) // left
-                    LRK.log("Trigger L");
-                else // right
-                    LRK.log("Trigger R");
-                break;
-            case AXIS_MOVE_LR:
-                if(v > 0)
-                    _keyQueue.add(InputManager.ControlKey.Right);
-                else
-                    _keyQueue.add(InputManager.ControlKey.Left);
-                break;
-            case AXIS_MOVE_UD:
-                if(v > 0)
-                    _keyQueue.add(InputManager.ControlKey.Down);
-                else
-                    _keyQueue.add(InputManager.ControlKey.Up);
-                break;
+            double lv = _axisLastValues.get(axis);
+            double lva = Math.abs(lv);
+
+            if(Math.signum(v) != Math.signum(lv) || lva < AXIS_THRESHOLD_TRIGGER)
+            {
+                switch(id)
+                {
+                    case AXIS_TRIGGER:
+                        if(v > 0) // left
+                            LRK.log("Trigger L");
+                        else // right
+                            LRK.log("Trigger R");
+                        break;
+                    case AXIS_MOVE_LR:
+                        if(v > 0)
+                            _keyQueue.add(InputManager.ControlKey.Right);
+                        else
+                            _keyQueue.add(InputManager.ControlKey.Left);
+                        break;
+                    case AXIS_MOVE_UD:
+                        if(v > 0)
+                            _keyQueue.add(InputManager.ControlKey.Down);
+                        else
+                            _keyQueue.add(InputManager.ControlKey.Up);
+                        break;
+                }
+            }
         }
+        _axisLastValues.put(axis, v);
     }
 
     @Override
@@ -165,6 +182,52 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
             case DIRECTIONAL_LEFT:
                 _keyQueue.add(InputManager.ControlKey.Left);
                 break;
+        }
+    }
+
+    public void queryAxes()
+    {
+        JXInputManager.updateFeatures();
+        for(Axis axis:_axisMap.keySet())
+        {
+            int id = _axisMap.get(axis);
+
+            double v = axis.getValue();
+            double va = Math.abs(v);
+
+            //LRK.log(id + " - " + v);
+
+            if(va >= AXIS_THRESHOLD_TRIGGER)
+            {
+                double lv = _axisLastValues.get(axis);
+                double lva = Math.abs(lv);
+
+                if(Math.signum(v) != Math.signum(lv) || lva < AXIS_THRESHOLD_TRIGGER)
+                {
+                    switch(id)
+                    {
+                        case AXIS_TRIGGER:
+                            if(v > 0) // left
+                                LRK.log("Trigger L");
+                            else // right
+                                LRK.log("Trigger R");
+                            break;
+                        case AXIS_MOVE_LR:
+                            if(v > 0)
+                                _keyQueue.add(InputManager.ControlKey.Right);
+                            else
+                                _keyQueue.add(InputManager.ControlKey.Left);
+                            break;
+                        case AXIS_MOVE_UD:
+                            if(v > 0)
+                                _keyQueue.add(InputManager.ControlKey.Down);
+                            else
+                                _keyQueue.add(InputManager.ControlKey.Up);
+                            break;
+                    }
+                }
+            }
+            _axisLastValues.put(axis, v);
         }
     }
 
