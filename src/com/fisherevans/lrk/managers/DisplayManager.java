@@ -24,8 +24,8 @@ public class DisplayManager
     private static int _positionX = 100;
     private static int _positionY = 100;
 
-    private static int _windowWidth = 480;
-    private static int _windowHeight = 320;
+    private static int _windowWidth = 800;
+    private static int _windowHeight = 600;
 
     private static float _scale = 1;
 

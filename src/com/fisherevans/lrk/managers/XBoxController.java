@@ -32,7 +32,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
     private ArrayList<InputManager.ControlKey> _keyQueue;
 
     private final double AXIS_THRESHOLD_TRIGGER = 0.5;
-    private final double AXIS_THRESHOLD_CENTERED = 0.2;
+    private final double AXIS_THRESHOLD_CENTERED = 0.166;
     private final float MOUSE_MOVE_SCALE = 350f;
 
     private final int AXIS_MOVE_LR = 0;
@@ -185,7 +185,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
         }
     }
 
-    public void queryAxes()
+    public void queryAxes(float delta)
     {
         JXInputManager.updateFeatures();
         for(Axis axis:_axisMap.keySet())

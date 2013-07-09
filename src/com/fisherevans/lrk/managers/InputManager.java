@@ -4,6 +4,7 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.tools.LRKMath;
 import de.hardcode.jxinput.JXInputDevice;
 import de.hardcode.jxinput.JXInputManager;
 import de.hardcode.jxinput.directinput.DirectInputDevice;
@@ -278,11 +279,13 @@ public class InputManager implements KeyListener
     public static void setMouseX(float mouseX)
     {
         _mouseX = mouseX;
+        checkMouseX();
     }
 
     public static void addMouseX(float mouseX)
     {
         _mouseX += mouseX;
+        checkMouseX();
     }
 
     public static float getMouseY()
@@ -293,10 +296,28 @@ public class InputManager implements KeyListener
     public static void setMouseY(float mouseY)
     {
         _mouseY = mouseY;
+        checkMouseY();
     }
 
     public static void addMouseY(float mouseY)
     {
         _mouseY += mouseY;
+        checkMouseY();
+    }
+
+    private static void checkMouse()
+    {
+        checkMouseX();
+        checkMouseY();
+    }
+
+    private static void checkMouseX()
+    {
+        _mouseX = LRKMath.clamp(0, _mouseX, DisplayManager.getRenderWidth());
+    }
+
+    private static void checkMouseY()
+    {
+        _mouseY = LRKMath.clamp(0, _mouseY, DisplayManager.getRenderHeight());
     }
 }

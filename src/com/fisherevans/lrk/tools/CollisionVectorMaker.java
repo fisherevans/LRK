@@ -1,4 +1,4 @@
-package com.fisherevans.lrk.launcher;
+package com.fisherevans.lrk.tools;
 
 import org.newdawn.slick.*;
 
