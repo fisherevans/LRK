@@ -88,55 +88,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
             _axisMap.put(_controller.getAxis(x), x);
             _axisLastValues.put(_controller.getAxis(x), 0.0);
             LRK.log(_controller.getAxis(x).getName() + " - " + _controller.getAxis(x));
-            //JXInputEventManager.addListener(this, _controller.getAxis(x), AXIS_THRESHOLD_TRIGGER);
         }
-    }
-
-    @Override
-    public void changed(JXInputAxisEvent jxInputAxisEvent)
-    {
-        Axis axis = jxInputAxisEvent.getAxis();
-        if(!_axisMap.containsKey(axis))
-            return;
-
-        int id = _axisMap.get(axis);
-
-        double v = axis.getValue();
-        double va = Math.abs(v);
-
-        LRK.log(id + " - " + v);
-
-        if(va >= AXIS_THRESHOLD_TRIGGER)
-        {
-            double lv = _axisLastValues.get(axis);
-            double lva = Math.abs(lv);
-
-            if(Math.signum(v) != Math.signum(lv) || lva < AXIS_THRESHOLD_TRIGGER)
-            {
-                switch(id)
-                {
-                    case AXIS_TRIGGER:
-                        if(v > 0) // left
-                            LRK.log("Trigger L");
-                        else // right
-                            LRK.log("Trigger R");
-                        break;
-                    case AXIS_MOVE_LR:
-                        if(v > 0)
-                            _keyQueue.add(InputManager.ControlKey.Right);
-                        else
-                            _keyQueue.add(InputManager.ControlKey.Left);
-                        break;
-                    case AXIS_MOVE_UD:
-                        if(v > 0)
-                            _keyQueue.add(InputManager.ControlKey.Down);
-                        else
-                            _keyQueue.add(InputManager.ControlKey.Up);
-                        break;
-                }
-            }
-        }
-        _axisLastValues.put(axis, v);
     }
 
     @Override
@@ -187,6 +139,9 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 
     public void queryAxes(float delta)
     {
+        if(_controller == null)
+            return;
+        
         JXInputManager.updateFeatures();
         for(Axis axis:_axisMap.keySet())
         {
@@ -194,8 +149,6 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 
             double v = axis.getValue();
             double va = Math.abs(v);
-
-            //LRK.log(id + " - " + v);
 
             if(va >= AXIS_THRESHOLD_TRIGGER)
             {
