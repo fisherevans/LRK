@@ -1,7 +1,7 @@
-display.width=1204
-display.height=761
-display.position.x=455
-display.position.y=0
+display.width=800
+display.height=600
+display.position.x=20
+display.position.y=20
 display.maximized=false
 input.up=17
 input.down=31
