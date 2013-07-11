@@ -65,10 +65,12 @@ public class LRK extends BasicGame implements MouseListener
 
         float delta = deltaMS/1000f;
 
-        InputManager.getXboxController().queryAxes(delta);
-
-        InputManager.getXboxController().runKeyQueue();
-        InputManager.getXboxController().moveMouse(delta);
+        if(InputManager.getXboxController() != null)
+        {
+            InputManager.getXboxController().queryAxes(delta);
+            InputManager.getXboxController().runKeyQueue();
+            InputManager.getXboxController().moveMouse(delta);
+        }
 
         StateLibrary.getActiveState().update(delta);
     }

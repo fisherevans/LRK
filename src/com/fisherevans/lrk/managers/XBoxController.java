@@ -18,7 +18,7 @@ import java.util.Map;
  * Time: 8:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class XBoxController implements JXInputDirectionalEventListener, JXInputAxisEventListener, JXInputButtonEventListener
+public class XBoxController implements JXInputDirectionalEventListener, JXInputButtonEventListener
 {
     private JXInputDevice _controller;
 
@@ -200,6 +200,9 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
 
     public boolean isButtonDown(InputManager.ControlKey key)
     {
+        if(_controller == null)
+            return false;
+
         switch(key)
         {
             case Up:
@@ -210,42 +213,32 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputA
                 return (_dpad.getDirection() == 18000 && !_dpad.isCentered());
             case Left:
                 return (_dpad.getDirection() == 27000 && !_dpad.isCentered());
+            default:
+                return false;
         }
-
-        return false;
     }
 
     public float getMoveDX()
     {
-        Axis moveLR = _controller.getAxis(AXIS_MOVE_LR);
+        if(_controller == null)
+            return 0f;
 
-        if(Math.abs(moveLR.getValue()) < AXIS_THRESHOLD_CENTERED)
-            return 0;
-        LRK.log(moveLR.getValue() +"");
-        return (float)moveLR.getValue();
+        float value = (float) _controller.getAxis(AXIS_MOVE_LR).getValue();
+        return value < AXIS_THRESHOLD_CENTERED ? 0 : value;
     }
 
     public float getMoveDY()
     {
-        Axis moveUD = _controller.getAxis(AXIS_MOVE_UD);
+        if(_controller == null)
+            return 0f;
 
-        if(Math.abs(moveUD.getValue()) < AXIS_THRESHOLD_CENTERED)
-            return 0;
-
-        return -(float)moveUD.getValue();
+        float value = (float) _controller.getAxis(AXIS_MOVE_UD).getValue();
+        return value < AXIS_THRESHOLD_CENTERED ? 0 : -value;
     }
 
     public void runKeyQueue()
     {
-        if(_keyQueue.size() > 0)
-        {
-            for(InputManager.ControlKey key:_keyQueue)
-            {
-                LRK.log("XBox Press: " + key);
-                InputManager.sendKeyPress(key);
-            }
-
-            _keyQueue = new ArrayList<>();
-        }
+        while(_keyQueue.size() > 0)
+            InputManager.sendKeyPress(_keyQueue.remove(0));
     }
 }

@@ -9,8 +9,10 @@ import de.hardcode.jxinput.JXInputDevice;
 import de.hardcode.jxinput.JXInputManager;
 import de.hardcode.jxinput.directinput.DirectInputDevice;
 import de.hardcode.jxinput.event.*;
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
+import org.newdawn.slick.geom.Vector2f;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -319,5 +321,24 @@ public class InputManager implements KeyListener
     private static void checkMouseY()
     {
         _mouseY = LRKMath.clamp(0, _mouseY, DisplayManager.getRenderHeight());
+    }
+
+    public static Vec2 getMoveVector()
+    {
+        Vec2 v = new Vec2(0, 0);
+
+        // if a movement key is pressed, adjustt he movement vector
+        if(isControlKeyDown(ControlKey.Up))   v.y -= 1f;
+        if(isControlKeyDown(ControlKey.Down)) v.y += 1f;
+        if(getXboxController() != null)       v.y -= getXboxController().getMoveDY();
+
+        if(isControlKeyDown(ControlKey.Right)) v.x += 1f;
+        if(isControlKeyDown(ControlKey.Left))  v.x -= 1f;
+        if(getXboxController() != null)        v.x += getXboxController().getMoveDX();
+
+        if(v.length() > 1);
+            v.normalize();
+
+        return v;
     }
 }
