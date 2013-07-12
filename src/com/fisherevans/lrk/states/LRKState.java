@@ -1,7 +1,9 @@
 package com.fisherevans.lrk.states;
 
 import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.managers.InputManager;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -14,6 +16,10 @@ import org.newdawn.slick.SlickException;
 public abstract class LRKState
 {
     private int _id;
+
+    private Image _cursor = null;
+
+    private boolean _grabMouse = false;
 
     public LRKState(int id) throws SlickException
     {
@@ -64,6 +70,12 @@ public abstract class LRKState
      */
     public abstract void render(Graphics gfx) throws SlickException;
 
+    public void drawCursor(Graphics gfx) throws SlickException
+    {
+        if(_cursor != null)
+            GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), _cursor);
+    }
+
     /**
      * updates this state and its elements
      * @param delta time since the last update (in seconds)
@@ -105,4 +117,24 @@ public abstract class LRKState
     public void keyTyped(char c) { }
 
     public abstract void resize();
+
+    public Image getCursor()
+    {
+        return _cursor;
+    }
+
+    public void setCursor(Image cursor)
+    {
+        _cursor = cursor;
+    }
+
+    public boolean getGrabMouse()
+    {
+        return _grabMouse;
+    }
+
+    public void setGrabMouse(boolean grabMouse)
+    {
+        _grabMouse = grabMouse;
+    }
 }

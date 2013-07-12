@@ -54,7 +54,8 @@ public class AdventureState extends LRKState
     {
         resize();
 
-        _cursor = Resources.getImage("res/test/images/cursor.png"); // create the mouse image
+        setCursor(Resources.getImage("res/test/images/cursor.png"));
+        setGrabMouse(true);
 
         _world = new World(new Vec2(0, 0f), true);
 
@@ -99,13 +100,13 @@ public class AdventureState extends LRKState
     @Override
     public void enter() throws SlickException
     {
-        Game.getContainer().setMouseGrabbed(_takeMouse);
+
     }
 
     @Override
     public void exit() throws SlickException
     {
-        Game.getContainer().setMouseGrabbed(false);
+
     }
 
     @Override
@@ -138,9 +139,6 @@ public class AdventureState extends LRKState
             // draw them with the x and y shifts
             GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
         }
-
-        // finally, draw the courser on top
-        GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), _cursor);
     }
 
     /**
