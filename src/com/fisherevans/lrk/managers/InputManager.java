@@ -341,4 +341,14 @@ public class InputManager implements KeyListener
 
         return v;
     }
+
+    public static float getMouseXOrigin()
+    {
+        return _mouseX - DisplayManager.getRenderWidth()/2f;
+    }
+
+    public static float getMouseYOrigin()
+    {
+        return _mouseY - DisplayManager.getRenderHeight()/2f;
+    }
 }

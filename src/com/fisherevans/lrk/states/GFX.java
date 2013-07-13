@@ -138,8 +138,7 @@ public class GFX
      */
     public static float drawTextWrap(float x, float y, float width, float height, int horzAlign, int vertAlign, UnicodeFont font, Color c, String baseText)
     {
-        float wrapWidth = width;
-        ArrayList<String> textSplit = new ArrayList(Arrays.asList(baseText.split(" ")));
+        ArrayList<String> textSplit = (ArrayList<String>) Arrays.asList(baseText.split(" "));
         ArrayList<String> texts = new ArrayList<String>();
         String line = "";
         while(textSplit.size() > 0)
@@ -149,7 +148,7 @@ public class GFX
             while(textSplit.size() > 0)
             {
                 lineBuffer = line + textSplit.get(0);
-                if(font.getWidth(lineBuffer) <= wrapWidth)
+                if(font.getWidth(lineBuffer) <= width)
                 {
                     line += " " + textSplit.remove(0);
                 }
@@ -165,7 +164,7 @@ public class GFX
             texts.add(line);
 
 
-        float halfHeight = height/2f, yDiff = 0;
+        float yDiff = 0;
         float lineHeight = font.getLineHeight()*LINE_HEIGHT_SCALE;
         switch (vertAlign)
         {
@@ -200,11 +199,8 @@ public class GFX
      */
     public static float filterDrawPosition(float original)
     {
-        return original;
-        /*
         float filtered = (int)(original*DisplayManager.getScale());
         filtered /= DisplayManager.getScale();
         return filtered;
-        // */
     }
 }

@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
+import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.InputManager;
 import org.jbox2d.collision.shapes.CircleShape;
@@ -53,6 +54,9 @@ public class Player extends AdventureEntity
     @Override
     public void update(int delta)
     {
+        setDegrees((float) Math.toDegrees(Math.atan2(InputManager.getMouseYOrigin(), InputManager.getMouseXOrigin())));
+        LRK.log(getDegrees()+ "");
+
         Vec2 v = InputManager.getMoveVector();
 
         if(v.x != 0 || v.y != 0) // if we're moving

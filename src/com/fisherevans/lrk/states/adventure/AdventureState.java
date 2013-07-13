@@ -30,7 +30,7 @@ public class AdventureState extends LRKState
 
     public static final float
         TILE_SIZE = 32f,
-        RENDER_DISTANCE = 6f;
+        RENDER_DISTANCE = 10f;
 
 
     public static float TILES_WIDE, TILES_HIGH;
@@ -111,15 +111,13 @@ public class AdventureState extends LRKState
     public void render(Graphics gfx) throws SlickException
     {
         // get the vector from the center of the screen to the mouse
-        Vec2 aimShift = new Vec2(InputManager.getMouseX()-DisplayManager.getRenderWidth()/2f,
-                InputManager.getMouseY()-DisplayManager.getRenderHeight()/2f);
-        _player.setDegrees((float) Math.toDegrees(Math.atan2(aimShift.y, aimShift.x)));
+        Vec2 aimShift = new Vec2(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
 
         // when drawing entities, shift each by x and y shift
         // subtract the camera pos and add half the display and subtract the aim shift
-        float xShift = (-_camera.getX() + TILES_WIDE/2f)*TILE_SIZE - aimShift.x;
-        float yShift = (-_camera.getY() + TILES_HIGH/2f)*TILE_SIZE - aimShift.y;
+        float xShift = (TILES_WIDE/2f - _camera.getX())*TILE_SIZE - aimShift.x;
+        float yShift = (TILES_HIGH/2f - _camera.getY())*TILE_SIZE - aimShift.y;
 
         // the map shift is scaled to the nearest real display pixel
         // stops screen tares
@@ -130,13 +128,13 @@ public class AdventureState extends LRKState
         int startX = (int)(_camera.getX()+aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
         int startY = (int)(_camera.getY()+aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
 
-        drawMapLayer(mapXShift, mapYShift, startX, startY, "background");
+        drawMapLayer(mapXShift, mapYShift, startX, startY, getLayerIds("background"));
 
         float xDiff, yDiff;
         for(AdventureEntity ent:_entities) // for each entity
         {
-            xDiff = ent.getX() > _player.getX() ? ent.getX() - _player.getX() : _player.getX() - ent.getX();
-            yDiff = ent.getY() > _player.getY() ? ent.getY() - _player.getY() : _player.getY() - ent.getY();
+            xDiff = ent.getX() > _camera.getX() ? ent.getX() - _camera.getX() : _camera.getX() - ent.getX();
+            yDiff = ent.getY() > _camera.getY() ? ent.getY() - _camera.getY() : _camera.getY() - ent.getY();
             if(xDiff > RENDER_DISTANCE || yDiff > RENDER_DISTANCE)
                 continue;
 
@@ -145,34 +143,40 @@ public class AdventureState extends LRKState
         }
     }
 
+    private int[] getLayerIds(String... layers)
+    {
+        int[] layerIds = new int[layers.length];
+
+        for(int layerNumber = 0;layerNumber < layers.length;layerNumber++)
+            layerIds[layerNumber] = _map.getLayerIndex(layers[layerNumber]);
+
+        return layerIds;
+    }
+
     /**
      * Draws a tiled map layer on the primary graphics element
      * @param xShift the sub tile x shift to move the whole layer by
      * @param yShift the sub tile x shift to move the whole layer by
      * @param startX the x index of the tile to begin drawing at
      * @param startY the y index of the tile to begin drawing at
-     * @param layers the layers to draw
+     * @param layerIds the layers to draw
      */
-    private void drawMapLayer(float xShift, float yShift, int startX, int startY, String... layers)
+    private void drawMapLayer(float xShift, float yShift, int startX, int startY, int[] layerIds)
     {
-        int[] layerIds = new int[layers.length];
-        for(int layerNumber = 0;layerNumber < layers.length;layerNumber++)
+        Image tile;
+        for(int y = startY;y <= startY+TILES_WIDE+1;y++)
         {
-            layerIds[layerNumber] = _map.getLayerIndex(layers[layerNumber]);
-        }
-
-        for(int y = (int) (_player.getY()-RENDER_DISTANCE);y <= (int) (_player.getY()+RENDER_DISTANCE+1);y++)
-        {
-
-            for(int x = (int) (_player.getX()-RENDER_DISTANCE);x <= (int) (_player.getX()+RENDER_DISTANCE+1);x++) // for each tile on the screen
+            for(int x = startX;x <= startX+TILES_WIDE+1;x++) // for each tile on the screen
             {
-                try
+                for(Integer layerId:layerIds)
                 {
-                    // draw that tiles image
-                    for(Integer layerId:layerIds)
-                        GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, _map.getTileImage(x, y, layerId));
+                    tile = _map.getTileImage(x, y, layerId);
+                    if(tile != null)
+                    {
+                        if(Math.abs(x-_camera.getX()) < RENDER_DISTANCE && Math.abs(y-_camera.getY()) < RENDER_DISTANCE)
+                            GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile);
+                    }
                 }
-                catch(Exception e) { }
             }
         }
     }
