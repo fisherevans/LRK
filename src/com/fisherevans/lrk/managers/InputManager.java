@@ -46,6 +46,9 @@ public class InputManager implements KeyListener
         _mouseY = DisplayManager.getRenderHeight()/2f;
     }
 
+    /**
+     * Loads the XBox controller if there is one and creates a listener for that controller
+     */
     public static void loadControllers()
     {
         if(jxNativesLoaded)
@@ -58,7 +61,6 @@ public class InputManager implements KeyListener
                 if(controllerName.contains("xbox") && controllerName.contains("360"))
                 {
                     xboxController = new XBoxController(JXInputManager.getJXInputDevice(controllerId));
-                    break;
                 }
             }
         }
@@ -118,6 +120,11 @@ public class InputManager implements KeyListener
         return null;
     }
 
+    /**
+     * Updates a setting based on a string key and value
+     * @param key the corresponding key to determine what value to set
+     * @param value the string value to set it to.
+     */
     public static void setProperty(String key, String value)
     {
         ControlKey inputKey = stringToControlKey(key);
@@ -173,6 +180,10 @@ public class InputManager implements KeyListener
         state.keyTyped(c);
     }
 
+    /**
+     * Sends a ContronKey press to the current state
+     * @param key
+     */
     public static void sendKeyPress(ControlKey key)
     {
         LRKState state = StateLibrary.getActiveState();
@@ -255,8 +266,14 @@ public class InputManager implements KeyListener
         return getControlKey(stringToControlKey(key));
     }
 
+    /**
+     * Checks to see if a key is down
+     * @param key the key to check for
+     * @return true if it's down, false if not
+     */
     public static boolean isControlKeyDown(ControlKey key)
     {
+        // TODO
         if(getInput().isKeyDown(getControlKey(key)))
             return true;
 
@@ -307,22 +324,35 @@ public class InputManager implements KeyListener
         checkMouseY();
     }
 
+    /**
+     * Keeps the x and y mouse values in check with the current render dimension
+     */
     private static void checkMouse()
     {
         checkMouseX();
         checkMouseY();
     }
 
+    /**
+     * Keeps the x mouse value in check with the current render dimension
+     */
     private static void checkMouseX()
     {
         _mouseX = LRKMath.clamp(0, _mouseX, DisplayManager.getRenderWidth());
     }
 
+    /**
+     * Keeps the y mouse value in check with the current render dimension
+     */
     private static void checkMouseY()
     {
         _mouseY = LRKMath.clamp(0, _mouseY, DisplayManager.getRenderHeight());
     }
 
+    /**
+     * returns the x/y movement vector with a length < 1 based on controller input
+     * @return the move vector
+     */
     public static Vec2 getMoveVector()
     {
         Vec2 v = new Vec2(0, 0);
@@ -342,11 +372,17 @@ public class InputManager implements KeyListener
         return v;
     }
 
+    /**
+     * @return the x distance of the mouse pointer from the middle of the window
+     */
     public static float getMouseXOrigin()
     {
         return _mouseX - DisplayManager.getRenderWidth()/2f;
     }
 
+    /**
+     * @return the y distance of the mouse pointer from the middle of the window
+     */
     public static float getMouseYOrigin()
     {
         return _mouseY - DisplayManager.getRenderHeight()/2f;

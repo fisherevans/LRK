@@ -57,6 +57,10 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
     private final int DIRECTIONAL_DOWN = 18000;
     private final int DIRECTIONAL_LEFT = 27000;
 
+    /**
+     * creates the xbox controller, sets up the listeners, etc
+     * @param controller the controller to base this input method on
+     */
     public XBoxController(JXInputDevice controller)
     {
         _keyQueue = new ArrayList<>();
@@ -137,6 +141,10 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         }
     }
 
+    /**
+     * poll axes for changes since the last check
+     * @param delta the time since the last check
+     */
     public void queryAxes(float delta)
     {
         if(_controller == null)
@@ -184,6 +192,10 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         }
     }
 
+    /**
+     * Updates InputManager's mouse values based on the controller's axes
+     * @param delta time since last mouse check
+     */
     public void moveMouse(float delta)
     {
         if(_controller == null)
@@ -198,6 +210,11 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
             InputManager.addMouseY((float)ud*delta*MOUSE_MOVE_SCALE);
     }
 
+    /**
+     * Checks whether a given ControlKey is down
+     * @param key the key to check
+     * @return true of the key down
+     */
     public boolean isButtonDown(InputManager.ControlKey key)
     {
         if(_controller == null)
@@ -218,6 +235,9 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         }
     }
 
+    /**
+     * @return gets the delta for movement (< 1) for the x axis
+     */
     public float getMoveDX()
     {
         if(_controller == null)
@@ -227,6 +247,10 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         return value < AXIS_THRESHOLD_CENTERED ? 0 : value;
     }
 
+
+    /**
+     * @return gets the delta for movement (< 1) for the y axis
+     */
     public float getMoveDY()
     {
         if(_controller == null)
@@ -236,6 +260,9 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         return value < AXIS_THRESHOLD_CENTERED ? 0 : -value;
     }
 
+    /**
+     * Calls key presses queued up by this controller
+     */
     public void runKeyQueue()
     {
         while(_keyQueue.size() > 0)

@@ -101,11 +101,19 @@ public class DisplayManager
         return _windowHeight/_scale;
     }
 
+    /**
+     * update the game canvas based on the window size
+     */
     public static void updateCanvasStats()
     {
         setDimensions(Game.gameCanvas.getWidth(), Game.gameCanvas.getHeight());
     }
 
+    /**
+     * set the dimensions of the window
+     * @param width the width
+     * @param height the height
+     */
     public static void setDimensions(int width, int height)
     {
         _windowWidth = width;
@@ -122,21 +130,18 @@ public class DisplayManager
         _scale = _scale > 4 ? 4 : _scale;
         // */
 
+        Game.lrk.pause(100);
         refreshDisplay();
     }
 
+    /**
+     * resize the current state
+     */
     public static void refreshDisplay()
     {
-        Game.lrk.pause(100);
-
         LRKState state = StateLibrary.getActiveState();
         if(state != null)
             state.resize();
-    }
-
-    public static void refreshPosition()
-    {
-        Game.window.setLocation(getPositionX(), getPositionY());
     }
 
     public static Dimension getDimensions()

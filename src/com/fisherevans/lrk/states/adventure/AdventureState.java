@@ -119,16 +119,11 @@ public class AdventureState extends LRKState
         float xShift = (TILES_WIDE/2f - _camera.getX())*TILE_SIZE - aimShift.x;
         float yShift = (TILES_HIGH/2f - _camera.getY())*TILE_SIZE - aimShift.y;
 
-        // the map shift is scaled to the nearest real display pixel
-        // stops screen tares
-        float mapYShift = GFX.filterDrawPosition(yShift);
-        float mapXShift = GFX.filterDrawPosition(xShift);
-
         // what tile to start drawing at
         int startX = (int)(_camera.getX()+aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
         int startY = (int)(_camera.getY()+aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
 
-        drawMapLayer(mapXShift, mapYShift, startX, startY, getLayerIds("background"));
+        drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
         float xDiff, yDiff;
         for(AdventureEntity ent:_entities) // for each entity
@@ -143,6 +138,11 @@ public class AdventureState extends LRKState
         }
     }
 
+    /**
+     * get the int ids of the given string layers
+     * @param layers string layers to lookup
+     * @return the array of int containing the layers in the same order
+     */
     private int[] getLayerIds(String... layers)
     {
         int[] layerIds = new int[layers.length];
@@ -201,10 +201,5 @@ public class AdventureState extends LRKState
     {
         TILES_WIDE = DisplayManager.getRenderWidth()/TILE_SIZE;
         TILES_HIGH = DisplayManager.getRenderHeight()/TILE_SIZE;
-    }
-
-    public void keyPressed(int key, char c)
-    {
-        if(key == Input.KEY_BACKSLASH) System.exit(0);
     }
 }

@@ -44,6 +44,11 @@ public abstract class TransitionState extends LRKState
             transitionUpdate(delta);
     }
 
+    /**
+     * Updates the transition much like the LRK update.
+     * @param delta the time since the last update
+     * @throws SlickException
+     */
     public abstract void transitionUpdate(float delta) throws SlickException;
 
     /**

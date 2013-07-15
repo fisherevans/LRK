@@ -83,16 +83,21 @@ public class LRK extends BasicGame implements MouseListener
 
         gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
         StateLibrary.getActiveState().render(gfx);
-        StateLibrary.getActiveState().drawCursor(gfx);
+        StateLibrary.getActiveState().drawCursor();
         gfx.resetTransform();
     }
 
+    /**
+     * Pauses the game from rendering and updating.
+     * @param time the time in miliseconds to pause the game for
+     */
     public void pause(long time)
     {
         paused = true;
         pauseEndTime = System.currentTimeMillis() + time;
     }
 
+    @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy)
     {
         InputManager.setMouseX(InputManager.getInput().getMouseX()/DisplayManager.getScale());

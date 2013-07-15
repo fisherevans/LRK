@@ -15,7 +15,7 @@ public abstract class EntityComponent
 
     public EntityComponent(RPGEntity parentEntity)
     {
-        parentEntity = _parentEntity;
+        _parentEntity = parentEntity;
     }
 
     public RPGEntity getParentEntity()

@@ -104,6 +104,9 @@ public class Game
         }
     }
 
+    /**
+     * Centers the window on the screen
+     */
     public static void centerWindow()
     {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -135,6 +138,9 @@ public class Game
         return "linux";
     }
 
+    /**
+     * Ends the game sessions. Saves the current settings and tells lrk to close
+     */
     public static void finalClose()
     {
         try

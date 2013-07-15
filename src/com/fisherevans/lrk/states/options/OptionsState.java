@@ -116,7 +116,7 @@ public class OptionsState extends LRKState
             displayColor = (menu.getCurrentId() == displayId ? displayItem.getColorHover() : displayItem.getColor()).scaleCopy(colorScale); // the color of the item
 
             // draw the text
-            GFX.drawText(xDiff, GFX.filterDrawPosition(DisplayManager.getRenderHeight()/2f + yShift), width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
+            GFX.drawText(xDiff, DisplayManager.getRenderHeight()/2f + yShift, width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
         }
     }
 

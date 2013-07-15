@@ -138,7 +138,7 @@ public class GFX
      */
     public static float drawTextWrap(float x, float y, float width, float height, int horzAlign, int vertAlign, UnicodeFont font, Color c, String baseText)
     {
-        ArrayList<String> textSplit = (ArrayList<String>) Arrays.asList(baseText.split(" "));
+        ArrayList<String> textSplit = new ArrayList(Arrays.asList(baseText.split(" ")));
         ArrayList<String> texts = new ArrayList<String>();
         String line = "";
         while(textSplit.size() > 0)
@@ -189,18 +189,5 @@ public class GFX
     {
         g.setColor(c);
         g.fillRect(0, 0, DisplayManager.getRenderWidth(), DisplayManager.getRenderHeight());
-
-    }
-
-    /**
-     * adjusts a floating point value to match a real pixel value of the current display window. prevents visual taring
-     * @param original the float position
-     * @return the adjust position (moved to the nearest (floored) pixel)
-     */
-    public static float filterDrawPosition(float original)
-    {
-        float filtered = (int)(original*DisplayManager.getScale());
-        filtered /= DisplayManager.getScale();
-        return filtered;
     }
 }

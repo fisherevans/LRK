@@ -70,7 +70,11 @@ public abstract class LRKState
      */
     public abstract void render(Graphics gfx) throws SlickException;
 
-    public void drawCursor(Graphics gfx) throws SlickException
+    /**
+     * Draws this states cursor on the current graphics element.
+     * @throws SlickException
+     */
+    public void drawCursor() throws SlickException
     {
         if(_cursor != null)
             GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), _cursor);
@@ -116,6 +120,9 @@ public abstract class LRKState
      */
     public void keyTyped(char c) { }
 
+    /**
+     * Called whenever the state is resized. Used for re-evaluating rendering values
+     */
     public abstract void resize();
 
     public Image getCursor()
