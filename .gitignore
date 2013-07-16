@@ -1,6 +1,4 @@
 # Ignore
 .git
 .hg
-.idea
 out
-lrk.settings
