@@ -4,6 +4,7 @@ import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.AudioManager;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.notifications.Notifications;
 import com.fisherevans.lrk.states.quit.QuitState;
 import de.hardcode.jxinput.JXInputManager;
 import de.hardcode.jxinput.event.JXInputEventManager;
@@ -25,6 +26,8 @@ public class LRK extends BasicGame implements MouseListener
     private AudioManager _audioManager;
     private DisplayManager _displayManager;
 
+    private Notifications _notifications;
+
     private long pauseEndTime = 0;
     private boolean paused = false;
 
@@ -41,6 +44,8 @@ public class LRK extends BasicGame implements MouseListener
         _inputManager = new InputManager();
         _audioManager = new AudioManager();
 
+        _notifications = new Notifications();
+
         Options.load();
     }
 
@@ -53,6 +58,8 @@ public class LRK extends BasicGame implements MouseListener
 
         InputManager.connectInput(Game.getContainer().getInput());
         InputManager.getInput().addMouseListener(this);
+
+        _notifications.init();
     }
 
     @Override
@@ -73,6 +80,8 @@ public class LRK extends BasicGame implements MouseListener
         }
 
         StateLibrary.getActiveState().update(delta);
+
+        _notifications.update(delta);
     }
 
     @Override
@@ -85,6 +94,8 @@ public class LRK extends BasicGame implements MouseListener
         StateLibrary.getActiveState().render(gfx);
         StateLibrary.getActiveState().drawCursor();
         gfx.resetTransform();
+
+        _notifications.render(gfx);
     }
 
     /**
@@ -146,5 +157,10 @@ public class LRK extends BasicGame implements MouseListener
     public AudioManager getAudioManager()
     {
         return _audioManager;
+    }
+
+    public Notifications getNotifications()
+    {
+        return _notifications;
     }
 }

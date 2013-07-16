@@ -3,6 +3,7 @@ package com.fisherevans.lrk.managers;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.tools.LRKMath;
 import de.hardcode.jxinput.JXInputDevice;
@@ -176,6 +177,8 @@ public class InputManager implements KeyListener
             state.keyMenu();
         else if(key == getControlKey(ControlKey.ForceQuit))
             Game.lrk.exit();
+
+        Game.lrk.getNotifications().addNotification(new Notification("You pressed the '" + c + "' key!!!"));
 
         state.keyTyped(c);
     }
