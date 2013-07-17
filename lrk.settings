@@ -1,8 +1,8 @@
-display.width=800
-display.height=600
-display.position.x=20
-display.position.y=20
-display.maximized=false
+display.width=1857
+display.height=1057
+display.position.x=1975
+display.position.y=-8
+display.maximized=true
 input.up=17
 input.down=31
 input.left=30
