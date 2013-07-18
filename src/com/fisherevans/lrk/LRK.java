@@ -95,7 +95,9 @@ public class LRK extends BasicGame implements MouseListener
         StateLibrary.getActiveState().drawCursor();
         gfx.resetTransform();
 
+        gfx.scale(_notifications.getRenderScale(), _notifications.getRenderScale());
         _notifications.render(gfx);
+        gfx.resetTransform();
     }
 
     /**

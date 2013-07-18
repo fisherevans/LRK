@@ -38,6 +38,19 @@ public class GFX
     }
 
     /**
+     * Draw an image to the display with the top left of the image at given x and y and stretched to the given width and height
+     * @param x x pos of top left of the image
+     * @param y y pos of the top left of the image
+     * @param width the width to draw the image
+     * @param height thr height to draw the image
+     * @param img The image to draw
+     */
+    public static void drawImage(float x, float y, float width, float height, Image img)
+    {
+        img.draw(x, y, width, height);
+    }
+
+    /**
      * Draw an image to the display centered on the given x and y
      * @param x the x pos to center the image on
      * @param y the y pos to center the image on
