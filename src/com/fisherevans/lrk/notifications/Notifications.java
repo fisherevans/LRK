@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.notifications;
 
+import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.notifications.types.Notification;
@@ -35,7 +36,9 @@ public class Notifications
 
     private Image _bgLeft, _bgMid, _bgRight;
 
-    private int renderScale = 2;
+    private int renderScale = 1;
+
+    private boolean blockNotifications = true;
 
     public Notifications()
     {
@@ -62,7 +65,7 @@ public class Notifications
 
     public void update(float delta)
     {
-        if(_notifications == null || _notifications.size() == 0)
+        if(blockNotifications || _notifications == null || _notifications.size() == 0)
             return;
 
         int updateThreshold = (int) (DisplayManager.getWindowHeight()/(height*renderScale));
@@ -89,7 +92,7 @@ public class Notifications
 
     public void render(Graphics gfx)
     {
-        if(_notifications == null || _notifications.size() == 0)
+        if(blockNotifications || _notifications == null || _notifications.size() == 0)
             return;
 
         Notification notification;
@@ -140,6 +143,7 @@ public class Notifications
 
     public void addNotification(Notification notification)
     {
+        LRK.log("Adding notification: " + notification.getMessage());
         _notifications.add(notification);
     }
 
@@ -151,5 +155,15 @@ public class Notifications
     public void setRenderScale(int renderScale)
     {
         this.renderScale = renderScale;
+    }
+
+    public boolean isBlockNotifications()
+    {
+        return blockNotifications;
+    }
+
+    public void setBlockNotifications(boolean blockNotifications)
+    {
+        this.blockNotifications = blockNotifications;
     }
 }

@@ -98,13 +98,13 @@ public class AdventureState extends LRKState
     @Override
     public void enter() throws SlickException
     {
-
+        InputManager.setQueryControllerMovement(false);
     }
 
     @Override
     public void exit() throws SlickException
     {
-
+        InputManager.setQueryControllerMovement(true);
     }
 
     @Override

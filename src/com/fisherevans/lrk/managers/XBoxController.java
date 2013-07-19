@@ -2,6 +2,8 @@ package com.fisherevans.lrk.managers;
 
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.notifications.Notifications;
+import com.fisherevans.lrk.notifications.types.Notification;
 import de.hardcode.jxinput.*;
 import de.hardcode.jxinput.Button;
 import de.hardcode.jxinput.event.*;
@@ -67,6 +69,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
 
         _controller = controller;
         LRK.log("Found XBox 360 Controller! Buttons: " + _controller.getNumberOfButtons() + " - Dir's: " + _controller.getNumberOfDirectionals() + " - Axes: " + _controller.getNumberOfAxes());
+        Game.lrk.getNotifications().addNotification(new Notification("XBox 360 Controller found!", Notification.GREY, Notifications.IMG_COG));
 
         for(int x = 0;x < _controller.getNumberOfDirectionals();x++)
         {
@@ -174,12 +177,16 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
                                 LRK.log("Trigger R");
                             break;
                         case AXIS_MOVE_LR:
+                            if(!InputManager.isQueryControllerMovement())
+                                return;
                             if(v > 0)
                                 _keyQueue.add(InputManager.ControlKey.Right);
                             else
                                 _keyQueue.add(InputManager.ControlKey.Left);
                             break;
                         case AXIS_MOVE_UD:
+                            if(!InputManager.isQueryControllerMovement())
+                                return;
                             if(v > 0)
                                 _keyQueue.add(InputManager.ControlKey.Down);
                             else
@@ -244,7 +251,8 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
             return 0f;
 
         float value = (float) _controller.getAxis(AXIS_MOVE_LR).getValue();
-        return value < AXIS_THRESHOLD_CENTERED ? 0 : value;
+        float valueAbsolute = Math.abs(value);
+        return valueAbsolute < AXIS_THRESHOLD_CENTERED ? 0 : value;
     }
 
 
@@ -257,7 +265,8 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
             return 0f;
 
         float value = (float) _controller.getAxis(AXIS_MOVE_UD).getValue();
-        return value < AXIS_THRESHOLD_CENTERED ? 0 : -value;
+        float valueAbsolute = Math.abs(value);
+        return valueAbsolute < AXIS_THRESHOLD_CENTERED ? 0 : -value;
     }
 
     /**

@@ -38,6 +38,7 @@ public class InputManager implements KeyListener
 
     public static boolean jxNativesLoaded = false;
     private static XBoxController xboxController = null;
+    private static boolean _queryControllerMovement = true;
 
     private static float _mouseX, _mouseY;
 
@@ -415,5 +416,15 @@ public class InputManager implements KeyListener
     public static float getMouseYOrigin()
     {
         return _mouseY - DisplayManager.getRenderHeight()/2f;
+    }
+
+    public static boolean isQueryControllerMovement()
+    {
+        return _queryControllerMovement;
+    }
+
+    public static void setQueryControllerMovement(boolean queryControllerMovement)
+    {
+        _queryControllerMovement = queryControllerMovement;
     }
 }

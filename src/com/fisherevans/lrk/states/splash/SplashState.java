@@ -3,6 +3,7 @@ package com.fisherevans.lrk.states.splash;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
@@ -42,6 +43,7 @@ public class SplashState extends LRKState
     @Override
     public void exit() throws SlickException
     {
+        Game.lrk.getNotifications().setBlockNotifications(false);
     }
 
     @Override
