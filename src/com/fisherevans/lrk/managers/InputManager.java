@@ -181,27 +181,30 @@ public class InputManager implements KeyListener
         else if(key == getControlKey(ControlKey.ForceQuit))
             Game.lrk.exit();
 
-        Color color = Notification.GREY;
-        switch((int) (Math.random()*7))
+        if(c == '0')
         {
-            case 0: color = Notification.GREY; break;
-            case 1: color = Notification.BLUE; break;
-            case 2: color = Notification.PURPLE; break;
-            case 3: color = Notification.RED; break;
-            case 4: color = Notification.ORANGE; break;
-            case 5: color = Notification.YELLOW; break;
-            case 6: color = Notification.GREEN; break;
-        }
-        Image icon = null;
-        switch((int) (Math.random()*5))
-        {
-            case 0: icon = Notifications.IMG_BAG; break;
-            case 1: icon = Notifications.IMG_QUEST; break;
-            case 2: icon = Notifications.IMG_SWORD; break;
-            case 3: icon = Notifications.IMG_COG; break;
-        }
+            Color color = Notification.GREY;
+            switch((int) (Math.random()*7))
+            {
+                case 0: color = Notification.GREY; break;
+                case 1: color = Notification.BLUE; break;
+                case 2: color = Notification.PURPLE; break;
+                case 3: color = Notification.RED; break;
+                case 4: color = Notification.ORANGE; break;
+                case 5: color = Notification.YELLOW; break;
+                case 6: color = Notification.GREEN; break;
+            }
+            Image icon = null;
+            switch((int) (Math.random()*5))
+            {
+                case 0: icon = Notifications.IMG_BAG; break;
+                case 1: icon = Notifications.IMG_QUEST; break;
+                case 2: icon = Notifications.IMG_SWORD; break;
+                case 3: icon = Notifications.IMG_COG; break;
+            }
 
-        Game.lrk.getNotifications().addNotification(new Notification("You pressed the '" + c + "' key!!!", color, icon));
+            Game.lrk.getNotifications().addNotification(new Notification("Just and example notification! " + ((int)(Math.random()*9999999)), color, icon));
+        }
 
         state.keyTyped(c);
     }

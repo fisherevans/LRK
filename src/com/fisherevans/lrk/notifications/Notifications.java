@@ -1,12 +1,14 @@
 package com.fisherevans.lrk.notifications;
 
 import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.states.GFX;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ public class Notifications
 
     private UnicodeFont font;
 
-    private float height, textY, textRight, slide;
+    private float height, textY, textHeight, slide;
 
     private Image _bgLeft, _bgMid, _bgRight;
 
@@ -49,8 +51,8 @@ public class Notifications
         _bgRight = Resources.getImage("res/test/images/notification_bg_right.png");
 
         height = _bgLeft.getHeight() + margin;
-        textY = _bgLeft.getHeight()/2f - font.getHeight("|")/2f;
-        textRight = _bgLeft.getWidth() + margin;
+        textHeight = font.getHeight("|");
+        textY = (_bgLeft.getHeight() - textHeight)/2f;
 
         IMG_BAG = Resources.getImage("res/test/images/notification_bag.png");
         IMG_COG = Resources.getImage("res/test/images/notification_settings.png");
@@ -63,12 +65,15 @@ public class Notifications
         if(_notifications == null || _notifications.size() == 0)
             return;
 
+        int updateThreshold = (int) (DisplayManager.getWindowHeight()/(height*renderScale));
+
         Notification notification;
         for(int notificationId = 0;notificationId < _notifications.size();notificationId++)
         {
 
             notification = _notifications.get(notificationId);
-            notification.update(delta);
+            if(notificationId < updateThreshold)
+                notification.update(delta);
 
             if(notification.isExpired())
             {
@@ -88,46 +93,48 @@ public class Notifications
             return;
 
         Notification notification;
-        Color fore, back, foreground, background;
-        float alpha, textX, midWidth, topPadding;
-        String text;
+        Color baseFore, baseBack, alphaFore, alphaBack, alphaIcon;
+        Rectangle bgLeftRect, bgMidRect, bgRightRect, iconRect, textRect;
+        float alphaScale, topPadding;
         Image icon;
 
-        float midX = margin + _bgLeft.getWidth();
-
-
-        for(int notificationId = 0;notificationId < _notifications.size();notificationId++)
+        for(int id = 0;id < _notifications.size();id++)
         {
-            topPadding = notificationId*height + slide + margin;
+            topPadding = id*height + slide + margin;
 
-            notification = _notifications.get(notificationId);
+            notification = _notifications.get(id);
             icon = notification.getIcon();
-            foreground = notification.getForeground();
-            background = notification.getBackground();
+            baseFore = notification.getForeground();
+            baseBack = notification.getBackground();
 
-            textX = margin + _bgLeft.getWidth() + padding;
-            midWidth = font.getWidth(notification.getMessage()) + padding*2;
+            alphaScale = (float) (1 - Math.pow(2f*(notification.getInterpolation()-0.5f),8));
+            alphaFore = new Color(baseFore.r, baseFore.g, baseFore.b, baseFore.a*alphaScale);
+            alphaBack = new Color(baseBack.r, baseBack.g, baseBack.b, baseBack.a*alphaScale);
+            alphaIcon = new Color(1f, 1f, 1f, alphaScale);
 
-            alpha = (float) (Math.pow(1f-notification.getInterpolation(),0.3));
+            bgLeftRect = new Rectangle(margin, topPadding, _bgLeft.getWidth(), _bgLeft.getHeight());
+            textRect = new Rectangle(margin + _bgLeft.getWidth() + padding, textY + topPadding, font.getWidth(notification.getMessage()), textHeight);
+            bgMidRect = new Rectangle(margin + _bgLeft.getWidth(), topPadding, textRect.getWidth() + padding*2, _bgMid.getHeight());
 
+            iconRect = new Rectangle(0, 0, 0, 0);
             if(icon != null)
             {
-                float iconTotalWidth = padding + icon.getWidth();
-                midWidth += iconTotalWidth;
-                textX += iconTotalWidth;
+                iconRect = new Rectangle(textRect.getX(), (_bgLeft.getHeight()-icon.getHeight())/2f + topPadding, icon.getWidth(), icon.getHeight());
+                float iconPush = padding + iconRect.getWidth();
+                textRect.setX(textRect.getX() + iconPush);
+                bgMidRect.setWidth(bgMidRect.getWidth() + iconPush);
             }
 
-            fore = new Color(foreground.r, foreground.g, foreground.b, foreground.a*alpha);
-            back = new Color(background.r, background.g, background.b, background.a*alpha);
+            bgRightRect = new Rectangle(bgMidRect.getX() + bgMidRect.getWidth(), topPadding, _bgRight.getWidth(), _bgRight.getHeight());
 
-            _bgLeft.draw(margin, topPadding, back);
-            _bgMid.draw(margin + _bgLeft.getWidth(), topPadding, midWidth, _bgMid.getHeight(), back);
-            _bgRight.draw(margin + _bgLeft.getWidth() + midWidth, topPadding, back);
+            _bgLeft.draw(bgLeftRect.getX(), bgLeftRect.getY(), alphaBack);
+            _bgMid.draw(bgMidRect.getX(),bgMidRect.getY(), bgMidRect.getWidth(), bgMidRect.getHeight(), alphaBack);
+            _bgRight.draw(bgRightRect.getX(), bgRightRect.getY(), alphaBack);
 
             if(icon != null)
-                icon.draw(margin + _bgLeft.getWidth() + padding, topPadding + (_bgLeft.getHeight()-icon.getHeight())/2f);
+                icon.draw(iconRect.getX(), iconRect.getY(), alphaIcon);
 
-            GFX.drawTextAbsolute(textX, topPadding + textY, font, fore, notification.getMessage());
+            GFX.drawTextAbsolute(textRect.getX(), textRect.getY(), font, alphaFore, notification.getMessage());
         }
     }
 
