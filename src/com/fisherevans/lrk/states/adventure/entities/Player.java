@@ -55,7 +55,7 @@ public class Player extends AdventureEntity
     public void update(int delta)
     {
         setDegrees((float) Math.toDegrees(Math.atan2(InputManager.getMouseYOrigin(), InputManager.getMouseXOrigin())));
-        LRK.log(getDegrees()+ "");
+        //LRK.log(getDegrees()+ "");
 
         Vec2 v = InputManager.getMoveVector();
 

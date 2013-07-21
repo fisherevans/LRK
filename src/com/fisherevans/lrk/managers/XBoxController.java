@@ -8,7 +8,6 @@ import de.hardcode.jxinput.*;
 import de.hardcode.jxinput.Button;
 import de.hardcode.jxinput.event.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +21,7 @@ import java.util.Map;
  */
 public class XBoxController implements JXInputDirectionalEventListener, JXInputButtonEventListener
 {
-    private JXInputDevice _controller;
+    private JXInputDevice _device;
 
     private Map<Button, Integer> _buttonMap;
     private Directional _dpad;
@@ -67,34 +66,32 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
     {
         _keyQueue = new ArrayList<>();
 
-        _controller = controller;
-        LRK.log("Found XBox 360 Controller! Buttons: " + _controller.getNumberOfButtons() + " - Dir's: " + _controller.getNumberOfDirectionals() + " - Axes: " + _controller.getNumberOfAxes());
-        Game.lrk.getNotifications().addNotification(new Notification("XBox 360 Controller found!", Notification.GREY, Notifications.IMG_COG));
+        _device = controller;
 
-        for(int x = 0;x < _controller.getNumberOfDirectionals();x++)
+        for(int x = 0;x < _device.getNumberOfDirectionals();x++)
         {
-            if(_controller.getDirectional(x).getName().toLowerCase().contains("hat"))
+            if(_device.getDirectional(x).getName().toLowerCase().contains("hat"))
             {
-                _dpad = _controller.getDirectional(x);
+                _dpad = _device.getDirectional(x);
                 JXInputEventManager.addListener(this, _dpad);
                 break;
             }
         }
 
         _buttonMap = new HashMap<Button, Integer> ();
-        for(int x = 0;x < _controller.getNumberOfButtons();x++)
+        for(int x = 0;x < _device.getNumberOfButtons();x++)
         {
-            JXInputEventManager.addListener(this, _controller.getButton(x));
-            _buttonMap.put(_controller.getButton(x), x);
+            JXInputEventManager.addListener(this, _device.getButton(x));
+            _buttonMap.put(_device.getButton(x), x);
         }
 
         _axisMap = new HashMap<Axis, Integer> ();
         _axisLastValues = new HashMap<Axis, Double> ();
-        for(int x = 0;x < _controller.getNumberOfAxes();x++)
+        for(int x = 0;x < _device.getNumberOfAxes();x++)
         {
-            _axisMap.put(_controller.getAxis(x), x);
-            _axisLastValues.put(_controller.getAxis(x), 0.0);
-            LRK.log(_controller.getAxis(x).getName() + " - " + _controller.getAxis(x));
+            _axisMap.put(_device.getAxis(x), x);
+            _axisLastValues.put(_device.getAxis(x), 0.0);
+            LRK.log(_device.getAxis(x).getName() + " - " + _device.getAxis(x));
         }
     }
 
@@ -150,7 +147,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
      */
     public void queryAxes(float delta)
     {
-        if(_controller == null)
+        if(_device == null)
             return;
         
         JXInputManager.updateFeatures();
@@ -205,14 +202,14 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
      */
     public void moveMouse(float delta)
     {
-        if(_controller == null)
+        if(_device == null)
             return;
 
-        double lr = _controller.getAxis(AXIS_AIM_LR).getValue();
+        double lr = _device.getAxis(AXIS_AIM_LR).getValue();
         if(Math.abs(lr) > AXIS_THRESHOLD_CENTERED)
             InputManager.addMouseX((float)lr*delta*MOUSE_MOVE_SCALE);
 
-        double ud = _controller.getAxis(AXIS_AIM_UD).getValue();
+        double ud = _device.getAxis(AXIS_AIM_UD).getValue();
         if(Math.abs(ud) > AXIS_THRESHOLD_CENTERED)
             InputManager.addMouseY((float)ud*delta*MOUSE_MOVE_SCALE);
     }
@@ -224,7 +221,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
      */
     public boolean isButtonDown(InputManager.ControlKey key)
     {
-        if(_controller == null)
+        if(_device == null)
             return false;
 
         switch(key)
@@ -247,10 +244,10 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
      */
     public float getMoveDX()
     {
-        if(_controller == null)
+        if(_device == null)
             return 0f;
 
-        float value = (float) _controller.getAxis(AXIS_MOVE_LR).getValue();
+        float value = (float) _device.getAxis(AXIS_MOVE_LR).getValue();
         float valueAbsolute = Math.abs(value);
         return valueAbsolute < AXIS_THRESHOLD_CENTERED ? 0 : value;
     }
@@ -261,10 +258,10 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
      */
     public float getMoveDY()
     {
-        if(_controller == null)
+        if(_device == null)
             return 0f;
 
-        float value = (float) _controller.getAxis(AXIS_MOVE_UD).getValue();
+        float value = (float) _device.getAxis(AXIS_MOVE_UD).getValue();
         float valueAbsolute = Math.abs(value);
         return valueAbsolute < AXIS_THRESHOLD_CENTERED ? 0 : -value;
     }
@@ -276,5 +273,15 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
     {
         while(_keyQueue.size() > 0)
             InputManager.sendKeyPress(_keyQueue.remove(0));
+    }
+
+    public JXInputDevice getDevice()
+    {
+        return _device;
+    }
+
+    public void setDevice(JXInputDevice device)
+    {
+        _device = device;
     }
 }

@@ -37,8 +37,10 @@ public class InputManager implements KeyListener
     private static InputManager _itself;
 
     public static boolean jxNativesLoaded = false;
-    private static XBoxController xboxController = null;
+    protected static XBoxController xboxController = null;
     private static boolean _queryControllerMovement = true;
+    private static XBoxControllerDiscoverer _contollerDiscoverer;
+    private static Thread _contollerDiscovererThread;
 
     private static float _mouseX, _mouseY;
 
@@ -49,30 +51,13 @@ public class InputManager implements KeyListener
 
         _mouseX = DisplayManager.getRenderWidth()/2f;
         _mouseY = DisplayManager.getRenderHeight()/2f;
-    }
 
-    /**
-     * Loads the XBox controller if there is one and creates a listener for that controller
-     */
-    public static void loadControllers()
-    {
-        if(jxNativesLoaded)
+        if(InputManager.jxNativesLoaded)
         {
-            JXInputEventManager.setTriggerIntervall(-1);
-            String controllerName;
-            for(int controllerId = 0;controllerId < JXInputManager.getNumberOfDevices();controllerId++)
-            {
-                controllerName = JXInputManager.getJXInputDevice(controllerId).getName().toLowerCase();
-                if(controllerName.contains("xbox") && controllerName.contains("360"))
-                {
-                    xboxController = new XBoxController(JXInputManager.getJXInputDevice(controllerId));
-                }
-            }
+            _contollerDiscoverer = new XBoxControllerDiscoverer();
+            _contollerDiscovererThread = new Thread(_contollerDiscoverer);
+            _contollerDiscovererThread.start();
         }
-        else
-            xboxController = null;
-
-        LRK.log("Slick Controllers: " + _input.getControllerCount());
     }
 
     /**
@@ -83,7 +68,6 @@ public class InputManager implements KeyListener
     {
         _input = input;
         _input.addKeyListener(_itself);
-        loadControllers();
     }
 
     /**
@@ -426,5 +410,15 @@ public class InputManager implements KeyListener
     public static void setQueryControllerMovement(boolean queryControllerMovement)
     {
         _queryControllerMovement = queryControllerMovement;
+    }
+
+    public static boolean controllerMatches(JXInputDevice dev)
+    {
+        return xboxController != null && xboxController.getDevice() != dev;
+    }
+
+    public static void setXboxController(XBoxController xboxController)
+    {
+        InputManager.xboxController = xboxController;
     }
 }
