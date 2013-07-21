@@ -31,6 +31,8 @@ public class LRK extends BasicGame implements MouseListener
     private long pauseEndTime = 0;
     private boolean paused = false;
 
+    private boolean mousePressed = false;
+
     /**
      * Create a new basic game
      *
@@ -113,8 +115,39 @@ public class LRK extends BasicGame implements MouseListener
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy)
     {
-        InputManager.setMouseX(InputManager.getInput().getMouseX()/DisplayManager.getScale());
-        InputManager.setMouseY(InputManager.getInput().getMouseY()/DisplayManager.getScale());
+        float x1, y1, x2, y2;
+        x1 = oldx/DisplayManager.getScale();
+        y1 = oldy/DisplayManager.getScale();
+        x2 = newx/DisplayManager.getScale();
+        y2 = newy/DisplayManager.getScale();
+
+        InputManager.setMouseX(x1);
+        InputManager.setMouseY(x2);
+
+        if(mousePressed)
+            StateLibrary.getActiveState().mouseDragged(x1, y1, x2, y2);
+        else
+            StateLibrary.getActiveState().mouseMoved(x1, y1, x2, y2);
+    }
+
+    @Override
+    public void mousePressed(int button, int x, int y)
+    {
+        mousePressed = true;
+        StateLibrary.getActiveState().mousePressed(x/DisplayManager.getScale(), y/DisplayManager.getScale());
+    }
+
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+        mousePressed = false;
+        StateLibrary.getActiveState().mouseReleased(x/DisplayManager.getScale(), y/DisplayManager.getScale());
+    }
+
+    @Override
+    public void mouseWheelMoved(int change)
+    {
+        StateLibrary.getActiveState().mouseWheelMoved(change);
     }
 
     /**

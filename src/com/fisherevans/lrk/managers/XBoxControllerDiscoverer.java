@@ -18,7 +18,7 @@ import de.hardcode.jxinput.event.JXInputEventManager;
 public class XBoxControllerDiscoverer implements Runnable
 {
     public static boolean run = true;
-    public static final long SLEEP_TIME = 1000;
+    public static final long SLEEP_TIME = 30*1000;
     public static final String CONNECTED = "XBox 360 Controller Connected!";
     public static final String DISCONNECTED = "XBox 360 Controller Disconnected!";
 

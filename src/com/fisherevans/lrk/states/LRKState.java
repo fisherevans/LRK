@@ -144,4 +144,14 @@ public abstract class LRKState
     {
         _grabMouse = grabMouse;
     }
+
+    public void mouseMoved(float x1, float y1, float x2, float y2) { }
+
+    public void mousePressed(float x, float y) { }
+
+    public void mouseDragged(float x1, float y1, float x2, float y2) { }
+
+    public void mouseReleased(float x, float y) { }
+
+    public void mouseWheelMoved(float delta) { }
 }
