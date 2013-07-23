@@ -112,7 +112,7 @@ public abstract class LRKState
     public void keyBack()   { }
 
     /** called when the user presses the BACK key */
-    public void keyMenu()   { StateLibrary.setActiveState("options"); }
+    public void keyMenu()   { }
 
     /**
      * called whenever a character key is pressed

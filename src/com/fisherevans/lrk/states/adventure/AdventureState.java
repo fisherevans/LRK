@@ -6,6 +6,7 @@ import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.states.CharacterState;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
@@ -41,6 +42,7 @@ public class AdventureState extends LRKState
     private World _world;
     private Image _cursor;
     private boolean _takeMouse = true;
+    private Vec2 _aimShift;
 
     public AdventureState() throws SlickException
     {
@@ -93,6 +95,8 @@ public class AdventureState extends LRKState
                 }
             }
         }
+
+        _aimShift = new Vec2(0, 0);
     }
 
     @Override
@@ -110,18 +114,14 @@ public class AdventureState extends LRKState
     @Override
     public void render(Graphics gfx) throws SlickException
     {
-        // get the vector from the center of the screen to the mouse
-        Vec2 aimShift = new Vec2(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
-        aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
-
         // when drawing entities, shift each by x and y shift
         // subtract the camera pos and add half the display and subtract the aim shift
-        float xShift = (TILES_WIDE/2f - _camera.getX())*TILE_SIZE - aimShift.x;
-        float yShift = (TILES_HIGH/2f - _camera.getY())*TILE_SIZE - aimShift.y;
+        float xShift = (TILES_WIDE/2f - _camera.getX())*TILE_SIZE - _aimShift.x;
+        float yShift = (TILES_HIGH/2f - _camera.getY())*TILE_SIZE - _aimShift.y;
 
         // what tile to start drawing at
-        int startX = (int)(_camera.getX()+aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
-        int startY = (int)(_camera.getY()+aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
+        int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
+        int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
 
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
@@ -184,6 +184,9 @@ public class AdventureState extends LRKState
     @Override
     public void update(float delta) throws SlickException
     {
+        _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
+        _aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
+
         for(AdventureEntity e: _entities)
         {
             e.update((int)delta); // logic
@@ -201,5 +204,24 @@ public class AdventureState extends LRKState
     {
         TILES_WIDE = DisplayManager.getRenderWidth()/TILE_SIZE;
         TILES_HIGH = DisplayManager.getRenderHeight()/TILE_SIZE;
+    }
+
+    @Override
+    public void keyMenu()
+    {
+        StateLibrary.setActiveState("options");
+    }
+
+    @Override
+    public void keyBack()
+    {
+        try
+        {
+            StateLibrary.setActiveState(new CharacterState(this));
+        } catch (SlickException e)
+        {
+            LRK.log("Failed to change states - code 207");
+            e.printStackTrace();
+        }
     }
 }

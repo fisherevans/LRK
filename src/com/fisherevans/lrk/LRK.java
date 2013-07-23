@@ -122,7 +122,7 @@ public class LRK extends BasicGame implements MouseListener
         y2 = newy/DisplayManager.getScale();
 
         InputManager.setMouseX(x1);
-        InputManager.setMouseY(x2);
+        InputManager.setMouseY(y1);
 
         if(mousePressed)
             StateLibrary.getActiveState().mouseDragged(x1, y1, x2, y2);
