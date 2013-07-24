@@ -18,8 +18,8 @@ public class DisplayManager
 {
     private static boolean _startMaximized = false;
 
-    public static float MIN_WIDTH = 480f;
-    public static float MIN_HEIGHT = 270f;
+    public static float MIN_WIDTH = 720f;
+    public static float MIN_HEIGHT = 405f;
 
     private static int _positionX = 100;
     private static int _positionY = 100;
@@ -27,7 +27,7 @@ public class DisplayManager
     private static int _windowWidth = 800;
     private static int _windowHeight = 600;
 
-    private static float _scale = 1;
+    private static float _scale = 3;
 
     public static void saveProperties(PrintWriter out)
     {
@@ -65,6 +65,11 @@ public class DisplayManager
     public static float getScale()
     {
         return _scale;
+    }
+
+    public static void setScale(float scale)
+    {
+        _scale = scale;
     }
 
     /**
@@ -122,7 +127,7 @@ public class DisplayManager
         float widthRatio = _windowWidth/MIN_WIDTH;
         float heightRatio = _windowHeight/MIN_HEIGHT;
 
-        _scale = widthRatio > heightRatio ? heightRatio : widthRatio;
+        //_scale = widthRatio > heightRatio ? heightRatio : widthRatio;
 
         /*
         _scale = _windowWidth/(int)WIDTH;

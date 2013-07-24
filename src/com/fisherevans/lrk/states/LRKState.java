@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states;
 
 import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
