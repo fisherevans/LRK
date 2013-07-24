@@ -14,13 +14,14 @@ public class RPGEntityGenerator
 {
     public static RPGEntity getBasePlayer(String name, Characteristics.Gender gender)
     {
-        return new RPGEntity(name, gender, Level.BASE_LEVEL, Health.BASE_HEALTH, CombatSkill.BASE_MAGIC, CombatSkill.BASE_STRENGTH, CombatSkill.BASE_STAMINA);
+        return new RPGEntity(name, gender, Level.BASE_LEVEL, Health.BASE_HEALTH, CombatSkill.BASE_MAGIC, CombatSkill.BASE_STRENGTH, CombatSkill.BASE_WILL_POWER, CombatSkill.BASE_ENDURANCE);
     }
 
-    public static RPGEntity getAnarok()
+    public static Character getAnarok()
     {
-        RPGEntity entity = new RPGEntity("Anorak", Characteristics.Gender.Male, 99, 999, 999, 999, 999);
+        RPGEntity entity = new RPGEntity("Anorak", Characteristics.Gender.Male, 99, 999, 999, 999, 999, 999);
+        Character character = new Character(entity);
 
-        return entity;
+        return character;
     }
 }

@@ -112,33 +112,27 @@ public class LRK extends BasicGame implements MouseListener
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy)
     {
-        float x1, y1, x2, y2;
-        x1 = oldx/DisplayManager.getScale();
-        y1 = oldy/DisplayManager.getScale();
-        x2 = newx/DisplayManager.getScale();
-        y2 = newy/DisplayManager.getScale();
-
-        InputManager.setMouseX(x1);
-        InputManager.setMouseY(y1);
+        InputManager.setMouseX(InputManager.getInput().getMouseX()/DisplayManager.getScale());
+        InputManager.setMouseY(InputManager.getInput().getMouseY()/DisplayManager.getScale());
 
         if(mousePressed)
-            StateLibrary.getActiveState().mouseDragged(x1, y1, x2, y2);
-        else
-            StateLibrary.getActiveState().mouseMoved(x1, y1, x2, y2);
+            StateLibrary.getActiveState().mouseDragged(InputManager.getMouseX(), InputManager.getMouseY());
+
+        StateLibrary.getActiveState().mouseMoved(InputManager.getMouseX(), InputManager.getMouseY());
     }
 
     @Override
     public void mousePressed(int button, int x, int y)
     {
         mousePressed = true;
-        StateLibrary.getActiveState().mousePressed(x/DisplayManager.getScale(), y/DisplayManager.getScale());
+        StateLibrary.getActiveState().mousePressed(InputManager.getMouseX(), InputManager.getMouseY());
     }
 
     @Override
     public void mouseReleased(int button, int x, int y)
     {
         mousePressed = false;
-        StateLibrary.getActiveState().mouseReleased(x/DisplayManager.getScale(), y/DisplayManager.getScale());
+        StateLibrary.getActiveState().mouseReleased(InputManager.getMouseX(), InputManager.getMouseY());
     }
 
     @Override

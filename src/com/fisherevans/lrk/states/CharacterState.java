@@ -4,6 +4,8 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.rpg.Inventory;
+import com.fisherevans.lrk.rpg.items.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -34,12 +36,32 @@ public class CharacterState extends LRKState
 
     private ArrayList<String> _equipment, _consumables;
 
-
+    private Inventory _inventory;
 
     public CharacterState(LRKState lastState) throws SlickException
     {
         super(StateLibrary.getTempID());
         _lastState = lastState;
+
+        _inventory = new Inventory();
+
+        _inventory.getItems().add(new ArmorItem("Steel Plate", "A heavy duty chest plate", ItemType.Chest, null, 1, 7));
+        _inventory.getItems().add(new ArmorItem("Wizard's Hat", "A wizard's hat", ItemType.Head, null, 3, 0));
+        _inventory.getItems().add(new ArmorItem("Leather Boots", "A simple set of leather boots", ItemType.Legs, null, 1, 3));
+        _inventory.getItems().add(new ArmorItem("Novice Robes", "A novice's robes", ItemType.Chest, null, 4, 0));
+
+        _inventory.getItems().add(new WeaponItem("Steal Shortsword", "A simple sword", ItemType.MainHand, null, 3, 0, 0.4f));
+        _inventory.getItems().add(new WeaponItem("War Axe", "A bloody axe", ItemType.MainHand, null, 4, 0, 0.8f));
+        _inventory.getItems().add(new WeaponItem("Wood Shield", "Won't do much for you", ItemType.OffHand, null, 2, 0, 5f));
+        _inventory.getItems().add(new WeaponItem("Fire Staff", "A staff that shoots fireballs", ItemType.MainHand, null, 2, 0, 1f));
+        _inventory.getItems().add(new WeaponItem("Arcane Talisman", "Creates a ward that increases your magic by 10", ItemType.OffHand, null, 2, 0, 15f));
+
+        _inventory.getItems().add(new ConsumableItem("Rotten Flesh", "I wouldn't eat this...", null));
+        _inventory.getItems().add(new ConsumableItem("Weak Mana Potion", "This isn't actually used in the game", null));
+        _inventory.getItems().add(new ConsumableItem("Weapon Poison", "Applies a poison to a melee weapon", null));
+        _inventory.getItems().add(new ConsumableItem("Strong Health Potion", "Heals you for 40% of your health", null));
+        _inventory.getItems().add(new ConsumableItem("Steel Skin Potion", "Increases your endurance by 10", null));
+        _inventory.getItems().add(new ConsumableItem("Holy Water", "Not sure what this does", null));
     }
 
     @Override
@@ -93,9 +115,15 @@ public class CharacterState extends LRKState
 
         ArrayList<String> currentList = type == InventoryType.Equipment ? _equipment : _consumables;
 
-        for(int id = 0;id < currentList.size();id++)
+        int itemId = 0;
+        for(Item item:_inventory.getItems())
         {
-            GFX.drawTextAbsolute(10, INV_TAB_HEIGHT + 10 + id*24, Resources.getFont(1), Color.white, currentList.get(id));
+            if((type == InventoryType.Consumables && item.getItemType() == ItemType.Consumable) ||
+                    (type == InventoryType.Equipment && item.getItemType() != ItemType.Consumable))
+            {
+                GFX.drawTextAbsolute(10, INV_TAB_HEIGHT + 10 + itemId*24, Resources.getFont(1), Color.white, item.getName());
+                itemId++;
+            }
         }
 
         gfx.clearClip();

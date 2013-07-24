@@ -101,6 +101,9 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         if(!_buttonMap.containsKey(jxInputButtonEvent.getButton()))
             return;
 
+        if(!jxInputButtonEvent.getButton().getState())
+            return;
+
         switch(_buttonMap.get(jxInputButtonEvent.getButton()))
         {
             case BUTTON_A:

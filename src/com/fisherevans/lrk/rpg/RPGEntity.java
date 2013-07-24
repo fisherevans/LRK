@@ -17,16 +17,17 @@ public class RPGEntity
     private Health _health;
     private Map<CombatSkill.CombatSkillType, CombatSkill> _combatSkills;
 
-    public RPGEntity(String name, Characteristics.Gender gender, int level, int health, int magic, int strength, int stamina)
+    public RPGEntity(String name, Characteristics.Gender gender, int level, int health, int intelligence, int strength, int willPower, int endurance)
     {
         _characteristics = new Characteristics(this, name, gender);
         _level = new Level(this, level);
         _health = new Health(this, health);
 
         _combatSkills = new HashMap<>();
-        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Magic, magic));
+        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Intelligence, intelligence));
         addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Strength, strength));
-        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Stamina, stamina));
+        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.WillPower, willPower));
+        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Endurance, endurance));
     }
 
     /**

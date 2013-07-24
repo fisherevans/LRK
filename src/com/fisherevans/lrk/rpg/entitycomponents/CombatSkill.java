@@ -14,7 +14,8 @@ public class CombatSkill extends EntityComponent
 {
     public static final int BASE_MAGIC = 20;
     public static final int BASE_STRENGTH = 20;
-    public static final int BASE_STAMINA = 30;
+    public static final int BASE_WILL_POWER = 30;
+    public static final int BASE_ENDURANCE = 30;
 
     private int _skillLevel;
     private CombatSkillType _type;
@@ -128,8 +129,9 @@ public class CombatSkill extends EntityComponent
 
     public enum CombatSkillType
     {
-        Magic,
+        Intelligence,
         Strength,
-        Stamina,
+        WillPower,
+        Endurance,
     }
 }

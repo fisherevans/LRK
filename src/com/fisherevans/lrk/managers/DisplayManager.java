@@ -18,8 +18,8 @@ public class DisplayManager
 {
     private static boolean _startMaximized = false;
 
-    public static float MIN_WIDTH = 720f;
-    public static float MIN_HEIGHT = 405f;
+    public static float MIN_WIDTH = 560f;
+    public static float MIN_HEIGHT = 315f;
 
     private static int _positionX = 100;
     private static int _positionY = 100;
@@ -28,6 +28,7 @@ public class DisplayManager
     private static int _windowHeight = 600;
 
     private static float _scale = 3;
+    private static boolean _scaleAuto = true;
 
     public static void saveProperties(PrintWriter out)
     {
@@ -38,6 +39,8 @@ public class DisplayManager
         out.println("display.position.y=" + _positionY);
 
         out.println("display.maximized=" + (Game.window.getExtendedState() == JFrame.MAXIMIZED_BOTH));
+
+        out.println("display.scale=" + _scale);
     }
 
     public static void setProperty(String key, String value)
@@ -46,11 +49,12 @@ public class DisplayManager
         {
             switch(key)
             {
-                case "display.width": _windowWidth = Integer.parseInt(value);
-                case "display.height": _windowHeight = Integer.parseInt(value);
-                case "display.position.x": _positionX = Integer.parseInt(value);
-                case "display.position.y": _positionY = Integer.parseInt(value);
-                case "display.maximized": _startMaximized = Boolean.parseBoolean(value);
+                case "display.width": _windowWidth = Integer.parseInt(value); break;
+                case "display.height": _windowHeight = Integer.parseInt(value); break;
+                case "display.position.x": _positionX = Integer.parseInt(value); break;
+                case "display.position.y": _positionY = Integer.parseInt(value); break;
+                case "display.maximized": _startMaximized = Boolean.parseBoolean(value); break;
+                case "display.scale": _scale = Float.parseFloat(value); break;
             }
         }
         catch(Exception e)
@@ -127,7 +131,8 @@ public class DisplayManager
         float widthRatio = _windowWidth/MIN_WIDTH;
         float heightRatio = _windowHeight/MIN_HEIGHT;
 
-        //_scale = widthRatio > heightRatio ? heightRatio : widthRatio;
+        if(_scaleAuto)
+            _scale = (int)(widthRatio > heightRatio ? heightRatio : widthRatio) + 1;
 
         /*
         _scale = _windowWidth/(int)WIDTH;

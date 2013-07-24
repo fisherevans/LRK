@@ -55,7 +55,6 @@ public class AdventureState extends LRKState
         resize();
 
         setCursor(Resources.getImage("res/test/images/cursor.png"));
-        setGrabMouse(true);
 
         _world = new World(new Vec2(0, 0f), true);
 
@@ -103,6 +102,7 @@ public class AdventureState extends LRKState
     public void enter() throws SlickException
     {
         InputManager.setQueryControllerMovement(false);
+        resize();
     }
 
     @Override
@@ -120,8 +120,8 @@ public class AdventureState extends LRKState
         float yShift = (TILES_HIGH/2f - _camera.getY())*TILE_SIZE - _aimShift.y;
 
         // what tile to start drawing at
-        int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2;
-        int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2;
+        int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2 - 1;
+        int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
 
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
@@ -164,9 +164,9 @@ public class AdventureState extends LRKState
     private void drawMapLayer(float xShift, float yShift, int startX, int startY, int[] layerIds)
     {
         Image tile;
-        for(int y = startY;y <= startY+TILES_WIDE+1;y++)
+        for(int y = startY;y <= startY+TILES_WIDE+2;y++)
         {
-            for(int x = startX;x <= startX+TILES_WIDE+1;x++) // for each tile on the screen
+            for(int x = startX;x <= startX+TILES_WIDE+2;x++) // for each tile on the screen
             {
                 for(Integer layerId:layerIds)
                 {
