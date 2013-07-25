@@ -118,12 +118,6 @@ public class LRK extends BasicGame implements MouseListener
         long time = System.currentTimeMillis();
         if(time < _nextRenderTime) return;
         else _nextRenderTime = time + TARGET_DELTA;
-
-        gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
-        StateLibrary.getActiveState().render(gfx);
-        _notifications.render(gfx);
-        StateLibrary.getActiveState().drawCursor();
-        gfx.resetTransform();
         
         if(++_fpsCount >= _fpsThreshhold)
         {
@@ -131,6 +125,12 @@ public class LRK extends BasicGame implements MouseListener
             _fpsStartTime = _time;
             _fpsCount = 0;
         }
+
+        gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
+        StateLibrary.getActiveState().render(gfx);
+        _notifications.render(gfx);
+        StateLibrary.getActiveState().drawCursor();
+        gfx.resetTransform();
         
         if(DEBUG)
             GFX.drawTextAbsolute(10, 10, Resources.getfont(1), Color.white, String.format("FPS:%3.1f  LPS:%d", _fps, Game.gameCanvas.getFPS());
