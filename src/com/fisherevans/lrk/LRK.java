@@ -8,6 +8,7 @@ import com.fisherevans.lrk.notifications.Notifications;
 import com.fisherevans.lrk.rpg.Player;
 import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
+import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.quit.QuitState;
 import de.hardcode.jxinput.JXInputManager;
 import de.hardcode.jxinput.event.JXInputEventManager;
@@ -42,17 +43,6 @@ public class LRK extends BasicGame implements MouseListener
     
     // Mouse moved/dragged variable
     private boolean mousePressed = false;
-    
-    // Target FPS
-    private static final int TARGET_FPS = 100;
-    private static final long DELTA_THRESHHOLD = 1000/TARGET_FPS;
-    private Long _nextRenderTime = 0;
-    
-    // Real FPS
-    private static final int _fpsThreshhold = 300;
-    private float _fps = 0;
-    private long _fpsStartTime = 0;
-    private int _fpsCount = 0;
 
     /**
      * Create a new basic game
@@ -114,17 +104,8 @@ public class LRK extends BasicGame implements MouseListener
     {
         if(paused)
             return;
-        
-        long time = System.currentTimeMillis();
-        if(time < _nextRenderTime) return;
-        else _nextRenderTime = time + TARGET_DELTA;
-        
-        if(++_fpsCount >= _fpsThreshhold)
-        {
-            _fps = (time - _fpsStartTime)/1000f/_fpsCount;
-            _fpsStartTime = _time;
-            _fpsCount = 0;
-        }
+
+        gfx.clear();
 
         gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
         StateLibrary.getActiveState().render(gfx);
@@ -133,7 +114,7 @@ public class LRK extends BasicGame implements MouseListener
         gfx.resetTransform();
         
         if(DEBUG)
-            GFX.drawTextAbsolute(10, 10, Resources.getfont(1), Color.white, String.format("FPS:%3.1f  LPS:%d", _fps, Game.gameCanvas.getFPS());
+            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, String.format("FPS: %d", Game.gameCanvas.getContainer().getFPS()));
     }
 
     /**
