@@ -59,4 +59,6 @@ public abstract class Item
     {
         _description = description;
     }
+
+    //public abstract String getCreationString();
 }

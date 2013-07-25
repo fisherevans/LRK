@@ -22,6 +22,11 @@ public class Consumable extends Item
         _maxCount = maxCount;
     }
 
+    public Consumable(String name, String description, Image image, Effect effect, int maxCount)
+    {
+        this(name, name, description, image, effect, maxCount);
+    }
+
     public Effect getEffect()
     {
         return _effect;

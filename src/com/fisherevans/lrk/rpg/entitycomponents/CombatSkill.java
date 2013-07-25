@@ -12,13 +12,13 @@ import java.util.ArrayList;
  */
 public class CombatSkill extends EntityComponent
 {
-    public static final int BASE_MAGIC = 20;
-    public static final int BASE_STRENGTH = 20;
-    public static final int BASE_WILL_POWER = 30;
-    public static final int BASE_ENDURANCE = 30;
+    public enum Type { Power, Defence }
+
+    public static final int BASE_POWER = 10;
+    public static final int BASE_DEFENCE = 10;
 
     private int _skillLevel;
-    private CombatSkillType _type;
+    private Type _type;
     private ArrayList<CombatSkillListener> _listeners;
 
     /**
@@ -27,7 +27,7 @@ public class CombatSkill extends EntityComponent
      * @param type the type of this skill
      * @param skillLevel the initial level of this skill
      */
-    public CombatSkill(RPGEntity parentEntity, CombatSkillType type, int skillLevel)
+    public CombatSkill(RPGEntity parentEntity, Type type, int skillLevel)
     {
         super(parentEntity);
         _type = type;
@@ -106,7 +106,7 @@ public class CombatSkill extends EntityComponent
         return _skillLevel;
     }
 
-    public CombatSkillType getType()
+    public Type getType()
     {
         return _type;
     }
@@ -125,13 +125,5 @@ public class CombatSkill extends EntityComponent
          * @param entity the entity that had the change
          */
         public abstract void skillLevelChanged(RPGEntity entity);
-    }
-
-    public enum CombatSkillType
-    {
-        Intelligence,
-        Strength,
-        WillPower,
-        Endurance,
     }
 }

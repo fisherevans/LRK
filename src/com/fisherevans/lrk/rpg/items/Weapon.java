@@ -11,51 +11,20 @@ import org.newdawn.slick.Image;
  */
 public class Weapon extends Equipment
 {
-    public enum Position { MainHand, OffHand }
-
-    private Position _position;
-
-    private int _strengthBuff, _intelligenceBuff;
+    private float _speed;
 
     private boolean _twoHanded;
 
-    public Weapon(String name, String description, Image image, Position position, int strengthBuff, int intelligenceBuff, boolean twoHanded)
+    public Weapon(String name, String description, Image image, Position position, int power, int defence, float speed, boolean twoHanded)
     {
-        super(name, description, image);
-        _position = position;
-        _strengthBuff = strengthBuff;
-        _intelligenceBuff = intelligenceBuff;
+        super(name, description, image, position, power, defence);
+        _speed = speed;
         _twoHanded = twoHanded;
     }
 
-    public Position getPosition()
+    public Weapon(String name, String description, Image image, Position position, int strengthBuff, int intelligenceBuff, float speed)
     {
-        return _position;
-    }
-
-    public void setPosition(Position position)
-    {
-        _position = position;
-    }
-
-    public int getStrengthBuff()
-    {
-        return _strengthBuff;
-    }
-
-    public void setStrengthBuff(int strengthBuff)
-    {
-        _strengthBuff = strengthBuff;
-    }
-
-    public int getIntelligenceBuff()
-    {
-        return _intelligenceBuff;
-    }
-
-    public void setIntelligenceBuff(int intelligenceBuff)
-    {
-        _intelligenceBuff = intelligenceBuff;
+        this(name, description, image, position, strengthBuff, intelligenceBuff, speed, false);
     }
 
     public boolean isTwoHanded()

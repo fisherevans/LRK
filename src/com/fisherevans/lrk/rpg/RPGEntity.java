@@ -12,22 +12,24 @@ import java.util.Map;
  */
 public class RPGEntity
 {
-    private Characteristics _characteristics;
+    public enum Profession { Warrior, Mage }
+
+    private String _name;
     private Level _level;
     private Health _health;
-    private Map<CombatSkill.CombatSkillType, CombatSkill> _combatSkills;
+    private Profession _profession;
+    private Map<CombatSkill.Type, CombatSkill> _combatSkills;
 
-    public RPGEntity(String name, Characteristics.Gender gender, int level, int health, int intelligence, int strength, int willPower, int endurance)
+    public RPGEntity(String name, Profession profession, int level, int health, int power, int defence)
     {
-        _characteristics = new Characteristics(this, name, gender);
+        _name = name;
+        _profession = profession;
         _level = new Level(this, level);
         _health = new Health(this, health);
 
         _combatSkills = new HashMap<>();
-        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Intelligence, intelligence));
-        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Strength, strength));
-        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.WillPower, willPower));
-        addSkill(new CombatSkill(this, CombatSkill.CombatSkillType.Endurance, endurance));
+        addSkill(new CombatSkill(this, CombatSkill.Type.Power, power));
+        addSkill(new CombatSkill(this, CombatSkill.Type.Defence, defence));
     }
 
     /**
@@ -49,7 +51,7 @@ public class RPGEntity
      * @param combatSkillType the type to look for
      * @return the skill object or null if the skill type isn't found
      */
-    public CombatSkill getSkill(CombatSkill.CombatSkillType combatSkillType)
+    public CombatSkill getSkill(CombatSkill.Type combatSkillType)
     {
         if(!_combatSkills.containsKey(combatSkillType))
             return null;
@@ -62,7 +64,7 @@ public class RPGEntity
      * @param combatSkillType the type of skill to remove
      * @return returns false if the skill was not present
      */
-    public boolean removeSkill(CombatSkill.CombatSkillType combatSkillType)
+    public boolean removeSkill(CombatSkill.Type combatSkillType)
     {
         if(!_combatSkills.containsKey(combatSkillType))
             return false;
@@ -81,12 +83,6 @@ public class RPGEntity
     }
 
     // SIMPLE GETTERS
-
-
-    public Characteristics getCharacteristics()
-    {
-        return _characteristics;
-    }
 
     public Level getLevel()
     {

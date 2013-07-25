@@ -5,6 +5,9 @@ import com.fisherevans.lrk.managers.AudioManager;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.notifications.Notifications;
+import com.fisherevans.lrk.rpg.Player;
+import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.rpg.RPGEntityGenerator;
 import com.fisherevans.lrk.states.quit.QuitState;
 import de.hardcode.jxinput.JXInputManager;
 import de.hardcode.jxinput.event.JXInputEventManager;
@@ -27,6 +30,8 @@ public class LRK extends BasicGame implements MouseListener
     private DisplayManager _displayManager;
 
     private Notifications _notifications;
+
+    private Player _player;
 
     private long pauseEndTime = 0;
     private boolean paused = false;
@@ -62,6 +67,8 @@ public class LRK extends BasicGame implements MouseListener
         InputManager.getInput().addMouseListener(this);
 
         _notifications.init();
+
+        _player = RPGEntityGenerator.getAnarok();
     }
 
     @Override
@@ -188,5 +195,10 @@ public class LRK extends BasicGame implements MouseListener
     public Notifications getNotifications()
     {
         return _notifications;
+    }
+
+    public Player getPlayer()
+    {
+        return _player;
     }
 }

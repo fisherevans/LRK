@@ -129,11 +129,11 @@ public class GFX
         switch(vertAlign)
         {
             case TEXT_TOP: dy = 0; break;
-            case TEXT_CENTER: dy = (height - font.getHeight(text))/2f; break;
-            case TEXT_BOTTOM: dy = height - font.getHeight(text); break;
+            case TEXT_CENTER: dy = (height - font.getHeight("0"))/2f; break;
+            case TEXT_BOTTOM: dy = height - font.getHeight("0"); break;
         }
 
-        font.drawString(x + dx, y + dy, text, c);
+        font.drawString(x + (int)dx, y + (int)dy, text, c);
     }
 
     /**

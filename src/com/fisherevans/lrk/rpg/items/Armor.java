@@ -11,47 +11,8 @@ import org.newdawn.slick.Image;
  */
 public class Armor extends Equipment
 {
-    public enum Position { Head, Chest, Legs }
-
-    private Position _position;
-
-    private int _enduranceBuff, _willPowerBuff;
-
-    public Armor(String name, String description, Image image, Position position, int enduranceBuff, int willPowerBuff)
+    public Armor(String name, String description, Image image, Position position, int power, int defence)
     {
-        super(name, description, image);
-        _position = position;
-        _enduranceBuff = enduranceBuff;
-        _willPowerBuff = willPowerBuff;
-    }
-
-    public Position getPosition()
-    {
-        return _position;
-    }
-
-    public void setPosition(Position position)
-    {
-        _position = position;
-    }
-
-    public int getEnduranceBuff()
-    {
-        return _enduranceBuff;
-    }
-
-    public void setEnduranceBuff(int enduranceBuff)
-    {
-        _enduranceBuff = enduranceBuff;
-    }
-
-    public int getWillPowerBuff()
-    {
-        return _willPowerBuff;
-    }
-
-    public void setWillPowerBuff(int willPowerBuff)
-    {
-        _willPowerBuff = willPowerBuff;
+        super(name, description, image, position, power, defence);
     }
 }
