@@ -25,18 +25,34 @@ public class LRK extends BasicGame implements MouseListener
     public static boolean DEBUG = true;
     public static final String VERSION = "0.2 Alpha";
 
+    // Game Component Managers
     private InputManager _inputManager;
     private AudioManager _audioManager;
     private DisplayManager _displayManager;
-
+    
+    // Notification system
     private Notifications _notifications;
 
+    // Current player
     private Player _player;
 
+    // Pause variables
     private long pauseEndTime = 0;
     private boolean paused = false;
-
+    
+    // Mouse moved/dragged variable
     private boolean mousePressed = false;
+    
+    // Target FPS
+    private static final int TARGET_FPS = 100;
+    private static final long DELTA_THRESHHOLD = 1000/TARGET_FPS;
+    private Long _nextRenderTime = 0;
+    
+    // Real FPS
+    private static final int _fpsThreshhold = 300;
+    private float _fps = 0;
+    private long _fpsStartTime = 0;
+    private int _fpsCount = 0;
 
     /**
      * Create a new basic game
@@ -98,12 +114,26 @@ public class LRK extends BasicGame implements MouseListener
     {
         if(paused)
             return;
+        
+        long time = System.currentTimeMillis();
+        if(time < _nextRenderTime) return;
+        else _nextRenderTime = time + TARGET_DELTA;
 
         gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
         StateLibrary.getActiveState().render(gfx);
         _notifications.render(gfx);
         StateLibrary.getActiveState().drawCursor();
         gfx.resetTransform();
+        
+        if(++_fpsCount >= _fpsThreshhold)
+        {
+            _fps = (time - _fpsStartTime)/1000f/_fpsCount;
+            _fpsStartTime = _time;
+            _fpsCount = 0;
+        }
+        
+        if(DEBUG)
+            GFX.drawTextAbsolute(10, 10, Resources.getfont(1), Color.white, String.format("FPS:%3.1f  LPS:%d", _fps, Game.gameCanvas.getFPS());
     }
 
     /**
