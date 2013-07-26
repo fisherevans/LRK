@@ -169,7 +169,7 @@ public class CharacterState extends LRKState
         _invHeightScroll = _invHeightList - INV_LIST_PADDING*2;
         _invWidthScroll = INV_LIST_PADDING/2f;
         _invXScroll = _hWidth - INV_LIST_MARGIN - INV_LIST_PADDING*0.75f;
-        _invYScroll = INV_TITLE_HEIGHT + INV_LIST_MARGIN + INV_LIST_PADDING;
+        _invYScroll = INV_TITLE_HEIGHT + INV_LIST_PADDING;
         _invYList = _invHeightList/2f + INV_TITLE_HEIGHT;
     }
 
