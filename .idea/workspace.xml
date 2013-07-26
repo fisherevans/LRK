@@ -239,7 +239,7 @@
     <file path="/XBoxControllerDiscoverer.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374365000985" ignored="false" />
     <file path="/GUITestState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374427370835" ignored="false" />
     <file path="/GUIElement.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374428771850" ignored="false" />
-    <file path="/CharacterState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374789667101" ignored="false" />
+    <file path="/CharacterState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374807212471" ignored="false" />
     <file path="$PROJECT_DIR$/javadoc/lrk/com/fisherevans/lrk/rpg/items/RPGItem.html" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374628102577" ignored="false" />
     <file path="/ItemType.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374628209706" ignored="false" />
     <file path="/Item.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374711065479" ignored="false" />
@@ -404,7 +404,7 @@
       <file leaf-file-name="CharacterState.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/CharacterState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="28" selection-start="791" selection-end="791" vertical-scroll-proportion="0.3214683">
+            <state line="98" column="47" selection-start="2847" selection-end="2847" vertical-scroll-proportion="0.4265351">
               <folding />
             </state>
           </provider>
@@ -487,7 +487,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -658,7 +658,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -674,12 +674,12 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -752,6 +752,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -777,19 +790,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -894,7 +894,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="-8" width="1857" height="1096" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1105,7 +1105,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/CharacterState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="28" selection-start="791" selection-end="791" vertical-scroll-proportion="0.3214683">
+        <state line="98" column="47" selection-start="2847" selection-end="2847" vertical-scroll-proportion="0.4265351">
           <folding />
         </state>
       </provider>

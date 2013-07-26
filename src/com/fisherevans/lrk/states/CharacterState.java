@@ -1,6 +1,5 @@
 package com.fisherevans.lrk.states;
 
-import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
@@ -27,8 +26,7 @@ public class CharacterState extends LRKState
 
     private LRKState _lastState;
 
-    private float _halfWidth, _halfHeight;
-    private int _halfDisplayWidth, _halfDisplayHeight;
+    private float _hWidth;
 
     private InventoryType _currentType;
     private ArrayList<Item> _currentList;
@@ -77,36 +75,39 @@ public class CharacterState extends LRKState
             renderConsumablesPanel(gfx);*/
     }
 
-    private final int INV_TITLE_HEIGHT = 24;
-    private final int INV_LIST_PADDING = 10;
-    private final int INV_LIST_MARGIN = 10;
-    private final int INV_SCROLL_HEIGHT = 10;
+    private final int INV_TITLE_HEIGHT = 32;
+    private final int INV_LINE_HEIGHT = 20;
+    private final int INV_LIST_PADDING = 12;
+    private final int INV_LIST_MARGIN = 20;
+    private final float INV_HEIGHT_RATIO = 0.6666f;
+    private int _invHeight, _invHeightList, _invHeightScroll, _invWidthScroll, _invXScroll, _invYScroll, _invYList;
     public void renderInventory(Graphics gfx, InventoryType type)
     {
-        int invHeight = (int) (DisplayManager.getRenderHeight()*0.66666f);
-        int listHeight = invHeight - INV_TITLE_HEIGHT - INV_LIST_MARGIN*2;
-        LRK.log(listHeight + "");
-        /*gfx.setColor(Color.orange.multiply(new Color(1f, 1f, 1f, 0.5f)));
-        gfx.fillRect(0, 0, _halfWidth, INV_TAB_HEIGHT);
-        gfx.setColor(Color.red.multiply(new Color(1f, 1f, 1f, 0.5f)));
-        gfx.fillRect(0, INV_TAB_HEIGHT, _halfWidth, _halfHeight - INV_TAB_HEIGHT);*/
+        // title
+        GFX.drawText(0, 0, _hWidth, INV_TITLE_HEIGHT, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), Color.white, type.toString());
 
-        GFX.drawText(0, 0, DisplayManager.getRenderWidth()/2f, INV_TITLE_HEIGHT, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), Color.white, type.toString());
-
+        // list bg
         gfx.setColor(Color.darkGray);
-        gfx.fillRect(INV_LIST_MARGIN, INV_TITLE_HEIGHT + INV_LIST_MARGIN, DisplayManager.getRenderWidth() / 2f - INV_LIST_MARGIN * 2f, invHeight - INV_TITLE_HEIGHT - INV_LIST_PADDING * 2f);
-        //gfx.setColor(Color.gray);
-        //gfx.fillRect(INV_LIST_MARGIN, INV_TITLE_HEIGHT + INV_LIST_MARGIN, DisplayManager.getRenderWidth()/2f - INV_LIST_MARGIN*2f, (invHeight - INV_TITLE_HEIGHT - INV_LIST_PADDING*2f)/2f);
-        float scrollHeight = (listHeight-INV_LIST_PADDING*2)/_currentList.size();
-        gfx.setColor(Color.white);
-        gfx.fillRect(DisplayManager.getRenderWidth()/2f - INV_LIST_MARGIN - INV_LIST_PADDING*0.75f, INV_TITLE_HEIGHT + INV_LIST_MARGIN + INV_LIST_PADDING + ((float)_currentPositions.get(_currentType))*scrollHeight, INV_LIST_PADDING*0.5f, scrollHeight);
+        gfx.fillRect(INV_LIST_MARGIN,
+                INV_TITLE_HEIGHT,
+                _hWidth - INV_LIST_MARGIN*2f,
+                _invHeightList);
 
-        clip(0, INV_TITLE_HEIGHT + INV_LIST_MARGIN, DisplayManager.getRenderWidth() / 2f, listHeight);
+        float scrollHeight = _invHeightScroll/(float)_currentList.size();
+        gfx.setColor(Color.white);
+        gfx.fillRect(_invXScroll,
+                _invYScroll + (getPosition()-1)*scrollHeight,
+                INV_LIST_PADDING*0.5f,
+                scrollHeight);
+
+        clip(0, INV_TITLE_HEIGHT, _hWidth, _invHeightList);
         for(int id = 0;id < _currentList.size();id++)
         {
             Item item = _currentList.get(id);
             Color color = id == _currentPositions.get(_currentType) ? Color.white : Color.lightGray;
-            GFX.drawTextCenteredV(INV_LIST_MARGIN + INV_LIST_PADDING, INV_TITLE_HEIGHT + INV_LIST_MARGIN + id * 24 - _currentPositions.get(_currentType) * 24 + (int) (listHeight / 2f), 0, Resources.getFont(1), color, item.getName());
+            GFX.drawTextCenteredV(INV_LIST_MARGIN + INV_LIST_PADDING,
+                    _invYList + (id- getPosition())*INV_LINE_HEIGHT,
+                    0, Resources.getFont(1), color, item.getName());
         }
         unClip();
     }
@@ -160,12 +161,21 @@ public class CharacterState extends LRKState
     @Override
     public void resize()
     {
-        _halfWidth = DisplayManager.getRenderWidth()/2f;
-        _halfHeight = DisplayManager.getRenderHeight()/2f;
+        _hWidth = DisplayManager.getRenderWidth()/2f;
 
-        _halfDisplayWidth = DisplayManager.getWindowWidth()/2;
-        _halfDisplayHeight = DisplayManager.getWindowHeight()/2;
+        // Inventory
+        _invHeight = (int) (DisplayManager.getRenderHeight()*INV_HEIGHT_RATIO);
+        _invHeightList = _invHeight - INV_TITLE_HEIGHT - INV_LIST_MARGIN;
+        _invHeightScroll = _invHeightList - INV_LIST_PADDING*2;
+        _invWidthScroll = (int) (INV_LIST_PADDING/2f);
+        _invXScroll = (int) (_hWidth - INV_LIST_MARGIN - INV_LIST_PADDING*0.75f);
+        _invYScroll = INV_TITLE_HEIGHT + INV_LIST_MARGIN + INV_LIST_PADDING;
+        _invYList = (int) (_invHeightList/2f + INV_TITLE_HEIGHT);
+    }
 
+    public int getPosition()
+    {
+        return _currentPositions.get(_currentType);
     }
 
     public void keyBack()
