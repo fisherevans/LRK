@@ -80,7 +80,7 @@ public class CharacterState extends LRKState
     private final int INV_LIST_PADDING = 12;
     private final int INV_LIST_MARGIN = 20;
     private final float INV_HEIGHT_RATIO = 0.6666f;
-    private int _invHeight, _invHeightList, _invHeightScroll, _invWidthScroll, _invXScroll, _invYScroll, _invYList;
+    private float _invHeight, _invHeightList, _invHeightScroll, _invWidthScroll, _invXScroll, _invYScroll, _invYList;
     public void renderInventory(Graphics gfx, InventoryType type)
     {
         // title
@@ -97,7 +97,7 @@ public class CharacterState extends LRKState
         gfx.setColor(Color.white);
         gfx.fillRect(_invXScroll,
                 _invYScroll + (getPosition()-1)*scrollHeight,
-                INV_LIST_PADDING*0.5f,
+                _invWidthScroll,
                 scrollHeight);
 
         clip(0, INV_TITLE_HEIGHT, _hWidth, _invHeightList);
@@ -164,13 +164,13 @@ public class CharacterState extends LRKState
         _hWidth = DisplayManager.getRenderWidth()/2f;
 
         // Inventory
-        _invHeight = (int) (DisplayManager.getRenderHeight()*INV_HEIGHT_RATIO);
+        _invHeight = DisplayManager.getRenderHeight()*INV_HEIGHT_RATIO;
         _invHeightList = _invHeight - INV_TITLE_HEIGHT - INV_LIST_MARGIN;
         _invHeightScroll = _invHeightList - INV_LIST_PADDING*2;
-        _invWidthScroll = (int) (INV_LIST_PADDING/2f);
-        _invXScroll = (int) (_hWidth - INV_LIST_MARGIN - INV_LIST_PADDING*0.75f);
+        _invWidthScroll = INV_LIST_PADDING/2f;
+        _invXScroll = _hWidth - INV_LIST_MARGIN - INV_LIST_PADDING*0.75f;
         _invYScroll = INV_TITLE_HEIGHT + INV_LIST_MARGIN + INV_LIST_PADDING;
-        _invYList = (int) (_invHeightList/2f + INV_TITLE_HEIGHT);
+        _invYList = _invHeightList/2f + INV_TITLE_HEIGHT;
     }
 
     public int getPosition()
