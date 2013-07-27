@@ -96,7 +96,7 @@ public class CharacterState extends LRKState
         float scrollHeight = _invHeightScroll/(float)_currentList.size();
         gfx.setColor(Color.white);
         gfx.fillRect(_invXScroll,
-                _invYScroll + (getPosition()-1)*scrollHeight,
+                _invYScroll + (getPosition())*scrollHeight,
                 _invWidthScroll,
                 scrollHeight);
 
