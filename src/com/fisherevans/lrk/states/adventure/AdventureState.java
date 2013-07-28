@@ -39,8 +39,6 @@ public class AdventureState extends LRKState
     private Player _player, _camera;
     private TiledMap _map;
     private World _world;
-    private Image _cursor;
-    private boolean _takeMouse = true;
     private Vec2 _aimShift;
 
     public AdventureState() throws SlickException
@@ -53,7 +51,7 @@ public class AdventureState extends LRKState
     {
         resize();
 
-        setCursor(Resources.getImage("res/test/images/cursor.png"));
+        setCursor(Resources.getImage("res/test/images/cursor.png").getScaledCopy(2f));
 
         _world = new World(new Vec2(0, 0f), true);
 
@@ -184,12 +182,10 @@ public class AdventureState extends LRKState
     public void update(float delta) throws SlickException
     {
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
-        _aimShift.mulLocal(0.3f); // scale it by about a third (for moving the viewport)
+        _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
 
         for(AdventureEntity e: _entities)
-        {
-            e.update((int)delta); // logic
-        }
+            e.update(delta); // logic
         _world.step(delta, 5, 5); // physics
     }
 

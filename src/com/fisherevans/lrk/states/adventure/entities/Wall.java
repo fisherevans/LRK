@@ -32,7 +32,7 @@ public class Wall extends AdventureEntity
     }
 
     @Override
-    public void update(int delta)
+    public void update(float delta)
     {
     }
 

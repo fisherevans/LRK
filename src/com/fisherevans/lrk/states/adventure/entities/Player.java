@@ -52,7 +52,7 @@ public class Player extends AdventureEntity
     }
 
     @Override
-    public void update(int delta)
+    public void update(float delta)
     {
         setDegrees((float) Math.toDegrees(Math.atan2(InputManager.getMouseYOrigin(), InputManager.getMouseXOrigin())));
         //LRK.log(getDegrees()+ "");

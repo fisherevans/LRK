@@ -19,7 +19,7 @@ public abstract class AdventureEntity
      * updates the entity with each step of the main game loop
      * @param delta ms since the last update
      */
-    public abstract void update(int delta);
+    public abstract void update(float delta);
 
     /**
      * gets the current image of the entity

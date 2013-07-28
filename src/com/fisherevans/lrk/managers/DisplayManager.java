@@ -30,8 +30,8 @@ public class DisplayManager
     private static float _foregroundScale = 1;
     private static float _backgroundScale = 1;
 
-    private static boolean _scaleAuto = false;
-    private static final boolean _floatScale = false;
+    private static boolean _scaleAuto = true;
+    private static final boolean _floatScale = true;
 
     public static void saveProperties(PrintWriter out)
     {
@@ -155,9 +155,9 @@ public class DisplayManager
 
         if(_scaleAuto)
         {
-            _foregroundScale = widthRatio > heightRatio ? heightRatio : widthRatio;
+            _backgroundScale = widthRatio > heightRatio ? heightRatio : widthRatio;
             if(!_floatScale)
-                _foregroundScale = _foregroundScale < 1 ? 1 : ((int) _foregroundScale);
+                _backgroundScale = _backgroundScale < 1 ? 1 : ((int) _backgroundScale);
         }
 
         /*
