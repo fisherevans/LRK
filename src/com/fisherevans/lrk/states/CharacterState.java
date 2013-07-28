@@ -94,6 +94,11 @@ public class CharacterState extends LRKState
                 _invHeightList);
 
         float scrollHeight = _invHeightScroll/(float)_currentList.size();
+        gfx.setColor(Color.lightGray);
+        gfx.fillRect(_invXScroll,
+                _invYScroll,
+                _invWidthScroll,
+                _invHeightScroll);
         gfx.setColor(Color.white);
         gfx.fillRect(_invXScroll,
                 _invYScroll + (getPosition())*scrollHeight,
@@ -124,7 +129,58 @@ public class CharacterState extends LRKState
 
     public void renderComparison(Graphics gfx)
     {
-        GFX.drawImageCentered(DisplayManager.getRenderWidth()*0.5f*0.3333f, DisplayManager.getRenderHeight()*0.8f, _currentList.get(_currentPositions.get(_currentType)).getImage().getScaledCopy(2));
+            GFX.drawImageCentered(DisplayManager.getRenderWidth()*0.5f*0.3333f, DisplayManager.getRenderHeight()*0.8f, _currentList.get(_currentPositions.get(_currentType)).getImage().getScaledCopy(2));
+        if(_currentType == InventoryType.Equipment)
+        {
+            Equipment selected = (Equipment)(_currentList.get(_currentPositions.get(_currentType)));
+            Equipment.Position position = selected.getPosition();
+            Equipment equipped = null;
+            if(Game.lrk.getPlayer().getEquipment().containsKey(position))
+             equipped = Game.lrk.getPlayer().getEquipment().get(position);
+
+            GFX.drawTextAbsolute(_hWidth, 10, Resources.getFont(2), Color.white, "Selected");
+            GFX.drawTextAbsolute(_hWidth, 40, Resources.getFont(1), Color.white, selected.getName());
+            GFX.drawTextAbsolute(_hWidth+20, 60, Resources.getFont(1), Color.lightGray, selected.getDescription());
+            GFX.drawTextAbsolute(_hWidth, 80, Resources.getFont(1), getStatPowerColor(selected, equipped), "Power: " + selected.getPower());
+            GFX.drawTextAbsolute(_hWidth, 100, Resources.getFont(1), getStatDefenceColor(selected, equipped), "Defence: " + selected.getDefence());
+            if(selected.isEnchanted())
+            {
+                GFX.drawTextAbsolute(_hWidth, 120, Resources.getFont(1), Color.blue, selected.getEnchantment().getName());
+                GFX.drawTextAbsolute(_hWidth+20, 140, Resources.getFont(1), Color.lightGray, selected.getEnchantment().getDescription());
+            }
+
+            if(equipped != null)
+            {
+                GFX.drawTextAbsolute(_hWidth, 160+10, Resources.getFont(2), Color.white, "Equipped");
+                GFX.drawTextAbsolute(_hWidth, 160+40, Resources.getFont(1), Color.white, equipped.getName());
+                GFX.drawTextAbsolute(_hWidth+20, 160+60, Resources.getFont(1), Color.lightGray, equipped.getDescription());
+                GFX.drawTextAbsolute(_hWidth, 160+80, Resources.getFont(1), getStatPowerColor(equipped, selected), "Power: " + equipped.getPower());
+                GFX.drawTextAbsolute(_hWidth, 160+100, Resources.getFont(1), getStatDefenceColor(equipped, selected), "Defence: " + equipped.getDefence());
+                if(equipped.isEnchanted())
+                {
+                    GFX.drawTextAbsolute(_hWidth, 160+120, Resources.getFont(1), Color.blue, equipped.getEnchantment().getName());
+                    GFX.drawTextAbsolute(_hWidth+20, 160+140, Resources.getFont(1), Color.lightGray, equipped.getEnchantment().getDescription());
+                }
+            }
+        }
+    }
+
+    /** Use as e1 compared to e2. (e1's color compared to e2) */
+    public Color getStatPowerColor(Equipment e1, Equipment e2)
+    {
+        if(e2 == null) return Color.green;
+        if(e1.getPower() > e2.getPower()) return Color.green;
+        else if(e2.getPower() > e1.getPower()) return Color.red;
+        else return Color.white;
+    }
+
+    /** Use as e1 compared to e2. (e1's color compared to e2) */
+    public Color getStatDefenceColor(Equipment e1, Equipment e2)
+    {
+        if(e2 == null) return Color.green;
+        if(e1.getDefence() > e2.getDefence()) return Color.green;
+        else if(e2.getDefence() > e1.getDefence()) return Color.red;
+        else return Color.white;
     }
 
     public void renderStats(Graphics gfx)
@@ -213,6 +269,13 @@ public class CharacterState extends LRKState
         }
 
         _currentPositions.put(_currentType, _currentPositions.get(_currentType)+1);
+    }
+
+    public void keySelect()
+    {
+        Equipment selected = (Equipment)(_currentList.get(_currentPositions.get(_currentType)));
+        Equipment.Position position = selected.getPosition();
+        Game.lrk.getPlayer().getEquipment().put(position, selected);
     }
 
     private void swapType()

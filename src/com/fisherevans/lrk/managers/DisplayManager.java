@@ -27,8 +27,9 @@ public class DisplayManager
     private static int _windowWidth = 800;
     private static int _windowHeight = 600;
 
-    private static float _scale = 3;
-    private static boolean _scaleAuto = true;
+    private static float _scale = 1;
+    private static boolean _scaleAuto = false;
+    private static final boolean _floatScale = false;
 
     public static void saveProperties(PrintWriter out)
     {
@@ -132,7 +133,11 @@ public class DisplayManager
         float heightRatio = _windowHeight/MIN_HEIGHT;
 
         if(_scaleAuto)
-            _scale = (int)(widthRatio > heightRatio ? heightRatio : widthRatio) + 1;
+        {
+            _scale = widthRatio > heightRatio ? heightRatio : widthRatio;
+            if(!_floatScale)
+                _scale = _scale < 1 ? 1 : ((int)_scale);
+        }
 
         /*
         _scale = _windowWidth/(int)WIDTH;

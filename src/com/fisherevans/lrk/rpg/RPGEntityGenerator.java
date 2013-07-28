@@ -8,6 +8,7 @@ import com.fisherevans.lrk.rpg.items.Armor;
 import com.fisherevans.lrk.rpg.items.Consumable;
 import com.fisherevans.lrk.rpg.items.Equipment;
 import com.fisherevans.lrk.rpg.items.Weapon;
+import com.fisherevans.lrk.rpg.items.enchantments.UnholyMight;
 
 /**
  * User: Fisher evans
@@ -24,7 +25,10 @@ public class RPGEntityGenerator
         inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.MainHand, 4, 0, 0.5f));
         inventory.addItem(new Weapon("Battle Axe", "A bloody axe used in battle", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.MainHand, 7, 0, 0.8f));
         inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.OffHand, 0, 5, 0.5f));
-        inventory.addItem(new Weapon("Great Sword", "A large, powerful sword", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.MainHand, 11, 0, 1f, true));
+
+        Weapon enchanted = new Weapon("Great Sword", "A large, powerful sword", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.MainHand, 11, 0, 1f, true);
+        enchanted.setEnchantment(new UnholyMight(0.45f));
+        inventory.addItem(enchanted);
 
         inventory.addItem(new Armor("Iron Helm", "A modest helmet", Resources.getImage("res/test/images/icon_armor.png"), Equipment.Position.Head, 0, 6));
         inventory.addItem(new Armor("Rusty Chainmail", "Old, but useful", Resources.getImage("res/test/images/icon_armor.png"), Equipment.Position.Chest, 0, 10));

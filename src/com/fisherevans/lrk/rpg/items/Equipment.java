@@ -37,4 +37,39 @@ public abstract class Equipment extends Item
     {
         _enchantment = enchantment;
     }
+
+    public Position getPosition()
+    {
+        return _position;
+    }
+
+    public void setPosition(Position position)
+    {
+        _position = position;
+    }
+
+    public int getPower()
+    {
+        return _power;
+    }
+
+    public void setPower(int power)
+    {
+        _power = power;
+    }
+
+    public int getDefence()
+    {
+        return _defence;
+    }
+
+    public void setDefence(int defence)
+    {
+        _defence = defence;
+    }
+
+    public boolean isEnchanted()
+    {
+        return _enchantment != null;
+    }
 }

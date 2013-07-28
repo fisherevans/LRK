@@ -608,7 +608,7 @@ public abstract class GameContainer implements GUIContext {
 		} else {
 			game.update(this, 0);
 		}
-		
+
 		if (hasFocus() || getAlwaysRender()) {
 			if (clearEachFrame) {
 				GL.glClear(SGL.GL_COLOR_BUFFER_BIT | SGL.GL_DEPTH_BUFFER_BIT);

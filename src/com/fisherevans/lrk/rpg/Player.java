@@ -55,5 +55,8 @@ public class Player
         _inventory = inventory;
     }
 
-
+    public Map<Equipment.Position, Equipment> getEquipment()
+    {
+        return _equipment;
+    }
 }

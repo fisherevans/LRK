@@ -114,7 +114,7 @@ public class LRK extends BasicGame implements MouseListener
         gfx.resetTransform();
         
         if(DEBUG)
-            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, String.format("FPS: %d", Game.gameCanvas.getContainer().getFPS()));
+            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, String.format("FPS: %3d", Game.gameCanvas.getContainer().getFPS()));
     }
 
     /**
