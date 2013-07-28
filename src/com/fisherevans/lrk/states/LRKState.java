@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states;
 
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
@@ -25,6 +26,8 @@ public abstract class LRKState
     public LRKState(int id) throws SlickException
     {
         setID(id);
+
+        _cursor = Resources.getImage("res/test/default_mouse.png").getScaledCopy(2f);
 
         init();
     }
@@ -70,16 +73,6 @@ public abstract class LRKState
      * @throws SlickException if there is any error.
      */
     public abstract void render(Graphics gfx) throws SlickException;
-
-    /**
-     * Draws this states cursor on the current graphics element.
-     * @throws SlickException
-     */
-    public void drawCursor() throws SlickException
-    {
-        if(_cursor != null)
-            GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), _cursor);
-    }
 
     /**
      * updates this state and its elements

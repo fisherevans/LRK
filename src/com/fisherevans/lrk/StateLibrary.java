@@ -90,6 +90,22 @@ public class StateLibrary
         catch (Exception e) { }
 
         _activeState = state;
+
+
+        if(_activeState.getCursor() != null)
+        {
+            try
+            {
+                Game.getContainer().setMouseCursor(_activeState.getCursor(), _activeState.getCursor().getWidth()/2, _activeState.getCursor().getHeight()/2);
+            }
+            catch(Exception e)
+            {
+                Game.getContainer().setDefaultMouseCursor();
+            }
+        }
+        else
+            Game.getContainer().setDefaultMouseCursor();
+
         return true;
     }
 
