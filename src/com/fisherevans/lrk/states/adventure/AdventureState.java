@@ -3,7 +3,6 @@ package com.fisherevans.lrk.states.adventure;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
-import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.states.CharacterState;
@@ -202,8 +201,8 @@ public class AdventureState extends LRKState
     @Override
     public void resize()
     {
-        TILES_WIDE = DisplayManager.getRenderWidth()/TILE_SIZE;
-        TILES_HIGH = DisplayManager.getRenderHeight()/TILE_SIZE;
+        TILES_WIDE = DisplayManager.getBackgroundWidth()/TILE_SIZE;
+        TILES_HIGH = DisplayManager.getBackgroundHeight()/TILE_SIZE;
     }
 
     @Override

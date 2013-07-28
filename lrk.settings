@@ -1,9 +1,10 @@
 display.width=1507
 display.height=870
-display.position.x=208
-display.position.y=94
+display.position.x=173
+display.position.y=68
 display.maximized=false
-display.scale=2.0
+display.scale.foreground=1.0
+display.scale.background=1.0
 input.up=17
 input.down=31
 input.left=30

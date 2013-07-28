@@ -27,7 +27,9 @@ public class DisplayManager
     private static int _windowWidth = 800;
     private static int _windowHeight = 600;
 
-    private static float _scale = 1;
+    private static float _foregroundScale = 1;
+    private static float _backgroundScale = 1;
+
     private static boolean _scaleAuto = false;
     private static final boolean _floatScale = false;
 
@@ -41,7 +43,8 @@ public class DisplayManager
 
         out.println("display.maximized=" + (Game.window.getExtendedState() == JFrame.MAXIMIZED_BOTH));
 
-        out.println("display.scale=" + _scale);
+        out.println("display.scale.foreground=" + _foregroundScale);
+        out.println("display.scale.background=" + _backgroundScale);
     }
 
     public static void setProperty(String key, String value)
@@ -55,7 +58,8 @@ public class DisplayManager
                 case "display.position.x": _positionX = Integer.parseInt(value); break;
                 case "display.position.y": _positionY = Integer.parseInt(value); break;
                 case "display.maximized": _startMaximized = Boolean.parseBoolean(value); break;
-                case "display.scale": _scale = Float.parseFloat(value); break;
+                case "display.scale.foreground": _foregroundScale = Float.parseFloat(value); break;
+                case "display.scale.background": _backgroundScale = Float.parseFloat(value); break;
             }
         }
         catch(Exception e)
@@ -67,14 +71,14 @@ public class DisplayManager
 
     // GETTERS
 
-    public static float getScale()
+    public static float getBackgroundScale()
     {
-        return _scale;
+        return _backgroundScale;
     }
 
-    public static void setScale(float scale)
+    public static float getForegroundScale()
     {
-        _scale = scale;
+        return _foregroundScale;
     }
 
     /**
@@ -97,18 +101,35 @@ public class DisplayManager
     /**
      * @return width of render window
      */
-    public static float getRenderWidth()
+    public static float getBackgroundWidth()
     {
-        return _windowWidth/_scale;
+        return _windowWidth/ _backgroundScale;
     }
 
     /**
      * @return height of render window
      */
-    public static float getRenderHeight()
+    public static float getBackgroundHeight()
     {
 
-        return _windowHeight/_scale;
+        return _windowHeight/ _backgroundScale;
+    }
+
+    /**
+     * @return width of render window
+     */
+    public static float getForegroundWidth()
+    {
+        return _windowWidth/ _foregroundScale;
+    }
+
+    /**
+     * @return height of render window
+     */
+    public static float getForegroundHeight()
+    {
+
+        return _windowHeight/ _foregroundScale;
     }
 
     /**
@@ -134,15 +155,15 @@ public class DisplayManager
 
         if(_scaleAuto)
         {
-            _scale = widthRatio > heightRatio ? heightRatio : widthRatio;
+            _foregroundScale = widthRatio > heightRatio ? heightRatio : widthRatio;
             if(!_floatScale)
-                _scale = _scale < 1 ? 1 : ((int)_scale);
+                _foregroundScale = _foregroundScale < 1 ? 1 : ((int) _foregroundScale);
         }
 
         /*
-        _scale = _windowWidth/(int)WIDTH;
-        _scale = _scale < 1 ? 1 : _scale;
-        _scale = _scale > 4 ? 4 : _scale;
+        _foregroundScale = _windowWidth/(int)WIDTH;
+        _foregroundScale = _foregroundScale < 1 ? 1 : _foregroundScale;
+        _foregroundScale = _foregroundScale > 4 ? 4 : _foregroundScale;
         // */
 
         Game.lrk.pause(100);

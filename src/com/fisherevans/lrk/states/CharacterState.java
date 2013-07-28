@@ -129,7 +129,7 @@ public class CharacterState extends LRKState
 
     public void renderComparison(Graphics gfx)
     {
-            GFX.drawImageCentered(DisplayManager.getRenderWidth()*0.5f*0.3333f, DisplayManager.getRenderHeight()*0.8f, _currentList.get(_currentPositions.get(_currentType)).getImage().getScaledCopy(2));
+            GFX.drawImageCentered(DisplayManager.getBackgroundWidth()*0.5f*0.3333f, DisplayManager.getBackgroundHeight()*0.8f, _currentList.get(_currentPositions.get(_currentType)).getImage().getScaledCopy(2));
         if(_currentType == InventoryType.Equipment)
         {
             Equipment selected = (Equipment)(_currentList.get(_currentPositions.get(_currentType)));
@@ -191,10 +191,10 @@ public class CharacterState extends LRKState
     private void clip(float x, float y, float width, float height)
     {
         Game.getContainer().getGraphics().setClip(
-                (int)(x*DisplayManager.getScale()),
-                (int)(y*DisplayManager.getScale()),
-                (int)(width*DisplayManager.getScale()),
-                (int)(height*DisplayManager.getScale()));
+                (int)(x*DisplayManager.getBackgroundScale()),
+                (int)(y*DisplayManager.getBackgroundScale()),
+                (int)(width*DisplayManager.getBackgroundScale()),
+                (int)(height*DisplayManager.getBackgroundScale()));
     }
 
     private void unClip()
@@ -217,10 +217,10 @@ public class CharacterState extends LRKState
     @Override
     public void resize()
     {
-        _hWidth = DisplayManager.getRenderWidth()/2f;
+        _hWidth = DisplayManager.getBackgroundWidth()/2f;
 
         // Inventory
-        _invHeight = DisplayManager.getRenderHeight()*INV_HEIGHT_RATIO;
+        _invHeight = DisplayManager.getBackgroundHeight()*INV_HEIGHT_RATIO;
         _invHeightList = _invHeight - INV_TITLE_HEIGHT - INV_LIST_MARGIN;
         _invHeightScroll = _invHeightList - INV_LIST_PADDING*2;
         _invWidthScroll = INV_LIST_PADDING/2f;

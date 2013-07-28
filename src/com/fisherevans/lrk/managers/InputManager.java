@@ -6,19 +6,15 @@ import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.notifications.Notifications;
 import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.RenderComponent;
+import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.tools.LRKMath;
 import de.hardcode.jxinput.JXInputDevice;
-import de.hardcode.jxinput.JXInputManager;
-import de.hardcode.jxinput.directinput.DirectInputDevice;
-import de.hardcode.jxinput.event.*;
 import org.jbox2d.common.Vec2;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.KeyListener;
-import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.*;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +24,7 @@ import java.util.Map;
  * Date: 5/26/13
  * Time: 8:17 PM
  */
-public class InputManager implements KeyListener
+public class InputManager implements KeyListener, MouseListener
 {
     public enum ControlKey { Up, Down, Left, Right, Select, Back, Menu, ForceQuit }
 
@@ -44,13 +40,16 @@ public class InputManager implements KeyListener
 
     private static float _mouseX, _mouseY;
 
+    // Mouse moved/dragged variable
+    private boolean mousePressed = false;
+
     public InputManager()
     {
         loadDefaultControls();
         _itself = this;
 
-        _mouseX = DisplayManager.getRenderWidth()/2f;
-        _mouseY = DisplayManager.getRenderHeight()/2f;
+        _mouseX = DisplayManager.getWindowWidth()/2f;
+        _mouseY = DisplayManager.getWindowHeight()/2f;
 
         if(InputManager.jxNativesLoaded)
         {
@@ -68,6 +67,7 @@ public class InputManager implements KeyListener
     {
         _input = input;
         _input.addKeyListener(_itself);
+        _input.addMouseListener(_itself);
     }
 
     /**
@@ -147,51 +147,19 @@ public class InputManager implements KeyListener
     @Override
     public void keyPressed(int key, char c)
     {
-        LRKState state = StateLibrary.getActiveState();
-
-        if(key == getControlKey(ControlKey.Up))
-            state.keyUp();
-        else if(key == getControlKey(ControlKey.Down))
-            state.keyDown();
-        else if(key == getControlKey(ControlKey.Left))
-            state.keyLeft();
-        else if(key == getControlKey(ControlKey.Right))
-            state.keyRight();
-        else if(key == getControlKey(ControlKey.Select))
-            state.keySelect();
-        else if(key == getControlKey(ControlKey.Back))
-            state.keyBack();
-        else if(key == getControlKey(ControlKey.Menu))
-            state.keyMenu();
-        else if(key == getControlKey(ControlKey.ForceQuit))
+        if(key == getControlKey(ControlKey.ForceQuit))
             Game.lrk.exit();
 
-        if(c == '0')
+        for(ControlKey keyType:ControlKey.values())
         {
-            Color color = Notification.GREY;
-            switch((int) (Math.random()*7))
+            if(key == getControlKey(keyType))
             {
-                case 0: color = Notification.GREY; break;
-                case 1: color = Notification.BLUE; break;
-                case 2: color = Notification.PURPLE; break;
-                case 3: color = Notification.RED; break;
-                case 4: color = Notification.ORANGE; break;
-                case 5: color = Notification.YELLOW; break;
-                case 6: color = Notification.GREEN; break;
+                sendKeyPress(keyType);
+                break;
             }
-            Image icon = null;
-            switch((int) (Math.random()*5))
-            {
-                case 0: icon = Notifications.IMG_BAG; break;
-                case 1: icon = Notifications.IMG_QUEST; break;
-                case 2: icon = Notifications.IMG_SWORD; break;
-                case 3: icon = Notifications.IMG_COG; break;
-            }
-
-            Game.lrk.getNotifications().addNotification(new Notification("Just and example notification! " + ((int)(Math.random()*9999999)), color, icon));
         }
 
-        state.keyTyped(c);
+        StateLibrary.getActiveState().keyTyped(c);
     }
 
     /**
@@ -200,31 +168,41 @@ public class InputManager implements KeyListener
      */
     public static void sendKeyPress(ControlKey key)
     {
-        LRKState state = StateLibrary.getActiveState();
+        ArrayList<RenderComponent> targets = new ArrayList<>();
 
-        switch(key)
+        LRKState state = StateLibrary.getActiveState();
+        targets.add(state);
+
+        for(UIComponent ui:state.getUIComponents())
+            if(ui.acceptsKeyboard())
+                targets.add(ui);
+
+        for(RenderComponent target:targets)
         {
-            case Up:
-                state.keyUp();
-                break;
-            case Down:
-                state.keyDown();
-                break;
-            case Left:
-                state.keyLeft();
-                break;
-            case Right:
-                state.keyRight();
-                break;
-            case Select:
-                state.keySelect();
-                break;
-            case Back:
-                state.keyBack();
-                break;
-            case Menu:
-                state.keyMenu();
-                break;
+            switch(key)
+            {
+                case Up:
+                    target.keyUp();
+                    break;
+                case Down:
+                    target.keyDown();
+                    break;
+                case Left:
+                    target.keyLeft();
+                    break;
+                case Right:
+                    target.keyRight();
+                    break;
+                case Select:
+                    target.keySelect();
+                    break;
+                case Back:
+                    target.keyBack();
+                    break;
+                case Menu:
+                    target.keyMenu();
+                    break;
+            }
         }
     }
 
@@ -352,7 +330,7 @@ public class InputManager implements KeyListener
      */
     private static void checkMouseX()
     {
-        _mouseX = LRKMath.clamp(0, _mouseX, DisplayManager.getRenderWidth());
+        _mouseX = LRKMath.clamp(0, _mouseX, DisplayManager.getWindowWidth());
     }
 
     /**
@@ -360,7 +338,7 @@ public class InputManager implements KeyListener
      */
     private static void checkMouseY()
     {
-        _mouseY = LRKMath.clamp(0, _mouseY, DisplayManager.getRenderHeight());
+        _mouseY = LRKMath.clamp(0, _mouseY, DisplayManager.getWindowHeight());
     }
 
     /**
@@ -391,7 +369,7 @@ public class InputManager implements KeyListener
      */
     public static float getMouseXOrigin()
     {
-        return _mouseX - DisplayManager.getRenderWidth()/2f;
+        return _mouseX - DisplayManager.getWindowWidth()/2f;
     }
 
     /**
@@ -399,7 +377,7 @@ public class InputManager implements KeyListener
      */
     public static float getMouseYOrigin()
     {
-        return _mouseY - DisplayManager.getRenderHeight()/2f;
+        return _mouseY - DisplayManager.getWindowHeight()/2f;
     }
 
     public static boolean isQueryControllerMovement()
@@ -421,4 +399,54 @@ public class InputManager implements KeyListener
     {
         InputManager.xboxController = xboxController;
     }
+
+    @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy)
+    {
+        InputManager.setMouseX(InputManager.getInput().getMouseX());
+        InputManager.setMouseY(InputManager.getInput().getMouseY());
+
+        if(mousePressed)
+            sendMouseEvent(LRKState.MouseInputType.Dragged, InputManager.getMouseX(), InputManager.getMouseY());
+
+        sendMouseEvent(LRKState.MouseInputType.Moved, InputManager.getMouseX(), InputManager.getMouseY());
+    }
+
+    @Override
+    public void mousePressed(int button, int x, int y)
+    {
+        mousePressed = true;
+        sendMouseEvent(LRKState.MouseInputType.Pressed, x, y);
+    }
+
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+        mousePressed = false;
+        sendMouseEvent(LRKState.MouseInputType.Released, x, y);
+    }
+
+    public void sendMouseEvent(LRKState.MouseInputType type, float x, float y)
+    {
+        ArrayList<RenderComponent> targets = new ArrayList<>();
+
+        LRKState state = StateLibrary.getActiveState();
+        targets.add(state);
+
+        for(UIComponent ui:state.getUIComponents())
+            if(ui.acceptsMouse())
+                targets.add(ui);
+
+        for(RenderComponent target:targets)
+            target.mouseEvent(type, x, y);
+    }
+
+    @Override
+    public void mouseWheelMoved(int change)
+    {
+        StateLibrary.getActiveState().mouseWheelMoved(change);
+    }
+
+    @Override
+    public void mouseClicked(int button, int x, int y, int clickCount) { }
 }

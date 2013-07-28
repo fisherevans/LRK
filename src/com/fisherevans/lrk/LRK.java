@@ -6,22 +6,23 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.notifications.Notifications;
 import com.fisherevans.lrk.rpg.Player;
-import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
 import com.fisherevans.lrk.states.GFX;
+import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.RenderComponent;
+import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.states.quit.QuitState;
-import de.hardcode.jxinput.JXInputManager;
-import de.hardcode.jxinput.event.JXInputEventManager;
 import org.newdawn.slick.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  * User: Fisher
  * Date: 5/5/13
  * Time: 7:08 PM
  */
-public class LRK extends BasicGame implements MouseListener
+public class LRK extends BasicGame
 {
     public static boolean DEBUG = true;
     public static final String VERSION = "0.2 Alpha";
@@ -40,9 +41,6 @@ public class LRK extends BasicGame implements MouseListener
     // Pause variables
     private long pauseEndTime = 0;
     private boolean paused = false;
-    
-    // Mouse moved/dragged variable
-    private boolean mousePressed = false;
 
     /**
      * Create a new basic game
@@ -70,7 +68,6 @@ public class LRK extends BasicGame implements MouseListener
         StateLibrary.setActiveState("splash");
 
         InputManager.connectInput(Game.getContainer().getInput());
-        InputManager.getInput().addMouseListener(this);
 
         _notifications.init();
 
@@ -95,7 +92,8 @@ public class LRK extends BasicGame implements MouseListener
         }
 
         StateLibrary.getActiveState().update(delta);
-
+        for(UIComponent ui:StateLibrary.getActiveState().getUIComponents())
+            ui.update(delta);
         _notifications.update(delta);
     }
 
@@ -107,10 +105,14 @@ public class LRK extends BasicGame implements MouseListener
 
         gfx.clear();
 
-        gfx.scale(DisplayManager.getScale(), DisplayManager.getScale());
+        gfx.scale(DisplayManager.getBackgroundScale(), DisplayManager.getBackgroundScale());
         StateLibrary.getActiveState().render(gfx);
+        gfx.resetTransform();
+
+        gfx.scale(DisplayManager.getForegroundScale(), DisplayManager.getForegroundScale());
+        for(UIComponent ui:StateLibrary.getActiveState().getUIComponents())
+            ui.render(gfx);
         _notifications.render(gfx);
-        //StateLibrary.getActiveState().drawCursor();
         gfx.resetTransform();
         
         if(DEBUG)
@@ -125,38 +127,6 @@ public class LRK extends BasicGame implements MouseListener
     {
         paused = true;
         pauseEndTime = System.currentTimeMillis() + time;
-    }
-
-    @Override
-    public void mouseMoved(int oldx, int oldy, int newx, int newy)
-    {
-        InputManager.setMouseX(InputManager.getInput().getMouseX()/DisplayManager.getScale());
-        InputManager.setMouseY(InputManager.getInput().getMouseY()/DisplayManager.getScale());
-
-        if(mousePressed)
-            StateLibrary.getActiveState().mouseDragged(InputManager.getMouseX(), InputManager.getMouseY());
-
-        StateLibrary.getActiveState().mouseMoved(InputManager.getMouseX(), InputManager.getMouseY());
-    }
-
-    @Override
-    public void mousePressed(int button, int x, int y)
-    {
-        mousePressed = true;
-        StateLibrary.getActiveState().mousePressed(InputManager.getMouseX(), InputManager.getMouseY());
-    }
-
-    @Override
-    public void mouseReleased(int button, int x, int y)
-    {
-        mousePressed = false;
-        StateLibrary.getActiveState().mouseReleased(InputManager.getMouseX(), InputManager.getMouseY());
-    }
-
-    @Override
-    public void mouseWheelMoved(int change)
-    {
-        StateLibrary.getActiveState().mouseWheelMoved(change);
     }
 
     /**

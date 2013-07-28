@@ -13,8 +13,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 
-import java.awt.*;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Fisher evans
@@ -78,7 +76,7 @@ public class OptionsState extends LRKState
     public void render(Graphics gfx) throws SlickException
     {
         // used for positioning the elements
-        int thirdWidth = (int) (DisplayManager.getRenderWidth()/3f);
+        int thirdWidth = (int) (DisplayManager.getBackgroundWidth()/3f);
 
         // draw the parent (smaller) menu
         displayMenu(_currentMenu.getParent(), 1, lastMenuColorScale+(thisMenuColorScale-lastMenuColorScale)*(Math.abs(_hTran)), 0, (int)(0 + _hTran*thirdWidth), thirdWidth);
@@ -88,7 +86,7 @@ public class OptionsState extends LRKState
 
         // draw the description of the hovered item
         Color descColor = (new Color(1f, 1f, 1f)).scaleCopy(1-Math.abs(_vTran+_hTran));
-        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.getRenderHeight(), GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
+        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.getBackgroundHeight(), GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
     }
 
     /**
@@ -116,7 +114,7 @@ public class OptionsState extends LRKState
             displayColor = (menu.getCurrentId() == displayId ? displayItem.getColorHover() : displayItem.getColor()).scaleCopy(colorScale); // the color of the item
 
             // draw the text
-            GFX.drawText(xDiff, DisplayManager.getRenderHeight()/2f + yShift, width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
+            GFX.drawText(xDiff, DisplayManager.getBackgroundHeight()/2f + yShift, width, 0, GFX.TEXT_CENTER, GFX.TEXT_CENTER, font, displayColor, displayItem.getText());
         }
     }
 
