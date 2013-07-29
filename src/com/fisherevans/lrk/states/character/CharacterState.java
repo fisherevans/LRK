@@ -1,10 +1,13 @@
-package com.fisherevans.lrk.states;
+package com.fisherevans.lrk.states.character;
 
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.rpg.items.*;
+import com.fisherevans.lrk.states.GFX;
+import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.UIComponent;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -63,7 +66,9 @@ public class CharacterState extends LRKState
     @Override
     public void render(Graphics gfx) throws SlickException
     {
-        //_lastState.render(gfx);
+        _lastState.render(gfx);
+
+        GFX.fill(gfx, new Color(0, 0, 0, 0.75f));
 
         renderInventory(gfx, _currentType);
         renderComparison(gfx);
@@ -186,6 +191,14 @@ public class CharacterState extends LRKState
     public void renderStats(Graphics gfx)
     {
 
+    }
+
+    @Override
+    public void renderUI(Graphics gfx) throws SlickException
+    {
+        //_lastState.renderUI(gfx);
+        //GFX.fill(gfx, new Color(0, 0, 0, 0.5f));
+        super.renderUI(gfx);
     }
 
     private void clip(float x, float y, float width, float height)

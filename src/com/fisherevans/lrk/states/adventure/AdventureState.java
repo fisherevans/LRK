@@ -1,13 +1,11 @@
 package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
-import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
-import com.fisherevans.lrk.states.CharacterState;
+import com.fisherevans.lrk.states.character.CharacterState;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
@@ -198,7 +196,7 @@ public class AdventureState extends LRKState
 
         for(AdventureEntity e: _entities)
             e.update(delta); // logic
-        _world.step(delta, 2, 6); // physics
+        _world.step(delta, 3, 7); // physics
     }
 
     @Override

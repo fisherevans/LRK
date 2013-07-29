@@ -112,10 +112,11 @@ public class LRK extends BasicGame
         gfx.scale(DisplayManager.getForegroundScale(), DisplayManager.getForegroundScale());
         StateLibrary.getActiveState().renderUI(gfx);
         _notifications.render(gfx);
-        if(StateLibrary.getActiveState().getGrabMouse())
-            GFX.drawImageCentered(InputManager.getMouseX()/DisplayManager.getForegroundScale(), InputManager.getMouseY()/DisplayManager.getForegroundScale(), StateLibrary.getActiveState().getCursor());
         gfx.resetTransform();
-        
+
+        if(StateLibrary.getActiveState().getGrabMouse())
+            GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), StateLibrary.getActiveState().getCursor());
+
         if(DEBUG)
             GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, String.format("FPS: %3d", Game.gameCanvas.getContainer().getFPS()));
     }
