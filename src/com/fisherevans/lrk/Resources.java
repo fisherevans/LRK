@@ -14,7 +14,7 @@ public class Resources
 {
     public static final int
             FONT_SIZE_BASE = 8,
-            FONT_MAX_SIZES = 4;
+            FONT_MAX_SIZES = 6;
 
     private static UnicodeFont[] fonts = null;
 

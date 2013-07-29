@@ -100,7 +100,7 @@
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/openal/AudioLoader.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1369675632540" ignored="false" />
     <file path="/ComponentManager.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1369710733745" ignored="false" />
     <file path="/AudioManager.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1369675999072" ignored="false" />
-    <file path="/DisplayManager.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375028916446" ignored="false" />
+    <file path="/DisplayManager.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375070278149" ignored="false" />
     <file path="/TransitionState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1373852759751" ignored="false" />
     <file path="/SimpleFadeTransition.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1371005777847" ignored="false" />
     <file path="$PROJECT_DIR$/javadoc/lrk/com/fisherevans/lrk/states/adventure/entities/LRKEntity.html" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1369712477308" ignored="false" />
@@ -201,7 +201,7 @@
     <file path="/RPGEntityGenerator.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375041613321" ignored="false" />
     <file path="/EntityComponent.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1373854159763" ignored="false" />
     <file path="/Window.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1373286066420" ignored="false" />
-    <file path="/a.dummy" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375028981974" ignored="false" />
+    <file path="/a.dummy" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375071455663" ignored="false" />
     <file path="/XBoxController.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374627729438" ignored="false" />
     <file path="/LRKMath.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374988993580" ignored="false" />
     <file path="/Notification.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374109383704" ignored="false" />
@@ -211,7 +211,7 @@
     <file path="/XBoxControllerDiscoverer.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374365000985" ignored="false" />
     <file path="/GUITestState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374427370835" ignored="false" />
     <file path="/GUIElement.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374428771850" ignored="false" />
-    <file path="/CharacterState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375064857856" ignored="false" />
+    <file path="/CharacterState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375069815722" ignored="false" />
     <file path="$PROJECT_DIR$/javadoc/lrk/com/fisherevans/lrk/rpg/items/RPGItem.html" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374628102577" ignored="false" />
     <file path="/ItemType.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374628209706" ignored="false" />
     <file path="/Item.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374711065479" ignored="false" />
@@ -237,7 +237,7 @@
     <file path="/PlayerStats.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375040211088" ignored="false" />
     <file path="/DumbBlob.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375048200997" ignored="false" />
     <file path="$PROJECT_DIR$/javadoc/lrk/com/fisherevans/lrk/states/CharacterState.html" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375064747545" ignored="false" />
-    <file path="/InventoryList.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375066215728" ignored="false" />
+    <file path="/InventoryList.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375074173134" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,42 +304,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LRK.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/LRK.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="0" selection-start="2483" selection-end="2483" vertical-scroll-proportion="-26.64">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InputManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/managers/InputManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="411" column="50" selection-start="11225" selection-end="11225" vertical-scroll-proportion="-54.52">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LRKState.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/LRKState.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="66" selection-start="856" selection-end="856" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AdventureState.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/AdventureState.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="198" column="31" selection-start="7199" selection-end="7199" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AdventureEntity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/AdventureEntity.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -349,31 +313,69 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/Player.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="27" selection-start="588" selection-end="588" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Health.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/rpg/entitycomponents/Health.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="16" selection-start="3962" selection-end="3962" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="InventoryList.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/components/InventoryList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="31" selection-start="715" selection-end="715" vertical-scroll-proportion="0.29166666">
+            <state line="82" column="31" selection-start="2633" selection-end="2633" vertical-scroll-proportion="0.29714912">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SplashState.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/SplashState.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="13" selection-start="677" selection-end="677" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TitleUI.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/TitleUI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="131" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Resources.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/Resources.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="30" selection-start="361" selection-end="361" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DisplayManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/managers/DisplayManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="178" column="55" selection-start="4759" selection-end="4759" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GFX.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/GFX.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="102" column="23" selection-start="3339" selection-end="3339" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lrk.settings" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lrk.settings">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="26" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -389,6 +391,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="CharacterState.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/CharacterState.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="20" selection-start="1070" selection-end="1070" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -399,11 +410,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/GFX.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/managers/DisplayManager.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/TitleUI.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/rpg/RPGEntityGenerator.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/Wall.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/AdventureEntity.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/rpg/entitycomponents/Health.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/ui/PlayerStats.java" />
@@ -414,6 +420,11 @@
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/Player.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/LRK.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/CharacterState.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/components/EquipmentList.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/managers/DisplayManager.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/TitleUI.java" />
+        <option value="$PROJECT_DIR$/lrk.settings" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/Resources.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/components/InventoryList.java" />
       </list>
     </option>
@@ -543,6 +554,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="states" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LRK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LRK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lrk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="states" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="splash" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -917,8 +954,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="-8" width="1857" height="1096" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="1023" y="781" width="853" height="272" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -933,9 +971,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15710306" sideWeight="0.6002132" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15710306" sideWeight="0.6791045" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="FLOATING" visible="false" weight="0.39978677" sideWeight="0.50027853" order="2" side_tool="true" content_ui="tabs" x="2016" y="15" width="882" height="993" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="1023" y="781" width="853" height="272" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.7153518" order="4" side_tool="false" content_ui="combo" />
@@ -1019,48 +1056,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/Wall.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="3" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/rpg/RPGEntityGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="5" selection-start="3242" selection-end="3242" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/test/images/notification_bag.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/rpg/entitycomponents/Health.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="16" selection-start="3962" selection-end="3962" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/ui/PlayerStats.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="10" selection-start="1379" selection-end="1379" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jbox2d/jbox2d-library-2.1.2.2-SNAPSHOT-sources.jar!/org/jbox2d/dynamics/World.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="534" column="16" selection-start="14491" selection-end="14491" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/notifications/types/Notification.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="69" column="11" selection-start="2472" selection-end="2472" vertical-scroll-proportion="0.33333334">
@@ -1072,15 +1067,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="411" column="50" selection-start="11225" selection-end="11225" vertical-scroll-proportion="-54.52">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/DumbBlob.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="28" selection-start="753" selection-end="753" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1112,13 +1098,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/CharacterState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="44" selection-start="1795" selection-end="1795" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/AdventureEntity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="108" column="5" selection-start="2153" selection-end="2153" vertical-scroll-proportion="0.0">
@@ -1126,9 +1105,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/SplashState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="13" selection-start="677" selection-end="677" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/Resources.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="30" selection-start="361" selection-end="361" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/DumbBlob.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="28" selection-start="753" selection-end="753" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lrk.settings">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="26" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/managers/DisplayManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="178" column="55" selection-start="4759" selection-end="4759" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/CharacterState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="20" selection-start="1070" selection-end="1070" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/GFX.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="23" selection-start="3339" selection-end="3339" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/TitleUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="131" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/character/components/InventoryList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="31" selection-start="715" selection-end="715" vertical-scroll-proportion="0.29166666">
+        <state line="82" column="31" selection-start="2633" selection-end="2633" vertical-scroll-proportion="0.29714912">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

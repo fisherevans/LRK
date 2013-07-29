@@ -4,6 +4,7 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.UIComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -177,7 +178,11 @@ public class DisplayManager
     {
         LRKState state = StateLibrary.getActiveState();
         if(state != null)
+        {
             state.resize();
+            for(UIComponent ui:state.getUIComponents())
+                ui.resize();
+        }
     }
 
     public static Dimension getDimensions()

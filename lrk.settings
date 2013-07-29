@@ -1,10 +1,10 @@
-display.width=1841
+display.width=1857
 display.height=1057
-display.position.x=71
+display.position.x=1975
 display.position.y=-8
 display.maximized=true
 display.scale.foreground=2.0
-display.scale.background=3.2875
+display.scale.background=3.3160715
 input.up=17
 input.down=31
 input.left=30
