@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
+import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.dynamics.*;
 import org.newdawn.slick.Image;
 
@@ -19,8 +20,9 @@ public class Wall extends AdventureEntity
      * @param def the fixture definationt o use as the shape of this wall
      * @param world the world to put the wal in
      */
-    public Wall(float x, float y, FixtureDef def, World world)
+    public Wall(float x, float y, FixtureDef def, World world, AdventureState state)
     {
+        super(null, state);
         BodyDef bd = new BodyDef();
         bd.position.set(x, y);
         bd.type = BodyType.STATIC;

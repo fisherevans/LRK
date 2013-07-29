@@ -45,4 +45,9 @@ public class RPGEntityGenerator
 
         return character;
     }
+    public static RPGEntity getBlob()
+    {
+        RPGEntity entity = new RPGEntity("Dumb Blob", RPGEntity.Profession.Warrior, 3, 50, 15, 20);
+        return entity;
+    }
 }

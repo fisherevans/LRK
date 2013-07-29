@@ -63,6 +63,12 @@ public abstract class LRKState extends RenderComponent
      */
     public abstract void enter() throws SlickException;
 
+    public void renderUI(Graphics gfx) throws SlickException
+    {
+        for(UIComponent ui:getUIComponents())
+            ui.render(gfx);
+    }
+
     /**
      * ran when this state stops being active.
      * @throws SlickException if there is any error.

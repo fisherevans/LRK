@@ -5,12 +5,16 @@ import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.rpg.RPGEntityGenerator;
 import com.fisherevans.lrk.states.CharacterState;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
+import com.fisherevans.lrk.states.adventure.entities.DumbBlob;
 import com.fisherevans.lrk.states.adventure.entities.Player;
 import com.fisherevans.lrk.states.adventure.entities.Wall;
+import com.fisherevans.lrk.states.adventure.ui.PlayerStats;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
@@ -44,6 +48,8 @@ public class AdventureState extends LRKState
     public AdventureState() throws SlickException
     {
         super(StateLibrary.getTempID());
+        addUIComponent(new PlayerStats(this));
+        setGrabMouse(true);
     }
 
     @Override
@@ -51,16 +57,22 @@ public class AdventureState extends LRKState
     {
         resize();
 
-        setCursor(Resources.getImage("res/test/images/cursor.png").getScaledCopy(2f));
+        //setCursor(Resources.getImage("res/test/images/cursor.png").getScaledCopy(2f));
 
         _world = new World(new Vec2(0, 0f), true);
 
         // a list of entities in the world
         _entities = new ArrayList<>();
-        _player = new Player(14f, 14f, _world);
+
+        _player = new Player(14f, 14f, _world, this);
         _camera = _player;
 
         _entities.add(_player);
+        _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 33, 14, _world, this));
+        _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 33, 16, _world, this));
+        _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 27, 27, _world, this));
+        _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 25, 27, _world, this));
+        _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 23, 27, _world, this));
 
         try // load the map
         {
@@ -86,7 +98,7 @@ public class AdventureState extends LRKState
                     FixtureDef def = JBox2DUtils.generateFixture(id); // get the shape based on the id
                     if (def != null) // null means the tile id doesn't have a predefined shape
                     {
-                        _walls.add(new Wall(x, y, def, _world)); // but if it does, add the tile shape to the world
+                        _walls.add(new Wall(x, y, def, _world, this)); // but if it does, add the tile shape to the world
                     }
                 }
             }
@@ -186,7 +198,7 @@ public class AdventureState extends LRKState
 
         for(AdventureEntity e: _entities)
             e.update(delta); // logic
-        _world.step(delta, 5, 5); // physics
+        _world.step(delta, 2, 6); // physics
     }
 
     @Override
@@ -218,5 +230,10 @@ public class AdventureState extends LRKState
             LRK.log("Failed to change states - code 207");
             e.printStackTrace();
         }
+    }
+
+    public Player getPlayer()
+    {
+        return _player;
     }
 }

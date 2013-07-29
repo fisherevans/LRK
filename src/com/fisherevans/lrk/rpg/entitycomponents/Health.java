@@ -12,9 +12,9 @@ import java.util.ArrayList;
  */
 public class Health extends EntityComponent
 {
-    public static final int BASE_HEALTH = 50;
+    public static final float BASE_HEALTH = 50;
 
-    private int _maximumHealth, _currentHealth;
+    private float _maximumHealth, _currentHealth;
     private ArrayList<HealthListener> _listeners;
 
     /**
@@ -22,7 +22,7 @@ public class Health extends EntityComponent
      * @param parentEntity the entity this health object belongs to
      * @param health the maximum health
      */
-    public Health(RPGEntity parentEntity, int health)
+    public Health(RPGEntity parentEntity, float health)
     {
         this(parentEntity, health, health);
     }
@@ -33,7 +33,7 @@ public class Health extends EntityComponent
      * @param maximumHealth max health
      * @param currentHealth current health
      */
-    public Health(RPGEntity parentEntity, int maximumHealth, int currentHealth)
+    public Health(RPGEntity parentEntity, float maximumHealth, float currentHealth)
     {
         super(parentEntity);
         _maximumHealth = maximumHealth;
@@ -57,7 +57,7 @@ public class Health extends EntityComponent
      * @param amount the amount to increase by
      * @param increaseCurrent whether or not to increase the current health by the same amount
      */
-    public void increaseMaximumHealth(int amount, boolean increaseCurrent)
+    public void increaseMaximumHealth(float amount, boolean increaseCurrent)
     {
         _maximumHealth += amount;
         if(increaseCurrent)
@@ -91,7 +91,7 @@ public class Health extends EntityComponent
      * Adds an amount of health to the current health. will not surpass max
      * @param amount the amount to add
      */
-    public void addHealth(int amount)
+    public void addHealth(float amount)
     {
         if(_currentHealth >= _maximumHealth)
             return;
@@ -109,7 +109,7 @@ public class Health extends EntityComponent
      * subtracts an amount of health from the current health. will not go below 0
      * @param amount the amount to subtract
      */
-    public void subtractHealth(int amount)
+    public void subtractHealth(float amount)
     {
         if(_currentHealth <= 0)
             return;
@@ -153,12 +153,12 @@ public class Health extends EntityComponent
 
     // GETTERS
 
-    public int getMaximumHealth()
+    public float getMaximumHealth()
     {
         return _maximumHealth;
     }
 
-    public int getCurrentHealth()
+    public float getCurrentHealth()
     {
         return _currentHealth;
     }

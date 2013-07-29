@@ -1,5 +1,7 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
+import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.dynamics.Body;
 import org.newdawn.slick.Image;
 
@@ -13,19 +15,25 @@ public abstract class AdventureEntity
 {
     private Body _body;
 
+    private RPGEntity _rpgEntity;
+
     private float _angle = 0f;
+
+    private Image _image;
+
+    private AdventureState _state;
+
+    protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
+    {
+        _rpgEntity = rpgEntity;
+        _state = state;
+    }
 
     /**
      * updates the entity with each step of the main game loop
      * @param delta ms since the last update
      */
     public abstract void update(float delta);
-
-    /**
-     * gets the current image of the entity
-     * @return the entity's image
-     */
-    public abstract Image getImage();
 
     /**
      * gets the jbox body object of this entity
@@ -75,5 +83,30 @@ public abstract class AdventureEntity
     public void setDegrees(float angle)
     {
         _angle = angle;
+    }
+
+    public void setImage(Image image)
+    {
+        _image = image;
+    }
+
+    /**
+     * gets the current image of the entity
+     * @return the entity's image
+     */
+    public Image getImage()
+    {
+        _image.setRotation(getDegrees());
+        return _image;
+    }
+
+    public AdventureState getState()
+    {
+        return _state;
+    }
+
+    public RPGEntity getRpgEntity()
+    {
+        return _rpgEntity;
     }
 }

@@ -110,9 +110,10 @@ public class LRK extends BasicGame
         gfx.resetTransform();
 
         gfx.scale(DisplayManager.getForegroundScale(), DisplayManager.getForegroundScale());
-        for(UIComponent ui:StateLibrary.getActiveState().getUIComponents())
-            ui.render(gfx);
+        StateLibrary.getActiveState().renderUI(gfx);
         _notifications.render(gfx);
+        if(StateLibrary.getActiveState().getGrabMouse())
+            GFX.drawImageCentered(InputManager.getMouseX()/DisplayManager.getForegroundScale(), InputManager.getMouseY()/DisplayManager.getForegroundScale(), StateLibrary.getActiveState().getCursor());
         gfx.resetTransform();
         
         if(DEBUG)
@@ -153,7 +154,7 @@ public class LRK extends BasicGame
     {
         if(DEBUG)
         {
-            String time = new Timestamp(System.currentTimeMillis()).toString();
+            String time = String.format("%-23s",new Timestamp(System.currentTimeMillis()).toString());
             System.out.println("[LRK " + VERSION + " | " + time + "] " + text);
         }
     }
