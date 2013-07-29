@@ -168,41 +168,43 @@ public class InputManager implements KeyListener, MouseListener
      */
     public static void sendKeyPress(ControlKey key)
     {
-        ArrayList<RenderComponent> targets = new ArrayList<>();
-
         LRKState state = StateLibrary.getActiveState();
-        targets.add(state);
+        sendKeyPress(state, key);
 
         for(UIComponent ui:state.getUIComponents())
             if(ui.acceptsKeyboard())
-                targets.add(ui);
+                sendKeyPress(ui, key);
+    }
 
-        for(RenderComponent target:targets)
+    /**
+     * Sends a ContronKey press to the current state
+     * @param key
+     */
+    public static void sendKeyPress(RenderComponent ui, ControlKey key)
+    {
+        switch(key)
         {
-            switch(key)
-            {
-                case Up:
-                    target.keyUp();
-                    break;
-                case Down:
-                    target.keyDown();
-                    break;
-                case Left:
-                    target.keyLeft();
-                    break;
-                case Right:
-                    target.keyRight();
-                    break;
-                case Select:
-                    target.keySelect();
-                    break;
-                case Back:
-                    target.keyBack();
-                    break;
-                case Menu:
-                    target.keyMenu();
-                    break;
-            }
+            case Up:
+                ui.keyUp();
+                break;
+            case Down:
+                ui.keyDown();
+                break;
+            case Left:
+                ui.keyLeft();
+                break;
+            case Right:
+                ui.keyRight();
+                break;
+            case Select:
+                ui.keySelect();
+                break;
+            case Back:
+                ui.keyBack();
+                break;
+            case Menu:
+                ui.keyMenu();
+                break;
         }
     }
 
@@ -428,17 +430,12 @@ public class InputManager implements KeyListener, MouseListener
 
     public void sendMouseEvent(LRKState.MouseInputType type, float x, float y)
     {
-        ArrayList<RenderComponent> targets = new ArrayList<>();
-
         LRKState state = StateLibrary.getActiveState();
-        targets.add(state);
+        state.mouseEvent(type, x, y);
 
         for(UIComponent ui:state.getUIComponents())
             if(ui.acceptsMouse())
-                targets.add(ui);
-
-        for(RenderComponent target:targets)
-            target.mouseEvent(type, x, y);
+                ui.mouseEvent(type, x, y);
     }
 
     @Override

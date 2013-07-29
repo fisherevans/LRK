@@ -94,7 +94,7 @@
     <file path="/Overlay.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1369606323946" ignored="false" />
     <file path="/LRKState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375048049967" ignored="false" />
     <file path="/StateLibrary.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374987589106" ignored="false" />
-    <file path="/InputManager.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1374991908207" ignored="false" />
+    <file path="/InputManager.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1375058178328" ignored="false" />
     <file path="/ScalableGame.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1369663857070" ignored="false" />
     <file path="/QuitState.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1371008138283" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/openal/AudioLoader.java" changelist="9bf408f3-f480-4b3f-98e8-f8391644b9a1" time="1369675632540" ignored="false" />
@@ -302,10 +302,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LRK.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="LRK.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/LRK.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="29" selection-start="3499" selection-end="3499" vertical-scroll-proportion="0.578354">
+            <state line="116" column="29" selection-start="3499" selection-end="3499" vertical-scroll-proportion="-20.52">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InputManager.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/managers/InputManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="411" column="16" selection-start="11190" selection-end="11191" vertical-scroll-proportion="0.156708">
               <folding />
             </state>
           </provider>
@@ -399,7 +408,6 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/SplashState.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/RenderComponent.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/managers/InputManager.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/GFX.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/managers/DisplayManager.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/TitleUI.java" />
@@ -413,6 +421,7 @@
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/entities/Player.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/states/adventure/AdventureState.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/LRK.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/lrk/managers/InputManager.java" />
       </list>
     </option>
   </component>
@@ -1073,13 +1082,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/rpg/RPGEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="18" selection-start="334" selection-end="340" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/states/splash/TitleUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="60" column="65" selection-start="1992" selection-end="1992" vertical-scroll-proportion="0.0">
@@ -1184,7 +1186,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/LRK.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="29" selection-start="3499" selection-end="3499" vertical-scroll-proportion="0.578354">
+        <state line="116" column="29" selection-start="3499" selection-end="3499" vertical-scroll-proportion="-20.52">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/lrk/managers/InputManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="411" column="16" selection-start="11190" selection-end="11191" vertical-scroll-proportion="0.156708">
           <folding />
         </state>
       </provider>
