@@ -59,4 +59,9 @@ public class Player
     {
         return _equipment;
     }
+
+    public void equip(Equipment newItem)
+    {
+        _equipment.put(newItem.getPosition(), newItem);
+    }
 }

@@ -6,6 +6,7 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.rpg.items.*;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.character.components.InventoryComparison;
 import com.fisherevans.lrk.states.character.components.InventoryList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -24,34 +25,29 @@ import java.util.Map;
  */
 public class CharacterState extends LRKState
 {
-    public enum InventoryType { Equipment, Consumables }
-
     private LRKState _lastState;
 
     private float _foreHalfWidth, _foreHalfHeight;
 
-    private InventoryType _currentType;
-    private ArrayList<Item> _currentList;
-    private Map<InventoryType, Integer> _currentPositions;
-
     private InventoryList _inventoryList;
+    private InventoryComparison _inventoryComparison;
 
     public CharacterState(LRKState lastState) throws SlickException
     {
         super(StateLibrary.getTempID());
         _lastState = lastState;
+
         _inventoryList = new InventoryList(this);
+        _inventoryComparison = new InventoryComparison(this);
 
         addUIComponent(_inventoryList);
+        addUIComponent(_inventoryComparison);
     }
 
     @Override
     public void init() throws SlickException
     {
         resize();
-        _currentPositions = new HashMap<InventoryType, Integer>();
-        _currentPositions.put(InventoryType.Equipment, 0);
-        _currentPositions.put(InventoryType.Consumables, 0);
     }
 
     @Override
@@ -74,34 +70,16 @@ public class CharacterState extends LRKState
 
     }
 
-    /** Use as e1 compared to e2. (e1's color compared to e2) */
-    public Color getStatPowerColor(Equipment e1, Equipment e2)
-    {
-        if(e2 == null) return Color.green;
-        if(e1.getPower() > e2.getPower()) return Color.green;
-        else if(e2.getPower() > e1.getPower()) return Color.red;
-        else return Color.white;
-    }
-
-    /** Use as e1 compared to e2. (e1's color compared to e2) */
-    public Color getStatDefenceColor(Equipment e1, Equipment e2)
-    {
-        if(e2 == null) return Color.green;
-        if(e1.getDefence() > e2.getDefence()) return Color.green;
-        else if(e2.getDefence() > e1.getDefence()) return Color.red;
-        else return Color.white;
-    }
-
-    private void clip(float x, float y, float width, float height)
+    public void clip(float x, float y, float width, float height, float scale)
     {
         Game.getContainer().getGraphics().setClip(
-                (int) (x * DisplayManager.getBackgroundScale()),
-                (int) (y * DisplayManager.getBackgroundScale()),
-                (int) (width * DisplayManager.getBackgroundScale()),
-                (int) (height * DisplayManager.getBackgroundScale()));
+                (int) (x * scale),
+                (int) (y * scale),
+                (int) (width * scale),
+                (int) (height * scale));
     }
 
-    private void unClip()
+    public void unClip()
     {
         Game.getContainer().getGraphics().clearClip();
     }
@@ -138,5 +116,15 @@ public class CharacterState extends LRKState
     public float getForeHalfHeight()
     {
         return _foreHalfHeight;
+    }
+
+    public InventoryList getInventoryList()
+    {
+        return _inventoryList;
+    }
+
+    public InventoryComparison getInventoryComparison()
+    {
+        return _inventoryComparison;
     }
 }

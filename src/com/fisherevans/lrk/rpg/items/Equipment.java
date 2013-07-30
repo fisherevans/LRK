@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.rpg.items;
 
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.rpg.items.enchantments.Enchantment;
 import org.newdawn.slick.Image;
 
@@ -71,5 +72,10 @@ public abstract class Equipment extends Item
     public boolean isEnchanted()
     {
         return _enchantment != null;
+    }
+
+    public boolean isEquipped()
+    {
+        return Game.lrk.getPlayer().getEquipment().get(_position) == this;
     }
 }

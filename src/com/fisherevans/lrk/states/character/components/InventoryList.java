@@ -3,6 +3,9 @@ package com.fisherevans.lrk.states.character.components;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.rpg.items.Consumable;
+import com.fisherevans.lrk.rpg.items.Equipment;
 import com.fisherevans.lrk.rpg.items.Item;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
@@ -12,6 +15,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +29,10 @@ import java.util.Map;
  */
 public class InventoryList extends UIComponent
 {
-    public enum ListType { Equipment, Consumables }
-
     public final int WIDTH = 300;
     public final int HEIGHT = 200;
     public final int X_OFFSET = 0;
-    public final int Y_OFFSET = 0;
+    public final int Y_OFFSET = 50;
 
     public final int TITLE_HEIGHT = 24;
 
@@ -38,6 +40,11 @@ public class InventoryList extends UIComponent
     public final int LIST_MARGIN = 10;
     public final int LIST_LINE_HEIGHT = 20;
     public final int LIST_CENTER_Y = (TITLE_HEIGHT+HEIGHT)/2;
+
+    public final Color LIST_EQUIPPED = new Color(0.4f, 0.45f, 0.5f);
+    public final Color LIST_NOT_EQUIPPED = new Color(0.5f, 0.5f, 0.5f);
+    public final Color LIST_SELECTED_EQUIPPED = new Color(0.6f, 0.8f, 1f);
+    public final Color LIST_SELECTED_NOT_EQUIPPED = new Color(1f, 1f, 1f);
 
     public final int SCROLL_HEIGHT = HEIGHT-TITLE_HEIGHT-LIST_MARGIN-LIST_PADDING*2;
     public final int SCROLL_WIDTH = 10;
@@ -48,17 +55,20 @@ public class InventoryList extends UIComponent
 
     private CharacterState _parent;
 
-    private ListType _tab = ListType.Equipment;
-
-    private Map<ListType, Integer> _currentPosition;
+    private Class _tab;
+    private ArrayList<Item> _currentItems;
+    private Map<Class, Integer> _position;
 
     public InventoryList(CharacterState parent)
     {
         super(parent, true, false);
         _parent = parent;
-        _currentPosition = new HashMap<>();
-        _currentPosition.put(ListType.Equipment, 0);
-        _currentPosition.put(ListType.Consumables, 0);
+
+        _tab = Equipment.class;
+        _position = new HashMap<>();
+        _position.put(Equipment.class, 0);
+        _position.put(Consumable.class, 0);
+        fetchCurrentItems();
     }
 
     @Override
@@ -70,41 +80,39 @@ public class InventoryList extends UIComponent
     @Override
     public void render(Graphics gfx) throws SlickException
     {
-        // box
-        gfx.setColor(Color.red);
-        gfx.fillRect(startX(), startY(), WIDTH, HEIGHT);
-        // title
-        gfx.setColor(Color.green);
-        gfx.fillRect(startX(), startY(), WIDTH, TITLE_HEIGHT);
-        // list box
-        gfx.setColor(Color.yellow);
+        //gfx.setColor(Color.blue);
+        //gfx.fillRect(startX(), startY(), WIDTH, HEIGHT);
+
+        // ACTUAL LIST
+        gfx.setColor(new Color(0.3f, 0.3f, 0.3f, 0.5f));
         gfx.fillRect(startX()+LIST_MARGIN, startY()+TITLE_HEIGHT, WIDTH-LIST_MARGIN*2, HEIGHT-TITLE_HEIGHT-LIST_MARGIN);
-        // list content
-        gfx.setColor(Color.blue);
-        gfx.fillRect(startX()+LIST_MARGIN+LIST_PADDING, startY()+TITLE_HEIGHT, WIDTH-LIST_MARGIN*2-LIST_PADDING*2, HEIGHT-TITLE_HEIGHT-LIST_MARGIN);
+        GFX.drawText(startX(), startY(), WIDTH, TITLE_HEIGHT,
+                GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), Color.white, getTabName());
 
-        GFX.drawText(startX(), startY(), WIDTH, TITLE_HEIGHT, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), Color.white, _tab.toString());
+        _parent.clip(startX() + LIST_MARGIN,
+                startY() + TITLE_HEIGHT,
+                WIDTH - LIST_MARGIN * 2,
+                HEIGHT - TITLE_HEIGHT - LIST_MARGIN,
+                DisplayManager.getForegroundScale());
 
-        List<Item> items = _tab == ListType.Equipment ? Game.lrk.getPlayer().getInventory().getEquipment() : Game.lrk.getPlayer().getInventory().getConsumables();
-
-        float lineX, lineY;
-        Color textColor;
-        int pastDrawnCount = 0;
-        for(int id = 0;id < items.size();id++)
+        int lineX, lineY;
+        for(int id = 0;id < _currentItems.size();id++)
         {
-            Item item = items.get(id);
-            lineX = startX() + LIST_MARGIN + LIST_PADDING;
-            lineY = startY() + LIST_CENTER_Y - (ICON_SIZE/2 ) + ((pastDrawnCount-getCurrentPosition())*LIST_LINE_HEIGHT);
-            textColor = id == getCurrentPosition() ? Color.white : Color.gray;
-            GFX.drawImage(lineX, lineY, ICON_SIZE, ICON_SIZE, item.getImage());
-            GFX.drawTextCenteredV(lineX + ICON_SIZE + LIST_PADDING, lineY, ICON_SIZE, Resources.getFont(1), textColor, item.getName());
-            pastDrawnCount++;
+            Item item = _currentItems.get(id);
+            lineX = (int) (startX() + LIST_MARGIN + LIST_PADDING);
+            lineY = (int) (startY() + LIST_CENTER_Y - (LIST_LINE_HEIGHT/2 ) + ((id-getCurrentPosition())*LIST_LINE_HEIGHT));
+            GFX.drawImage(lineX, lineY, item.getImage());
+            GFX.drawTextCenteredV(lineX + ICON_SIZE + LIST_PADDING, lineY, ICON_SIZE,
+                    Resources.getFont(1),
+                    getItemColor(item, id == getCurrentPosition()),
+                    getItemName(item, id == getCurrentPosition()));
         }
+        _parent.unClip();
 
         gfx.setColor(Color.lightGray);
         gfx.fillRect(startX()+SCROLL_X, startY()+SCROLL_Y, SCROLL_WIDTH, SCROLL_HEIGHT);
 
-        float scrollBarHeight = SCROLL_HEIGHT/((float)items.size());
+        float scrollBarHeight = SCROLL_HEIGHT/((float)_currentItems.size());
         float scrollBarY = getCurrentPosition()*scrollBarHeight;
         gfx.setColor(Color.white);
         gfx.fillRect(startX()+SCROLL_X, startY()+SCROLL_Y+scrollBarY, SCROLL_WIDTH, scrollBarHeight);
@@ -119,31 +127,39 @@ public class InventoryList extends UIComponent
     @Override
     public void keyUp()
     {
-        movePositionUp();
+        decreaseCurrentPosition();
     }
 
     @Override
     public void keyDown()
     {
-        movePositionDown();
+        increaseCurrentPosition();
     }
 
     @Override
     public void keyLeft()
     {
-        super.keyLeft();    //To change body of overridden methods use File | Settings | File Templates.
+        swapTab();
     }
 
     @Override
     public void keyRight()
     {
-        super.keyRight();    //To change body of overridden methods use File | Settings | File Templates.
+        swapTab();
     }
 
     @Override
     public void keySelect()
     {
-        super.keySelect();    //To change body of overridden methods use File | Settings | File Templates.
+        if(_tab == Equipment.class)
+        {
+            if(((Equipment)getCurrentItem()).isEquipped())
+                Game.lrk.getPlayer().getEquipment().remove(((Equipment) getCurrentItem()).getPosition());
+            else
+            Game.lrk.getPlayer().equip((Equipment)getCurrentItem());
+            //decreaseCurrentPosition();
+            //fetchCurrentItems();
+        }
     }
 
     private float startX()
@@ -156,18 +172,84 @@ public class InventoryList extends UIComponent
         return _parent.getForeHalfHeight()-HEIGHT+Y_OFFSET;
     }
 
+    public void fetchCurrentItems()
+    {
+        if(_tab == Equipment.class)
+        {
+            _currentItems = Game.lrk.getPlayer().getInventory().getEquipment();
+            /*_currentItems = new ArrayList<>();
+            for(Item item:Game.lrk.getPlayer().getInventory().getEquipment())
+                if(!((Equipment)item).isEquipped())
+                    _currentItems.add(item);*/
+        }
+        else if(_tab == Consumable.class)
+        {
+            _currentItems = Game.lrk.getPlayer().getInventory().getConsumables();
+        }
+    }
+
+    public void swapTab()
+    {
+        if(_tab == Equipment.class) _tab = Consumable.class;
+        else if (_tab == Consumable.class) _tab = Equipment.class;
+        fetchCurrentItems();
+    }
+
     private int getCurrentPosition()
     {
-        return _currentPosition.get(_tab);
+        return _position.get(_tab);
     }
 
-    private void movePositionUp()
+    public void decreaseCurrentPosition()
     {
-        _currentPosition.put(_tab, getCurrentPosition()-1);
+        if(getCurrentPosition() <= 0)
+            return;
+        else
+            _position.put(_tab, getCurrentPosition()-1);
     }
 
-    private void movePositionDown()
+    public void increaseCurrentPosition()
     {
-        _currentPosition.put(_tab, getCurrentPosition()+1);
+        if(getCurrentPosition() >= _currentItems.size()-1)
+            return;
+        else
+            _position.put(_tab, getCurrentPosition()+1);
+    }
+
+    public Color getItemColor(Item item, boolean selected)
+    {
+        if(selected)
+        {
+            if(item instanceof Equipment && ((Equipment)item).isEquipped()) return LIST_SELECTED_EQUIPPED;
+            else  return LIST_SELECTED_NOT_EQUIPPED;
+        }
+        else
+        {
+            if(item instanceof Equipment && ((Equipment)item).isEquipped()) return LIST_EQUIPPED;
+            else  return LIST_NOT_EQUIPPED;
+        }
+    }
+
+    public String getItemName(Item item, boolean selected)
+    {
+        if(item instanceof Equipment && ((Equipment)item).isEquipped()) return item.getName() + " <";
+        else  return item.getName();
+    }
+
+    public Item getCurrentItem()
+    {
+        return _currentItems.get(getCurrentPosition());
+    }
+
+    private String getTabName()
+    {
+        if(_tab == Equipment.class) return "Equipment";
+        if(_tab == Consumable.class) return "Consumables";
+        else return "ERROR";
+    }
+
+    public Class getTab()
+    {
+        return _tab;
     }
 }
