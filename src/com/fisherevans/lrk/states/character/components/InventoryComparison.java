@@ -26,7 +26,9 @@ public class InventoryComparison extends UIComponent
     public final int X_OFFSET = 0;
     public final int Y_OFFSET = 150;
 
-    public final int MARGIN = 10;
+    public final int MARGIN = 8;
+    public final int PADDING = 8;
+    public final int CONTENT_PADDING = 8;
 
     private CharacterState _parent;
 
@@ -52,6 +54,29 @@ public class InventoryComparison extends UIComponent
         gfx.fillRect(startX()+MARGIN, startY()+MARGIN, WIDTH-MARGIN*2, HEIGHT-MARGIN*2);
 
         Equipment selected = (Equipment) _parent.getInventoryList().getCurrentItem();
+        
+        /* Psudo code
+        Textual
+        
+        drawString(selected.name, size.16, startContentX, startContentY)
+        
+        drawImage(select.image, getcontentstartX, getContentStartY+16+content_padding)
+        
+        drawString(Power: selected.power, size.8,
+            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*1+8*0)
+        
+        drawString(Defence: selected.defence, size.8,
+            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*2+8*1)
+        
+        drawString(Enchantment: selected.enchantment.name, size.8,
+            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*3+8*2)
+        
+        drawString(Power: selected.enchantment.desc, size.8,
+            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*4+8*3)
+        
+        http://www.google.com/imgres?um=1&sa=N&hl=en&biw=1676&bih=870&tbm=isch&tbnid=mU_49KVYg55GfM:&imgrefurl=http://kandipatterns.com/patterns/characters/zelda-hylian-shield-3039&docid=tq_Nai_DcR0kGM&imgurl=http://kandipatterns.com/images/patterns/characters/3039-zelda_Hylian_shield.png&w=420&h=630&ei=kQ34UYaBGY7A4AOP2YCIBg&zoom=1&ved=1t:3588,r:14,s:0,i:123&iact=rc&page=1&tbnh=189&tbnw=126&start=0&ndsp=39&tx=69&ty=78
+        http://i.imgur.com/XH5qHJz.png
+        */
 
         Equipment equipped = null;
         if(Game.lrk.getPlayer().getEquipment() != null)
@@ -86,5 +111,15 @@ public class InventoryComparison extends UIComponent
     private float startY()
     {
         return _parent.getForeHalfHeight()-HEIGHT+Y_OFFSET;
+    }
+
+    private float startContentX()
+    {
+        return startX()+MARGIN+PADDING;
+    }
+
+    private float startContentY()
+    {
+        return startY()+MARGIN+PADDING;
     }
 }
