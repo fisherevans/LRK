@@ -8,10 +8,7 @@ import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.options.menu_items.*;
 import com.fisherevans.lrk.states.options.menu_items.MenuItem;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -105,7 +102,7 @@ public class OptionsState extends LRKState
         float yShift;
         MenuItem displayItem;
         Color displayColor;
-        UnicodeFont font = Resources.getFont(scale);
+        AngelCodeFont font = Resources.getFont(scale);
         int fontHeight = (int) (font.getLineHeight()*1.5f);
         for(int displayId = 0;displayId < menu.getItems().size();displayId++) // for each menu item
         {

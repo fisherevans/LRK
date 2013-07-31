@@ -5,10 +5,7 @@ import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.states.GFX;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
@@ -30,7 +27,7 @@ public class Notifications
 
     private ArrayList<Notification> _notifications;
 
-    private UnicodeFont font;
+    private AngelCodeFont font;
 
     private float height, textY, textHeight, slide;
 

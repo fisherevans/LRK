@@ -1,8 +1,11 @@
 package com.fisherevans.lrk;
 
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,24 +15,36 @@ import org.newdawn.slick.font.effects.ColorEffect;
  */
 public class Resources
 {
-    public static final int
-            FONT_SIZE_BASE = 8,
-            FONT_MAX_SIZES = 6;
+    private static final String[] _fntFiles = {
+            "res/fonts/8bm1.fnt",
+            "res/fonts/8bm2.fnt",
+            "res/fonts/8bm3.fnt",
+            "res/fonts/8bm4.fnt",
+    };
 
-    private static UnicodeFont[] fonts = null;
+    private static final String[] _pngFiles = {
+            "res/fonts/8bm1_0.png",
+            "res/fonts/8bm2_0.png",
+            "res/fonts/8bm3_0.png",
+            "res/fonts/8bm4_0.png",
+    };
+
+    private static AngelCodeFont[] _fonts = null;
 
     /**
      * the sizes are based on this object's static vars
      * @param size the size of the font to get
      * @return the font of that size
      */
-    public static UnicodeFont getFont(int size)
+    public static AngelCodeFont getFont(int size)
     {
-        if(fonts == null)
+        if(_fonts == null)
             generateFonts();
-        size = size > FONT_MAX_SIZES ? FONT_MAX_SIZES : size;
-        size = size < 1 ? 1 : size;
-        return fonts[size-1];
+
+        if(size <= 0 || size > _fonts.length)
+            return null;
+
+        return _fonts[size-1];
     }
 
     /**
@@ -39,16 +54,9 @@ public class Resources
     {
         try
         {
-            fonts = new UnicodeFont[FONT_MAX_SIZES];
-            for(int size = 1;size <= FONT_MAX_SIZES;size++)
-            {
-                UnicodeFont font = new UnicodeFont("res/fonts/8bm.ttf", FONT_SIZE_BASE*size*2, false, false);
-                font.addAsciiGlyphs();
-                font.getEffects().add(new ColorEffect());
-                font.loadGlyphs();
-
-                fonts[size-1] = font;
-            }
+            _fonts = new AngelCodeFont[_fntFiles.length];
+            for(int id = 0;id < _fntFiles.length;id++)
+                _fonts[id] = new AngelCodeFont(_fntFiles[id], getImage(_pngFiles[id]));
         }
         catch(Exception e)
         {

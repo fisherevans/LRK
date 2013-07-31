@@ -1,10 +1,7 @@
 package com.fisherevans.lrk.states;
 
 import com.fisherevans.lrk.managers.DisplayManager;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,9 +68,9 @@ public class GFX
      * @param c the color to draw the text in
      * @param text the text to draw
      */
-    public static void drawTextAbsolute(float x, float y, UnicodeFont font, Color c, String text)
+    public static void drawTextAbsolute(float x, float y, AngelCodeFont font, Color c, String text)
     {
-        font.drawString(x, y, text, c);
+        font.drawString((int)x, (int)y, text, c);
     }
 
     /**
@@ -85,7 +82,7 @@ public class GFX
      * @param c the color to draw the text in
      * @param text the text to draw
      */
-    public static void drawTextCenteredH(float x, float y, float width, UnicodeFont font, Color c, String text)
+    public static void drawTextCenteredH(float x, float y, float width, AngelCodeFont font, Color c, String text)
     {
         drawText(x, y, width, 0, TEXT_CENTER, TEXT_TOP, font, c, text);
     }
@@ -100,7 +97,7 @@ public class GFX
      * @param c the color to draw the text in
      * @param text the text to draw
      */
-    public static void drawTextCenteredV(float x, float y, float height, UnicodeFont font, Color c, String text)
+    public static void drawTextCenteredV(float x, float y, float height, AngelCodeFont font, Color c, String text)
     {
         drawText(x, y, 0, height, TEXT_LEFT, TEXT_CENTER, font, c, text);
     }
@@ -117,7 +114,7 @@ public class GFX
      * @param c the color to draw the text in
      * @param text the text to draw
      */
-    public static void drawText(float x, float y, float width, float height, int horzAlign, int vertAlign, UnicodeFont font, Color c, String text)
+    public static void drawText(float x, float y, float width, float height, int horzAlign, int vertAlign, AngelCodeFont font, Color c, String text)
     {
         float dx = 0, dy = 0;
         switch(horzAlign)
@@ -133,7 +130,7 @@ public class GFX
             case TEXT_BOTTOM: dy = height - font.getHeight("0"); break;
         }
 
-        font.drawString(x + (int)dx, y + (int)dy, text, c);
+        font.drawString((int)(x + dx), (int)(y + dy), text, c);
     }
 
     /**
@@ -149,7 +146,7 @@ public class GFX
      * @param baseText the text to print
      * @return returns the height of the text drawn
      */
-    public static float drawTextWrap(float x, float y, float width, float height, int horzAlign, int vertAlign, UnicodeFont font, Color c, String baseText)
+    public static float drawTextWrap(float x, float y, float width, float height, int horzAlign, int vertAlign, AngelCodeFont font, Color c, String baseText)
     {
         ArrayList<String> textSplit = new ArrayList(Arrays.asList(baseText.split(" ")));
         ArrayList<String> texts = new ArrayList<String>();
