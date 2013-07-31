@@ -1,7 +1,6 @@
 # Ignore
 .git
 .hg
-.idea
-*.iml
+.idea/workspace.xml
 out
 javadoc
