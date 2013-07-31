@@ -45,7 +45,7 @@ public class QuitState extends LRKState
     public void render(Graphics gfx) throws SlickException
     {
         // draw the quitting dialogue
-        GFX.drawText(-20, -20, DisplayManager.getBackgroundWidth(), DisplayManager.getBackgroundHeight(), GFX.TEXT_RIGHT, GFX.TEXT_BOTTOM, Resources.getFont(1), Color.white, "Quitting...");
+        GFX.drawText(-20, -20, DisplayManager.getBackgroundWidth(), DisplayManager.getBackgroundHeight(), GFX.TEXT_RIGHT, GFX.TEXT_BOTTOM, Resources.getFont(0), Color.white, "Quitting...");
         _rendered = true; // once the dialogue is drawn, tell the update method it's time to quit
     }
 

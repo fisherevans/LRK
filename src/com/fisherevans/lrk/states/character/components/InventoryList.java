@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class InventoryList extends UIComponent
 {
-    public final int WIDTH = 300;
+    public final int WIDTH = 360;
     public final int HEIGHT = 200;
     public final int X_OFFSET = 0;
     public final int Y_OFFSET = 50;
@@ -38,17 +38,17 @@ public class InventoryList extends UIComponent
 
     public final int LIST_PADDING = 10;
     public final int LIST_MARGIN = 10;
-    public final int LIST_LINE_HEIGHT = 20;
-    public final int LIST_CENTER_Y = (TITLE_HEIGHT+HEIGHT)/2;
+    public final int LIST_LINE_HEIGHT = 24;
+    public final int LIST_CENTER_Y = (TITLE_HEIGHT+LIST_MARGIN+HEIGHT)/2 - 2; // -2 to offset it not being centered
 
-    public final Color LIST_EQUIPPED = new Color(0.4f, 0.45f, 0.5f);
+    public final Color LIST_EQUIPPED = new Color(0.3f, 0.4f, 0.6f);
     public final Color LIST_NOT_EQUIPPED = new Color(0.5f, 0.5f, 0.5f);
-    public final Color LIST_SELECTED_EQUIPPED = new Color(0.6f, 0.8f, 1f);
+    public final Color LIST_SELECTED_EQUIPPED = new Color(0.4f, 0.6f, 1f);
     public final Color LIST_SELECTED_NOT_EQUIPPED = new Color(1f, 1f, 1f);
 
-    public final int SCROLL_HEIGHT = HEIGHT-TITLE_HEIGHT-LIST_MARGIN-LIST_PADDING*2;
+    public final int SCROLL_HEIGHT = HEIGHT-TITLE_HEIGHT-LIST_MARGIN*2-LIST_PADDING*2;
     public final int SCROLL_WIDTH = 10;
-    public final int SCROLL_Y = TITLE_HEIGHT+LIST_PADDING;
+    public final int SCROLL_Y = TITLE_HEIGHT+LIST_PADDING+LIST_MARGIN;
     public final int SCROLL_X = WIDTH - LIST_MARGIN - LIST_PADDING - SCROLL_WIDTH;
 
     public final int ICON_SIZE = 16;
@@ -85,14 +85,14 @@ public class InventoryList extends UIComponent
 
         // ACTUAL LIST
         gfx.setColor(new Color(0.3f, 0.3f, 0.3f, 0.5f));
-        gfx.fillRect(startX()+LIST_MARGIN, startY()+TITLE_HEIGHT, WIDTH-LIST_MARGIN*2, HEIGHT-TITLE_HEIGHT-LIST_MARGIN);
+        gfx.fillRect(startX()+LIST_MARGIN, startY()+LIST_MARGIN+TITLE_HEIGHT, WIDTH-LIST_MARGIN*2, HEIGHT-TITLE_HEIGHT-LIST_MARGIN*2);
         GFX.drawText(startX(), startY(), WIDTH, TITLE_HEIGHT,
-                GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), Color.white, getTabName());
+                GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), Color.white, getTabName());
 
         _parent.clip(startX() + LIST_MARGIN,
-                startY() + TITLE_HEIGHT,
+                startY() + TITLE_HEIGHT + LIST_MARGIN,
                 WIDTH - LIST_MARGIN * 2,
-                HEIGHT - TITLE_HEIGHT - LIST_MARGIN,
+                HEIGHT - TITLE_HEIGHT - LIST_MARGIN*2,
                 DisplayManager.getForegroundScale());
 
         int lineX, lineY;
@@ -103,7 +103,7 @@ public class InventoryList extends UIComponent
             lineY = (int) (startY() + LIST_CENTER_Y - (LIST_LINE_HEIGHT/2 ) + ((id-getCurrentPosition())*LIST_LINE_HEIGHT));
             GFX.drawImage(lineX, lineY, item.getImage());
             GFX.drawTextCenteredV(lineX + ICON_SIZE + LIST_PADDING, lineY, ICON_SIZE,
-                    Resources.getFont(1),
+                    Resources.getFont(0),
                     getItemColor(item, id == getCurrentPosition()),
                     getItemName(item, id == getCurrentPosition()));
         }

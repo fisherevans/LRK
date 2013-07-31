@@ -21,14 +21,14 @@ import org.newdawn.slick.SlickException;
  */
 public class InventoryComparison extends UIComponent
 {
-    public final int WIDTH = 300;
+    public final int WIDTH = 360;
     public final int HEIGHT = 100;
     public final int X_OFFSET = 0;
     public final int Y_OFFSET = 150;
 
     public final int MARGIN = 8;
     public final int PADDING = 8;
-    public final int CONTENT_PADDING = 8;
+    public final int CONTENT_PADDING = 4;
 
     private CharacterState _parent;
 
@@ -55,14 +55,16 @@ public class InventoryComparison extends UIComponent
 
         Equipment selected = (Equipment) _parent.getInventoryList().getCurrentItem();
 
-        GFX.drawText(startContentX(), startContentY(), 0, 16, GFX.TEXT_LEFT, GFX.TEXT_TOP, Resources.getFont(2), Color.white, selected.getName());
-        GFX.drawText(startContentX()+32+CONTENT_PADDING, startContentY()+16+CONTENT_PADDING, 0, 16, GFX.TEXT_LEFT, GFX.TEXT_TOP, Resources.getFont(2), Color.lightGray, "Power/Defence");
-        GFX.drawText(startContentX()+32+CONTENT_PADDING, startContentY()+16*2+CONTENT_PADDING*2, 0, 16, GFX.TEXT_LEFT, GFX.TEXT_TOP, Resources.getFont(2), new Color(0.7f, 0.85f, 1f), "Enchantment");
-        //GFX.drawText(startContentX()+CONTENT_PADDING, startContentY()+16*3+CONTENT_PADDING*3, 0, 8, GFX.TEXT_LEFT, GFX.TEXT_TOP, Resources.getFont(1), Color.lightGray, "Enchantment Desc.");
-        GFX.drawTextAbsolute(startContentX()+CONTENT_PADDING, startContentY()+16*3+CONTENT_PADDING*3, Resources.getFont(2), Color.lightGray, "Enchantment Desc.");
-        GFX.drawTextAbsolute(0, 0, Resources.getFont(1), Color.lightGray, "Testing Power Enchantment");
-        GFX.drawTextAbsolute(200, 0, Resources.getFont(2), Color.lightGray, "Testing Power Enchantment");
-        GFX.drawTextAbsolute(500, 0, Resources.getFont(3), Color.lightGray, "Testing Power Enchantment");
+        GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY(), Resources.getFont(1), Color.white, selected.getName());
+        GFX.drawImage(startContentX(), startContentY()+2, 64, 64, selected.getImage());
+
+        GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+4 + (16 + CONTENT_PADDING), Resources.getFont(1), Color.lightGray, "P"+selected.getPower());
+        GFX.drawTextAbsolute(startContentX()+64+PADDING + 64, startContentY()+4 + (16 + CONTENT_PADDING), Resources.getFont(1), Color.lightGray, "D"+selected.getDefence());
+        if(selected.isEnchanted())
+        {
+            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(0), new Color(0.7f, 0.85f, 1f), selected.getEnchantment().getName());
+            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8+(16+CONTENT_PADDING)*2+8+CONTENT_PADDING, Resources.getFont(0), Color.lightGray, selected.getEnchantment().getDescription());
+        }
         
         /* Psudo code
         Textual

@@ -44,7 +44,7 @@ public class Notifications
 
     public void init()
     {
-        font = Resources.getFont(1);
+        font = Resources.getFont(0);
 
         _bgLeft = Resources.getImage("res/test/images/notification_bg_left.png");
         _bgMid = Resources.getImage("res/test/images/notification_bg_mid.png");

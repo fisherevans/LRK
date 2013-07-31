@@ -41,10 +41,12 @@ public class Resources
         if(_fonts == null)
             generateFonts();
 
-        if(size <= 0 || size > _fonts.length)
-            return null;
-
-        return _fonts[size-1];
+        if(size < 0)
+            return _fonts[0];
+        else if(size >= _fntFiles.length)
+            return _fonts[_fonts.length-1];
+        else
+            return _fonts[size];
     }
 
     /**

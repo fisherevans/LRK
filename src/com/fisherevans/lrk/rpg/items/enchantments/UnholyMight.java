@@ -13,7 +13,7 @@ public class UnholyMight extends Enchantment
 
     public UnholyMight(float percentage)
     {
-        super("Unholy Might", String.format("Increases your damage output by %2d%%", (int)(percentage*100)));
+        super("Unholy Might", String.format("Increases damage output by %2d%%", (int)(percentage*100)));
         _percentage = percentage;
     }
 

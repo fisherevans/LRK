@@ -118,7 +118,7 @@ public class LRK extends BasicGame
             GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), StateLibrary.getActiveState().getCursor());
 
         if(DEBUG)
-            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, String.format("FPS: %3d", Game.gameCanvas.getContainer().getFPS()));
+            GFX.drawTextAbsolute(10, 10, Resources.getFont(0), Color.white, String.format("FPS: %3d", Game.gameCanvas.getContainer().getFPS()));
     }
 
     /**
