@@ -76,6 +76,6 @@ public abstract class Equipment extends Item
 
     public boolean isEquipped()
     {
-        return Game.lrk.getPlayer().getEquipment().get(_position) == this;
+        return Game.lrk.getPlayer().getEquipmentMap().get(_position) == this;
     }
 }

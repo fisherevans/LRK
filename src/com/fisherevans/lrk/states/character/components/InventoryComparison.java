@@ -3,13 +3,12 @@ package com.fisherevans.lrk.states.character.components;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.rpg.items.Equipment;
-import com.fisherevans.lrk.rpg.items.Item;
 import com.fisherevans.lrk.states.GFX;
-import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.states.character.CharacterState;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -24,18 +23,28 @@ public class InventoryComparison extends UIComponent
     public final int WIDTH = 360;
     public final int HEIGHT = 100;
     public final int X_OFFSET = 0;
-    public final int Y_OFFSET = 150;
+    public final int Y_OFFSET = 200;
 
     public final int MARGIN = 8;
     public final int PADDING = 8;
     public final int CONTENT_PADDING = 4;
 
+    private final Color RATING_SAME = new Color(1f, 1f, 1f);
+    private final Color RATING_BETTER = new Color(0.4f, 1f, 0.4f);
+    private final Color RATING_WORSE = new Color(1f, 0.4f, 0.4f);
+
+    private final Color IS_ENCHANTED = new Color(0.4f, 0.5f, 1f);
+
     private CharacterState _parent;
+
+    private Image _power, _defence;
 
     public InventoryComparison(CharacterState parent)
     {
         super(parent, false, false);
         _parent = parent;
+        _power = Resources.getImage("res/images/gui/power_icon.png");
+        _defence = Resources.getImage("res/images/gui/defence_icon.png");
     }
 
     @Override
@@ -55,57 +64,58 @@ public class InventoryComparison extends UIComponent
 
         Equipment selected = (Equipment) _parent.getInventoryList().getCurrentItem();
 
-        GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY(), Resources.getFont(1), Color.white, selected.getName());
-        GFX.drawImage(startContentX(), startContentY()+2, 64, 64, selected.getImage());
+        Equipment equipped = null;
+        if(Game.lrk.getPlayer().getEquipmentMap() != null)
+            equipped = Game.lrk.getPlayer().getEquipmentMap().get(selected.getPosition());
 
-        GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+4 + (16 + CONTENT_PADDING), Resources.getFont(1), Color.lightGray, "P"+selected.getPower());
-        GFX.drawTextAbsolute(startContentX()+64+PADDING + 64, startContentY()+4 + (16 + CONTENT_PADDING), Resources.getFont(1), Color.lightGray, "D"+selected.getDefence());
+        GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY(), Resources.getFont(2), Color.white, selected.getName());
+        GFX.drawImage((int)startContentX(), (int)(startContentY()+2), 64, 64, selected.getImage());
+
+        GFX.drawImage((int)(startContentX()+64+PADDING), (int)(startContentY()+4 + (16 + CONTENT_PADDING)), _power);
+        GFX.drawTextAbsolute(startContentX()+64+PADDING+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getPowerComparisonColor(selected, equipped), selected.getPower()+"");
+
+        GFX.drawImage((int)(startContentX()+64+PADDING+64), (int)(startContentY()+4 + (16 + CONTENT_PADDING)), _defence);
+        GFX.drawTextAbsolute(startContentX()+64+PADDING + 64+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getDefenceComparisonColor(selected, equipped), selected.getDefence()+"");
+
         if(selected.isEnchanted())
         {
-            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(0), new Color(0.7f, 0.85f, 1f), selected.getEnchantment().getName());
-            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8+(16+CONTENT_PADDING)*2+8+CONTENT_PADDING, Resources.getFont(0), Color.lightGray, selected.getEnchantment().getDescription());
+            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), IS_ENCHANTED, selected.getEnchantment().getName());
+            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8+(16+CONTENT_PADDING)*2+8+CONTENT_PADDING, Resources.getFont(1), Color.lightGray, selected.getEnchantment().getDescription());
         }
-        
-        /* Psudo code
-        Textual
-        
-        drawString(selected.name, size.16, startContentX, startContentY)
-        
-        drawImage(select.image, getcontentstartX, getContentStartY+16+content_padding)
-        
-        drawString(Power: selected.power, size.8,
-            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*1+8*0)
-        
-        drawString(Defence: selected.defence, size.8,
-            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*2+8*1)
-        
-        drawString(Enchantment: selected.enchantment.name, size.8,
-            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*3+8*2)
-        
-        drawString(Power: selected.enchantment.desc, size.8,
-            startContentY+selected.image.width*2+CONTENTPADDING, startContentY+16+CONTENT_PADDING*4+8*3)
-        
-        http://www.google.com/imgres?um=1&sa=N&hl=en&biw=1676&bih=870&tbm=isch&tbnid=mU_49KVYg55GfM:&imgrefurl=http://kandipatterns.com/patterns/characters/zelda-hylian-shield-3039&docid=tq_Nai_DcR0kGM&imgurl=http://kandipatterns.com/images/patterns/characters/3039-zelda_Hylian_shield.png&w=420&h=630&ei=kQ34UYaBGY7A4AOP2YCIBg&zoom=1&ved=1t:3588,r:14,s:0,i:123&iact=rc&page=1&tbnh=189&tbnw=126&start=0&ndsp=39&tx=69&ty=78
-        http://i.imgur.com/XH5qHJz.png
-        */
+    }
 
-        /*Equipment equipped = null;
-        if(Game.lrk.getPlayer().getEquipment() != null)
-            equipped = Game.lrk.getPlayer().getEquipment().get(selected.getPosition());
-
-
-        GFX.drawImage((int)(startX()+MARGIN*2), (int)(startY()+MARGIN*2),
-                selected.getImage().getWidth()*2, selected.getImage().getHeight()*2,
-                selected.getImage());
-        GFX.drawTextAbsolute((int)(startX()+selected.getImage().getWidth()*2+MARGIN*3), (int)(startY()+MARGIN*2), Resources.getFont(1), Color.white, selected.getName());
-
-        if(equipped != null)
+    private Color getPowerComparisonColor(Equipment selected, Equipment equipped)
+    {
+        if(equipped == null)
         {
-            int width = equipped.getImage().getWidth();
-            int height = equipped.getImage().getHeight();
-            GFX.drawImage((int)(startX()+WIDTH-width-MARGIN*2), (int)(startY()+HEIGHT-height-MARGIN*2),equipped.getImage());
-            GFX.drawTextAbsolute((int)(startX()+WIDTH-width-MARGIN*2-width-70), (int)(startY()+HEIGHT-height-MARGIN*3+height), Resources.getFont(1), Color.lightGray, equipped.getName());
-        }*/
+            if(selected.getPower() <= 0)
+                return RATING_SAME;
+            else
+                return RATING_BETTER;
+        }
+        else if(selected.getPower() > equipped.getPower())
+            return RATING_BETTER;
+        else if(equipped.getPower() > selected.getPower())
+            return RATING_WORSE;
+        else
+            return RATING_SAME;
+    }
+
+    private Color getDefenceComparisonColor(Equipment selected, Equipment equipped)
+    {
+        if(equipped == null)
+        {
+            if(selected.getDefence() <= 0)
+                return RATING_SAME;
+            else
+                return RATING_BETTER;
+        }
+        else if(selected.getDefence() > equipped.getDefence())
+            return RATING_BETTER;
+        else if(equipped.getDefence() > selected.getDefence())
+            return RATING_WORSE;
+        else
+            return RATING_SAME;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class PlayerStats extends UIComponent
                 HEALTH_WIDTH,
                 currentHealth);
 
-        GFX.drawTextAbsolute(DisplayManager.getForegroundWidth()-64-15, DisplayManager.getForegroundHeight()-16, Resources.getFont(0), Color.white, "Health");
+        GFX.drawTextAbsolute(DisplayManager.getForegroundWidth()-64-15, DisplayManager.getForegroundHeight()-16, Resources.getFont(1), Color.white, "Health");
     }
 
     @Override

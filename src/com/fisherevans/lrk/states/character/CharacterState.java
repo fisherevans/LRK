@@ -7,7 +7,9 @@ import com.fisherevans.lrk.rpg.items.*;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.character.components.InventoryComparison;
+import com.fisherevans.lrk.states.character.components.InventoryEquipped;
 import com.fisherevans.lrk.states.character.components.InventoryList;
+import com.fisherevans.lrk.states.character.components.InventoryStats;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -31,6 +33,8 @@ public class CharacterState extends LRKState
 
     private InventoryList _inventoryList;
     private InventoryComparison _inventoryComparison;
+    private InventoryEquipped _inventoryEquipped;
+    private InventoryStats _inventoryStats;
 
     public CharacterState(LRKState lastState) throws SlickException
     {
@@ -39,9 +43,13 @@ public class CharacterState extends LRKState
 
         _inventoryList = new InventoryList(this);
         _inventoryComparison = new InventoryComparison(this);
+        _inventoryEquipped = new InventoryEquipped(this);
+        _inventoryStats = new InventoryStats(this);
 
         addUIComponent(_inventoryList);
         addUIComponent(_inventoryComparison);
+        addUIComponent(_inventoryEquipped);
+        addUIComponent(_inventoryStats);
     }
 
     @Override
@@ -61,7 +69,7 @@ public class CharacterState extends LRKState
     {
         _lastState.render(gfx);
 
-        GFX.fill(gfx, new Color(0, 0, 0, 0.75f));
+        GFX.fill(gfx, new Color(0, 0, 0, 0.65f));
     }
 
     @Override

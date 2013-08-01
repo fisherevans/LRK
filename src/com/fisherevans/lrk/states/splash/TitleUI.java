@@ -53,12 +53,12 @@ public class TitleUI extends UIComponent
         float quarterHeight = DisplayManager.getForegroundHeight()/4f;
 
         // draw the title
-        GFX.drawText(0, quarterHeight, DisplayManager.getForegroundWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_TOP, Resources.getFont(3), c, "Lost Relics of Kazar");
-        GFX.drawText(0, quarterHeight, DisplayManager.getForegroundWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(2), c, "A Prequel");
+        GFX.drawText(0, quarterHeight, DisplayManager.getForegroundWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_TOP, Resources.getFont(5), c, "Lost Relics of Kazar");
+        GFX.drawText(0, quarterHeight, DisplayManager.getForegroundWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(3), c, "A Prequel");
 
         // draw the "press select" if the title is 100% visible
         if(_fade >= 1)
-            GFX.drawText(0, quarterHeight, DisplayManager.getForegroundWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(1), c2, ">    Press Select    <");
+            GFX.drawText(0, quarterHeight, DisplayManager.getForegroundWidth(), halfHeight, GFX.TEXT_CENTER, GFX.TEXT_BOTTOM, Resources.getFont(2), c2, ">    Press Select    <");
     }
 
     @Override

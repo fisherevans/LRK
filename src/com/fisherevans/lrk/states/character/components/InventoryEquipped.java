@@ -24,12 +24,12 @@ import java.util.Map;
  * Time: 10:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class InventoryList extends UIComponent
+public class InventoryEquipped extends UIComponent
 {
     public final int WIDTH = 360;
-    public final int HEIGHT = 300;
-    public final int X_OFFSET = 0;
-    public final int Y_OFFSET = 100;
+    public final int HEIGHT = 250;
+    public final int X_OFFSET = WIDTH;
+    public final int Y_OFFSET = 50;
 
     public final int TITLE_HEIGHT = 32;
 
@@ -56,7 +56,7 @@ public class InventoryList extends UIComponent
     private ArrayList<Item> _currentItems;
     private Map<Class, Integer> _position;
 
-    public InventoryList(CharacterState parent)
+    public InventoryEquipped(CharacterState parent)
     {
         super(parent, true, false);
         _parent = parent;
@@ -77,42 +77,10 @@ public class InventoryList extends UIComponent
     @Override
     public void render(Graphics gfx) throws SlickException
     {
-        //gfx.setColor(Color.blue);
-        //gfx.fillRect(startX(), startY(), WIDTH, HEIGHT);
-
-        // ACTUAL LIST
         gfx.setColor(new Color(0.3f, 0.3f, 0.3f, 0.5f));
         gfx.fillRect(startX()+LIST_MARGIN, startY()+LIST_MARGIN+TITLE_HEIGHT, WIDTH-LIST_MARGIN*2, HEIGHT-TITLE_HEIGHT-LIST_MARGIN*2);
         GFX.drawText(startX(), startY(), WIDTH, TITLE_HEIGHT,
-                GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(3), Color.white, getTabName());
-
-        _parent.clip(startX() + LIST_MARGIN,
-                startY() + TITLE_HEIGHT + LIST_MARGIN,
-                WIDTH - LIST_MARGIN * 2,
-                HEIGHT - TITLE_HEIGHT - LIST_MARGIN*2,
-                DisplayManager.getForegroundScale());
-
-        int lineX, lineY;
-        for(int id = 0;id < _currentItems.size();id++)
-        {
-            Item item = _currentItems.get(id);
-            lineX = (int) (startX() + LIST_MARGIN + LIST_PADDING);
-            lineY = (int) (startY() + LIST_CENTER_Y - (LIST_LINE_HEIGHT/2 ) + ((id-getCurrentPosition())*LIST_LINE_HEIGHT));
-            GFX.drawImage(lineX, lineY, item.getImage());
-            GFX.drawTextCenteredV(lineX + ICON_SIZE + LIST_PADDING, lineY, ICON_SIZE,
-                    Resources.getFont(1),
-                    getItemColor(item, id == getCurrentPosition()),
-                    getItemName(item, id == getCurrentPosition()));
-        }
-        _parent.unClip();
-
-        gfx.setColor(Color.lightGray);
-        gfx.fillRect(startX()+SCROLL_X, startY()+SCROLL_Y, SCROLL_WIDTH, SCROLL_HEIGHT);
-
-        float scrollBarHeight = SCROLL_HEIGHT/((float)_currentItems.size());
-        float scrollBarY = getCurrentPosition()*scrollBarHeight;
-        gfx.setColor(Color.white);
-        gfx.fillRect(startX()+SCROLL_X, startY()+SCROLL_Y+scrollBarY, SCROLL_WIDTH, scrollBarHeight);
+                GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(3), Color.white, Game.lrk.getPlayer().getEntity().getName());
     }
 
     @Override
@@ -148,15 +116,7 @@ public class InventoryList extends UIComponent
     @Override
     public void keySelect()
     {
-        if(_tab == Equipment.class)
-        {
-            if(((Equipment)getCurrentItem()).isEquipped())
-                Game.lrk.getPlayer().getEquipmentMap().remove(((Equipment) getCurrentItem()).getPosition());
-            else
-            Game.lrk.getPlayer().equip((Equipment)getCurrentItem());
-            //decreaseCurrentPosition();
-            //fetchCurrentItems();
-        }
+
     }
 
     private float startX()

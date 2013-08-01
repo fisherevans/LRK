@@ -20,6 +20,10 @@ public class Resources
             "res/fonts/8bm2.fnt",
             "res/fonts/8bm3.fnt",
             "res/fonts/8bm4.fnt",
+            "res/fonts/8bm5.fnt",
+            "res/fonts/8bm6.fnt",
+            "res/fonts/8bm7.fnt",
+            "res/fonts/8bm8.fnt",
     };
 
     private static final String[] _pngFiles = {
@@ -27,6 +31,10 @@ public class Resources
             "res/fonts/8bm2_0.png",
             "res/fonts/8bm3_0.png",
             "res/fonts/8bm4_0.png",
+            "res/fonts/8bm5_0.png",
+            "res/fonts/8bm6_0.png",
+            "res/fonts/8bm7_0.png",
+            "res/fonts/8bm8_0.png",
     };
 
     private static AngelCodeFont[] _fonts = null;
@@ -40,6 +48,8 @@ public class Resources
     {
         if(_fonts == null)
             generateFonts();
+
+        size--;
 
         if(size < 0)
             return _fonts[0];
@@ -79,11 +89,21 @@ public class Resources
         {
             return new Image(location, false, Image.FILTER_NEAREST);
         }
-        catch(Exception e)
+        catch(Exception e1)
         {
-            e.printStackTrace();
+            e1.printStackTrace();
             System.out.println("Failed to load the image: " + location);
-            return null;
+            try
+            {
+                return new Image("res/images/error.png", false, Image.FILTER_NEAREST);
+            }
+            catch(Exception e2)
+            {
+                e2.printStackTrace();
+                System.out.println("Failed to load the error image: " + "res/images/error.png");
+                System.exit(999);
+                return null;
+            }
         }
     }
 }

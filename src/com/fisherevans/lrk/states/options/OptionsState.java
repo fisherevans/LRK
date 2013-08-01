@@ -83,7 +83,7 @@ public class OptionsState extends LRKState
 
         // draw the description of the hovered item
         Color descColor = (new Color(1f, 1f, 1f)).scaleCopy(1-Math.abs(_vTran+_hTran));
-        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.getBackgroundHeight(), GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(0), descColor, _currentMenu.getCurrentItem().getDescription());
+        GFX.drawTextWrap(2.2f*thirdWidth, 0, thirdWidth*0.6f, DisplayManager.getBackgroundHeight(), GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(1), descColor, _currentMenu.getCurrentItem().getDescription());
     }
 
     /**
@@ -102,7 +102,7 @@ public class OptionsState extends LRKState
         float yShift;
         MenuItem displayItem;
         Color displayColor;
-        AngelCodeFont font = Resources.getFont(scale-1);
+        AngelCodeFont font = Resources.getFont(scale);
         int fontHeight = (int) (font.getLineHeight()*1.5f);
         for(int displayId = 0;displayId < menu.getItems().size();displayId++) // for each menu item
         {

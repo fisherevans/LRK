@@ -93,4 +93,14 @@ public class RPGEntity
     {
         return _health;
     }
+
+    public String getName()
+    {
+        return _name;
+    }
+
+    public Profession getProfession()
+    {
+        return _profession;
+    }
 }

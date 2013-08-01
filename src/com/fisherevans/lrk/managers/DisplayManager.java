@@ -19,8 +19,11 @@ public class DisplayManager
 {
     private static boolean _startMaximized = false;
 
-    public static float MIN_WIDTH = 560f;
-    public static float MIN_HEIGHT = 315f;
+    public static float MIN_BACK_WIDTH = 480f;
+    public static float MIN_BACK_HEIGHT = 320f;
+
+    public static int MIN_FORE_WIDTH = 730;
+    public static int MIN_FORE_HEIGHT = 450;
 
     private static int _positionX = 100;
     private static int _positionY = 100;
@@ -151,21 +154,15 @@ public class DisplayManager
         _windowWidth = width;
         _windowHeight = height;
 
-        float widthRatio = _windowWidth/MIN_WIDTH;
-        float heightRatio = _windowHeight/MIN_HEIGHT;
+        float widthBackRatio = _windowWidth/ MIN_BACK_WIDTH;
+        float heightBackRatio = _windowHeight/ MIN_BACK_HEIGHT;
+        _backgroundScale = widthBackRatio > heightBackRatio ? heightBackRatio : widthBackRatio;
+        _backgroundScale = _backgroundScale < 1 ? 1 : ((int) _backgroundScale);
 
-        if(_scaleAuto)
-        {
-            _backgroundScale = widthRatio > heightRatio ? heightRatio : widthRatio;
-            if(!_floatScale)
-                _backgroundScale = _backgroundScale < 1 ? 1 : ((int) _backgroundScale);
-        }
-
-        /*
-        _foregroundScale = _windowWidth/(int)WIDTH;
-        _foregroundScale = _foregroundScale < 1 ? 1 : _foregroundScale;
-        _foregroundScale = _foregroundScale > 4 ? 4 : _foregroundScale;
-        // */
+        float widthForeRatio = _windowWidth/ MIN_FORE_WIDTH;
+        float heightForeRatio = _windowHeight/ MIN_FORE_HEIGHT;
+        _foregroundScale = (int)(widthForeRatio > heightForeRatio ? heightForeRatio : widthForeRatio);
+        _foregroundScale = _foregroundScale < 1 ? 1 :  _foregroundScale;
 
         Game.lrk.pause(100);
         refreshDisplay();
