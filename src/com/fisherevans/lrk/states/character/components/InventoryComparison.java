@@ -3,9 +3,11 @@ package com.fisherevans.lrk.states.character.components;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.rpg.items.Equipment;
+import com.fisherevans.lrk.rpg.items.Weapon;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.states.character.CharacterState;
+import javafx.geometry.Pos;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -20,10 +22,10 @@ import org.newdawn.slick.SlickException;
  */
 public class InventoryComparison extends UIComponent
 {
-    public final int WIDTH = 360;
-    public final int HEIGHT = 100;
-    public final int X_OFFSET = 0;
-    public final int Y_OFFSET = 200;
+    public static final int WIDTH = 360;
+    public static final int HEIGHT = 100;
+    public int X_OFFSET = 0;
+    public int Y_OFFSET = 200;
 
     public final int MARGIN = 8;
     public final int PADDING = 8;
@@ -39,12 +41,19 @@ public class InventoryComparison extends UIComponent
 
     private Image _power, _defence;
 
-    public InventoryComparison(CharacterState parent)
+    private boolean _displaySelected;
+
+    public InventoryComparison(CharacterState parent, boolean displaySelected, int xOffset, int yOffset)
     {
         super(parent, false, false);
         _parent = parent;
         _power = Resources.getImage("res/images/gui/power_icon.png");
         _defence = Resources.getImage("res/images/gui/defence_icon.png");
+
+        _displaySelected = displaySelected;
+
+        X_OFFSET = xOffset;
+        Y_OFFSET = yOffset;
     }
 
     @Override
@@ -62,57 +71,71 @@ public class InventoryComparison extends UIComponent
         gfx.setColor(new Color(0.3f, 0.3f, 0.3f, 0.5f));
         gfx.fillRect(startX()+MARGIN, startY()+MARGIN, WIDTH-MARGIN*2, HEIGHT-MARGIN*2);
 
-        Equipment selected = (Equipment) _parent.getInventoryList().getCurrentItem();
+        Equipment displayItem = null;
+        Equipment compareItem = null;
 
-        Equipment equipped = null;
-        if(Game.lrk.getPlayer().getEquipmentMap() != null)
-            equipped = Game.lrk.getPlayer().getEquipmentMap().get(selected.getPosition());
-
-        GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY(), Resources.getFont(2), Color.white, selected.getName());
-        GFX.drawImage((int)startContentX(), (int)(startContentY()+2), 64, 64, selected.getImage());
-
-        GFX.drawImage((int)(startContentX()+64+PADDING), (int)(startContentY()+4 + (16 + CONTENT_PADDING)), _power);
-        GFX.drawTextAbsolute(startContentX()+64+PADDING+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getPowerComparisonColor(selected, equipped), selected.getPower()+"");
-
-        GFX.drawImage((int)(startContentX()+64+PADDING+64), (int)(startContentY()+4 + (16 + CONTENT_PADDING)), _defence);
-        GFX.drawTextAbsolute(startContentX()+64+PADDING + 64+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getDefenceComparisonColor(selected, equipped), selected.getDefence()+"");
-
-        if(selected.isEnchanted())
+        if(_displaySelected)
         {
-            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), IS_ENCHANTED, selected.getEnchantment().getName());
-            GFX.drawTextAbsolute(startContentX()+64+PADDING, startContentY()+8+(16+CONTENT_PADDING)*2+8+CONTENT_PADDING, Resources.getFont(1), Color.lightGray, selected.getEnchantment().getDescription());
+            displayItem = (Equipment) _parent.getInventoryList().getCurrentItem();
+            compareItem = Game.lrk.getPlayer().getEquipment(displayItem.getPosition());
+        }
+        else
+        {
+            compareItem = (Equipment) _parent.getInventoryList().getCurrentItem();
+            displayItem = Game.lrk.getPlayer().getEquipment(compareItem.getPosition());
+        }
+
+        if(displayItem != null)
+        {
+            GFX.drawTextAbsolute(startContentX() + 64 + PADDING*2, startContentY() - 2, Resources.getFont(2), Color.white, displayItem.getName());
+            GFX.drawImage((int)startContentX(), (int)(startContentY()+2), 64, 64, displayItem.getImage());
+
+            GFX.drawImage((int) (startContentX() + 64 + PADDING*2), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _power);
+            GFX.drawTextAbsolute(startContentX()+64+PADDING*2+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getPowerComparisonColor(displayItem, compareItem), displayItem.getPower()+"");
+
+            GFX.drawImage((int) (startContentX() + 64 + PADDING*2 + 64), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _defence);
+            GFX.drawTextAbsolute(startContentX()+64+PADDING*2 + 64+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getDefenceComparisonColor(displayItem, compareItem), displayItem.getDefence()+"");
+
+            if(displayItem instanceof Weapon && ((Weapon)displayItem).isTwoHanded())
+                GFX.drawTextAbsolute(startContentX()+64+PADDING*2 + 64+55, startContentY()+8 + (16 + CONTENT_PADDING)-1, Resources.getFont(1), getDefenceComparisonColor(displayItem, compareItem), "Two-Handed");
+
+            if(displayItem.isEnchanted())
+            {
+                GFX.drawTextAbsolute(startContentX()+64+PADDING*2, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), IS_ENCHANTED, displayItem.getEnchantment().getName());
+                GFX.drawTextAbsolute(startContentX()+64+PADDING*2, startContentY()+8+(16+CONTENT_PADDING)*2+8+CONTENT_PADDING, Resources.getFont(1), Color.lightGray, displayItem.getEnchantment().getDescription());
+            }
         }
     }
 
-    private Color getPowerComparisonColor(Equipment selected, Equipment equipped)
+    private Color getPowerComparisonColor(Equipment display, Equipment compare)
     {
-        if(equipped == null)
+        if(compare == null)
         {
-            if(selected.getPower() <= 0)
+            if(display.getPower() <= 0)
                 return RATING_SAME;
             else
                 return RATING_BETTER;
         }
-        else if(selected.getPower() > equipped.getPower())
+        else if(display.getPower() > compare.getPower())
             return RATING_BETTER;
-        else if(equipped.getPower() > selected.getPower())
+        else if(compare.getPower() > display.getPower())
             return RATING_WORSE;
         else
             return RATING_SAME;
     }
 
-    private Color getDefenceComparisonColor(Equipment selected, Equipment equipped)
+    private Color getDefenceComparisonColor(Equipment display, Equipment compare)
     {
-        if(equipped == null)
+        if(compare == null)
         {
-            if(selected.getDefence() <= 0)
+            if(display.getDefence() <= 0)
                 return RATING_SAME;
             else
                 return RATING_BETTER;
         }
-        else if(selected.getDefence() > equipped.getDefence())
+        else if(display.getDefence() > compare.getDefence())
             return RATING_BETTER;
-        else if(equipped.getDefence() > selected.getDefence())
+        else if(compare.getDefence() > display.getDefence())
             return RATING_WORSE;
         else
             return RATING_SAME;

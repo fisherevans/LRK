@@ -3,7 +3,6 @@ package com.fisherevans.lrk.states.character;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
-import com.fisherevans.lrk.rpg.items.*;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.character.components.InventoryComparison;
@@ -13,10 +12,6 @@ import com.fisherevans.lrk.states.character.components.InventoryStats;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,7 +27,8 @@ public class CharacterState extends LRKState
     private float _foreHalfWidth, _foreHalfHeight;
 
     private InventoryList _inventoryList;
-    private InventoryComparison _inventoryComparison;
+    private InventoryComparison _inventoryComparisonSelected;
+    private InventoryComparison _inventoryComparisonEquipped;
     private InventoryEquipped _inventoryEquipped;
     private InventoryStats _inventoryStats;
 
@@ -42,14 +38,15 @@ public class CharacterState extends LRKState
         _lastState = lastState;
 
         _inventoryList = new InventoryList(this);
-        _inventoryComparison = new InventoryComparison(this);
+        _inventoryComparisonSelected = new InventoryComparison(this, true, 0, 200);
+        _inventoryComparisonEquipped = new InventoryComparison(this, false, InventoryComparison.WIDTH, 200);
         _inventoryEquipped = new InventoryEquipped(this);
         _inventoryStats = new InventoryStats(this);
 
         addUIComponent(_inventoryList);
-        addUIComponent(_inventoryComparison);
+        addUIComponent(_inventoryComparisonSelected);
+        addUIComponent(_inventoryComparisonEquipped);
         addUIComponent(_inventoryEquipped);
-        addUIComponent(_inventoryStats);
     }
 
     @Override
@@ -129,10 +126,5 @@ public class CharacterState extends LRKState
     public InventoryList getInventoryList()
     {
         return _inventoryList;
-    }
-
-    public InventoryComparison getInventoryComparison()
-    {
-        return _inventoryComparison;
     }
 }

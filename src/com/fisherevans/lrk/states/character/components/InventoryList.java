@@ -35,7 +35,7 @@ public class InventoryList extends UIComponent
 
     public final int LIST_PADDING = 8;
     public final int LIST_MARGIN = 8;
-    public final int LIST_LINE_HEIGHT = 24;
+    public final int LIST_LINE_HEIGHT = 28;
     public final int LIST_CENTER_Y = (TITLE_HEIGHT+LIST_MARGIN+HEIGHT)/2 - 2; // -2 to offset it not being centered
 
     public final Color LIST_EQUIPPED = new Color(0.3f, 0.4f, 0.6f);
@@ -96,17 +96,17 @@ public class InventoryList extends UIComponent
         for(int id = 0;id < _currentItems.size();id++)
         {
             Item item = _currentItems.get(id);
-            lineX = (int) (startX() + LIST_MARGIN + LIST_PADDING);
+            lineX = (int) (startX() + LIST_MARGIN + LIST_PADDING*3);
             lineY = (int) (startY() + LIST_CENTER_Y - (LIST_LINE_HEIGHT/2 ) + ((id-getCurrentPosition())*LIST_LINE_HEIGHT));
             GFX.drawImage(lineX, lineY, item.getImage());
-            GFX.drawTextCenteredV(lineX + ICON_SIZE + LIST_PADDING, lineY, ICON_SIZE,
+            GFX.drawTextCenteredV(lineX + ICON_SIZE + LIST_PADDING*2, lineY, ICON_SIZE,
                     Resources.getFont(1),
                     getItemColor(item, id == getCurrentPosition()),
                     getItemName(item, id == getCurrentPosition()));
         }
         _parent.unClip();
 
-        gfx.setColor(Color.lightGray);
+        gfx.setColor(Color.darkGray);
         gfx.fillRect(startX()+SCROLL_X, startY()+SCROLL_Y, SCROLL_WIDTH, SCROLL_HEIGHT);
 
         float scrollBarHeight = SCROLL_HEIGHT/((float)_currentItems.size());

@@ -22,18 +22,18 @@ public class RPGEntityGenerator
         RPGEntity entity = new RPGEntity("Anarok", RPGEntity.Profession.Mage, 99, 999, 999, 999);
 
         Inventory inventory = new Inventory();
-        inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.MainHand, 4, 0, 0.5f));
-        inventory.addItem(new Weapon("Battle Axe", "A bloody axe used in battle", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.MainHand, 7, 0, 0.8f));
-        inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.OffHand, 0, 5, 0.5f));
+        inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("res/images/equipment/weapons/mainhand_dummy-short-sword.png"), Equipment.Position.MainHand, 4, 0, 0.5f));
+        inventory.addItem(new Weapon("Battle Axe", "A bloody axe used in battle", Resources.getImage("res/images/equipment/weapons/mainhand_dummy-axe.png"), Equipment.Position.MainHand, 7, 0, 0.8f));
+        inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("res/images/equipment/weapons/offhand_dummy-wood-sheild.png"), Equipment.Position.OffHand, 0, 5, 0.5f));
 
-        Weapon enchanted = new Weapon("Great Sword", "A large, powerful sword", Resources.getImage("res/test/images/icon_weapon.png"), Equipment.Position.MainHand, 11, 0, 1f, true);
+        Weapon enchanted = new Weapon("Great Sword", "A large, powerful sword", Resources.getImage("res/images/equipment/weapons/mainhand_dummy-great-sword.png"), Equipment.Position.MainHand, 11, 0, 1f, true);
         enchanted.setEnchantment(new UnholyMight(0.45f));
         inventory.addItem(enchanted);
 
-        inventory.addItem(new Armor("Iron Helm", "A modest helmet", Resources.getImage("res/test/images/icon_armor.png"), Equipment.Position.Head, 0, 6));
-        inventory.addItem(new Armor("Rusty Chainmail", "Old, but useful", Resources.getImage("res/test/images/icon_armor.png"), Equipment.Position.Chest, 0, 10));
-        inventory.addItem(new Armor("Leather Boots", "Light and reliable", Resources.getImage("res/test/images/icon_armor.png"), Equipment.Position.Legs, 0, 4));
-        inventory.addItem(new Armor("Dragon Chestplate", "Stronger than diamond", Resources.getImage("res/test/images/icon_armor.png"), Equipment.Position.Chest, 2, 25));
+        inventory.addItem(new Armor("Iron Helm", "A modest helmet", Resources.getImage("res/images/equipment/armor/head_dummy-iron-helm.png"), Equipment.Position.Head, 0, 6));
+        inventory.addItem(new Armor("Rusty Chainmail", "Old, but useful", Resources.getImage("res/images/equipment/armor/chest_dummy-chainmail.png"), Equipment.Position.Chest, 0, 10));
+        inventory.addItem(new Armor("Leather Boots", "Light and reliable", Resources.getImage("res/images/equipment/armor/legs_dummy-leather-boots.png"), Equipment.Position.Legs, 0, 4));
+        inventory.addItem(new Armor("Dragon Chestplate", "Stronger than diamond", Resources.getImage("res/images/equipment/armor/chest_dummy-dragon-plate.png"), Equipment.Position.Chest, 2, 25));
 
         inventory.addItem(new Consumable("Health Potion", "Heals you for 20 health over 10 seconds", Resources.getImage("res/test/images/icon_consumable.png"), null, 10));
         inventory.addItem(new Consumable("Iron Flesh Potion", "Increases your armor by 10 for 3 seconds", Resources.getImage("res/test/images/icon_consumable.png"), null, 5));
