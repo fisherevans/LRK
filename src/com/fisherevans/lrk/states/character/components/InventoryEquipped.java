@@ -32,6 +32,11 @@ public class InventoryEquipped extends UIComponent
 
     public final int LIST_PADDING = 8;
     public final int LIST_MARGIN = 8;
+    
+    public final int EQUIPMENT_BASE_X = (HEIGHT-TITLE_HEIGHT)/4;
+    public final int EQUIPMENT_BASE_Y = EQUIPMENT_BASE_X + TITLE_HEIGHT;
+    public final int EQUIPMENT_DELTA = EQUIPMENT_BASE_X;
+    
 
     private CharacterState _parent;
     private Image _emptyImage;
@@ -63,11 +68,24 @@ public class InventoryEquipped extends UIComponent
         GFX.drawText(startX(), startY(), WIDTH, TITLE_HEIGHT,
                 GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(3), Color.white, Game.lrk.getPlayer().getEntity().getName());
 
-        drawEquipment(gfx, Equipment.Position.Head, WIDTH/2, CONTENT_HEIGHT/4*1);
-        drawEquipment(gfx, Equipment.Position.Chest, WIDTH/2, CONTENT_HEIGHT/4*2);
-        drawEquipment(gfx, Equipment.Position.Legs, WIDTH/2, CONTENT_HEIGHT/4*3);
-        drawEquipment(gfx, Equipment.Position.MainHand, WIDTH/4*1, CONTENT_HEIGHT/2);
-        drawEquipment(gfx, Equipment.Position.OffHand, WIDTH/4*3, CONTENT_HEIGHT/2);
+        // armor
+        drawEquipment(gfx, Equipment.Position.Head, // HEAD
+            EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
+            EQUIPMENT_BASE_X);
+        drawEquipment(gfx, Equipment.Position.Chest, // CHEST
+            EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
+            EQUIPMENT_BASE_X+EQUIPMENT_DELTA*2);
+        drawEquipment(gfx, Equipment.Position.Legs, // LEGS
+            EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
+            EQUIPMENT_BASE_X+EQUIPMENT_DELTA*3);
+        
+        // weapons
+        drawEquipment(gfx, Equipment.Position.MainHand, // MAIN HAND
+            EQUIPMENT_BASE_X,
+            CONTENT_HEIGHT/2);
+        drawEquipment(gfx, Equipment.Position.OffHand, // OFF HAND
+            EQUIPMENT_BASE_X+EQUIPMENT_DELTA*2,
+            CONTENT_HEIGHT/2);
     }
 
     @Override
