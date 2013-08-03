@@ -1,9 +1,6 @@
 package com.fisherevans.lrk.states;
 
 import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.StateLibrary;
-import com.fisherevans.lrk.managers.DisplayManager;
-import com.fisherevans.lrk.managers.InputManager;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -28,7 +25,7 @@ public abstract class LRKState extends RenderComponent
     {
         setID(id);
 
-        _cursor = Resources.getImage("res/test/default_mouse.png").getScaledCopy(2f);
+        _cursor = Resources.getImage("gui/default_mouse").getScaledCopy(2f);
         _uiComponents = new ArrayList<>();
 
         init();

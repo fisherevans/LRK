@@ -1,6 +1,5 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
-import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.notifications.types.Notification;
@@ -9,10 +8,6 @@ import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.Color;
-
-import java.awt.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -52,7 +47,7 @@ public class DumbBlob extends AdventureEntity
 
         setBody(body);
 
-        setImage(Resources.getImage("res/test/images/32x32blob.png")); // the image of this entity
+        setImage(Resources.getImage("entities/dummy-blob")); // the image of this entity
     }
 
     @Override

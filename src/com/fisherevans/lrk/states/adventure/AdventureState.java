@@ -55,7 +55,7 @@ public class AdventureState extends LRKState
     {
         resize();
 
-        //setCursor(Resources.getImage("res/test/images/cursor.png").getScaledCopy(2f));
+        //setCursor(Resources.getAbsoluteImage("res/test/images/cursor.png").getScaledCopy(2f));
 
         _world = new World(new Vec2(0, 0f), true);
 
@@ -195,8 +195,8 @@ public class AdventureState extends LRKState
         _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
 
         for(AdventureEntity e: _entities)
-            e.update(delta); // logic
-        _world.step(delta, 3, 7); // physics
+            e.update(delta); // logicq
+        _world.step(delta, 5, 5); // physics
     }
 
     @Override

@@ -46,18 +46,18 @@ public class Notifications
     {
         font = Resources.getFont(1);
 
-        _bgLeft = Resources.getImage("res/test/images/notification_bg_left.png");
-        _bgMid = Resources.getImage("res/test/images/notification_bg_mid.png");
-        _bgRight = Resources.getImage("res/test/images/notification_bg_right.png");
+        _bgLeft = Resources.getImage("gui/notification_bg_left");
+        _bgMid = Resources.getImage("gui/notification_bg_mid");
+        _bgRight = Resources.getImage("gui/notification_bg_right");
 
         height = _bgLeft.getHeight() + margin;
         textHeight = font.getHeight("|");
         textY = (_bgLeft.getHeight() - textHeight)/2f;
 
-        IMG_BAG = Resources.getImage("res/test/images/notification_bag.png");
-        IMG_COG = Resources.getImage("res/test/images/notification_settings.png");
-        IMG_QUEST = Resources.getImage("res/test/images/notification_star.png");
-        IMG_SWORD = Resources.getImage("res/test/images/notification_sword.png");
+        IMG_BAG = Resources.getImage("gui/notification_bag");
+        IMG_COG = Resources.getImage("gui/notification_settings");
+        IMG_QUEST = Resources.getImage("gui/notification_star");
+        IMG_SWORD = Resources.getImage("gui/notification_sword");
     }
 
     public void update(float delta)

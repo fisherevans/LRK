@@ -36,4 +36,9 @@ public class Weapon extends Equipment
     {
         _twoHanded = twoHanded;
     }
+
+    public float getSpeed()
+    {
+        return _speed;
+    }
 }

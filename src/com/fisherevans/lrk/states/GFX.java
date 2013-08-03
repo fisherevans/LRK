@@ -57,7 +57,7 @@ public class GFX
     {
         float dx = -img.getWidth()/2f;
         float dy = -img.getHeight()/2f;
-        img.draw((int)(x+dx), (int)(y+dy), img.getWidth(), img.getHeight());
+        img.draw(x+dx, y+dy, img.getWidth(), img.getHeight());
     }
 
     /**
@@ -66,20 +66,7 @@ public class GFX
      * @param y the y pos to center the image on
      * @param img the image to draw
      */
-    public static void drawImageCentered(float x, float y, Image img, int scale)
-    {
-        float dx = -img.getWidth()/2f*scale;
-        float dy = -img.getHeight()/2f*scale;
-        img.draw((int)(x+dx), (int)(y+dy), img.getWidth()*scale, img.getHeight()*scale);
-    }
-
-    /**
-     * Draw an image to the display centered on the given x and y and scaled
-     * @param x the x pos to center the image on
-     * @param y the y pos to center the image on
-     * @param img the image to draw
-     */
-    public static void drawImageCentered(float x, float y, Image img, int scale, Color c)
+    public static void drawImageCenteredRounded(float x, float y, Image img, int scale, Color c)
     {
         float dx = -img.getWidth()/2f*scale;
         float dy = -img.getHeight()/2f*scale;

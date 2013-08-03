@@ -2,6 +2,7 @@ package com.fisherevans.lrk.launcher;
 
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Options;
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import org.newdawn.slick.*;

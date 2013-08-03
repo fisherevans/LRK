@@ -1,6 +1,5 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
-import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.InputManager;
@@ -8,7 +7,6 @@ import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import org.newdawn.slick.Image;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +48,7 @@ public class Player extends AdventureEntity
 
         setBody(body);
 
-        setImage(Resources.getImage("res/test/images/32x32char.png")); // the image of this entity
+        setImage(Resources.getImage("entities/dummy-player")); // the image of this entity
     }
 
     @Override

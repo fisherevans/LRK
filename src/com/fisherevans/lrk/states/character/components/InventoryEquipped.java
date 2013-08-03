@@ -51,7 +51,7 @@ public class InventoryEquipped extends UIComponent
         super(parent, true, false);
         _parent = parent;
 
-        _emptyImage = Resources.getImage("res/images/equipment/empty20x20.png");
+        _emptyImage = Resources.getImage("equipment/empty20x20");
     }
 
     @Override
@@ -70,22 +70,22 @@ public class InventoryEquipped extends UIComponent
 
         // armor
         drawEquipment(gfx, Equipment.Position.Head, // HEAD
-            EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
-            EQUIPMENT_BASE_X);
+                EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
+                EQUIPMENT_BASE_Y);
         drawEquipment(gfx, Equipment.Position.Chest, // CHEST
-            EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
-            EQUIPMENT_BASE_X+EQUIPMENT_DELTA*2);
+                EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
+                EQUIPMENT_BASE_Y+EQUIPMENT_DELTA*1);
         drawEquipment(gfx, Equipment.Position.Legs, // LEGS
-            EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
-            EQUIPMENT_BASE_X+EQUIPMENT_DELTA*3);
+                EQUIPMENT_BASE_X+EQUIPMENT_DELTA,
+                EQUIPMENT_BASE_Y+EQUIPMENT_DELTA*2);
         
         // weapons
         drawEquipment(gfx, Equipment.Position.MainHand, // MAIN HAND
-            EQUIPMENT_BASE_X,
-            CONTENT_HEIGHT/2);
+                EQUIPMENT_BASE_X,
+                EQUIPMENT_BASE_Y+EQUIPMENT_DELTA*1);
         drawEquipment(gfx, Equipment.Position.OffHand, // OFF HAND
-            EQUIPMENT_BASE_X+EQUIPMENT_DELTA*2,
-            CONTENT_HEIGHT/2);
+                EQUIPMENT_BASE_X+EQUIPMENT_DELTA*2,
+                EQUIPMENT_BASE_Y+EQUIPMENT_DELTA*1);
     }
 
     @Override
@@ -151,12 +151,12 @@ public class InventoryEquipped extends UIComponent
                 color = _highlightBlue;
         }
 
-        GFX.drawImageCentered(startX()+x, startY()+y+TITLE_HEIGHT, _emptyImage, _iconScale, color);
+        GFX.drawImageCenteredRounded(startX()+x, startY()+y, _emptyImage, _iconScale, color);
 
         Equipment equipment = Game.lrk.getPlayer().getEquipment(position);
         if(equipment != null)
         {
-            GFX.drawImageCentered(startX() + x, startY() + y + TITLE_HEIGHT, equipment.getImage(), _iconScale);
+            GFX.drawImageCenteredRounded(startX() + x, startY() + y, equipment.getImage(), _iconScale, Color.white);
         }
 
 
