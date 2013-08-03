@@ -5,11 +5,13 @@ import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -30,6 +32,7 @@ public class SplashState extends LRKState
     @Override
     public void init() throws SlickException
     {
+        MusicManager.play("isaks_epic_journey");
     }
 
     @Override

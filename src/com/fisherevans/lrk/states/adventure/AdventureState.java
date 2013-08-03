@@ -4,6 +4,7 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
 import com.fisherevans.lrk.states.character.CharacterState;
 import com.fisherevans.lrk.states.GFX;
@@ -53,6 +54,7 @@ public class AdventureState extends LRKState
     @Override
     public void init() throws SlickException
     {
+        MusicManager.play("calm_wip");
         resize();
 
         //setCursor(Resources.getAbsoluteImage("res/test/images/cursor.png").getScaledCopy(2f));

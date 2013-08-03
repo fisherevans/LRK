@@ -210,11 +210,11 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
 
         double lr = _device.getAxis(AXIS_AIM_LR).getValue();
         if(Math.abs(lr) > AXIS_THRESHOLD_CENTERED)
-            InputManager.addMouseX((float)lr*delta*MOUSE_MOVE_SCALE);
+            InputManager.addMouseX((float)lr*delta*MOUSE_MOVE_SCALE*DisplayManager.getBackgroundScale());
 
         double ud = _device.getAxis(AXIS_AIM_UD).getValue();
         if(Math.abs(ud) > AXIS_THRESHOLD_CENTERED)
-            InputManager.addMouseY((float)ud*delta*MOUSE_MOVE_SCALE);
+            InputManager.addMouseY((float)ud*delta*MOUSE_MOVE_SCALE*DisplayManager.getBackgroundScale());
     }
 
     /**

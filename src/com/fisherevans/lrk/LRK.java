@@ -4,6 +4,7 @@ import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.AudioManager;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.notifications.Notifications;
 import com.fisherevans.lrk.rpg.Player;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
@@ -31,6 +32,7 @@ public class LRK extends BasicGame
     private InputManager _inputManager;
     private AudioManager _audioManager;
     private DisplayManager _displayManager;
+    private MusicManager _musicManager;
     
     // Notification system
     private Notifications _notifications;
@@ -55,6 +57,9 @@ public class LRK extends BasicGame
         _inputManager = new InputManager();
         _audioManager = new AudioManager();
 
+        _musicManager = new MusicManager();
+        _musicManager.init(_musicManager);
+
         _notifications = new Notifications();
 
         Options.load();
@@ -63,13 +68,14 @@ public class LRK extends BasicGame
     @Override
     public void init(GameContainer container) throws SlickException
     {
-        Resources.loadImages();
+        Resources.loadResources();
 
         StateLibrary.resetStates();
 
         StateLibrary.setActiveState("splash");
 
         InputManager.connectInput(Game.getContainer().getInput());
+
 
         _notifications.init();
 
