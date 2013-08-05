@@ -106,6 +106,8 @@ public class Options
                 else if(property.startsWith("display"))
                     DisplayManager.setProperty(property, value);
             }
+
+            DisplayManager.refreshDisplay();
         }
         catch(Exception e)
         {

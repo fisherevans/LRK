@@ -35,30 +35,39 @@ public class MusicManager implements MusicListener
 
     public static void play(String musicKey)
     {
+        LRK.log("play() " + musicKey);
+
         Music music = Resources.getMusic(musicKey);
         if(music == null)
-        {
             LRK.log("Failed to load the music item: " + musicKey);
-            return;
+        else
+        {
+            music.removeListener(_itself);
+            music.addListener(_itself);
+            _nextMusic = music;
+            skipTrack();
         }
-
-        music.addListener(_itself);
-        _nextMusic = music;
-        skipTrack();
     }
 
     private static void skipTrack()
     {
+        LRK.log("skipTrack()");
+
         if(_currentMusic != null && _currentMusic.playing())
             _currentMusic.fade(FADE_OUT_DURATION, 0f, true);
         else
-        {
             playNext();
-        }
     }
 
     private static void playNext()
     {
+        LRK.log(String.format("playNext() Current: %s - Next: %s",
+                (_currentMusic == null ? "null" : _currentMusic.toString()),
+                (_nextMusic == null ? "null" : _nextMusic.toString())));
+
+        if(_currentMusic != null)
+            _currentMusic.stop();
+
         if(_nextMusic != null)
             _currentMusic = _nextMusic;
         else if(!_loopLastSong)
@@ -66,8 +75,8 @@ public class MusicManager implements MusicListener
 
         if(_currentMusic != null)
         {
-            _currentMusic.setVolume(0f);
-            _currentMusic.fade(FADE_IN_DURATION, 1f, false);
+            _currentMusic.stop();
+            _currentMusic.setVolume(1f);
             _currentMusic.play();
         }
     }
@@ -75,6 +84,7 @@ public class MusicManager implements MusicListener
     @Override
     public void musicEnded(Music music)
     {
+        LRK.log("musicEnded() " + (music == null ? "null" : music.toString()));
         playNext();
     }
 
@@ -82,5 +92,11 @@ public class MusicManager implements MusicListener
     public void musicSwapped(Music music, Music newMusic)
     {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public static void close()
+    {
+        if(_currentMusic != null)
+            _currentMusic.stop();
     }
 }

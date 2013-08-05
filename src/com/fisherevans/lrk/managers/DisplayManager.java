@@ -5,6 +5,9 @@ import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.UIComponent;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.SlickException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,123 +20,26 @@ import java.io.PrintWriter;
  */
 public class DisplayManager
 {
-    private static boolean _startMaximized = false;
+    public static float MIN_BACK_WIDTH = 480;
+    public static float MIN_BACK_HEIGHT = 320;
 
-    public static float MIN_BACK_WIDTH = 480f;
-    public static float MIN_BACK_HEIGHT = 320f;
+    public static float MIN_FORE_WIDTH = 730;
+    public static float MIN_FORE_HEIGHT = 450;
 
-    public static int MIN_FORE_WIDTH = 730;
-    public static int MIN_FORE_HEIGHT = 450;
-
-    private static int _positionX = 100;
-    private static int _positionY = 100;
-
-    private static int _windowWidth = 800;
-    private static int _windowHeight = 600;
+    private static float _windowWidth = 730;
+    private static float _windowHeight = 480;
 
     private static float _foregroundScale = 1;
     private static float _backgroundScale = 1;
 
-    private static boolean _scaleAuto = true;
-    private static final boolean _floatScale = true;
+    private static boolean _fullscreen = false;
 
-    public static void saveProperties(PrintWriter out)
+    public void saveProperties(PrintWriter out)
     {
-        out.println("display.width=" + _windowWidth);
-        out.println("display.height=" + _windowHeight);
-
-        out.println("display.position.x=" + _positionX);
-        out.println("display.position.y=" + _positionY);
-
-        out.println("display.maximized=" + (Game.window.getExtendedState() == JFrame.MAXIMIZED_BOTH));
-
-        out.println("display.scale.foreground=" + _foregroundScale);
-        out.println("display.scale.background=" + _backgroundScale);
     }
 
-    public static void setProperty(String key, String value)
+    public static void setProperty(String property, String value)
     {
-        try
-        {
-            switch(key)
-            {
-                case "display.width": _windowWidth = Integer.parseInt(value); break;
-                case "display.height": _windowHeight = Integer.parseInt(value); break;
-                case "display.position.x": _positionX = Integer.parseInt(value); break;
-                case "display.position.y": _positionY = Integer.parseInt(value); break;
-                case "display.maximized": _startMaximized = Boolean.parseBoolean(value); break;
-                case "display.scale.foreground": _foregroundScale = Float.parseFloat(value); break;
-                case "display.scale.background": _backgroundScale = Float.parseFloat(value); break;
-            }
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            LRK.log("Failed to load property: " + key + " = " + value);
-        }
-    }
-
-    // GETTERS
-
-    public static float getBackgroundScale()
-    {
-        return _backgroundScale;
-    }
-
-    public static float getForegroundScale()
-    {
-        return _foregroundScale;
-    }
-
-    /**
-     * @return width of actual window
-     */
-    public static int getWindowWidth()
-    {
-        return _windowWidth;
-    }
-
-    /**
-     * @return height of actual window
-     */
-    public static int getWindowHeight()
-    {
-
-        return _windowHeight;
-    }
-
-    /**
-     * @return width of render window
-     */
-    public static float getBackgroundWidth()
-    {
-        return _windowWidth/ _backgroundScale;
-    }
-
-    /**
-     * @return height of render window
-     */
-    public static float getBackgroundHeight()
-    {
-
-        return _windowHeight/ _backgroundScale;
-    }
-
-    /**
-     * @return width of render window
-     */
-    public static float getForegroundWidth()
-    {
-        return _windowWidth/ _foregroundScale;
-    }
-
-    /**
-     * @return height of render window
-     */
-    public static float getForegroundHeight()
-    {
-
-        return _windowHeight/ _foregroundScale;
     }
 
     /**
@@ -182,38 +88,102 @@ public class DisplayManager
         }
     }
 
+    public static void swapFullScreen()
+    {
+        try
+        {
+            if(_fullscreen)
+            {
+                LRK.log("Going back to windowed");
+                GraphicsDevice dev = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+                Game.window.setVisible(false);
+                Game.window.setUndecorated(false);
+                Game.window.setVisible(true);
+                //dev.setFullScreenWindow(null);
+                _fullscreen = false;
+            }
+            else
+            {
+                LRK.log("Going fullscreened");
+                GraphicsDevice dev = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+                Game.window.setVisible(false);
+                Game.window.setUndecorated(true);
+                Game.window.setVisible(true);
+                //dev.setFullScreenWindow(Game.window);
+                _fullscreen = true;
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LRK.log("Failed to swap fullscreen!");
+        }
+    }
+
+    // GETTERS
+
+    public static float getBackgroundScale()
+    {
+        return _backgroundScale;
+    }
+
+    public static float getForegroundScale()
+    {
+        return _foregroundScale;
+    }
+
+    /**
+     * @return width of actual window
+     */
+    public static float getWindowWidth()
+    {
+        return _windowWidth;
+    }
+
+    /**
+     * @return height of actual window
+     */
+    public static float getWindowHeight()
+    {
+
+        return _windowHeight;
+    }
+
+    /**
+     * @return width of render window
+     */
+    public static float getBackgroundWidth()
+    {
+        return _windowWidth/ _backgroundScale;
+    }
+
+    /**
+     * @return height of render window
+     */
+    public static float getBackgroundHeight()
+    {
+
+        return _windowHeight/ _backgroundScale;
+    }
+
+    /**
+     * @return width of render window
+     */
+    public static float getForegroundWidth()
+    {
+        return _windowWidth/ _foregroundScale;
+    }
+
+    /**
+     * @return height of render window
+     */
+    public static float getForegroundHeight()
+    {
+
+        return _windowHeight/ _foregroundScale;
+    }
+
     public static Dimension getDimensions()
     {
-        return new Dimension(_windowWidth, _windowHeight);
-    }
-
-    public static int getPositionX()
-    {
-        return _positionX;
-    }
-
-    public static void setPositionX(int positionX)
-    {
-        _positionX = positionX;
-    }
-
-    public static int getPositionY()
-    {
-        return _positionY;
-    }
-
-    public static void setPositionY(int positionY)
-    {
-        _positionY = positionY;
-    }
-
-    public static boolean getStartMaximized()
-    {
-        return _startMaximized;
-    }
-
-    public static void setStartMaximized(boolean startMaximized)
-    {
-        _startMaximized = startMaximized;
+        return new Dimension((int)_windowWidth, (int)_windowHeight);
     }
 }

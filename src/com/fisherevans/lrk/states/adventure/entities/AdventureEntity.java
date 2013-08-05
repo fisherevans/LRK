@@ -1,8 +1,10 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
 import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.dynamics.Body;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 /**
@@ -34,6 +36,11 @@ public abstract class AdventureEntity
      * @param delta ms since the last update
      */
     public abstract void update(float delta);
+
+    public void render(Graphics gfx, float drawX, float drawY)
+    {
+        GFX.drawImageCentered(drawX, drawY, getImage());
+    }
 
     /**
      * gets the jbox body object of this entity

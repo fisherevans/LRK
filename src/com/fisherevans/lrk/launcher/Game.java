@@ -5,6 +5,7 @@ import com.fisherevans.lrk.Options;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.managers.MusicManager;
 import org.newdawn.slick.*;
 import org.newdawn.slick.tests.DuplicateEmitterTest;
 
@@ -89,7 +90,7 @@ public class Game
 
             gameCanvas.start();
 
-            window.setLocation(DisplayManager.getPositionX(), DisplayManager.getPositionY());
+            centerWindow();
 
             window.addComponentListener(window);
             window.addWindowListener(window);
@@ -97,8 +98,7 @@ public class Game
 
             DisplayManager.updateCanvasStats();
 
-            if(DisplayManager.getStartMaximized())
-                window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
         catch(Exception e)
         {
@@ -150,6 +150,7 @@ public class Game
         try
         {
             Options.save();
+            MusicManager.close();
             lrk.exit();
             gameCanvas.setEnabled(false);
             gameCanvas.dispose();

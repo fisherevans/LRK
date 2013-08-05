@@ -100,10 +100,8 @@ public class InventoryComparison extends UIComponent
             {
                 GFX.drawImage((int) (startContentX() + 64 + PADDING*2 + 64*2), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _time);
                 GFX.drawTextAbsolute(startContentX()+64+PADDING*2 + 64*2+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getTimeComparisonColor((Weapon)displayItem, (Weapon)compareItem), ((Weapon)displayItem).getSpeed()+"");
-
-                if(((Weapon)displayItem).isTwoHanded())
-                    GFX.drawTextAbsolute(startContentX()+64+PADDING*2+64*2, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), Color.white, "Two-Handed");
             }
+            GFX.drawTextAbsolute(startContentX()+64+PADDING*2+64*2, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), Color.white, displayItem.getPositionName());
 
             if(displayItem.isEnchanted())
             {

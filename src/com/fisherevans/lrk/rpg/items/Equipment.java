@@ -78,4 +78,22 @@ public abstract class Equipment extends Item
     {
         return Game.lrk.getPlayer().getEquipmentMap().get(_position) == this;
     }
+
+    public String getPositionName()
+    {
+        if(this instanceof Weapon && ((Weapon)this).isTwoHanded())
+            return "Two Handed";
+        else
+        {
+            switch(getPosition())
+            {
+                case Head: return "Head";
+                case Chest: return "Chest";
+                case Legs: return "Legs";
+                case MainHand: return "Main Hand";
+                case OffHand: return "Off Hand";
+            }
+        }
+        return "Index Finger";
+    }
 }

@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class LRK extends BasicGame
 {
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     public static final String VERSION = "0.2 Alpha";
 
     // Game Component Managers
@@ -61,13 +61,13 @@ public class LRK extends BasicGame
         _musicManager.init(_musicManager);
 
         _notifications = new Notifications();
-
-        Options.load();
     }
 
     @Override
     public void init(GameContainer container) throws SlickException
     {
+
+        Options.load();
         Resources.loadResources();
 
         StateLibrary.resetStates();

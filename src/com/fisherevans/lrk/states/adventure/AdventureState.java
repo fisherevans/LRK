@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
@@ -33,7 +34,7 @@ public class AdventureState extends LRKState
 
     public static final float
         TILE_SIZE = 32f,
-        RENDER_DISTANCE = 10f;
+        RENDER_DISTANCE = 15f;
 
 
     public static float TILES_WIDE, TILES_HIGH;
@@ -139,11 +140,11 @@ public class AdventureState extends LRKState
         {
             xDiff = ent.getX() > _camera.getX() ? ent.getX() - _camera.getX() : _camera.getX() - ent.getX();
             yDiff = ent.getY() > _camera.getY() ? ent.getY() - _camera.getY() : _camera.getY() - ent.getY();
-            if(xDiff > RENDER_DISTANCE || yDiff > RENDER_DISTANCE)
+            if(Math.abs(xDiff) > RENDER_DISTANCE || Math.abs(yDiff) > RENDER_DISTANCE)
                 continue;
 
             // draw them with the x and y shifts
-            GFX.drawImageCentered(xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE, ent.getImage());
+            ent.render(gfx, xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE);
         }
     }
 

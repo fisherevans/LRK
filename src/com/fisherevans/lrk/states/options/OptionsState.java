@@ -4,6 +4,7 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.managers.SoundManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.options.menu_items.*;
@@ -185,23 +186,28 @@ public class OptionsState extends LRKState
         }
     }
 
-    @Override
-    public void keyUp()     { up(); }
+    private void playInteraction()
+    {
+        SoundManager.play("select");
+    }
 
     @Override
-    public void keyDown()   { down(); }
+    public void keyUp()     { playInteraction(); up(); }
 
     @Override
-    public void keyLeft()   { back(); }
+    public void keyDown()   { playInteraction(); down(); }
 
     @Override
-    public void keyRight()  { select(); }
+    public void keyLeft()   { playInteraction(); back(); }
 
     @Override
-    public void keySelect() { select(); }
+    public void keyRight()  { playInteraction(); select(); }
 
     @Override
-    public void keyBack()   { back(); }
+    public void keySelect() { playInteraction(); select(); }
+
+    @Override
+    public void keyBack()   { playInteraction(); back(); }
 
     @Override
     public void resize()

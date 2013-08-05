@@ -1,5 +1,7 @@
 package com.fisherevans.lrk.managers;
 
+import com.fisherevans.lrk.launcher.Game;
+
 import java.io.PrintWriter;
 
 /**
@@ -25,9 +27,9 @@ public class AudioManager
     {
         switch(key)
         {
-            case "audio.master": _audioMaster = Float.parseFloat(value); break;
-            case "audio.music": _audioMusic = Float.parseFloat(value); break;
-            case "audio.sfx": _audioSFX = Float.parseFloat(value); break;
+            case "audio.master": setAudioMaster(Float.parseFloat(value)); break;
+            case "audio.music": setAudioMusic(Float.parseFloat(value)); break;
+            case "audio.sfx": setAudioSFX(Float.parseFloat(value)); break;
         }
     }
 
@@ -39,6 +41,8 @@ public class AudioManager
     public static void setAudioMaster(float audioMaster)
     {
         _audioMaster = audioMaster;
+        Game.getContainer().setMusicVolume(_audioMusic*_audioMaster);
+        Game.getContainer().setSoundVolume(_audioSFX*_audioMaster);
     }
 
     public static float getAudioMusic()
@@ -49,6 +53,7 @@ public class AudioManager
     public static void setAudioMusic(float audioMusic)
     {
         _audioMusic = audioMusic;
+        Game.getContainer().setMusicVolume(_audioMusic*_audioMaster);
     }
 
     public static float getAudioSFX()
@@ -59,5 +64,6 @@ public class AudioManager
     public static void setAudioSFX(float audioSFX)
     {
         _audioSFX = audioSFX;
+        Game.getContainer().setSoundVolume(_audioSFX*_audioMaster);
     }
 }

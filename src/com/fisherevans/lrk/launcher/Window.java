@@ -27,29 +27,15 @@ public class Window extends JFrame implements ComponentListener, WindowListener
     {
         Component c = (Component)e.getSource();
 
-        if(c == this && this.getExtendedState() == this.MAXIMIZED_BOTH)
-            DisplayManager.setStartMaximized(true);
-        else
-        {
-            if(c == Game.gameCanvas)
-                DisplayManager.setDimensions(c.getWidth(), c.getHeight());
-            else if(c == this)
-                DisplayManager.refreshDisplay();
-        }
+        if(c == Game.gameCanvas)
+            DisplayManager.setDimensions(c.getWidth(), c.getHeight());
+        else if(c == this)
+            DisplayManager.refreshDisplay();
     }
 
     @Override
     public void componentMoved(ComponentEvent e)
     {
-        Component c = (Component)e.getSource();
-
-        if(c == this)
-        {
-            DisplayManager.setPositionX(this.getX());
-            DisplayManager.setPositionY(this.getY());
-
-            DisplayManager.refreshDisplay();
-        }
     }
 
     @Override
