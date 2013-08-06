@@ -25,10 +25,19 @@ public abstract class AdventureEntity
 
     private AdventureState _state;
 
+    private boolean _isHostile = false;
+
     protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
     {
         _rpgEntity = rpgEntity;
         _state = state;
+    }
+
+    protected AdventureEntity(RPGEntity rpgEntity, AdventureState state, boolean isHostile)
+    {
+        _rpgEntity = rpgEntity;
+        _state = state;
+        _isHostile = isHostile;
     }
 
     /**

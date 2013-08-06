@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states.adventure.combat;
 
 import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,17 +12,5 @@ import com.fisherevans.lrk.rpg.RPGEntity;
  */
 public abstract class Attack
 {
-    private RPGEntity _owner;
-
-    protected Attack(RPGEntity owner)
-    {
-        _owner = owner;
-    }
-
-    public abstract RPGEntity[] dealDamage();
-
-    public RPGEntity getOwner()
-    {
-        return _owner;
-    }
+    public abstract void execute(AdventureEntity owner);
 }

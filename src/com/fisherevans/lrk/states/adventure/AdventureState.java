@@ -1,7 +1,6 @@
 package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
@@ -15,6 +14,7 @@ import com.fisherevans.lrk.states.adventure.entities.DumbBlob;
 import com.fisherevans.lrk.states.adventure.entities.Player;
 import com.fisherevans.lrk.states.adventure.entities.Wall;
 import com.fisherevans.lrk.states.adventure.ui.PlayerStats;
+import com.fisherevans.lrk.tools.JBox2DUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
@@ -45,11 +45,14 @@ public class AdventureState extends LRKState
     private World _world;
     private Vec2 _aimShift;
 
+    private DamageQueue _damageQueue;
+
     public AdventureState() throws SlickException
     {
         super(StateLibrary.getTempID());
         addUIComponent(new PlayerStats(this));
         setGrabMouse(true);
+        _damageQueue = new DamageQueue(this);
     }
 
     @Override
@@ -194,6 +197,8 @@ public class AdventureState extends LRKState
     @Override
     public void update(float delta) throws SlickException
     {
+        _damageQueue.processQueue();
+
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
 
@@ -236,5 +241,10 @@ public class AdventureState extends LRKState
     public Player getPlayer()
     {
         return _player;
+    }
+
+    public ArrayList<AdventureEntity> getEntities()
+    {
+        return _entities;
     }
 }
