@@ -12,6 +12,24 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  */
 public abstract class Skill
 {
+    private String _name, _description;
+
+    protected Skill(String name, String description)
+    {
+        _name = name;
+        _description = description;
+    }
+
+    public String getName()
+    {
+        return _name;
+    }
+
+    public String getDescription()
+    {
+        return _description;
+    }
+
     /** Executes a skill from an AdventureEntity.
      * param owner the owner of the skill
      * returns true if the Skill is finished (false for lating effect - ward, etc)

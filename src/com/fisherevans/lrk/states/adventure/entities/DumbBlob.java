@@ -21,7 +21,8 @@ public class DumbBlob extends ActiveEntity
 {
     public DumbBlob(RPGEntity rpgEntity, float x, float y, World world, AdventureState state)
     {
-        super(rpgEntity, state, 2.25f, true);
+        super(rpgEntity, state, 2.25f);
+        setTeam(Team.Hostile);
         setController(new MindlessZombieController(this, getState().getPlayer(), 10));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-blob"));

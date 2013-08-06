@@ -45,14 +45,14 @@ public class AdventureState extends LRKState
     private World _world;
     private Vec2 _aimShift;
 
-    private DamageQueue _damageQueue;
+    private EntityEffectQueue _entityEffectQueue;
 
     public AdventureState() throws SlickException
     {
         super(StateLibrary.getTempID());
         addUIComponent(new PlayerStats(this));
         setGrabMouse(true);
-        _damageQueue = new DamageQueue(this);
+        _entityEffectQueue = new EntityEffectQueue(this);
     }
 
     @Override
@@ -197,14 +197,18 @@ public class AdventureState extends LRKState
     @Override
     public void update(float delta) throws SlickException
     {
-        _damageQueue.processQueue();
-
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
 
-        for(AdventureEntity e: _entities)
-            e.update(delta); // logicq
+        for(AdventureEntity entity: _entities)
+        {
+            _entityEffectQueue.processEntity(entity);
+            entity.update(delta); // logic
+        }
+
         _world.step(delta, 5, 5); // physics
+
+        _entityEffectQueue.clearQueue();
     }
 
     @Override
@@ -246,5 +250,10 @@ public class AdventureState extends LRKState
     public ArrayList<AdventureEntity> getEntities()
     {
         return _entities;
+    }
+
+    public EntityEffectQueue getEntityEffectQueue()
+    {
+        return _entityEffectQueue;
     }
 }

@@ -18,9 +18,9 @@ public class ActiveEntity extends AdventureEntity
 
     private float _speed;
 
-    protected ActiveEntity(RPGEntity rpgEntity, AdventureState state, float speed, boolean isHostile)
+    protected ActiveEntity(RPGEntity rpgEntity, AdventureState state, float speed)
     {
-        super(rpgEntity, state, isHostile);
+        super(rpgEntity, state);
         _controller = new NullController();
         _speed = speed;
     }

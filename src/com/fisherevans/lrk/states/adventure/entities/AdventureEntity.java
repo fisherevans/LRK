@@ -15,6 +15,10 @@ import org.newdawn.slick.Image;
  */
 public abstract class AdventureEntity
 {
+    public enum Team { Ally, Hostile, NPC, Goat }
+
+    private Team _team = Team.Goat;
+
     private Body _body;
 
     private RPGEntity _rpgEntity;
@@ -25,19 +29,10 @@ public abstract class AdventureEntity
 
     private AdventureState _state;
 
-    private boolean _isHostile = false;
-
     protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
     {
         _rpgEntity = rpgEntity;
         _state = state;
-    }
-
-    protected AdventureEntity(RPGEntity rpgEntity, AdventureState state, boolean isHostile)
-    {
-        _rpgEntity = rpgEntity;
-        _state = state;
-        _isHostile = isHostile;
     }
 
     /**
@@ -124,5 +119,15 @@ public abstract class AdventureEntity
     public RPGEntity getRpgEntity()
     {
         return _rpgEntity;
+    }
+
+    public Team getTeam()
+    {
+        return _team;
+    }
+
+    public void setTeam(Team team)
+    {
+        _team = team;
     }
 }

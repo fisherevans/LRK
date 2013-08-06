@@ -25,7 +25,8 @@ public class Player extends ActiveEntity
      */
     public Player(float x, float y, World world, AdventureState state)
     {
-        super(Game.lrk.getPlayer().getEntity(), state, 3.5f, false);
+        super(Game.lrk.getPlayer().getEntity(), state, 3.5f);
+        setTeam(Team.Ally);
         setController(new PlayerController(this));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-player"));

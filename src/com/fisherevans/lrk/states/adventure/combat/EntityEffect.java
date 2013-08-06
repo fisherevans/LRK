@@ -2,6 +2,8 @@ package com.fisherevans.lrk.states.adventure.combat;
 
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
+import java.util.ArrayList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: immortal
@@ -13,5 +15,5 @@ public abstract class EntityEffect
 {
     public abstract boolean doesEffect(AdventureEntity entity);
 
-    public abstract void effect(AdventureEntity[] entity);
+    public abstract void effect(AdventureEntity entity);
 }
