@@ -9,16 +9,9 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  * Time: 6:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Damage
+public abstract class EntityEffect
 {
-    public AdventureEntity[] _immune;
+    public abstract boolean doesEffect(AdventureEntity entity);
 
-    public Damage(AdventureEntity[] immune)
-    {
-        _immune = immune;
-    }
-
-    public abstract boolean isEligible(AdventureEntity entity);
-
-    public abstract void dealDamage(AdventureEntity entity);
+    public abstract void effect(AdventureEntity[] entity);
 }
