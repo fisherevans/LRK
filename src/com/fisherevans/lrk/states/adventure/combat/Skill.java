@@ -10,7 +10,11 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  * Time: 8:42 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Attack
+public abstract class Skill
 {
-    public abstract void execute(AdventureEntity owner);
+    /** Executes a skill from an AdventureEntity.
+     * param owner the owner of the skill
+     * returns true if the Skill is finished (false for lating effect - ward, etc)
+     */
+    public abstract boolean execute(AdventureEntity owner);
 }
