@@ -2,6 +2,8 @@ package com.fisherevans.lrk.states.adventure.entities.controllers;
 
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.notifications.types.Notification;
+import com.fisherevans.lrk.states.adventure.combat.Skill;
+import com.fisherevans.lrk.states.adventure.combat.skills.Splash;
 import com.fisherevans.lrk.states.adventure.entities.ActiveEntity;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import org.jbox2d.common.Vec2;
@@ -21,11 +23,14 @@ public class MindlessZombieController extends ActiveEntityController
     private long _attackSpeed = 1750;
     private long _nextAttack = 0;
 
+    private Skill _skill;
+
     public MindlessZombieController(ActiveEntity entity, AdventureEntity target, float sightDistance)
     {
         super(entity);
         _target = target;
         _sightDistance = sightDistance;
+        _skill = new Splash();
     }
 
     public MindlessZombieController(ActiveEntity entity, AdventureEntity target, float sightDistance, long attackSpeed)
@@ -44,7 +49,7 @@ public class MindlessZombieController extends ActiveEntityController
 
         if(aimVector.length() < 1 && time >= _nextAttack)
         {
-            _target.getRpgEntity().getHealth().subtractHealth(150);
+            _skill.execute(getEntity());
             _nextAttack = time + _attackSpeed;
             Game.lrk.getNotifications().addNotification(new Notification("A Blob Attacked you!", Notification.BLUE));
         }

@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states.adventure.combat;
 
 import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.rpg.items.Weapon;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
 /**
@@ -35,4 +36,10 @@ public abstract class Skill
      * returns true if the Skill is finished (false for lating effect - ward, etc)
      */
     public abstract boolean execute(AdventureEntity owner);
+
+    public static float getDamage(RPGEntity entity, Weapon weapon)
+    {
+        float weaponStat = weapon == null ? 0 : weapon.getPower();
+        return entity.getPower().getStatLevel()+weaponStat;
+    }
 }

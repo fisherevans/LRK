@@ -9,19 +9,22 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  * Time: 11:05 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DamageAOE extends AOE
+public class HealthAOE extends AOE
 {
-    private float damage;
+    private float _healthDiff;
 
-    public DamageAOE(float x, float y, float radius, float duration, float rate, float damage, AdventureEntity.Team... effects)
+    public HealthAOE(float x, float y, float radius, float duration, float rate, float healthDiff, AdventureEntity.Team... effects)
     {
         super(x, y, radius, duration, rate, effects);
-        this.damage = damage;
+        _healthDiff = healthDiff;
     }
 
     @Override
     public void effect(AdventureEntity entity)
     {
-        entity.getRpgEntity().getHealth().subtractHealth(damage);
+        if(_healthDiff >= 0)
+            entity.getRpgEntity().getHealth().addHealth(_healthDiff);
+        else
+            entity.getRpgEntity().getHealth().subtractHealth(_healthDiff);
     }
 }

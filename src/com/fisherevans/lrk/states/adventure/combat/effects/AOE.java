@@ -1,11 +1,8 @@
 package com.fisherevans.lrk.states.adventure.combat.effects;
 
-import com.fisherevans.lrk.states.adventure.combat.EntityEffect;
+import com.fisherevans.lrk.states.adventure.combat.TeamBasedEntityEffect;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import org.jbox2d.common.Vec2;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,9 +11,8 @@ import java.util.List;
  * Time: 10:27 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AOE extends EntityEffect
+public abstract class AOE extends TeamBasedEntityEffect
 {
-    private List<AdventureEntity.Team> _effects;
     private float _radius, _duration, _rate;
     private Vec2 _pos;
 
@@ -27,7 +23,7 @@ public abstract class AOE extends EntityEffect
 
     public AOE(float x, float y, float radius, float duration, float rate, AdventureEntity.Team... effects)
     {
-        _effects = Arrays.asList(effects);
+        super(effects);
         _pos = new Vec2(x, y);
         _radius = radius;
         _duration = duration;
@@ -61,7 +57,7 @@ public abstract class AOE extends EntityEffect
     public boolean doesEffect(AdventureEntity entity)
     {
         return effect
-                && _effects.contains(entity.getTeam())
+                && inEffectedTeam(entity)
                 && _pos.sub(new Vec2(entity.getBody().getPosition())).length() <= _radius;
     }
 

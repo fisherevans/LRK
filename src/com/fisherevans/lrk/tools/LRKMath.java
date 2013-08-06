@@ -22,4 +22,40 @@ public class LRKMath
         else if(x > max) x = max;
         return x;
     }
+
+    /**
+     * calculates the difference between the two angles in degrees.
+     * Example: getAngleDifference(30, 350) = -40;
+     * @param a1 angle 1 in degrees
+     * @param a2 angle 2 in degrees
+     * @return the angular distance from a1 to a2 (a1-a2)
+     */
+    public static float getAngleDifferenceDegrees(float a1, float a2)
+    {
+        float ad = a2 - a1;
+
+        if (ad > 180)  ad -= 360;
+        else if (ad < -180) ad += 360;
+
+        return ad;
+    }
+
+    private static float FULL = (float) (Math.PI*2);
+    private static float HALF = (float) (Math.PI);
+    /**
+     * calculates the difference between the two angles in radians.
+     * Example: getAngleDifference(30, 350) = -40;
+     * @param a1 angle 1 in radians
+     * @param a2 angle 2 in radians
+     * @return the angular distance from a1 to a2 (a1-a2)
+     */
+    public static float getAngleDifferenceRadians(float a1, float a2)
+    {
+        float ad = a2 - a1;
+
+        if (ad > HALF)  ad -= FULL;
+        else if (ad < -HALF) ad += FULL;
+
+        return ad;
+    }
 }

@@ -9,13 +9,13 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  * Time: 11:07 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MovingDamageAOE extends DamageAOE
+public class MovingHealthAOE extends HealthAOE
 {
     private AdventureEntity _target;
 
-    public MovingDamageAOE(float x, float y, float radius, float duration, float rate, float damage, AdventureEntity target, AdventureEntity.Team... effects)
+    public MovingHealthAOE(float x, float y, float radius, float duration, float rate, float healthDiff, AdventureEntity target, AdventureEntity.Team... effects)
     {
-        super(x, y, radius, duration, rate, damage, effects);
+        super(x, y, radius, duration, rate, healthDiff, effects);
         _target = target;
     }
 

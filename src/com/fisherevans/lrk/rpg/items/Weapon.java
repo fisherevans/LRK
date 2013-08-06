@@ -1,5 +1,7 @@
 package com.fisherevans.lrk.rpg.items;
 
+import com.fisherevans.lrk.states.adventure.combat.Skill;
+import com.fisherevans.lrk.states.adventure.combat.skills.Splash;
 import org.newdawn.slick.Image;
 
 /**
@@ -13,6 +15,8 @@ public class Weapon extends Equipment
 {
     private float _speed;
 
+    private Skill _combatSkill;
+
     private boolean _twoHanded;
 
     public Weapon(String name, String description, Image image, Position position, int power, int defence, float speed, boolean twoHanded)
@@ -20,6 +24,7 @@ public class Weapon extends Equipment
         super(name, description, image, position, power, defence);
         _speed = speed;
         _twoHanded = twoHanded;
+        _combatSkill = new Splash();
     }
 
     public Weapon(String name, String description, Image image, Position position, int strengthBuff, int intelligenceBuff, float speed)
@@ -40,5 +45,10 @@ public class Weapon extends Equipment
     public float getSpeed()
     {
         return _speed;
+    }
+
+    public Skill getCombatSkill()
+    {
+        return _combatSkill;
     }
 }

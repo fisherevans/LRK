@@ -10,28 +10,23 @@ import java.util.ArrayList;
  * Date: 5/30/13
  * Time: 5:40 PM
  */
-public class CombatSkill extends EntityComponent
+public class CombatStat extends EntityComponent
 {
-    public enum Type { Power, Defence }
-
     public static final int BASE_POWER = 10;
     public static final int BASE_DEFENCE = 10;
 
-    private int _skillLevel;
-    private Type _type;
-    private ArrayList<CombatSkillListener> _listeners;
+    private int _statLevel;
+    private ArrayList<CombatStatListener> _listeners;
 
     /**
      * holds combat skill information
      * @param parentEntity the entity this skill belongs to
-     * @param type the type of this skill
-     * @param skillLevel the initial level of this skill
+     * @param statLevel the initial level of this skill
      */
-    public CombatSkill(RPGEntity parentEntity, Type type, int skillLevel)
+    public CombatStat(RPGEntity parentEntity, int statLevel)
     {
         super(parentEntity);
-        _type = type;
-        _skillLevel = skillLevel;
+        _statLevel = statLevel;
 
         _listeners = new ArrayList<>();
     }
@@ -50,7 +45,7 @@ public class CombatSkill extends EntityComponent
      * adds a listener to this object
      * @param listener the listener to call during events
      */
-    public void addListener(CombatSkillListener listener)
+    public void addListener(CombatStatListener listener)
     {
         _listeners.add(listener);
     }
@@ -60,7 +55,7 @@ public class CombatSkill extends EntityComponent
      * @param listener the listener to stop calling
      * @return returns false if the passes listener is not currently listening
      */
-    public boolean removeListener(CombatSkillListener listener)
+    public boolean removeListener(CombatStatListener listener)
     {
         if(!_listeners.contains(listener))
             return false;
@@ -73,9 +68,9 @@ public class CombatSkill extends EntityComponent
      * increments this skill level by 1
      * @return the skill level after 1 is added to it
      */
-    public int incrementSkillLevel()
+    public int incrementStatLevel()
     {
-        return addSkillLevel(1);
+        return addStatLevel(1);
     }
 
     /**
@@ -83,47 +78,37 @@ public class CombatSkill extends EntityComponent
      * @param amount the amount to add to the skill level
      * @return the skill level after the amount is added
      */
-    public int addSkillLevel(int amount)
+    public int addStatLevel(int amount)
     {
-        _skillLevel += amount;
-        callSkillLevelChangedListeners();
-        return _skillLevel;
+        _statLevel += amount;
+        callStatLevelChangedListeners();
+        return _statLevel;
     }
 
     // PRIVATES
 
-    private void callSkillLevelChangedListeners()
+    private void callStatLevelChangedListeners()
     {
-        for(CombatSkillListener listener:_listeners)
-            listener.skillLevelChanged(getParentEntity());
+        for(CombatStatListener listener:_listeners)
+            listener.statLevelChanged(getParentEntity());
     }
 
     // GETTERS
 
 
-    public int getSkillLevel()
+    public int getStatLevel()
     {
-        return _skillLevel;
-    }
-
-    public Type getType()
-    {
-        return _type;
-    }
-
-    public String getName()
-    {
-        return _type.name();
+        return _statLevel;
     }
 
     // SUB CLASSES
 
-    public abstract class CombatSkillListener
+    public abstract class CombatStatListener
     {
         /**
          * When ever a given skill type is changed
          * @param entity the entity that had the change
          */
-        public abstract void skillLevelChanged(RPGEntity entity);
+        public abstract void statLevelChanged(RPGEntity entity);
     }
 }
