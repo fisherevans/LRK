@@ -23,17 +23,28 @@ public class EntityEffectQueue
         _queue = new ArrayList<>();
     }
 
+    public void update(float delta)
+    {
+        for(EntityEffect effect:_queue)
+            effect.update(delta);
+    }
+
     public void processEntity(AdventureEntity entity)
     {
         for(EntityEffect effect:_queue)
-            if(effect.doesEffect(entity))
-                effect.effect(entity);
+            effect.processEffect(entity);
     }
 
-    public void clearQueue()
+    public void clearComplete()
     {
-        if(_queue.size() > 0)
-            _queue.clear();
+        for(int id = 0;id < _queue.size();id++)
+        {
+            if(_queue.get(id).complete())
+            {
+                _queue.remove(id);
+                id--;
+            }
+        }
     }
 
     public void addEntityEffect(EntityEffect effect)

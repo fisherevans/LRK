@@ -13,6 +13,16 @@ import java.util.ArrayList;
  */
 public abstract class EntityEffect
 {
+    public void update(float delta) { }
+
+    public boolean complete() { return true; }
+
+    public void processEffect(AdventureEntity entity)
+    {
+        if(doesEffect(entity))
+            effect(entity);
+    }
+
     public abstract boolean doesEffect(AdventureEntity entity);
 
     public abstract void effect(AdventureEntity entity);

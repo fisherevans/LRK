@@ -200,15 +200,16 @@ public class AdventureState extends LRKState
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
 
+        _entityEffectQueue.update(delta);
         for(AdventureEntity entity: _entities)
         {
             _entityEffectQueue.processEntity(entity);
             entity.update(delta); // logic
         }
+        _entityEffectQueue.clearComplete();
 
         _world.step(delta, 5, 5); // physics
 
-        _entityEffectQueue.clearQueue();
     }
 
     @Override
