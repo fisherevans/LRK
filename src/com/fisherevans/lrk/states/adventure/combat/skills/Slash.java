@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure.combat.skills;
 
+import com.fisherevans.lrk.managers.SoundManager;
 import com.fisherevans.lrk.states.adventure.combat.Skill;
 import com.fisherevans.lrk.states.adventure.combat.effects.HealthCone;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
@@ -25,6 +26,8 @@ public class Slash extends Skill
     @Override
     public boolean execute(AdventureEntity owner)
     {
+        SoundManager.play("hit");
+
         owner.getState().getEntityEffectQueue().addEntityEffect(
                 new HealthCone(
                         (float)Math.toRadians(owner.getDegrees()),

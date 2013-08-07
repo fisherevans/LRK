@@ -6,6 +6,6 @@ input.select=57
 input.back=29
 input.menu=1
 input.forcequit=68
-audio.master=0.0
+audio.master=0.6
 audio.music=0.8
 audio.sfx=0.4

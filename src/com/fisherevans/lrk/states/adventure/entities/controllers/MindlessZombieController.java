@@ -3,6 +3,7 @@ package com.fisherevans.lrk.states.adventure.entities.controllers;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.states.adventure.combat.Skill;
+import com.fisherevans.lrk.states.adventure.combat.skills.Slash;
 import com.fisherevans.lrk.states.adventure.combat.skills.Splash;
 import com.fisherevans.lrk.states.adventure.entities.ActiveEntity;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
@@ -30,7 +31,8 @@ public class MindlessZombieController extends ActiveEntityController
         super(entity);
         _target = target;
         _sightDistance = sightDistance;
-        _skill = new Splash();
+        _skill =  new Slash(entity, AdventureEntity.Team.Ally);
+        //_skill = new Splash();
     }
 
     public MindlessZombieController(ActiveEntity entity, AdventureEntity target, float sightDistance, long attackSpeed)

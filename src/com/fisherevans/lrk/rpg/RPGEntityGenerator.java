@@ -16,7 +16,7 @@ public class RPGEntityGenerator
 {
     public static Player getAnarok()
     {
-        RPGEntity entity = new RPGEntity("Anarok", RPGEntity.Profession.Mage, 99, 999, 999, 999);
+        RPGEntity entity = new RPGEntity("Anarok", RPGEntity.Profession.Mage, 99, 80, 15, 20);
 
         Inventory inventory = new Inventory();
         inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("equipment/weapons/sword_01"), Equipment.Position.MainHand, 4, 0, 0.5f));

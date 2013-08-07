@@ -39,6 +39,6 @@ public class PlayerController extends ActiveEntityController
 
         getEntity().getBody().setLinearVelocity(v);
 
-        getEntity().getRpgEntity().getHealth().addHealth(30*delta);
+        getEntity().getRpgEntity().getHealth().addHealth(2*delta);
     }
 }
