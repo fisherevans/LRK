@@ -28,6 +28,7 @@ public class ActiveEntity extends AdventureEntity
     @Override
     public void update(float delta)
     {
+        super.update(delta);
         _controller.update(delta);
     }
 

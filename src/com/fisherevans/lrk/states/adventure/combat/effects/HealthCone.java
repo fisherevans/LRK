@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure.combat.effects;
 
+import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import org.jbox2d.common.Vec2;
 
@@ -23,9 +24,7 @@ public class HealthCone extends Cone
     @Override
     public void effect(AdventureEntity entity)
     {
-        if(_healthDiff >= 0)
-            entity.getRpgEntity().getHealth().addHealth(_healthDiff);
-        else
-            entity.getRpgEntity().getHealth().subtractHealth(_healthDiff);
+        LRK.log("Health Cone, ACTIVATE! " + _healthDiff);
+        entity.getRpgEntity().getHealth().adjustHealth(_healthDiff);
     }
 }

@@ -1,9 +1,13 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
+import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.rpg.entitycomponents.Health;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.dynamics.Body;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -13,7 +17,7 @@ import org.newdawn.slick.Image;
  * Date: 5/12/13
  * Time: 5:30 PM
  */
-public abstract class AdventureEntity
+public abstract class AdventureEntity implements Health.HealthListener
 {
     public enum Team { Ally, Hostile, NPC, Goat }
 
@@ -29,21 +33,47 @@ public abstract class AdventureEntity
 
     private AdventureState _state;
 
+    private float _damageHue = 0f;
+
+    private float _damageHueDecreaseRate = 3f;
+
     protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
     {
         _rpgEntity = rpgEntity;
         _state = state;
+
+        if(_rpgEntity != null)
+        {
+            _rpgEntity.getHealth().addListener(this);
+        }
     }
 
     /**
      * updates the entity with each step of the main game loop
      * @param delta ms since the last update
      */
-    public abstract void update(float delta);
+    public void update(float delta)
+    {
+        _damageHue -= _damageHueDecreaseRate*delta;
+        if(_damageHue <= 0)
+            _damageHue = 0;
+    }
 
     public void render(Graphics gfx, float drawX, float drawY)
     {
         GFX.drawImageCentered(drawX, drawY, getImage());
+
+        if(_damageHue > 0)
+        {
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            GFX.drawFlashImageCentered(drawX, drawY, getImage(), new Color(_damageHue, 0, 0));
+            gfx.setDrawMode(Graphics.MODE_NORMAL);
+        }
+    }
+
+    public void destroy()
+    {
+
     }
 
     /**
@@ -129,5 +159,27 @@ public abstract class AdventureEntity
     public void setTeam(Team team)
     {
         _team = team;
+    }
+
+    @Override
+    public void healthDepleted(RPGEntity entity)
+    {
+        getState().killEntity(this);
+    }
+
+    @Override
+    public void healthFull(RPGEntity entity)
+    {
+    }
+
+    @Override
+    public void healthIncreased(RPGEntity entity, float amount)
+    {
+    }
+
+    @Override
+    public void healthDecreased(RPGEntity entity, float amount)
+    {
+        _damageHue = 1f;
     }
 }

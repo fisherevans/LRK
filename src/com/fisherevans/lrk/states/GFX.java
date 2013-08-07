@@ -60,6 +60,20 @@ public class GFX
         img.draw(x+dx, y+dy, img.getWidth(), img.getHeight());
     }
 
+    public static void drawImageCentered(float x, float y, Image img, Color c)
+    {
+        float dx = -img.getWidth()/2f;
+        float dy = -img.getHeight()/2f;
+        img.draw(x+dx, y+dy, img.getWidth(), img.getHeight(), c);
+    }
+
+    public static void drawFlashImageCentered(float x, float y, Image img, Color c)
+    {
+        float dx = -img.getWidth()/2f;
+        float dy = -img.getHeight()/2f;
+        img.drawFlash(x+dx, y+dy, img.getWidth(), img.getHeight(), c);
+    }
+
     /**
      * Draw an image to the display centered on the given x and y and scaled
      * @param x the x pos to center the image on

@@ -40,6 +40,6 @@ public abstract class Skill
     public static float getDamage(RPGEntity entity, Weapon weapon)
     {
         float weaponStat = weapon == null ? 0 : weapon.getPower();
-        return entity.getPower().getStatLevel()+weaponStat;
+        return (entity.getPower().getStatLevel()+weaponStat);
     }
 }

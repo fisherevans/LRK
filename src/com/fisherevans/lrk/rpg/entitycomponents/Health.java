@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.rpg.entitycomponents;
 
+import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.rpg.RPGEntity;
 
 import java.io.PrintWriter;
@@ -87,6 +88,14 @@ public class Health extends EntityComponent
         return true;
     }
 
+    public void adjustHealth(float amount)
+    {
+        if(amount < 0)
+            subtractHealth(-amount);
+        else
+            addHealth(amount);
+    }
+
     /**
      * Adds an amount of health to the current health. will not surpass max
      * @param amount the amount to add
@@ -95,6 +104,8 @@ public class Health extends EntityComponent
     {
         if(_currentHealth >= _maximumHealth)
             return;
+
+        callIncreasedListeners(amount);
 
         _currentHealth += amount;
         if(_currentHealth >= _maximumHealth)
@@ -113,6 +124,8 @@ public class Health extends EntityComponent
     {
         if(_currentHealth <= 0)
             return;
+
+        callDecreasedListeners(amount);
 
         _currentHealth -= amount;
         if(_currentHealth <= 0)
@@ -151,6 +164,18 @@ public class Health extends EntityComponent
             listener.healthDepleted(getParentEntity());
     }
 
+    private void callIncreasedListeners(float amount)
+    {
+        for(HealthListener listener:_listeners)
+            listener.healthIncreased(getParentEntity(), amount);
+    }
+    private void callDecreasedListeners(float amount)
+    {
+        LRK.log("Calling decreased health listeners");
+        for(HealthListener listener:_listeners)
+            listener.healthDecreased(getParentEntity(), amount);
+    }
+
     // GETTERS
 
     public float getMaximumHealth()
@@ -164,7 +189,7 @@ public class Health extends EntityComponent
     }
 
     // SUB CLASSES
-    public abstract class HealthListener
+    public abstract interface HealthListener
     {
         /**
          * called when an entity's health is changed to 0
@@ -177,5 +202,9 @@ public class Health extends EntityComponent
          * @param entity the entity who's health maxed out
          */
         public abstract void healthFull(RPGEntity entity);
+
+        public abstract void healthIncreased(RPGEntity entity, float amount);
+
+        public abstract void healthDecreased(RPGEntity entity, float amount);
     }
 }

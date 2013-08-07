@@ -1,11 +1,13 @@
 package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
+import com.fisherevans.lrk.states.RenderComponent;
 import com.fisherevans.lrk.states.character.CharacterState;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
@@ -19,8 +21,12 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.*;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ParticleIO;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -39,7 +45,7 @@ public class AdventureState extends LRKState
 
     public static float TILES_WIDE, TILES_HIGH;
 
-    private ArrayList<AdventureEntity> _entities, _walls;
+    private ArrayList<AdventureEntity> _entities, _entitiesToDelete, _walls;
     private Player _player, _camera;
     private TiledMap _map;
     private World _world;
@@ -67,6 +73,7 @@ public class AdventureState extends LRKState
 
         // a list of entities in the world
         _entities = new ArrayList<>();
+        _entitiesToDelete = new ArrayList<>();
 
         _player = new Player(14f, 14f, _world, this);
         _camera = _player;
@@ -208,6 +215,17 @@ public class AdventureState extends LRKState
         }
         _entityEffectQueue.clearComplete();
 
+        if(_entitiesToDelete.size() > 0)
+        {
+            for(AdventureEntity entity:_entitiesToDelete)
+            {
+                entity.destroy();
+                _world.destroyBody(entity.getBody());
+                _entities.remove(entity);
+            }
+            _entitiesToDelete.clear();
+        }
+
         _world.step(delta, 5, 5); // physics
 
     }
@@ -243,6 +261,13 @@ public class AdventureState extends LRKState
         }
     }
 
+    @Override
+    public void mouseEvent(MouseInputType type, float x, float y)
+    {
+        if(type == MouseInputType.Pressed)
+            _player.mousePress(x, y);
+    }
+
     public Player getPlayer()
     {
         return _player;
@@ -256,5 +281,10 @@ public class AdventureState extends LRKState
     public EntityEffectQueue getEntityEffectQueue()
     {
         return _entityEffectQueue;
+    }
+
+    public void killEntity(AdventureEntity entity)
+    {
+        _entitiesToDelete.add(entity);
     }
 }

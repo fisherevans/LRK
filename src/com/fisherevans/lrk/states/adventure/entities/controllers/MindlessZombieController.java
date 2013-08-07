@@ -51,7 +51,7 @@ public class MindlessZombieController extends ActiveEntityController
         {
             _skill.execute(getEntity());
             _nextAttack = time + _attackSpeed;
-            Game.lrk.getNotifications().addNotification(new Notification("A Blob Attacked you!", Notification.BLUE));
+            //Game.lrk.getNotifications().addNotification(new Notification("A Blob Attacked you!", Notification.BLUE));
         }
 
         if(aimVector.length() < _sightDistance)

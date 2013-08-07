@@ -28,8 +28,8 @@ public class Slash extends Skill
         owner.getState().getEntityEffectQueue().addEntityEffect(
                 new HealthCone(
                         (float)Math.toRadians(owner.getDegrees()),
-                        90, 1.5f, owner.getBody().getPosition().clone(),
-                        getDamage(owner.getRpgEntity(), null), _effects
+                        (float) Math.toRadians(90), 1f, owner.getBody().getPosition().clone(),
+                        -5, _effects
                 )
         );
         return true;
