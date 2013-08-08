@@ -211,6 +211,8 @@ public class InputManager implements KeyListener, MouseListener
                 break;
             case Mouse1:
                 ui.mouseEvent(RenderComponent.MouseInputType.LeftPressed, InputManager.getMouseX(), InputManager.getMouseY());
+            case Mouse2:
+                ui.mouseEvent(RenderComponent.MouseInputType.RightPressed, InputManager.getMouseX(), InputManager.getMouseY());
         }
     }
 
