@@ -19,12 +19,12 @@ public class RPGEntityGenerator
         RPGEntity entity = new RPGEntity("Anarok", RPGEntity.Profession.Mage, 99, 80, 15, 20);
 
         Inventory inventory = new Inventory();
-        inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("equipment/weapons/sword_01"), Equipment.Position.MainHand, 4, 0, 0.5f));
-        inventory.addItem(new Weapon("Battle Axe", "A bloody axe used in battle", Resources.getImage("equipment/weapons/battle-axe_01"), Equipment.Position.MainHand, 7, 0, 0.8f));
-        inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("equipment/weapons/wood-shield_01"), Equipment.Position.OffHand, 0, 5, 0.5f));
-        inventory.addItem(new Weapon("Scythe", "Cuts more then grain", Resources.getImage("equipment/weapons/special/scythe"), Equipment.Position.MainHand, 0, 8, 0.7f, true));
+        inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("equipment/weapons/sword_01"), Equipment.Position.MainHand, 4, 0));
+        inventory.addItem(new Weapon("Battle Axe", "A bloody axe used in battle", Resources.getImage("equipment/weapons/battle-axe_01"), Equipment.Position.MainHand, 7, 0));
+        inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("equipment/weapons/wood-shield_01"), Equipment.Position.OffHand, 0, 5));
+        inventory.addItem(new Weapon("Scythe", "Cuts more then grain", Resources.getImage("equipment/weapons/special/scythe"), Equipment.Position.MainHand, 0, 8, true));
 
-        Weapon enchanted = new Weapon("Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 11, 0, 1f, true);
+        Weapon enchanted = new Weapon("Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 11, 0, true);
         enchanted.setEnchantment(new UnholyMight(0.45f));
         inventory.addItem(enchanted);
 

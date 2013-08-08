@@ -20,29 +20,30 @@ import org.jbox2d.dynamics.*;
  * Date: 5/12/13
  * Time: 5:31 PM
  */
-public class Player extends ActiveEntity
+public class PlayerEntity extends ActiveEntity
 {
-    private Skill _skill;
-
     /**
      * create a new player object in the given world starting at the given position
      * @param x the x position to start the player entity at
      * @param y the y position to start the player entity at
      * @param world the world to keep the player in.
      */
-    public Player(float x, float y, World world, AdventureState state)
+    public PlayerEntity(float x, float y, World world, AdventureState state)
     {
         super(Game.lrk.getPlayer().getEntity(), state, 3.5f);
         setTeam(Team.Ally);
         setController(new PlayerController(this));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-player"));
-
-        _skill = new Slash(this, Team.Hostile);
     }
 
-    public void mousePress(float x, float y)
+    public void leftMousePress(float x, float y)
     {
-        _skill.execute(this);
+        getController().executeMainSkill();
+    }
+
+    public void rightMousePress(float x, float y)
+    {
+        getController().executeSecondarySkill();
     }
 }

@@ -1,6 +1,10 @@
 package com.fisherevans.lrk.states.adventure.entities.controllers;
 
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.rpg.items.Equipment;
+import com.fisherevans.lrk.rpg.items.Weapon;
+import com.fisherevans.lrk.states.adventure.combat.Skill;
 import com.fisherevans.lrk.states.adventure.entities.ActiveEntity;
 import org.jbox2d.common.Vec2;
 
@@ -39,6 +43,18 @@ public class PlayerController extends ActiveEntityController
 
         getEntity().getBody().setLinearVelocity(v);
 
-        getEntity().getRpgEntity().getHealth().addHealth(2*delta);
+        getEntity().getRpgEntity().getHealth().addHealth(2 * delta);
+    }
+
+    @Override
+    public Skill getMainSkill()
+    {
+        return Game.lrk.getPlayer().getMainSkill();
+    }
+
+    @Override
+    public Skill getSecondarySkill()
+    {
+        return Game.lrk.getPlayer().getSecondarySkill();
     }
 }

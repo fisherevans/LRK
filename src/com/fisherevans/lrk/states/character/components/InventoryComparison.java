@@ -38,7 +38,7 @@ public class InventoryComparison extends UIComponent
 
     private CharacterState _parent;
 
-    private Image _power, _defence, _time;
+    private Image _power, _defence;
 
     private boolean _displaySelected;
 
@@ -48,7 +48,6 @@ public class InventoryComparison extends UIComponent
         _parent = parent;
         _power = Resources.getImage("gui/power_icon");
         _defence = Resources.getImage("gui/defence_icon");
-        _time = Resources.getImage("gui/time_icon");
 
         _displaySelected = displaySelected;
 
@@ -96,11 +95,6 @@ public class InventoryComparison extends UIComponent
             GFX.drawImage((int) (startContentX() + 64 + PADDING*2 + 64), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _defence);
             GFX.drawTextAbsolute(startContentX()+64+PADDING*2 + 64+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getDefenceComparisonColor(displayItem, compareItem), displayItem.getDefence()+"");
 
-            if(displayItem instanceof Weapon)
-            {
-                GFX.drawImage((int) (startContentX() + 64 + PADDING*2 + 64*2), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _time);
-                GFX.drawTextAbsolute(startContentX()+64+PADDING*2 + 64*2+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getTimeComparisonColor((Weapon)displayItem, (Weapon)compareItem), ((Weapon)displayItem).getSpeed()+"");
-            }
             GFX.drawTextAbsolute(startContentX()+64+PADDING*2+64*2, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), Color.white, displayItem.getPositionName());
 
             if(displayItem.isEnchanted())
@@ -140,19 +134,6 @@ public class InventoryComparison extends UIComponent
         else if(display.getDefence() > compare.getDefence())
             return RATING_BETTER;
         else if(compare.getDefence() > display.getDefence())
-            return RATING_WORSE;
-        else
-            return RATING_SAME;
-    }
-
-    private Color getTimeComparisonColor(Weapon display, Weapon compare)
-    {
-        if(compare == null)
-            return RATING_BETTER;
-
-        else if(display.getSpeed() > compare.getSpeed())
-            return RATING_BETTER;
-        else if(compare.getSpeed() > display.getSpeed())
             return RATING_WORSE;
         else
             return RATING_SAME;

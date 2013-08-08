@@ -3,8 +3,6 @@ package com.fisherevans.lrk.managers;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
-import com.fisherevans.lrk.notifications.Notifications;
-import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.RenderComponent;
 import com.fisherevans.lrk.states.UIComponent;
@@ -14,7 +12,6 @@ import org.jbox2d.common.Vec2;
 import org.newdawn.slick.*;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +23,7 @@ import java.util.Map;
  */
 public class InputManager implements KeyListener, MouseListener
 {
-    public enum ControlKey { Up, Down, Left, Right, Select, Back, Menu, ForceQuit, Fullscreen }
+    public enum ControlKey { Up, Down, Left, Right, Select, Back, Menu, ForceQuit, Fullscreen, Mouse1, Mouse2 }
 
     private static Input _input;
     private static Map<ControlKey, Integer> _keyboardMap;
@@ -41,7 +38,8 @@ public class InputManager implements KeyListener, MouseListener
     private static float _mouseX, _mouseY;
 
     // Mouse moved/dragged variable
-    private boolean mousePressed = false;
+    private boolean leftMousePressed = false;
+    private boolean rightMousePressed = false;
 
     public InputManager()
     {
@@ -211,6 +209,8 @@ public class InputManager implements KeyListener, MouseListener
             case Fullscreen:
                 DisplayManager.swapFullScreen();
                 break;
+            case Mouse1:
+                ui.mouseEvent(RenderComponent.MouseInputType.LeftPressed, InputManager.getMouseX(), InputManager.getMouseY());
         }
     }
 
@@ -414,8 +414,11 @@ public class InputManager implements KeyListener, MouseListener
         InputManager.setMouseX(InputManager.getInput().getMouseX());
         InputManager.setMouseY(InputManager.getInput().getMouseY());
 
-        if(mousePressed)
-            sendMouseEvent(LRKState.MouseInputType.Dragged, InputManager.getMouseX(), InputManager.getMouseY());
+        if(leftMousePressed)
+            sendMouseEvent(LRKState.MouseInputType.LeftDragged, InputManager.getMouseX(), InputManager.getMouseY());
+
+        if(rightMousePressed)
+            sendMouseEvent(LRKState.MouseInputType.RightDragged, InputManager.getMouseX(), InputManager.getMouseY());
 
         sendMouseEvent(LRKState.MouseInputType.Moved, InputManager.getMouseX(), InputManager.getMouseY());
     }
@@ -423,15 +426,31 @@ public class InputManager implements KeyListener, MouseListener
     @Override
     public void mousePressed(int button, int x, int y)
     {
-        mousePressed = true;
-        sendMouseEvent(LRKState.MouseInputType.Pressed, x, y);
+        if(button == 0) // left
+        {
+            leftMousePressed = true;
+            sendMouseEvent(LRKState.MouseInputType.LeftPressed, x, y);
+        }
+        else // right
+        {
+            rightMousePressed = true;
+            sendMouseEvent(LRKState.MouseInputType.RightPressed, x, y);
+        }
     }
 
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-        mousePressed = false;
-        sendMouseEvent(LRKState.MouseInputType.Released, x, y);
+        if(button == 0) // left
+        {
+            leftMousePressed = false;
+            sendMouseEvent(LRKState.MouseInputType.LeftReleased, x, y);
+        }
+        else // right
+        {
+            rightMousePressed = false;
+            sendMouseEvent(LRKState.MouseInputType.RightReleased, x, y);
+        }
     }
 
     public void sendMouseEvent(LRKState.MouseInputType type, float x, float y)

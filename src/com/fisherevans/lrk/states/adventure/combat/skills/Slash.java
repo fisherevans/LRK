@@ -19,7 +19,7 @@ public class Slash extends Skill
 
     public Slash(AdventureEntity owner, AdventureEntity.Team... effects)
     {
-        super("Slash", "Slash with your weapon.");
+        super("Slash", "Slash with your weapon.", 1f);
         _effects = effects;
     }
 

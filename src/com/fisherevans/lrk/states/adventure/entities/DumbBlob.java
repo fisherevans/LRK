@@ -1,15 +1,10 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
-import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.launcher.Game;
-import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.entitycomponents.Health;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.adventure.entities.controllers.MindlessZombieController;
-import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
 /**
@@ -25,7 +20,7 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
     {
         super(rpgEntity, state, 2.25f);
         setTeam(Team.Hostile);
-        setController(new MindlessZombieController(this, getState().getPlayer(), 10));
+        setController(new MindlessZombieController(this, getState().getPlayerEntity(), 10));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-blob"));
 

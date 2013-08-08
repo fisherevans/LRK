@@ -1,19 +1,17 @@
 package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
-import com.fisherevans.lrk.states.RenderComponent;
+import com.fisherevans.lrk.states.adventure.entities.PlayerEntity;
 import com.fisherevans.lrk.states.character.CharacterState;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import com.fisherevans.lrk.states.adventure.entities.DumbBlob;
-import com.fisherevans.lrk.states.adventure.entities.Player;
 import com.fisherevans.lrk.states.adventure.entities.Wall;
 import com.fisherevans.lrk.states.adventure.ui.PlayerStats;
 import com.fisherevans.lrk.tools.JBox2DUtils;
@@ -21,12 +19,8 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.*;
-import org.newdawn.slick.particles.ConfigurableEmitter;
-import org.newdawn.slick.particles.ParticleIO;
-import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -46,7 +40,7 @@ public class AdventureState extends LRKState
     public static float TILES_WIDE, TILES_HIGH;
 
     private ArrayList<AdventureEntity> _entities, _entitiesToDelete, _walls;
-    private Player _player, _camera;
+    private PlayerEntity _playerEntity, _camera;
     private TiledMap _map;
     private World _world;
     private Vec2 _aimShift;
@@ -75,10 +69,10 @@ public class AdventureState extends LRKState
         _entities = new ArrayList<>();
         _entitiesToDelete = new ArrayList<>();
 
-        _player = new Player(14f, 14f, _world, this);
-        _camera = _player;
+        _playerEntity = new PlayerEntity(14f, 14f, _world, this);
+        _camera = _playerEntity;
 
-        _entities.add(_player);
+        _entities.add(_playerEntity);
         _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 33, 14, _world, this));
         _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 33, 16, _world, this));
         _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 27, 27, _world, this));
@@ -264,13 +258,15 @@ public class AdventureState extends LRKState
     @Override
     public void mouseEvent(MouseInputType type, float x, float y)
     {
-        if(type == MouseInputType.Pressed)
-            _player.mousePress(x, y);
+        if(type == MouseInputType.LeftPressed)
+            _playerEntity.leftMousePress(x, y);
+        if(type == MouseInputType.RightPressed)
+            _playerEntity.rightMousePress(x, y);
     }
 
-    public Player getPlayer()
+    public PlayerEntity getPlayerEntity()
     {
-        return _player;
+        return _playerEntity;
     }
 
     public ArrayList<AdventureEntity> getEntities()

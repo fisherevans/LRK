@@ -174,7 +174,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
                             if(v > 0) // left
                                 LRK.log("Trigger L");
                             else // right
-                                LRK.log("Trigger R");
+                                _keyQueue.add(InputManager.ControlKey.Mouse1);
                             break;
                         case AXIS_MOVE_LR:
                             if(!InputManager.isQueryControllerMovement())

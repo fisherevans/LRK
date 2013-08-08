@@ -1,7 +1,9 @@
 package com.fisherevans.lrk.rpg;
 
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.rpg.items.Equipment;
 import com.fisherevans.lrk.rpg.items.Weapon;
+import com.fisherevans.lrk.states.adventure.combat.Skill;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,5 +85,40 @@ public class Player
                 _equipment.remove(Equipment.Position.OffHand);
         }
         _equipment.put(newItem.getPosition(), newItem);
+    }
+
+    public Skill getMainSkill()
+    {
+        return getWeaponSkill(Equipment.Position.MainHand);
+    }
+
+    public Skill getSecondarySkill()
+    {
+        Skill mainSecondarySkill = getWeaponSkill(Equipment.Position.MainHand, false);
+
+        if(mainSecondarySkill != null)
+            return mainSecondarySkill;
+        else
+            return getWeaponSkill(Equipment.Position.OffHand);
+    }
+
+    public Skill getWeaponSkill(Equipment.Position position)
+    {
+        return getWeaponSkill(position, true);
+    }
+
+    public Skill getWeaponSkill(Equipment.Position position, boolean primary)
+    {
+        Equipment weapon = getEquipment(position);
+
+        if(weapon != null && weapon instanceof Weapon)
+        {
+            if(primary)
+                return ((Weapon) weapon).getSkill();
+            else
+                return ((Weapon) weapon).getSecondarySkill();
+        }
+
+        return null;
     }
 }

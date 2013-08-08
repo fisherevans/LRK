@@ -21,18 +21,11 @@ public class MindlessZombieController extends ActiveEntityController
     private AdventureEntity _target;
     private float _sightDistance;
 
-    private long _attackSpeed = 1750;
-    private long _nextAttack = 0;
-
-    private Skill _skill;
-
     public MindlessZombieController(ActiveEntity entity, AdventureEntity target, float sightDistance)
     {
-        super(entity);
+        super(entity, new Slash(entity, AdventureEntity.Team.Ally));
         _target = target;
         _sightDistance = sightDistance;
-        _skill =  new Slash(entity, AdventureEntity.Team.Ally);
-        //_skill = new Splash();
     }
 
     public MindlessZombieController(ActiveEntity entity, AdventureEntity target, float sightDistance, long attackSpeed)
@@ -40,7 +33,6 @@ public class MindlessZombieController extends ActiveEntityController
         super(entity);
         _target = target;
         _sightDistance = sightDistance;
-        _attackSpeed = attackSpeed;
     }
 
     @Override
@@ -49,12 +41,8 @@ public class MindlessZombieController extends ActiveEntityController
         Vec2 aimVector = _target.getBody().getPosition().sub(getEntity().getBody().getPosition());
         long time = System.currentTimeMillis();
 
-        if(aimVector.length() < 1 && time >= _nextAttack)
-        {
-            _skill.execute(getEntity());
-            _nextAttack = time + _attackSpeed;
-            //Game.lrk.getNotifications().addNotification(new Notification("A Blob Attacked you!", Notification.BLUE));
-        }
+        if(aimVector.length() < 1)
+            executeMainSkill();
 
         if(aimVector.length() < _sightDistance)
         {

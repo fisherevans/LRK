@@ -13,23 +13,31 @@ import org.newdawn.slick.Image;
  */
 public class Weapon extends Equipment
 {
-    private float _speed;
-
-    private Skill _combatSkill;
+    private Skill _skill, _secondarySkill;
 
     private boolean _twoHanded;
 
-    public Weapon(String name, String description, Image image, Position position, int power, int defence, float speed, boolean twoHanded)
+    public Weapon(String name, String description, Image image, Position position, int power, int defence, boolean twoHanded)
     {
         super(name, description, image, position, power, defence);
-        _speed = speed;
         _twoHanded = twoHanded;
-        _combatSkill = new Splash();
+        _skill = new Splash();
+        _secondarySkill = null;
     }
 
-    public Weapon(String name, String description, Image image, Position position, int strengthBuff, int intelligenceBuff, float speed)
+    public Weapon(String name, String description, Image image, Position position, int power, int defence)
     {
-        this(name, description, image, position, strengthBuff, intelligenceBuff, speed, false);
+        this(name, description, image, position, power, defence, false);
+    }
+
+    public Skill getSkill()
+    {
+        return _skill;
+    }
+
+    public void setSkill(Skill skill)
+    {
+        _skill = skill;
     }
 
     public boolean isTwoHanded()
@@ -42,13 +50,13 @@ public class Weapon extends Equipment
         _twoHanded = twoHanded;
     }
 
-    public float getSpeed()
+    public Skill getSecondarySkill()
     {
-        return _speed;
+        return _secondarySkill;
     }
 
-    public Skill getCombatSkill()
+    public void setSecondarySkill(Skill secondarySkill)
     {
-        return _combatSkill;
+        _secondarySkill = secondarySkill;
     }
 }

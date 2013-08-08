@@ -29,7 +29,7 @@ public class ActiveEntity extends AdventureEntity
     public void update(float delta)
     {
         super.update(delta);
-        _controller.update(delta);
+        _controller.updateController(delta);
     }
 
     public float getSpeed()

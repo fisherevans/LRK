@@ -175,7 +175,7 @@ public class InventoryList extends UIComponent
         {
             _currentItems = Game.lrk.getPlayer().getInventory().getEquipment();
             /*_currentItems = new ArrayList<>();
-            for(Item item:Game.lrk.getPlayer().getInventory().getEquipmentMap())
+            for(Item item:Game.lrk.getPlayerEntity().getInventory().getEquipmentMap())
                 if(!((Equipment)item).isEquipped())
                     _currentItems.add(item);*/
         }

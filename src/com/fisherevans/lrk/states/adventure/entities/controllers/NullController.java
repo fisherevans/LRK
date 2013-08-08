@@ -1,5 +1,7 @@
 package com.fisherevans.lrk.states.adventure.entities.controllers;
 
+import com.fisherevans.lrk.states.adventure.combat.Skill;
+
 /**
  * Created with IntelliJ IDEA.
  * User: immortal

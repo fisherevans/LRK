@@ -12,7 +12,7 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class RenderComponent
 {
-    public enum MouseInputType { Pressed, Moved, Dragged, Released }
+    public enum MouseInputType { Moved, LeftPressed, LeftDragged, LeftReleased, RightPressed, RightDragged, RightReleased }
 
     /**
      * updates this state and its elements

@@ -6,6 +6,7 @@
   <component name="ExportToHTMLSettings">
     <option name="OUTPUT_DIRECTORY" value="C:\developement\projects\LRK\exportToHTML" />
   </component>
+  <component name="IdProvider" IDEtalkID="2385D97D1CF212D646F9B1CBA67CB625" />
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/javadoc/lrk" />
     <option name="OPTION_SCOPE" value="private" />
