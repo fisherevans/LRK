@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class InputManager implements KeyListener, MouseListener
 {
-    public enum ControlKey { Up, Down, Left, Right, Select, Back, Menu, ForceQuit, Fullscreen }
+    public enum ControlKey { Up, Down, Left, Right, Select, Back, Menu, ForceQuit, Fullscreen, Mouse1, Mouse2 }
 
     private static Input _input;
     private static Map<ControlKey, Integer> _keyboardMap;
@@ -211,6 +211,8 @@ public class InputManager implements KeyListener, MouseListener
             case Fullscreen:
                 DisplayManager.swapFullScreen();
                 break;
+            case Mouse1:
+                ui.mouseEvent(RenderComponent.MouseInputType.Pressed, InputManager.getMouseX(), InputManager.getMouseY());
         }
     }
 
