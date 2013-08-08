@@ -14,10 +14,9 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  */
 public class Slash extends Skill
 {
-    private AdventureEntity _owner;
     private AdventureEntity.Team[] _effects;
 
-    public Slash(AdventureEntity owner, AdventureEntity.Team... effects)
+    public Slash(AdventureEntity.Team... effects)
     {
         super("Slash", "Slash with your weapon.", 1f);
         _effects = effects;

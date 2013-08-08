@@ -23,7 +23,7 @@ public class MindlessZombieController extends ActiveEntityController
 
     public MindlessZombieController(ActiveEntity entity, AdventureEntity target, float sightDistance)
     {
-        super(entity, new Slash(entity, AdventureEntity.Team.Ally));
+        super(entity, new Slash(AdventureEntity.Team.Ally));
         _target = target;
         _sightDistance = sightDistance;
     }
