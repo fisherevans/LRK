@@ -53,15 +53,15 @@ public class MindlessZombieController extends ActiveEntityController
         Vec2 aimVector = _target.getBody().getPosition().sub(getEntity().getBody().getPosition());
         long time = System.currentTimeMillis();
 
-        if(aimVector.length() < 1)
-            executeMainSkill();
+        getEntity().setDegrees((float) Math.toDegrees(Math.atan2(aimVector.y, aimVector.x)));
 
-        if(aimVector.length() < _sightDistance)
+        if(aimVector.length() < 1.5f)
+            executeMainSkill();
+        else if(aimVector.length() < _sightDistance)
         {
             aimVector.normalize();
             aimVector.mulLocal(getEntity().getSpeed());
             getEntity().getBody().setLinearVelocity(aimVector);
-            getEntity().setDegrees((float) Math.toDegrees(Math.atan2(aimVector.y, aimVector.x)));
             //LRK.log("Blob Speed: " + aimVector.length());
         }
         else

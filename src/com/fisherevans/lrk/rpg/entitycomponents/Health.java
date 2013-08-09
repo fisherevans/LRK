@@ -2,6 +2,7 @@ package com.fisherevans.lrk.rpg.entitycomponents;
 
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.tools.LRKMath;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -186,6 +187,11 @@ public class Health extends EntityComponent
     public float getCurrentHealth()
     {
         return _currentHealth;
+    }
+
+    public float getHealthPercentage()
+    {
+        return LRKMath.clamp(0, _currentHealth/_maximumHealth, 1);
     }
 
     // SUB CLASSES

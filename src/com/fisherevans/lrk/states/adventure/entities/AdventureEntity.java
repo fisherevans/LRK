@@ -39,6 +39,8 @@ public abstract class AdventureEntity implements Health.HealthListener
 
     private boolean _isDead = false;
 
+    private boolean _drawHealthBar = true;
+
     protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
     {
         _rpgEntity = rpgEntity;
@@ -64,21 +66,37 @@ public abstract class AdventureEntity implements Health.HealthListener
         }
     }
 
+    private final int HEALTHBAR_WIDTH = 18;
+    private final int HEALTHBAR_HEIGHT = 2;
+    private final int HEALTHBAR_PADDING = 1;
+    private final int HEALTHBAR_BOTTOM_PADDING = 2;
+    private final Color HEALTHBAR_COLOR = new Color(0.8f, 0f, 0f);
+    private final Color HEALTHBAR_PADDING_COLOR = new Color(0.15f, 0.15f, 0.15f);
+
     public void render(Graphics gfx, float drawX, float drawY)
     {
         GFX.drawImageCentered(drawX, drawY, getImage());
 
-        if(LRK.DEBUG)
+        /*if(LRK.DEBUG)
         {
             gfx.setColor(Color.green);
             gfx.drawLine(drawX, drawY, (float)Math.cos(Math.toRadians(getDegrees()))*20f + drawX, (float)Math.sin(Math.toRadians(getDegrees()))*20f + drawY);
-        }
+        }*/
 
         if(_damageHue > 0)
         {
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
             GFX.drawFlashImageCentered(drawX, drawY, getImage(), new Color(_damageHue, 0, 0));
             gfx.setDrawMode(Graphics.MODE_NORMAL);
+        }
+
+        if(_drawHealthBar && _rpgEntity != null && _rpgEntity.getHealth() != null)
+        {
+            float yShift = -getImage().getHeight()/2 - HEALTHBAR_BOTTOM_PADDING;
+            gfx.setColor(HEALTHBAR_PADDING_COLOR);
+            gfx.fillRect(drawX-(HEALTHBAR_WIDTH+HEALTHBAR_PADDING*2)/2f, drawY+yShift-HEALTHBAR_HEIGHT-HEALTHBAR_PADDING*2, HEALTHBAR_WIDTH+HEALTHBAR_PADDING*2, HEALTHBAR_HEIGHT+HEALTHBAR_PADDING*2);
+            gfx.setColor(HEALTHBAR_COLOR);
+            gfx.fillRect(drawX-HEALTHBAR_WIDTH/2f, drawY+yShift-HEALTHBAR_HEIGHT-HEALTHBAR_PADDING, HEALTHBAR_WIDTH*_rpgEntity.getHealth().getHealthPercentage(), HEALTHBAR_HEIGHT);
         }
     }
 
@@ -198,5 +216,10 @@ public abstract class AdventureEntity implements Health.HealthListener
     public boolean isDead()
     {
         return _isDead;
+    }
+
+    public void setDrawHealthBar(boolean drawHealthBar)
+    {
+        _drawHealthBar = drawHealthBar;
     }
 }

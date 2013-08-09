@@ -164,7 +164,12 @@ public class Resources
                             else if(type == Music.class)
                                 o = new Music(child.getAbsolutePath());
 
-                            map.put(prefix + child.getName().replaceAll("\\..*", ""), o);
+                            String hash = prefix + child.getName().replaceAll("\\..*", "");
+
+                            if(LRK.DEBUG)
+                                LRK.log("Storing " + type + " " + o.toString() + " as " + hash);
+
+                            map.put(hash, o);
                         } catch (Exception e)
                         {
                             LRK.log("Failed to load the resource: " + child.getAbsolutePath() + ", as a: " + type.toString());

@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
@@ -34,7 +35,7 @@ public class AdventureState extends LRKState
 
     public static final float
         TILE_SIZE = 32f,
-        RENDER_DISTANCE = 15f;
+        RENDER_DISTANCE = 10f;
 
 
     public static float TILES_WIDE, TILES_HIGH;
@@ -47,12 +48,16 @@ public class AdventureState extends LRKState
 
     private EntityEffectQueue _entityEffectQueue;
 
+    private Image _vignette;
+
     public AdventureState() throws SlickException
     {
         super(StateLibrary.getTempID());
         addUIComponent(new PlayerStats(this));
         setGrabMouse(true);
         _entityEffectQueue = new EntityEffectQueue(this);
+
+        _vignette = Resources.getImage("gui/states/adventure/vignette");
     }
 
     @Override
@@ -137,7 +142,11 @@ public class AdventureState extends LRKState
         int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2 - 1;
         int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
 
-        drawMapLayer((int)xShift, (int)yShift, startX, startY, getLayerIds("background"));
+
+        float vignetteSize = RENDER_DISTANCE*TILE_SIZE*2;
+        GFX.clip(xShift + _camera.getX()*TILE_SIZE-vignetteSize/2f, yShift + _camera.getY()*TILE_SIZE-vignetteSize/2f, vignetteSize, vignetteSize, DisplayManager.getBackgroundScale());
+
+        drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
         float xDiff, yDiff;
         for(AdventureEntity ent:_entities) // for each entity
@@ -150,6 +159,10 @@ public class AdventureState extends LRKState
             // draw them with the x and y shifts
             ent.render(gfx, xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE);
         }
+
+        GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE, yShift + _camera.getY()*TILE_SIZE, vignetteSize, vignetteSize, _vignette);
+
+        GFX.unClip();
     }
 
     /**
@@ -175,8 +188,10 @@ public class AdventureState extends LRKState
      * @param startY the y index of the tile to begin drawing at
      * @param layerIds the layers to draw
      */
-    private void drawMapLayer(int xShift, int yShift, int startX, int startY, int[] layerIds)
+    private void drawMapLayer(float xShift, float yShift, int startX, int startY, int[] layerIds)
     {
+        xShift = GFX.filterDrawPosition(xShift, DisplayManager.getBackgroundScale());
+        yShift = GFX.filterDrawPosition(yShift, DisplayManager.getBackgroundScale());
         Image tile;
         for(int y = startY;y <= startY+TILES_WIDE+2;y++)
         {

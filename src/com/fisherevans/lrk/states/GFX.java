@@ -62,6 +62,13 @@ public class GFX
         img.draw(x+dx, y+dy, img.getWidth(), img.getHeight());
     }
 
+    public static void drawImageCentered(float x, float y, float width, float height, Image img)
+    {
+        float dx = -width/2f;
+        float dy = -height/2f;
+        img.draw(x+dx, y+dy, width, height);
+    }
+
     public static void drawImageCentered(float x, float y, Image img, Color c)
     {
         float dx = -img.getWidth()/2f;
@@ -246,7 +253,7 @@ public class GFX
 
     public static float filterDrawPosition(float input, float scale)
     {
-        return 0;
+        return ((int)(input*scale))/scale;
     }
 
 }

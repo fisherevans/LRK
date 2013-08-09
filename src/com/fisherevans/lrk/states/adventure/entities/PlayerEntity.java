@@ -35,6 +35,7 @@ public class PlayerEntity extends ActiveEntity
         setController(new PlayerController(this));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-player"));
+        setDrawHealthBar(false);
     }
 
     public void leftMousePress(float x, float y)
