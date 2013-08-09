@@ -71,7 +71,7 @@ public abstract class AdventureEntity implements Health.HealthListener
     private final int HEALTHBAR_PADDING = 1;
     private final int HEALTHBAR_BOTTOM_PADDING = 2;
     private final Color HEALTHBAR_COLOR = new Color(0.8f, 0f, 0f);
-    private final Color HEALTHBAR_PADDING_COLOR = new Color(0.15f, 0.15f, 0.15f);
+    private final Color HEALTHBAR_PADDING_COLOR = new Color(0.25f, 0.25f, 0.25f);
 
     public void render(Graphics gfx, float drawX, float drawY)
     {

@@ -9,14 +9,11 @@ import com.fisherevans.lrk.notifications.Notifications;
 import com.fisherevans.lrk.rpg.Player;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
 import com.fisherevans.lrk.states.GFX;
-import com.fisherevans.lrk.states.LRKState;
-import com.fisherevans.lrk.states.RenderComponent;
 import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.states.quit.QuitState;
 import org.newdawn.slick.*;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /**
  * User: Fisher
@@ -43,6 +40,8 @@ public class LRK extends BasicGame
     // Pause variables
     private long pauseEndTime = 0;
     private boolean paused = false;
+
+    private long _lastDelta = 0;
 
     /**
      * Create a new basic game
@@ -90,6 +89,8 @@ public class LRK extends BasicGame
         if(paused)
             return;
 
+        _lastDelta = deltaMS;
+
         float delta = deltaMS/1000f;
 
         if(InputManager.getXboxController() != null)
@@ -126,7 +127,10 @@ public class LRK extends BasicGame
             GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), StateLibrary.getActiveState().getCursor());
 
         if(DEBUG)
-            GFX.drawTextAbsolute(10, 10, Resources.getFont(2), Color.white, String.format("FPS: %3d", Game.gameCanvas.getContainer().getFPS()));
+        {
+            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, String.format("FPS: %3d", Game.gameCanvas.getContainer().getFPS()));
+            GFX.drawTextAbsolute(10, 20, Resources.getFont(1), Color.white, String.format("Delta: %3d", _lastDelta));
+        }
     }
 
     /**

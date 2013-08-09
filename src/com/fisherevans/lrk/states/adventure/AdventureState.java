@@ -35,8 +35,9 @@ public class AdventureState extends LRKState
 
     public static final float
         TILE_SIZE = 32f,
-        RENDER_DISTANCE = 10f;
+        RENDER_DISTANCE = 15f;
 
+    private static final float VIGNETTE_SIZE = RENDER_DISTANCE*TILE_SIZE*2;
 
     public static float TILES_WIDE, TILES_HIGH;
 
@@ -50,6 +51,9 @@ public class AdventureState extends LRKState
 
     private Image _vignette;
 
+    private Image _tileBufferImage;
+    private Graphics _tileBuffer;
+
     public AdventureState() throws SlickException
     {
         super(StateLibrary.getTempID());
@@ -58,6 +62,10 @@ public class AdventureState extends LRKState
         _entityEffectQueue = new EntityEffectQueue(this);
 
         _vignette = Resources.getImage("gui/states/adventure/vignette");
+
+        int tileBufferSize = (int) ((RENDER_DISTANCE*2 + 1)*TILE_SIZE);
+        _tileBufferImage = new Image(tileBufferSize, tileBufferSize);
+        _tileBuffer = _tileBufferImage.getGraphics();
     }
 
     @Override
@@ -133,35 +141,36 @@ public class AdventureState extends LRKState
     @Override
     public void render(Graphics gfx) throws SlickException
     {
-        // when drawing entities, shift each by x and y shift
-        // subtract the camera pos and add half the display and subtract the aim shift
+        // WHEN DRAWING ENTITIES, SHIFT EACH BY X AND Y SHIFT
+        // SUBTRACT THE CAMERA POS AND ADD HALF THE DISPLAY AND SUBTRACT THE AIM SHIFT
         float xShift = (TILES_WIDE/2f - _camera.getX())*TILE_SIZE - _aimShift.x;
         float yShift = (TILES_HIGH/2f - _camera.getY())*TILE_SIZE - _aimShift.y;
 
-        // what tile to start drawing at
+        // WHAT TILE TO START DRAWING AT
         int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2 - 1;
         int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
 
+        // CLIP THE DRAWING AROUND THE RENDER DISTANCE
+        GFX.clip(xShift + _camera.getX()*TILE_SIZE-VIGNETTE_SIZE/2f + 1,
+                yShift + _camera.getY()*TILE_SIZE-VIGNETTE_SIZE/2f + 1,
+                VIGNETTE_SIZE - 2, VIGNETTE_SIZE - 2,
+                DisplayManager.getBackgroundScale());
 
-        float vignetteSize = RENDER_DISTANCE*TILE_SIZE*2;
-        GFX.clip(xShift + _camera.getX()*TILE_SIZE-vignetteSize/2f, yShift + _camera.getY()*TILE_SIZE-vignetteSize/2f, vignetteSize, vignetteSize, DisplayManager.getBackgroundScale());
-
+        // DRAW THE BACKGROUND LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
-        float xDiff, yDiff;
-        for(AdventureEntity ent:_entities) // for each entity
-        {
-            xDiff = ent.getX() > _camera.getX() ? ent.getX() - _camera.getX() : _camera.getX() - ent.getX();
-            yDiff = ent.getY() > _camera.getY() ? ent.getY() - _camera.getY() : _camera.getY() - ent.getY();
-            if(Math.abs(xDiff) > RENDER_DISTANCE || Math.abs(yDiff) > RENDER_DISTANCE)
-                continue;
+        // DRAW THE ENTITIES
+        for(AdventureEntity ent:_entities) // FOR EACH ENTITY
+            if(Math.abs(ent.getX()-_camera.getX()) <= RENDER_DISTANCE && Math.abs(ent.getY()-_camera.getY()) <= RENDER_DISTANCE) // IF THEIR IN RENDER DISTANCE
+                ent.render(gfx, xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE); // DRAW THEM WITH THE X AND Y SHIFTS
 
-            // draw them with the x and y shifts
-            ent.render(gfx, xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE);
-        }
+        // DRAW THE PRETTY VIGNETTE
+        GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE,
+                yShift + _camera.getY()*TILE_SIZE,
+                VIGNETTE_SIZE, VIGNETTE_SIZE,
+                _vignette);
 
-        GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE, yShift + _camera.getY()*TILE_SIZE, vignetteSize, vignetteSize, _vignette);
-
+        // UN-CLIP THE GRAPHICS ELEMENT
         GFX.unClip();
     }
 
@@ -190,21 +199,20 @@ public class AdventureState extends LRKState
      */
     private void drawMapLayer(float xShift, float yShift, int startX, int startY, int[] layerIds)
     {
+        // NORMALIZE SHIFT TO AVOID TEARING
         xShift = GFX.filterDrawPosition(xShift, DisplayManager.getBackgroundScale());
         yShift = GFX.filterDrawPosition(yShift, DisplayManager.getBackgroundScale());
+
         Image tile;
         for(int y = startY;y <= startY+TILES_WIDE+2;y++)
         {
-            for(int x = startX;x <= startX+TILES_WIDE+2;x++) // for each tile on the screen
+            for(int x = startX;x <= startX+TILES_WIDE+2;x++) // FOR EACH TIME ON THE SCREEN
             {
-                for(Integer layerId:layerIds)
+                for(Integer layerId:layerIds) // FOR EACH LAYER
                 {
-                    tile = _map.getTileImage(x, y, layerId);
-                    if(tile != null)
-                    {
-                        if(Math.abs(x-_camera.getX()) < RENDER_DISTANCE && Math.abs(y-_camera.getY()) < RENDER_DISTANCE)
-                            GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile);
-                    }
+                    tile = _map.getTileImage(x, y, layerId); // GET THE TILE FOR THAT LAYER | v- IF IT'S NOT NULL AND IT'S IN THE RENDER DISTANCE
+                    if(tile != null &&Math.abs(x-_camera.getX()) < RENDER_DISTANCE && Math.abs(y-_camera.getY()) < RENDER_DISTANCE)
+                            GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile); // DRAW THE TILE WITH THE X AND Y SHIFT
                 }
             }
         }
@@ -213,18 +221,24 @@ public class AdventureState extends LRKState
     @Override
     public void update(float delta) throws SlickException
     {
+        // AIM SHIFT BASED ON MOUSE
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
 
-        boolean processEffects = _entityEffectQueue.getQueueSize() > 0;
-        if(processEffects) _entityEffectQueue.update(delta);
-        for(AdventureEntity entity: _entities)
+        // EFFECT QUEUE
+        if(_entityEffectQueue.getQueueSize() > 0)
         {
-            if(processEffects) _entityEffectQueue.processEntity(entity);
-            entity.update(delta); // logic
+            _entityEffectQueue.update(delta);
+            for(AdventureEntity entity: _entities)
+                _entityEffectQueue.processEntity(entity);
+            _entityEffectQueue.clearComplete();
         }
-        _entityEffectQueue.clearComplete();
 
+        // UPDATE EACH ENTITY
+        for(AdventureEntity entity: _entities)
+            entity.update(delta); // logic
+
+        // DELETING DEAD ENTITIES
         if(_entitiesToDelete.size() > 0)
         {
             for(AdventureEntity entity:_entitiesToDelete)
@@ -236,7 +250,8 @@ public class AdventureState extends LRKState
             _entitiesToDelete.clear();
         }
 
-        _world.step(delta, 5, 5); // physics
+        // UPDATE THE 2D PHYSICS WORLD
+        _world.step(delta, 5, 5);
 
     }
 
