@@ -86,7 +86,7 @@ public class InventoryList extends UIComponent
         GFX.drawText(startX(), startY(), WIDTH, TITLE_HEIGHT,
                 GFX.TEXT_CENTER, GFX.TEXT_CENTER, Resources.getFont(3), Color.white, getTabName());
 
-        _parent.clip(startX() + LIST_MARGIN,
+        GFX.clip(startX() + LIST_MARGIN,
                 startY() + TITLE_HEIGHT + LIST_MARGIN,
                 WIDTH - LIST_MARGIN * 2,
                 HEIGHT - TITLE_HEIGHT - LIST_MARGIN*2,
@@ -104,7 +104,7 @@ public class InventoryList extends UIComponent
                     getItemColor(item, id == getCurrentPosition()),
                     getItemName(item, id == getCurrentPosition()));
         }
-        _parent.unClip();
+        GFX.unClip();
 
         gfx.setColor(Color.darkGray);
         gfx.fillRect(startX()+SCROLL_X, startY()+SCROLL_Y, SCROLL_WIDTH, SCROLL_HEIGHT);

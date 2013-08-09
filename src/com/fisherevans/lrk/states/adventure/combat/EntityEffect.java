@@ -13,12 +13,18 @@ import java.util.ArrayList;
  */
 public abstract class EntityEffect
 {
+    private boolean _processed = false;
+
     public void update(float delta) { }
 
-    public boolean complete() { return true; }
+    public boolean complete()
+    {
+        return _processed;
+    }
 
     public void processEffect(AdventureEntity entity)
     {
+        _processed = true;
         if(doesEffect(entity))
             effect(entity);
     }

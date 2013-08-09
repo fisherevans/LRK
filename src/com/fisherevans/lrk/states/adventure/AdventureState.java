@@ -69,7 +69,7 @@ public class AdventureState extends LRKState
         _entities = new ArrayList<>();
         _entitiesToDelete = new ArrayList<>();
 
-        _playerEntity = new PlayerEntity(14f, 14f, _world, this);
+        _playerEntity = new PlayerEntity(24f, 14f, _world, this);
         _camera = _playerEntity;
 
         _entities.add(_playerEntity);
@@ -137,7 +137,7 @@ public class AdventureState extends LRKState
         int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2 - 1;
         int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
 
-        drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
+        drawMapLayer((int)xShift, (int)yShift, startX, startY, getLayerIds("background"));
 
         float xDiff, yDiff;
         for(AdventureEntity ent:_entities) // for each entity
@@ -175,7 +175,7 @@ public class AdventureState extends LRKState
      * @param startY the y index of the tile to begin drawing at
      * @param layerIds the layers to draw
      */
-    private void drawMapLayer(float xShift, float yShift, int startX, int startY, int[] layerIds)
+    private void drawMapLayer(int xShift, int yShift, int startX, int startY, int[] layerIds)
     {
         Image tile;
         for(int y = startY;y <= startY+TILES_WIDE+2;y++)
@@ -201,10 +201,11 @@ public class AdventureState extends LRKState
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
 
-        _entityEffectQueue.update(delta);
+        boolean processEffects = _entityEffectQueue.getQueueSize() > 0;
+        if(processEffects) _entityEffectQueue.update(delta);
         for(AdventureEntity entity: _entities)
         {
-            _entityEffectQueue.processEntity(entity);
+            if(processEffects) _entityEffectQueue.processEntity(entity);
             entity.update(delta); // logic
         }
         _entityEffectQueue.clearComplete();

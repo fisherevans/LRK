@@ -1,9 +1,11 @@
 package com.fisherevans.lrk.states.adventure.combat.skills;
 
 import com.fisherevans.lrk.managers.SoundManager;
+import com.fisherevans.lrk.states.adventure.EntityEffectQueue;
 import com.fisherevans.lrk.states.adventure.combat.Skill;
 import com.fisherevans.lrk.states.adventure.combat.effects.HealthCone;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
+import org.jbox2d.common.Vec2;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +20,7 @@ public class Slash extends Skill
 
     public Slash(AdventureEntity.Team... effects)
     {
-        super("Slash", "Slash with your weapon.", 1f);
+        super("Slash", "Slash with your weapon.", 0.5f);
         _effects = effects;
     }
 
@@ -27,13 +29,17 @@ public class Slash extends Skill
     {
         SoundManager.play("hit");
 
-        owner.getState().getEntityEffectQueue().addEntityEffect(
-                new HealthCone(
-                        (float)Math.toRadians(owner.getDegrees()),
-                        (float) Math.toRadians(90), 1f, owner.getBody().getPosition().clone(),
-                        -5, _effects
-                )
-        );
+        float aimAngle = (float)Math.toRadians(owner.getDegrees());
+        float aimWidth = (float) Math.toRadians(90);
+        float length = 1f;
+        Vec2 position = owner.getBody().getPosition().clone();
+        float healthDiff = -5;
+
+        HealthCone effect = new HealthCone(aimAngle, aimWidth, length, position, healthDiff, _effects);
+
+        EntityEffectQueue q = owner.getState().getEntityEffectQueue();
+        q.addEntityEffect(effect);
+
         return true;
     }
 }

@@ -24,7 +24,7 @@ public class RPGEntityGenerator
         inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("equipment/weapons/sword_01"), Equipment.Position.MainHand, 4, 0));
         inventory.addItem(new Weapon("Battle Axe", "A bloody axe used in battle", Resources.getImage("equipment/weapons/battle-axe_01"), Equipment.Position.MainHand, 7, 0));
         inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("equipment/weapons/wood-shield_01"), Equipment.Position.OffHand, 0, 5));
-        inventory.addItem(new Weapon("Scythe", "Cuts more then grain", Resources.getImage("equipment/weapons/special/scythe"), Equipment.Position.MainHand, 0, 8, true));
+        inventory.addItem(new Weapon("Scythe", "Cuts more then grain", Resources.getImage("equipment/weapons/special/scythe"), Equipment.Position.MainHand, 8, 0, true));
 
         Weapon enchanted = new Weapon("Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 11, 0, true);
         enchanted.setEnchantment(new UnholyMight(0.45f));

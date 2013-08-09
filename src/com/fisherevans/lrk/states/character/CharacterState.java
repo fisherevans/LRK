@@ -75,20 +75,6 @@ public class CharacterState extends LRKState
 
     }
 
-    public void clip(float x, float y, float width, float height, float scale)
-    {
-        Game.getContainer().getGraphics().setClip(
-                (int) (x * scale),
-                (int) (y * scale),
-                (int) (width * scale),
-                (int) (height * scale));
-    }
-
-    public void unClip()
-    {
-        Game.getContainer().getGraphics().clearClip();
-    }
-
     @Override
     public void update(float delta) throws SlickException
     {

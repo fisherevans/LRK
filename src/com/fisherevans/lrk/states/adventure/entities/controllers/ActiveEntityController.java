@@ -86,4 +86,14 @@ public abstract class ActiveEntityController
     {
         return _secondarySkill;
     }
+
+    public float getSinceLastMainSkill()
+    {
+        return _sinceLastMainSkill;
+    }
+
+    public float getSinceLastSecondarySkill()
+    {
+        return _sinceLastSecondarySkill;
+    }
 }

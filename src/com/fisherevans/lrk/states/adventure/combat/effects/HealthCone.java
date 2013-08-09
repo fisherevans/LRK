@@ -24,7 +24,6 @@ public class HealthCone extends Cone
     @Override
     public void effect(AdventureEntity entity)
     {
-        LRK.log("Health Cone, ACTIVATE! " + _healthDiff);
         entity.getRpgEntity().getHealth().adjustHealth(_healthDiff);
     }
 }

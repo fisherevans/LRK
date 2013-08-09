@@ -1,7 +1,9 @@
 package com.fisherevans.lrk.states;
 
+import com.fisherevans.lrk.launcher.*;
 import com.fisherevans.lrk.managers.DisplayManager;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -227,4 +229,24 @@ public class GFX
         g.setColor(c);
         g.fillRect(0, 0, DisplayManager.getWindowWidth(), DisplayManager.getWindowHeight());
     }
+
+    public static void clip(float x, float y, float width, float height, float scale)
+    {
+        com.fisherevans.lrk.launcher.Game.getContainer().getGraphics().setClip(
+                (int) (x * scale),
+                (int) (y * scale),
+                (int) (width * scale),
+                (int) (height * scale));
+    }
+
+    public static void unClip()
+    {
+        com.fisherevans.lrk.launcher.Game.getContainer().getGraphics().clearClip();
+    }
+
+    public static float filterDrawPosition(float input, float scale)
+    {
+        return 0;
+    }
+
 }

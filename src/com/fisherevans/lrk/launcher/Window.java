@@ -29,8 +29,8 @@ public class Window extends JFrame implements ComponentListener, WindowListener
 
         if(c == Game.gameCanvas)
             DisplayManager.setDimensions(c.getWidth(), c.getHeight());
-        else if(c == this)
-            DisplayManager.refreshDisplay();
+
+        DisplayManager.refreshDisplay();
     }
 
     @Override

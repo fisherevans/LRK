@@ -37,6 +37,8 @@ public abstract class AdventureEntity implements Health.HealthListener
 
     private float _damageHueDecreaseRate = 3f;
 
+    private boolean _isDead = false;
+
     protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
     {
         _rpgEntity = rpgEntity;
@@ -54,14 +56,23 @@ public abstract class AdventureEntity implements Health.HealthListener
      */
     public void update(float delta)
     {
-        _damageHue -= _damageHueDecreaseRate*delta;
-        if(_damageHue <= 0)
-            _damageHue = 0;
+        if(_damageHue > 0)
+        {
+            _damageHue -= _damageHueDecreaseRate*delta;
+            if(_damageHue == 0)
+                _damageHue = 0;
+        }
     }
 
     public void render(Graphics gfx, float drawX, float drawY)
     {
         GFX.drawImageCentered(drawX, drawY, getImage());
+
+        if(LRK.DEBUG)
+        {
+            gfx.setColor(Color.green);
+            gfx.drawLine(drawX, drawY, (float)Math.cos(Math.toRadians(getDegrees()))*20f + drawX, (float)Math.sin(Math.toRadians(getDegrees()))*20f + drawY);
+        }
 
         if(_damageHue > 0)
         {
@@ -73,7 +84,8 @@ public abstract class AdventureEntity implements Health.HealthListener
 
     public void destroy()
     {
-
+        LRK.log("TAKE THE WHEEL, JESUS!");
+        _isDead = true;
     }
 
     /**
@@ -181,5 +193,10 @@ public abstract class AdventureEntity implements Health.HealthListener
     public void healthDecreased(RPGEntity entity, float amount)
     {
         _damageHue = 1f;
+    }
+
+    public boolean isDead()
+    {
+        return _isDead;
     }
 }

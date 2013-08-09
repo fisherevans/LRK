@@ -1,4 +1,5 @@
 package com.fisherevans.lrk.states.adventure;
+import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.states.adventure.combat.EntityEffect;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
@@ -50,5 +51,10 @@ public class EntityEffectQueue
     public void addEntityEffect(EntityEffect effect)
     {
         _queue.add(effect);
+    }
+
+    public int getQueueSize()
+    {
+        return _queue.size();
     }
 }

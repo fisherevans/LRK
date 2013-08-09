@@ -51,11 +51,19 @@ public class LRKMath
      */
     public static float getAngleDifferenceRadians(float a1, float a2)
     {
+        //float ad = fixRadian(a2) - fixRadian(a1);
         float ad = a2 - a1;
 
         if (ad > HALF)  ad -= FULL;
         else if (ad < -HALF) ad += FULL;
 
         return ad;
+    }
+
+    public static float fixRadian(float a)
+    {
+        a %= FULL;
+        if(a < 0) a += FULL;
+        return a;
     }
 }

@@ -88,22 +88,9 @@ public class Resources
      * @param location file name of the image (relative)
      * @return the image
      */
-    public static Image getAbsoluteImage(String location)
+    public static Image getAbsoluteImage(String location) throws Exception
     {
-        try
-        {
-            return new Image(location, false, Image.FILTER_NEAREST);
-        }
-        catch(Exception e1)
-        {
-            e1.printStackTrace();
-            System.out.println("Failed to load the image: " + location);
-
-            if(location == ERROR_IMAGE_LOCATION)
-                return getAbsoluteImage(ERROR_IMAGE_LOCATION);
-            else
-                return null;
-        }
+        return new Image(location, false, Image.FILTER_NEAREST);
     }
 
     public static Image getImage(String key)
@@ -178,9 +165,9 @@ public class Resources
                                 o = new Music(child.getAbsolutePath());
 
                             map.put(prefix + child.getName().replaceAll("\\..*", ""), o);
-                        } catch (SlickException e)
+                        } catch (Exception e)
                         {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            LRK.log("Failed to load the resource: " + child.getAbsolutePath() + ", as a: " + type.toString());
                         }
                 }
             }

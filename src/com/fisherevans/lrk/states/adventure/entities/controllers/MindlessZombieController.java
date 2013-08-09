@@ -38,6 +38,18 @@ public class MindlessZombieController extends ActiveEntityController
     @Override
     public void update(float delta)
     {
+        if(_target == null)
+        {
+            getEntity().getBody().setLinearVelocity(new Vec2(0, 0));
+            return;
+        }
+
+        if(_target.isDead())
+        {
+            _target = null;
+            return;
+        }
+
         Vec2 aimVector = _target.getBody().getPosition().sub(getEntity().getBody().getPosition());
         long time = System.currentTimeMillis();
 
