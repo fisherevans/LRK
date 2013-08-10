@@ -3,6 +3,7 @@ package com.fisherevans.lrk.states.character.components;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.rpg.items.Equipment;
+import com.fisherevans.lrk.rpg.items.Light;
 import com.fisherevans.lrk.rpg.items.Weapon;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.UIComponent;
@@ -38,7 +39,7 @@ public class InventoryComparison extends UIComponent
 
     private CharacterState _parent;
 
-    private Image _power, _defence;
+    private Image _power, _defence, _light;
 
     private boolean _displaySelected;
 
@@ -48,6 +49,7 @@ public class InventoryComparison extends UIComponent
         _parent = parent;
         _power = Resources.getImage("gui/power_icon");
         _defence = Resources.getImage("gui/defence_icon");
+        _light = Resources.getImage("gui/light_icon");
 
         _displaySelected = displaySelected;
 
@@ -89,18 +91,26 @@ public class InventoryComparison extends UIComponent
             GFX.drawTextAbsolute(startContentX() + 64 + PADDING*2, startContentY() - 2, Resources.getFont(2), Color.white, displayItem.getName());
             GFX.drawImage((int)startContentX(), (int)(startContentY()+2), 64, 64, displayItem.getImage());
 
-            GFX.drawImage((int) (startContentX() + 64 + PADDING*2), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _power);
-            GFX.drawTextAbsolute(startContentX()+64+PADDING*2+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getPowerComparisonColor(displayItem, compareItem), displayItem.getPower()+"");
-
-            GFX.drawImage((int) (startContentX() + 64 + PADDING*2 + 64), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _defence);
-            GFX.drawTextAbsolute(startContentX()+64+PADDING*2 + 64+20, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getDefenceComparisonColor(displayItem, compareItem), displayItem.getDefence()+"");
-
             GFX.drawTextAbsolute(startContentX()+64+PADDING*2+64*2, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), Color.white, displayItem.getPositionName());
 
-            if(displayItem.isEnchanted())
+            if(displayItem instanceof Light)
             {
-                GFX.drawTextAbsolute(startContentX()+64+PADDING*2, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), IS_ENCHANTED, displayItem.getEnchantment().getName());
-                GFX.drawTextAbsolute(startContentX()+64+PADDING*2, startContentY()+8+(16+CONTENT_PADDING)*2+8+CONTENT_PADDING, Resources.getFont(1), Color.lightGray, displayItem.getEnchantment().getDescription());
+                GFX.drawImage((int) (startContentX() + 64 + PADDING*2), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _light);
+                GFX.drawTextAbsolute(startContentX()+64+PADDING*2+26, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getLightComparisonColor((Light) displayItem, (Light) compareItem), ((Light) displayItem).getLightStrength()+"");
+            }
+            else
+            {
+                GFX.drawImage((int) (startContentX() + 64 + PADDING*2), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _power);
+                GFX.drawTextAbsolute(startContentX()+64+PADDING*2+26, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getPowerComparisonColor(displayItem, compareItem), displayItem.getPower()+"");
+
+                GFX.drawImage((int) (startContentX() + 64 + PADDING*2 + 64), (int) (startContentY() + 4 + (16 + CONTENT_PADDING)), _defence);
+                GFX.drawTextAbsolute(startContentX()+64+PADDING*2 + 64+26, startContentY()+4 + (16 + CONTENT_PADDING)-1, Resources.getFont(2), getDefenceComparisonColor(displayItem, compareItem), displayItem.getDefence()+"");
+
+                if(displayItem.isEnchanted())
+                {
+                    GFX.drawTextAbsolute(startContentX()+64+PADDING*2, startContentY()+8 + (16 + CONTENT_PADDING) * 2, Resources.getFont(1), IS_ENCHANTED, displayItem.getEnchantment().getName());
+                    GFX.drawTextAbsolute(startContentX()+64+PADDING*2, startContentY()+8+(16+CONTENT_PADDING)*2+8+CONTENT_PADDING, Resources.getFont(1), Color.lightGray, displayItem.getEnchantment().getDescription());
+                }
             }
         }
     }
@@ -117,6 +127,23 @@ public class InventoryComparison extends UIComponent
         else if(display.getPower() > compare.getPower())
             return RATING_BETTER;
         else if(compare.getPower() > display.getPower())
+            return RATING_WORSE;
+        else
+            return RATING_SAME;
+    }
+
+    private Color getLightComparisonColor(Light display, Light compare)
+    {
+        if(compare == null)
+        {
+            if(display.getLightStrength() <= 0)
+                return RATING_SAME;
+            else
+                return RATING_BETTER;
+        }
+        else if(display.getLightStrength() > compare.getLightStrength())
+            return RATING_BETTER;
+        else if(compare.getLightStrength() > display.getLightStrength())
             return RATING_WORSE;
         else
             return RATING_SAME;

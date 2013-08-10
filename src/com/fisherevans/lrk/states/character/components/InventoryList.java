@@ -6,6 +6,7 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.rpg.items.Consumable;
 import com.fisherevans.lrk.rpg.items.Equipment;
 import com.fisherevans.lrk.rpg.items.Item;
+import com.fisherevans.lrk.rpg.items.ItemCompare;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.states.character.CharacterState;
@@ -14,6 +15,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -183,6 +185,8 @@ public class InventoryList extends UIComponent
         {
             _currentItems = Game.lrk.getPlayer().getInventory().getConsumables();
         }
+
+        Collections.sort(_currentItems, new ItemCompare());
     }
 
     public void swapTab()

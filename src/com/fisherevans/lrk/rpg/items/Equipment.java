@@ -13,7 +13,7 @@ import org.newdawn.slick.Image;
  */
 public abstract class Equipment extends Item
 {
-    public enum Position { Head, Chest, Legs, MainHand, OffHand }
+    public enum Position { AAA_First, Head, Chest, Legs, MainHand, OffHand, Light }
 
     private Position _position;
 

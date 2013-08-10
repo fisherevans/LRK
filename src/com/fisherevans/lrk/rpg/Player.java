@@ -2,6 +2,7 @@ package com.fisherevans.lrk.rpg;
 
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.rpg.items.Equipment;
+import com.fisherevans.lrk.rpg.items.Light;
 import com.fisherevans.lrk.rpg.items.Weapon;
 import com.fisherevans.lrk.states.adventure.combat.Skill;
 
@@ -120,5 +121,14 @@ public class Player
         }
 
         return null;
+    }
+
+    public int getLightStength()
+    {
+        Equipment light = getEquipment(Equipment.Position.Light);
+        if(light == null)
+            return 0;
+        else
+            return ((Light)light).getLightStrength();
     }
 }

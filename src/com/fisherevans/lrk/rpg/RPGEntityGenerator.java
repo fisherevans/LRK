@@ -1,10 +1,7 @@
 package com.fisherevans.lrk.rpg;
 
 import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.rpg.items.Armor;
-import com.fisherevans.lrk.rpg.items.Consumable;
-import com.fisherevans.lrk.rpg.items.Equipment;
-import com.fisherevans.lrk.rpg.items.Weapon;
+import com.fisherevans.lrk.rpg.items.*;
 import com.fisherevans.lrk.rpg.items.enchantments.UnholyMight;
 import com.fisherevans.lrk.states.adventure.combat.skills.Slash;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
@@ -26,7 +23,7 @@ public class RPGEntityGenerator
         inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("equipment/weapons/wood-shield_01"), Equipment.Position.OffHand, 0, 5));
         inventory.addItem(new Weapon("Scythe", "Cuts more then grain", Resources.getImage("equipment/weapons/special/scythe"), Equipment.Position.MainHand, 8, 0, true));
 
-        Weapon enchanted = new Weapon("Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 11, 0, true);
+        Weapon enchanted = new Weapon("Giant Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 11, 0, true);
         enchanted.setEnchantment(new UnholyMight(0.45f));
         enchanted.setSkill(new Slash(AdventureEntity.Team.Hostile));
         inventory.addItem(enchanted);
@@ -42,6 +39,9 @@ public class RPGEntityGenerator
         inventory.addItem(new Consumable("Fire Breath Tonic", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/potion_01"), null, 5));
         inventory.addItem(new Consumable("Book of Earthworms", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/book_01"), null, 5));
         inventory.addItem(new Consumable("Hamburger", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/hamburger"), null, 5));
+
+        inventory.addItem(new Light("Torch", "A simple petro torch", Resources.getImage("equipment/lights/torch_01"), 4));
+        inventory.addItem(new Light("Lantern", "A simple butane lantern", Resources.getImage("equipment/lights/lantern_01"), 8));
 
         Player character = new Player(entity, inventory);
 

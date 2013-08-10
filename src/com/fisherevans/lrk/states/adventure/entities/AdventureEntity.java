@@ -77,12 +77,6 @@ public abstract class AdventureEntity implements Health.HealthListener
     {
         GFX.drawImageCentered(drawX, drawY, getImage());
 
-        /*if(LRK.DEBUG)
-        {
-            gfx.setColor(Color.green);
-            gfx.drawLine(drawX, drawY, (float)Math.cos(Math.toRadians(getDegrees()))*20f + drawX, (float)Math.sin(Math.toRadians(getDegrees()))*20f + drawY);
-        }*/
-
         if(_damageHue > 0)
         {
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);

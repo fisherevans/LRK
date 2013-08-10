@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure;
 
+import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
@@ -23,6 +24,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,9 +37,7 @@ public class AdventureState extends LRKState
 
     public static final float
         TILE_SIZE = 32f,
-        RENDER_DISTANCE = 15f;
-
-    private static final float VIGNETTE_SIZE = RENDER_DISTANCE*TILE_SIZE*2;
+        DEFAULT_RENDER_DISTANCE = 5f;
 
     public static float TILES_WIDE, TILES_HIGH;
 
@@ -51,9 +51,6 @@ public class AdventureState extends LRKState
 
     private Image _vignette;
 
-    private Image _tileBufferImage;
-    private Graphics _tileBuffer;
-
     public AdventureState() throws SlickException
     {
         super(StateLibrary.getTempID());
@@ -62,10 +59,6 @@ public class AdventureState extends LRKState
         _entityEffectQueue = new EntityEffectQueue(this);
 
         _vignette = Resources.getImage("gui/states/adventure/vignette");
-
-        int tileBufferSize = (int) ((RENDER_DISTANCE*2 + 1)*TILE_SIZE);
-        _tileBufferImage = new Image(tileBufferSize, tileBufferSize);
-        _tileBuffer = _tileBufferImage.getGraphics();
     }
 
     @Override
@@ -150,10 +143,13 @@ public class AdventureState extends LRKState
         int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2 - 1;
         int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
 
+        // CALC THE RENDER SIZE FOR THE VIGNETTE
+        int vignetteSize = (int) (getRenderDistance() *TILE_SIZE*2);
+
         // CLIP THE DRAWING AROUND THE RENDER DISTANCE
-        GFX.clip(xShift + _camera.getX()*TILE_SIZE-VIGNETTE_SIZE/2f + 1,
-                yShift + _camera.getY()*TILE_SIZE-VIGNETTE_SIZE/2f + 1,
-                VIGNETTE_SIZE - 2, VIGNETTE_SIZE - 2,
+        GFX.clip(xShift + _camera.getX()*TILE_SIZE-vignetteSize/2f + 1,
+                yShift + _camera.getY()*TILE_SIZE-vignetteSize/2f + 1,
+                vignetteSize - 2, vignetteSize - 2,
                 DisplayManager.getBackgroundScale());
 
         // DRAW THE BACKGROUND LAYER
@@ -161,13 +157,13 @@ public class AdventureState extends LRKState
 
         // DRAW THE ENTITIES
         for(AdventureEntity ent:_entities) // FOR EACH ENTITY
-            if(Math.abs(ent.getX()-_camera.getX()) <= RENDER_DISTANCE && Math.abs(ent.getY()-_camera.getY()) <= RENDER_DISTANCE) // IF THEIR IN RENDER DISTANCE
+            if(Math.abs(ent.getX()-_camera.getX()) <= getRenderDistance() && Math.abs(ent.getY()-_camera.getY()) <= getRenderDistance()) // IF THEIR IN RENDER DISTANCE
                 ent.render(gfx, xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE); // DRAW THEM WITH THE X AND Y SHIFTS
 
         // DRAW THE PRETTY VIGNETTE
         GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE,
                 yShift + _camera.getY()*TILE_SIZE,
-                VIGNETTE_SIZE, VIGNETTE_SIZE,
+                vignetteSize, vignetteSize,
                 _vignette);
 
         // UN-CLIP THE GRAPHICS ELEMENT
@@ -211,8 +207,8 @@ public class AdventureState extends LRKState
                 for(Integer layerId:layerIds) // FOR EACH LAYER
                 {
                     tile = _map.getTileImage(x, y, layerId); // GET THE TILE FOR THAT LAYER | v- IF IT'S NOT NULL AND IT'S IN THE RENDER DISTANCE
-                    if(tile != null &&Math.abs(x-_camera.getX()) < RENDER_DISTANCE && Math.abs(y-_camera.getY()) < RENDER_DISTANCE)
-                            GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile); // DRAW THE TILE WITH THE X AND Y SHIFT
+                    if(tile != null &&Math.abs(x-_camera.getX()) < getRenderDistance() && Math.abs(y-_camera.getY()) < getRenderDistance())
+                        GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile); // DRAW THE TILE WITH THE X AND Y SHIFT
                 }
             }
         }
@@ -252,6 +248,8 @@ public class AdventureState extends LRKState
 
         // UPDATE THE 2D PHYSICS WORLD
         _world.step(delta, 5, 5);
+
+        Collections.sort(_entities, new EntityCompareY());
 
     }
 
@@ -313,5 +311,10 @@ public class AdventureState extends LRKState
     public void killEntity(AdventureEntity entity)
     {
         _entitiesToDelete.add(entity);
+    }
+
+    public int getRenderDistance()
+    {
+        return (int) (DEFAULT_RENDER_DISTANCE + Game.lrk.getPlayer().getLightStength());
     }
 }

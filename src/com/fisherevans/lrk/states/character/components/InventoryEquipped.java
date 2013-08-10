@@ -86,6 +86,11 @@ public class InventoryEquipped extends UIComponent
         drawEquipment(gfx, Equipment.Position.OffHand, // OFF HAND
                 EQUIPMENT_BASE_X+EQUIPMENT_DELTA*2,
                 EQUIPMENT_BASE_Y+EQUIPMENT_DELTA*1);
+
+        // light
+        drawEquipment(gfx, Equipment.Position.Light, // OFF HAND
+                EQUIPMENT_BASE_X+EQUIPMENT_DELTA*2,
+                EQUIPMENT_BASE_Y+EQUIPMENT_DELTA*0);
     }
 
     @Override
