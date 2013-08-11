@@ -37,6 +37,7 @@ public class Resources
     };
 
     private static AngelCodeFont[] _fonts = null;
+    private static AngelCodeFont _miniNumberFont = null;
 
     public static String ERROR_IMAGE_LOCATION = "res/images/error.png";
 
@@ -62,6 +63,26 @@ public class Resources
             return _fonts[_fonts.length-1];
         else
             return _fonts[size];
+    }
+
+    public static AngelCodeFont getMiniNumberFont()
+    {
+        if(_miniNumberFont == null)
+        {
+            try
+            {
+                _miniNumberFont = new AngelCodeFont("res/fonts/mini_numbers.fnt", getAbsoluteImage("res/fonts/mini_numbers.png"));
+            }
+            catch(Exception e)
+            {
+                LRK.log("Failed to load the mini number font!!!");
+            }
+        }
+
+        if(_miniNumberFont == null)
+            return getFont(1);
+        else
+            return _miniNumberFont;
     }
 
     /**

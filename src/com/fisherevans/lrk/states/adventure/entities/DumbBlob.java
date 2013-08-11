@@ -1,10 +1,12 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
 import com.fisherevans.lrk.Resources;
+import com.fisherevans.lrk.managers.SoundManager;
 import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.entitycomponents.Health;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.adventure.entities.controllers.MindlessZombieController;
+import com.fisherevans.lrk.states.adventure.sprites.SpinDeflate;
 import org.jbox2d.dynamics.*;
 
 /**
@@ -25,5 +27,20 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
         setImage(Resources.getImage("entities/dummy-blob"));
 
         getRpgEntity().getHealth().addListener(this);
+    }
+
+    @Override
+    public void healthDecreased(RPGEntity entity, float amount)
+    {
+        super.healthDecreased(entity, amount);
+        SoundManager.play("squish_01");
+    }
+
+    @Override
+    public void destroy()
+    {
+        super.destroy();
+        SoundManager.play("monster-death_01");
+        getState().getBackgroundSpriteSystem().addSprite(new SpinDeflate(getX(), getY(), 1, getImage(), 10, 1, getDegrees()));
     }
 }

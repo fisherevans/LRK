@@ -42,12 +42,15 @@ public class AdventureState extends LRKState
     public static float TILES_WIDE, TILES_HIGH;
 
     private ArrayList<AdventureEntity> _entities, _entitiesToDelete, _walls;
+    private Vec2[] _entitiesDrawPos;
     private PlayerEntity _playerEntity, _camera;
     private TiledMap _map;
     private World _world;
     private Vec2 _aimShift;
 
     private EntityEffectQueue _entityEffectQueue;
+
+    private SpriteSystem _backgroundSpriteSystem, _foregroundSpriteSystem;
 
     private Image _vignette;
 
@@ -57,7 +60,8 @@ public class AdventureState extends LRKState
         addUIComponent(new PlayerStats(this));
         setGrabMouse(true);
         _entityEffectQueue = new EntityEffectQueue(this);
-
+        _backgroundSpriteSystem = new SpriteSystem(this);
+        _foregroundSpriteSystem = new SpriteSystem(this);
         _vignette = Resources.getImage("gui/states/adventure/vignette");
     }
 
@@ -146,6 +150,16 @@ public class AdventureState extends LRKState
         // CALC THE RENDER SIZE FOR THE VIGNETTE
         int vignetteSize = (int) (getRenderDistance() *TILE_SIZE*2);
 
+        // PRE-CALC THE DRAW COORID'S FOR THE ENTITIES
+        for(AdventureEntity ent:_entities) // FOR EACH ENTITY
+        {
+            if(inRenderArea(ent)) // IF THEIR IN RENDER DISTANCE
+                ent.getDrawPosition().set(getDrawPosition(ent.getBody().getPosition(), xShift, yShift)); // DRAW THEM WITH THE X AND Y SHIFTS
+            else
+                ent.getDrawPosition().set(new Vec2(-1000, -1000));
+        }
+
+
         // CLIP THE DRAWING AROUND THE RENDER DISTANCE
         GFX.clip(xShift + _camera.getX()*TILE_SIZE-vignetteSize/2f + 1,
                 yShift + _camera.getY()*TILE_SIZE-vignetteSize/2f + 1,
@@ -156,9 +170,21 @@ public class AdventureState extends LRKState
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
         // DRAW THE ENTITIES
-        for(AdventureEntity ent:_entities) // FOR EACH ENTITY
-            if(Math.abs(ent.getX()-_camera.getX()) <= getRenderDistance() && Math.abs(ent.getY()-_camera.getY()) <= getRenderDistance()) // IF THEIR IN RENDER DISTANCE
-                ent.render(gfx, xShift + ent.getX()*TILE_SIZE, yShift + ent.getY()*TILE_SIZE); // DRAW THEM WITH THE X AND Y SHIFTS
+        for(AdventureEntity ent:_entities)
+            if(inRenderArea(ent))
+                ent.render(gfx);
+
+        _backgroundSpriteSystem.render(gfx, xShift, yShift);
+
+        // DRAW THE FOREGROUND LAYER
+        drawMapLayer(xShift, yShift, startX, startY, getLayerIds("foreground"));
+
+        // DRAW THE ENTITIE IDENTIFIERS (NAME, HEALTHBAR, ETC)
+        for(AdventureEntity ent:_entities)
+            if(inRenderArea(ent))
+                ent.renderIdentifiers(gfx);
+
+        _foregroundSpriteSystem.render(gfx, xShift, yShift);
 
         // DRAW THE PRETTY VIGNETTE
         GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE,
@@ -246,11 +272,13 @@ public class AdventureState extends LRKState
             _entitiesToDelete.clear();
         }
 
+        _backgroundSpriteSystem.update(delta);
+        _foregroundSpriteSystem.update(delta);
+
         // UPDATE THE 2D PHYSICS WORLD
         _world.step(delta, 5, 5);
 
         Collections.sort(_entities, new EntityCompareY());
-
     }
 
     @Override
@@ -316,5 +344,31 @@ public class AdventureState extends LRKState
     public int getRenderDistance()
     {
         return (int) (DEFAULT_RENDER_DISTANCE + Game.lrk.getPlayer().getLightStength());
+    }
+
+    public boolean inRenderArea(AdventureEntity entity)
+    {
+        return inRenderArea(entity, 0);
+    }
+
+    public boolean inRenderArea(AdventureEntity entity, float renderPadding)
+    {
+        return Math.abs(entity.getX()-_camera.getX())-renderPadding <= getRenderDistance()
+                && Math.abs(entity.getY()-_camera.getY())-renderPadding <= getRenderDistance();
+    }
+
+    public SpriteSystem getBackgroundSpriteSystem()
+    {
+        return _backgroundSpriteSystem;
+    }
+
+    public SpriteSystem getForegroundSpriteSystem()
+    {
+        return _foregroundSpriteSystem;
+    }
+
+    public static Vec2 getDrawPosition(Vec2 worldPos, float xShift, float yShift)
+    {
+        return new Vec2(xShift + worldPos.x * TILE_SIZE, yShift + worldPos.y * TILE_SIZE);
     }
 }

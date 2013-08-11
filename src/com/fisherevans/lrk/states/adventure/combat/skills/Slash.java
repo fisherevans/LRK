@@ -1,11 +1,10 @@
 package com.fisherevans.lrk.states.adventure.combat.skills;
 
 import com.fisherevans.lrk.managers.SoundManager;
-import com.fisherevans.lrk.states.adventure.EntityEffectQueue;
 import com.fisherevans.lrk.states.adventure.combat.Skill;
 import com.fisherevans.lrk.states.adventure.combat.effects.HealthCone;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
-import org.jbox2d.common.Vec2;
+import com.fisherevans.lrk.states.adventure.sprites.SpriteGenerator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,18 +26,13 @@ public class Slash extends Skill
     @Override
     public boolean execute(AdventureEntity owner)
     {
-        SoundManager.play("hit");
+        SoundManager.play("slash"); // PLAY THE SOUND
 
-        float aimAngle = (float)Math.toRadians(owner.getDegrees());
-        float aimWidth = (float) Math.toRadians(90);
-        float length = 1f;
-        Vec2 position = owner.getBody().getPosition().clone();
-        float healthDiff = -5;
+        HealthCone effect = new HealthCone((float)Math.toRadians(owner.getDegrees()), (float) Math.toRadians(90), // CREATE THE HEALTH CONE EFFECT
+                1f, owner.getBody().getPosition().clone(), -(float)(Math.round(Math.random()*5 + 5)), _effects);
+        owner.getState().getEntityEffectQueue().addEntityEffect(effect); // AND ADD IT TO THE EFFECT QUEUE
 
-        HealthCone effect = new HealthCone(aimAngle, aimWidth, length, position, healthDiff, _effects);
-
-        EntityEffectQueue q = owner.getState().getEntityEffectQueue();
-        q.addEntityEffect(effect);
+        owner.getState().getBackgroundSpriteSystem().addSprite(SpriteGenerator.getSlash(owner)); // ADD A SLASH SPRITE
 
         return true;
     }

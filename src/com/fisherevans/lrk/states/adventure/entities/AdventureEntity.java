@@ -5,6 +5,8 @@ import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.entitycomponents.Health;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.adventure.AdventureState;
+import com.fisherevans.lrk.states.adventure.sprites.Number;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -41,6 +43,8 @@ public abstract class AdventureEntity implements Health.HealthListener
 
     private boolean _drawHealthBar = true;
 
+    private Vec2 _drawPosition =  new Vec2(0, 0);
+
     protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
     {
         _rpgEntity = rpgEntity;
@@ -73,24 +77,27 @@ public abstract class AdventureEntity implements Health.HealthListener
     private final Color HEALTHBAR_COLOR = new Color(0.8f, 0f, 0f);
     private final Color HEALTHBAR_PADDING_COLOR = new Color(0.25f, 0.25f, 0.25f);
 
-    public void render(Graphics gfx, float drawX, float drawY)
+    public void render(Graphics gfx)
     {
-        GFX.drawImageCentered(drawX, drawY, getImage());
+        GFX.drawImageCentered(_drawPosition.x, _drawPosition.y, getImage());
 
         if(_damageHue > 0)
         {
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GFX.drawFlashImageCentered(drawX, drawY, getImage(), new Color(_damageHue, 0, 0));
+            GFX.drawFlashImageCentered(_drawPosition.x, _drawPosition.y, getImage(), new Color(_damageHue, 0, 0));
             gfx.setDrawMode(Graphics.MODE_NORMAL);
         }
+    }
 
+    public void renderIdentifiers(Graphics gfx)
+    {
         if(_drawHealthBar && _rpgEntity != null && _rpgEntity.getHealth() != null)
         {
             float yShift = -getImage().getHeight()/2 - HEALTHBAR_BOTTOM_PADDING;
             gfx.setColor(HEALTHBAR_PADDING_COLOR);
-            gfx.fillRect(drawX-(HEALTHBAR_WIDTH+HEALTHBAR_PADDING*2)/2f, drawY+yShift-HEALTHBAR_HEIGHT-HEALTHBAR_PADDING*2, HEALTHBAR_WIDTH+HEALTHBAR_PADDING*2, HEALTHBAR_HEIGHT+HEALTHBAR_PADDING*2);
+            gfx.fillRect(_drawPosition.x-(HEALTHBAR_WIDTH+HEALTHBAR_PADDING*2)/2f, _drawPosition.y+yShift-HEALTHBAR_HEIGHT-HEALTHBAR_PADDING*2, HEALTHBAR_WIDTH+HEALTHBAR_PADDING*2, HEALTHBAR_HEIGHT+HEALTHBAR_PADDING*2);
             gfx.setColor(HEALTHBAR_COLOR);
-            gfx.fillRect(drawX-HEALTHBAR_WIDTH/2f, drawY+yShift-HEALTHBAR_HEIGHT-HEALTHBAR_PADDING, HEALTHBAR_WIDTH*_rpgEntity.getHealth().getHealthPercentage(), HEALTHBAR_HEIGHT);
+            gfx.fillRect(_drawPosition.x-HEALTHBAR_WIDTH/2f, _drawPosition.y+yShift-HEALTHBAR_HEIGHT-HEALTHBAR_PADDING, HEALTHBAR_WIDTH*_rpgEntity.getHealth().getHealthPercentage(), HEALTHBAR_HEIGHT);
         }
     }
 
@@ -205,6 +212,7 @@ public abstract class AdventureEntity implements Health.HealthListener
     public void healthDecreased(RPGEntity entity, float amount)
     {
         _damageHue = 1f;
+        _state.getForegroundSpriteSystem().addSprite(new Number(-amount, getBody().getPosition().clone()));
     }
 
     public boolean isDead()
@@ -215,5 +223,15 @@ public abstract class AdventureEntity implements Health.HealthListener
     public void setDrawHealthBar(boolean drawHealthBar)
     {
         _drawHealthBar = drawHealthBar;
+    }
+
+    public Vec2 getDrawPosition()
+    {
+        return _drawPosition;
+    }
+
+    public void setDrawPosition(Vec2 drawPosition)
+    {
+        _drawPosition = drawPosition;
     }
 }

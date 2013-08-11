@@ -4,6 +4,8 @@ import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.InputManager;
+import com.fisherevans.lrk.managers.SoundManager;
+import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.items.Equipment;
 import com.fisherevans.lrk.rpg.items.Weapon;
 import com.fisherevans.lrk.states.adventure.AdventureState;
@@ -46,5 +48,12 @@ public class PlayerEntity extends ActiveEntity
     public void rightMousePress(float x, float y)
     {
         getController().executeSecondarySkill();
+    }
+
+    @Override
+    public void healthDecreased(RPGEntity entity, float amount)
+    {
+        super.healthDecreased(entity, amount);
+        SoundManager.play("human-hurt_01");
     }
 }

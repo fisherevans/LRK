@@ -172,7 +172,6 @@ public class Health extends EntityComponent
     }
     private void callDecreasedListeners(float amount)
     {
-        LRK.log("Calling decreased health listeners");
         for(HealthListener listener:_listeners)
             listener.healthDecreased(getParentEntity(), amount);
     }

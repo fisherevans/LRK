@@ -40,8 +40,8 @@ public class RPGEntityGenerator
         inventory.addItem(new Consumable("Book of Earthworms", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/book_01"), null, 5));
         inventory.addItem(new Consumable("Hamburger", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/hamburger"), null, 5));
 
-        inventory.addItem(new Light("Torch", "A simple petro torch", Resources.getImage("equipment/lights/torch_01"), 4));
-        inventory.addItem(new Light("Lantern", "A simple butane lantern", Resources.getImage("equipment/lights/lantern_01"), 8));
+        inventory.addItem(new Light("Torch", "A simple petro torch", Resources.getImage("equipment/lights/torch_01"), 2));
+        inventory.addItem(new Light("Lantern", "A simple butane lantern", Resources.getImage("equipment/lights/lantern_01"), 5));
 
         Player character = new Player(entity, inventory);
 

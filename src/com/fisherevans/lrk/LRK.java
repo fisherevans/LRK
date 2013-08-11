@@ -41,8 +41,6 @@ public class LRK extends BasicGame
     private long pauseEndTime = 0;
     private boolean paused = false;
 
-    private long _lastDelta = 0;
-
     /**
      * Create a new basic game
      *
@@ -89,8 +87,6 @@ public class LRK extends BasicGame
         if(paused)
             return;
 
-        _lastDelta = deltaMS;
-
         float delta = deltaMS/1000f;
 
         if(InputManager.getXboxController() != null)
@@ -128,8 +124,8 @@ public class LRK extends BasicGame
 
         if(DEBUG)
         {
-            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, String.format("FPS: %3d", Game.gameCanvas.getContainer().getFPS()));
-            GFX.drawTextAbsolute(10, 20, Resources.getFont(1), Color.white, String.format("Delta: %3d", _lastDelta));
+            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, "    FPS: " + Game.gameCanvas.getContainer().getFPS());
+            GFX.drawTextAbsolute(10, 20, Resources.getFont(1), Color.white, "Delta: " + (int)(1000.0/Game.gameCanvas.getContainer().getFPS()) + "ms");
         }
     }
 
