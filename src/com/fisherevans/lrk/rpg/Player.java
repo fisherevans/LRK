@@ -131,4 +131,10 @@ public class Player
         else
             return ((Light)light).getLightStrength();
     }
+
+    public void reset()
+    {
+        if(_entity.getHealth() != null)
+            _entity.getHealth().reset();
+    }
 }

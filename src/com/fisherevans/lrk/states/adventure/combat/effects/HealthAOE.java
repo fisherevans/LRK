@@ -22,9 +22,6 @@ public class HealthAOE extends AOE
     @Override
     public void effect(AdventureEntity entity)
     {
-        if(_healthDiff >= 0)
-            entity.getRpgEntity().getHealth().addHealth(_healthDiff);
-        else
-            entity.getRpgEntity().getHealth().subtractHealth(_healthDiff);
+        entity.getRpgEntity().getHealth().adjustHealth(_healthDiff);
     }
 }

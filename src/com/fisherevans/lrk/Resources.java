@@ -1,6 +1,7 @@
 package com.fisherevans.lrk;
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.font.effects.OutlineEffect;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class Resources
     };
 
     private static AngelCodeFont[] _fonts = null;
-    private static AngelCodeFont _miniNumberFont = null;
+    private static AngelCodeFont _miniNumberFont = null, _miniNumberFontBg = null;
 
     public static String ERROR_IMAGE_LOCATION = "res/images/error.png";
 
@@ -72,6 +73,7 @@ public class Resources
             try
             {
                 _miniNumberFont = new AngelCodeFont("res/fonts/mini_numbers.fnt", getAbsoluteImage("res/fonts/mini_numbers.png"));
+                //_miniNumberFont.getEffects().add(new OutlineEffect(25, java.awt.Color.black));
             }
             catch(Exception e)
             {
@@ -83,6 +85,27 @@ public class Resources
             return getFont(1);
         else
             return _miniNumberFont;
+    }
+
+    public static AngelCodeFont getMiniNumberBgFont()
+    {
+        if(_miniNumberFontBg == null)
+        {
+            try
+            {
+                _miniNumberFontBg = new AngelCodeFont("res/fonts/mini_numbers.fnt", getAbsoluteImage("res/fonts/mini_numbers_bg.png"));
+                //_miniNumberFont.getEffects().add(new OutlineEffect(25, java.awt.Color.black));
+            }
+            catch(Exception e)
+            {
+                LRK.log("Failed to load the mini number bg font!!!");
+            }
+        }
+
+        if(_miniNumberFontBg == null)
+            return getFont(1);
+        else
+            return _miniNumberFontBg;
     }
 
     /**

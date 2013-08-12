@@ -5,6 +5,7 @@ import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import com.fisherevans.lrk.tools.LRKMath;
 import org.jbox2d.common.Vec2;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -15,7 +16,7 @@ import org.newdawn.slick.Image;
  * Time: 2:40 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SpinDeflate extends GlobalSprite
+public class GlobalSpinFade extends GlobalSprite
 {
     private float _renderPadding;
 
@@ -25,7 +26,7 @@ public class SpinDeflate extends GlobalSprite
 
     private final static float FULL = 360;
 
-    public SpinDeflate(float x, float y, float renderPadding, Image image, float spinRate, float duration, float startAngle)
+    public GlobalSpinFade(float x, float y, float renderPadding, Image image, float spinRate, float duration, float startAngle)
     {
         super(x, y);
         _renderPadding = renderPadding;
@@ -44,7 +45,7 @@ public class SpinDeflate extends GlobalSprite
         Vec2 drawPos = AdventureState.getDrawPosition(getWolrdPos(), xShift, yShift);
         float scale = LRKMath.clamp(0, 1f - (_timePassed/_duration), 1);
         _image.setRotation(_angle);
-        GFX.drawImageCentered(drawPos.x, drawPos.y, _image.getWidth()*scale, _image.getHeight()*scale, _image);
+        GFX.drawImageCentered(drawPos.x, drawPos.y, _image, new Color(1f, 1f, 1f, scale));
     }
 
     @Override

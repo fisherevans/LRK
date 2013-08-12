@@ -120,6 +120,8 @@ public class AdventureState extends LRKState
         }
 
         _aimShift = new Vec2(0, 0);
+
+        Game.lrk.getPlayer().reset();
     }
 
     @Override

@@ -38,8 +38,8 @@ public class InputManager implements KeyListener, MouseListener
     private static float _mouseX, _mouseY;
 
     // Mouse moved/dragged variable
-    private boolean leftMousePressed = false;
-    private boolean rightMousePressed = false;
+    private static boolean leftMousePressed = false;
+    private static boolean rightMousePressed = false;
 
     public InputManager()
     {
@@ -473,4 +473,14 @@ public class InputManager implements KeyListener, MouseListener
 
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) { }
+
+    public static boolean isLeftMousePressed()
+    {
+        return leftMousePressed;
+    }
+
+    public static boolean isRightMousePressed()
+    {
+        return rightMousePressed;
+    }
 }

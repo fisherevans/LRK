@@ -3,6 +3,7 @@ package com.fisherevans.lrk.states.adventure.combat.skills;
 import com.fisherevans.lrk.managers.SoundManager;
 import com.fisherevans.lrk.states.adventure.combat.Skill;
 import com.fisherevans.lrk.states.adventure.combat.effects.HealthCone;
+import com.fisherevans.lrk.states.adventure.combat.effects.MovingHealthAOE;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import com.fisherevans.lrk.states.adventure.sprites.SpriteGenerator;
 
@@ -13,28 +14,25 @@ import com.fisherevans.lrk.states.adventure.sprites.SpriteGenerator;
  * Time: 3:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Slash extends Skill
+public class Whirlwind extends Skill
 {
     private AdventureEntity.Team[] _effects;
-    private boolean _clockWise = true;
 
-    public Slash(AdventureEntity.Team... effects)
+    public Whirlwind(AdventureEntity.Team... effects)
     {
-        super("Slash", "Slash with your weapon.", 0.5f, 0.25f);
+        super("Whirlwind", "Spin around like a princess.", 5f, 1f);
         _effects = effects;
     }
 
     @Override
     public boolean execute(AdventureEntity owner)
     {
-        SoundManager.play("slash"); // PLAY THE SOUND
+        SoundManager.play("whirlwind"); // PLAY THE SOUND
 
-        HealthCone effect = new HealthCone((float)Math.toRadians(owner.getDegrees()), (float) Math.toRadians(90), // CREATE THE HEALTH CONE EFFECT
-                1f, owner.getBody().getPosition().clone(), -(float)(Math.round(Math.random()*5 + 5)), _effects);
+        MovingHealthAOE effect = new MovingHealthAOE(1.4f, 1f, 0.25f, -5, owner, _effects);
         owner.getState().getEntityEffectQueue().addEntityEffect(effect); // AND ADD IT TO THE EFFECT QUEUE
 
-        owner.getState().getBackgroundSpriteSystem().addSprite(SpriteGenerator.getSlash(owner, _clockWise)); // ADD A SLASH SPRITE
-        _clockWise = !_clockWise;
+        owner.getState().getBackgroundSpriteSystem().addSprite(SpriteGenerator.getWhirlwind(owner)); // ADD A SLASH SPRITE
 
         return true;
     }

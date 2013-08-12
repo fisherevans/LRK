@@ -36,6 +36,11 @@ public class GFX
         img.draw(x, y, img.getWidth(), img.getHeight());
     }
 
+    public static void drawImage(float x, float y, Image img, Color color)
+    {
+        img.draw(x, y, color);
+    }
+
     /**
      * Draw an image to the display with the top left of the image at given x and y and stretched to the given width and height
      * @param x x pos of top left of the image
@@ -60,6 +65,13 @@ public class GFX
         float dx = -img.getWidth()/2f;
         float dy = -img.getHeight()/2f;
         img.draw(x+dx, y+dy, img.getWidth(), img.getHeight());
+    }
+
+    public static void drawImageCentered(float x, float y, float scale, Image img)
+    {
+        float dx = -img.getWidth()/2f;
+        float dy = -img.getHeight()/2f;
+        img.draw(x+dx, y+dy,scale);
     }
 
     public static void drawImageCentered(float x, float y, float width, float height, Image img)

@@ -1,14 +1,22 @@
-info face="Fishers Mini Numbers" size=5 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
-common lineHeight=5 base=26 scaleW=64 scaleH=64 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
+info face="Fishers Mini Numbers" size=-5 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
+common lineHeight=8 base=5 scaleW=64 scaleH=64 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
 page id=0 file="mini_numbers.png"
-chars count=10
-char id=48   x=0   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=49   x=4   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=50   x=8   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=51   x=12   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=52   x=16   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=53   x=20   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=54   x=24   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=55   x=28   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=56   x=32   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
-char id=57   x=36   y=0   width=3     height=5    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15
+chars count=12
+
+char id=48   x=0    y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=49   x=5    y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=50   x=10    y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=51   x=15   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=52   x=20   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=53   x=25   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=54   x=30   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=55   x=35   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=56   x=40   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=57   x=45   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+
+char id=43   x=50   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=45   x=55   y=0   width=5      height=7    xoffset=-1     yoffset=-1     xadvance=5     page=0  chnl=15
+char id=46   x=60   y=0   width=3      height=7    xoffset=-1     yoffset=-1     xadvance=1     page=0  chnl=15
+
+char id=68   x=0    y=7   width=23     height=7    xoffset=-1     yoffset=-1     xadvance=22     page=0  chnl=15
+char id=70   x=0    y=14   width=23     height=7    xoffset=-1     yoffset=-1     xadvance=22     page=0  chnl=15

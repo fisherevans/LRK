@@ -15,6 +15,7 @@ import com.fisherevans.lrk.states.adventure.entities.controllers.PlayerControlle
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
+import org.newdawn.slick.Color;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,16 +39,18 @@ public class PlayerEntity extends ActiveEntity
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-player"));
         setDrawHealthBar(false);
+        setNumColorDamage(new Color(1f, 0f, 0f));
+        setNumColorHeal(new Color(0f, 1f, 0f));
     }
 
     public void leftMousePress(float x, float y)
     {
-        getController().executeMainSkill();
+        //getController().executeMainSkill();
     }
 
     public void rightMousePress(float x, float y)
     {
-        getController().executeSecondarySkill();
+        //getController().executeSecondarySkill();
     }
 
     @Override

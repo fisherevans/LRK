@@ -15,7 +15,7 @@ public class Splash extends Skill
 {
     public  Splash()
     {
-        super("Splash", "It's just a splash... Has no effect whatsoever.", 0.5f);
+        super("Splash", "It's just a splash... Has no effect whatsoever.", 0.5f, 0.25f);
     }
 
     @Override

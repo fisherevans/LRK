@@ -45,6 +45,10 @@ public abstract class AdventureEntity implements Health.HealthListener
 
     private Vec2 _drawPosition =  new Vec2(0, 0);
 
+    private Color _numColorDamage = new Color(1f, 1f, 0f);
+
+    private Color _numColorHeal = new Color(0f, 0f, 1f);
+
     protected AdventureEntity(RPGEntity rpgEntity, AdventureState state)
     {
         _rpgEntity = rpgEntity;
@@ -212,7 +216,7 @@ public abstract class AdventureEntity implements Health.HealthListener
     public void healthDecreased(RPGEntity entity, float amount)
     {
         _damageHue = 1f;
-        _state.getForegroundSpriteSystem().addSprite(new Number(-amount, getBody().getPosition().clone()));
+        _state.getForegroundSpriteSystem().addSprite(new Number(-amount, getBody().getPosition().clone(), _numColorDamage, _numColorHeal));
     }
 
     public boolean isDead()
@@ -233,5 +237,25 @@ public abstract class AdventureEntity implements Health.HealthListener
     public void setDrawPosition(Vec2 drawPosition)
     {
         _drawPosition = drawPosition;
+    }
+
+    public Color getNumColorHeal()
+    {
+        return _numColorHeal;
+    }
+
+    public void setNumColorHeal(Color numColorHeal)
+    {
+        _numColorHeal = numColorHeal;
+    }
+
+    public Color getNumColorDamage()
+    {
+        return _numColorDamage;
+    }
+
+    public void setNumColorDamage(Color numColorDamage)
+    {
+        _numColorDamage = numColorDamage;
     }
 }

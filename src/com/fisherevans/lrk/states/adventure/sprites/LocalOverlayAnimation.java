@@ -15,13 +15,13 @@ import org.newdawn.slick.SpriteSheet;
  * Time: 7:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EntityImageOverlay extends LocalEntitySprite
+public class LocalOverlayAnimation extends LocalEntitySprite
 {
     private SpriteSheet _spriteSheet;
     private Animation _animation;
     private float _centerX, _centerY;
 
-    public EntityImageOverlay(AdventureEntity entity, float renderPadding, SpriteSheet spriteSheet, int timePerFrame, float centerX, float centerY)
+    public LocalOverlayAnimation(AdventureEntity entity, float renderPadding, SpriteSheet spriteSheet, int timePerFrame, float centerX, float centerY)
     {
         super(entity, renderPadding);
         _spriteSheet = spriteSheet;

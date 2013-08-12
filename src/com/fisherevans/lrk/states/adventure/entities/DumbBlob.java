@@ -6,7 +6,7 @@ import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.entitycomponents.Health;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.adventure.entities.controllers.MindlessZombieController;
-import com.fisherevans.lrk.states.adventure.sprites.SpinDeflate;
+import com.fisherevans.lrk.states.adventure.sprites.GlobalSpinFade;
 import org.jbox2d.dynamics.*;
 
 /**
@@ -25,8 +25,6 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
         setController(new MindlessZombieController(this, getState().getPlayerEntity(), 10));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-blob"));
-
-        getRpgEntity().getHealth().addListener(this);
     }
 
     @Override
@@ -41,6 +39,6 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
     {
         super.destroy();
         SoundManager.play("monster-death_01");
-        getState().getBackgroundSpriteSystem().addSprite(new SpinDeflate(getX(), getY(), 1, getImage(), 10, 1, getDegrees()));
+        getState().getBackgroundSpriteSystem().addSprite(new GlobalSpinFade(getX(), getY(), 1, getImage(), 6, 1, getDegrees()));
     }
 }

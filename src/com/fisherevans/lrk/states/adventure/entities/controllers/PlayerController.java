@@ -40,10 +40,15 @@ public class PlayerController extends ActiveEntityController
             v.mulLocal(getEntity().getSpeed()*aimScale); // scale the speed by the angle difference (move slower walking backwards)
         }
 
-
         getEntity().getBody().setLinearVelocity(v);
 
         getEntity().getRpgEntity().getHealth().addHealth(5 * delta);
+
+        if(InputManager.isLeftMousePressed())
+            executeMainSkill();
+
+        if(InputManager.isRightMousePressed())
+            executeSecondarySkill();
     }
 
     @Override

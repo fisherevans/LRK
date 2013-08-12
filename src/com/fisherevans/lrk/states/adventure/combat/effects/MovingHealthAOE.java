@@ -13,10 +13,11 @@ public class MovingHealthAOE extends HealthAOE
 {
     private AdventureEntity _target;
 
-    public MovingHealthAOE(float x, float y, float radius, float duration, float rate, float healthDiff, AdventureEntity target, AdventureEntity.Team... effects)
+    public MovingHealthAOE(float radius, float duration, float rate, float healthDiff, AdventureEntity target, AdventureEntity.Team... effects)
     {
-        super(x, y, radius, duration, rate, healthDiff, effects);
+        super(0, 0, radius, duration, rate, healthDiff, effects);
         _target = target;
+        setPos(_target.getBody().getPosition().clone());
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.font.effects.OutlineEffect;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,9 +18,9 @@ import org.newdawn.slick.Graphics;
  */
 public class Number extends Sprite
 {
-    private AngelCodeFont _font;
+    private AngelCodeFont _font, _fontBg;
     private String _number;
-    private Color _color;
+    private Color _color, _colorBg;
     private Vec2 _worldPosition, _velocity;
 
     private float _duration = 1f;
@@ -30,11 +31,19 @@ public class Number extends Sprite
     private static final Color POSITIVE = new Color(0f, 1f, 0f);
     private static final Color NEGATIVE = new Color(1f, 0f, 0f);
 
-    public Number(float number, Vec2 worldPosition)
+    public Number(float number, Vec2 worldPosition, Color colorDamage, Color colorHeal)
     {
         _font = Resources.getMiniNumberFont();//Resources.getFont(1);
-        _number = Math.abs(number)+"";
-        _color = number < 0 ? NEGATIVE : POSITIVE;
+        _fontBg = Resources.getMiniNumberBgFont();
+        _color = number < 0 ? colorDamage : colorHeal;
+        _colorBg = new Color(0f, 0f, 0f);
+
+        number = Math.abs(number);
+        if(Math.floor(number) == number)
+            _number = ((int)number)+"";
+        else
+            _number = number+"";
+
         _worldPosition = worldPosition;
         _velocity = new Vec2(((float)(Math.random()*0.8f))-0.4f, ((float)(-Math.random()*1.5f)-1.5f));
     }
@@ -44,6 +53,8 @@ public class Number extends Sprite
     {
         Vec2 drawPos = AdventureState.getDrawPosition(_worldPosition, xShift, yShift);
         _color.a = 1-(_timePassed/_duration);
+        _colorBg.a = _color.a;
+        GFX.drawTextAbsolute(drawPos.x, drawPos.y, _fontBg, _colorBg, _number);
         GFX.drawTextAbsolute(drawPos.x, drawPos.y, _font, _color, _number);
     }
 

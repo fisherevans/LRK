@@ -17,11 +17,14 @@ public abstract class Skill
 
     private float _coolDown = 1f;
 
-    protected Skill(String name, String description, float coolDown)
+    private float _actionTime;
+
+    protected Skill(String name, String description, float coolDown, float actionTime)
     {
         _name = name;
         _description = description;
         _coolDown = coolDown;
+        _actionTime = actionTime;
     }
 
     public String getName()
@@ -37,6 +40,11 @@ public abstract class Skill
     public float getCoolDown()
     {
         return _coolDown;
+    }
+
+    public float getActionTime()
+    {
+        return _actionTime;
     }
 
     /** Executes a skill from an AdventureEntity.

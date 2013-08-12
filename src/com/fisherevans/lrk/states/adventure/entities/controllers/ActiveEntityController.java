@@ -18,6 +18,7 @@ public abstract class ActiveEntityController
 
     private float _sinceLastMainSkill = Float.MAX_VALUE;
     private float _sinceLastSecondarySkill = Float.MAX_VALUE;
+    private float _actionCoolDown = 0;
 
     public ActiveEntityController(ActiveEntity entity, Skill mainSkill, Skill secondarySkill)
     {
@@ -40,6 +41,9 @@ public abstract class ActiveEntityController
     {
         _sinceLastMainSkill += delta;
         _sinceLastSecondarySkill += delta;
+        _actionCoolDown -= delta;
+        if(_actionCoolDown < 0)
+            _actionCoolDown = 0;
 
         update(delta);
     }
@@ -54,9 +58,10 @@ public abstract class ActiveEntityController
     public boolean executeMainSkill()
     {
         Skill mainSkill = getMainSkill();
-        if(mainSkill != null && _sinceLastMainSkill > mainSkill.getCoolDown())
+        if(mainSkill != null && _actionCoolDown <= 0 && _sinceLastMainSkill > mainSkill.getCoolDown())
         {
             _sinceLastMainSkill = 0f;
+            _actionCoolDown += mainSkill.getActionTime();
             mainSkill.execute(_entity);
             return true;
         }
@@ -67,9 +72,10 @@ public abstract class ActiveEntityController
     public boolean executeSecondarySkill()
     {
         Skill secondarySkill = getSecondarySkill();
-        if(secondarySkill != null && _sinceLastSecondarySkill > secondarySkill.getCoolDown())
+        if(secondarySkill != null && _actionCoolDown <= 0 && _sinceLastSecondarySkill > secondarySkill.getCoolDown())
         {
             _sinceLastSecondarySkill = 0f;
+            _actionCoolDown += secondarySkill.getActionTime();
             secondarySkill.execute(_entity);
             return true;
         }

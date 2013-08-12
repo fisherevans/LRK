@@ -72,7 +72,8 @@ public class Health extends EntityComponent
      */
     public void addListener(HealthListener listener)
     {
-        _listeners.add(listener);
+        if(!_listeners.contains(listener))
+            _listeners.add(listener);
     }
 
     /**
@@ -191,6 +192,11 @@ public class Health extends EntityComponent
     public float getHealthPercentage()
     {
         return LRKMath.clamp(0, _currentHealth/_maximumHealth, 1);
+    }
+
+    public void reset()
+    {
+        _currentHealth = _maximumHealth;
     }
 
     // SUB CLASSES

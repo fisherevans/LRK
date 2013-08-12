@@ -4,6 +4,7 @@ import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.rpg.items.*;
 import com.fisherevans.lrk.rpg.items.enchantments.UnholyMight;
 import com.fisherevans.lrk.states.adventure.combat.skills.Slash;
+import com.fisherevans.lrk.states.adventure.combat.skills.Whirlwind;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
 /**
@@ -26,6 +27,7 @@ public class RPGEntityGenerator
         Weapon enchanted = new Weapon("Giant Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 11, 0, true);
         enchanted.setEnchantment(new UnholyMight(0.45f));
         enchanted.setSkill(new Slash(AdventureEntity.Team.Hostile));
+        enchanted.setSecondarySkill(new Whirlwind(AdventureEntity.Team.Hostile));
         inventory.addItem(enchanted);
 
         inventory.addItem(new Armor("Iron Helm", "A modest helmet", Resources.getImage("equipment/armor/iron-helm_01"), Equipment.Position.Head, 0, 6));

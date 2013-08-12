@@ -37,7 +37,7 @@ public abstract class AOE extends TeamBasedEntityEffect
         if(effect)
             effect = false;
 
-         _runTime += delta;
+        _runTime += delta;
         _sinceLast += delta;
 
         if(_sinceLast >= _rate)

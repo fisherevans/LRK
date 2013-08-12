@@ -80,7 +80,7 @@ public class PlayerStats extends UIComponent
         if(_controller.getSecondarySkill() != null)
         {
             secondaryName = _controller.getSecondarySkill().getName();
-            mainManaPercentage = LRKMath.clamp(0, _controller.getSinceLastSecondarySkill()/_controller.getSecondarySkill().getCoolDown(), 1f);
+            secondaryManaPercentage = LRKMath.clamp(0, _controller.getSinceLastSecondarySkill()/_controller.getSecondarySkill().getCoolDown(), 1f);
         }
 
         GFX.drawImage(_drawX, _drawY, _bgImg);

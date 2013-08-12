@@ -111,22 +111,26 @@ public class LRK extends BasicGame
         gfx.clear();
 
         gfx.scale(DisplayManager.getBackgroundScale(), DisplayManager.getBackgroundScale());
-        StateLibrary.getActiveState().render(gfx);
+            StateLibrary.getActiveState().render(gfx);
         gfx.resetTransform();
 
         gfx.scale(DisplayManager.getForegroundScale(), DisplayManager.getForegroundScale());
-        StateLibrary.getActiveState().renderUI(gfx);
-        _notifications.render(gfx);
+            StateLibrary.getActiveState().renderUI(gfx);
+            _notifications.render(gfx);
+            if(DEBUG)
+            {
+                String fpsText = "F" + Game.gameCanvas.getContainer().getFPS();
+                String deltaText = "D" + (int)(1000.0/Game.gameCanvas.getContainer().getFPS());
+                GFX.drawTextAbsolute(10, 10, Resources.getMiniNumberBgFont(), Color.black, fpsText);
+                GFX.drawTextAbsolute(10, 20, Resources.getMiniNumberBgFont(), Color.black, deltaText);
+                GFX.drawTextAbsolute(10, 10, Resources.getMiniNumberFont(), Color.white, fpsText);
+                GFX.drawTextAbsolute(10, 20, Resources.getMiniNumberFont(), Color.white, deltaText);
+            }
         gfx.resetTransform();
 
         if(StateLibrary.getActiveState().getGrabMouse())
             GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), StateLibrary.getActiveState().getCursor());
 
-        if(DEBUG)
-        {
-            GFX.drawTextAbsolute(10, 10, Resources.getFont(1), Color.white, "    FPS: " + Game.gameCanvas.getContainer().getFPS());
-            GFX.drawTextAbsolute(10, 20, Resources.getFont(1), Color.white, "Delta: " + (int)(1000.0/Game.gameCanvas.getContainer().getFPS()) + "ms");
-        }
     }
 
     /**
