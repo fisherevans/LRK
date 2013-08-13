@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jbox2d-library-2.1.2.2-SNAPSHOT-jar-with-dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jbox2d/jbox2d-library-2.1.2.2-SNAPSHOT-jar-with-dependencies.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
