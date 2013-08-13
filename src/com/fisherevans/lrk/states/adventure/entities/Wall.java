@@ -1,6 +1,8 @@
 package com.fisherevans.lrk.states.adventure.entities;
 
 import com.fisherevans.lrk.states.adventure.AdventureState;
+import com.fisherevans.lrk.states.adventure.lights.ShadowLine;
+import com.fisherevans.lrk.states.adventure.lights.ShadowMap;
 import org.jbox2d.dynamics.*;
 import org.newdawn.slick.Image;
 
@@ -31,6 +33,16 @@ public class Wall extends AdventureEntity
         body.createFixture(def);
 
         setBody(body);
+    }
+
+    public ShadowLine[] getLines()
+    {
+        ShadowLine[] lines = new ShadowLine[4];
+        lines[0] = new ShadowLine(getX()-0.5f, getY()-0.5f, getX()+0.5f, getY()-0.5f);
+        lines[1] = new ShadowLine(getX()-0.5f, getY()-0.5f, getX()-0.5f, getY()+0.5f);
+        lines[2] = new ShadowLine(getX()+0.5f, getY()+0.5f, getX()+0.5f, getY()-0.5f);
+        lines[3] = new ShadowLine(getX()+0.5f, getY()+0.5f, getX()-0.5f, getY()+0.5f);
+        return lines;
     }
 
     @Override

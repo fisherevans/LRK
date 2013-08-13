@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="triggers" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/triggers.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="65" name="test" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/test.png" width="512" height="512"/>
+ </tileset>
+ <layer name="collision" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3Z0Q7CIBAEwPr/P+2jiWkrcNCu6UxCck2UB1YPxG0DgLrXyeB6R+suj3vII8tZHrMG7Vavlzz6yCPLUW/5rnv60lFNnxVrJ49x8sjS0nNGamezMbP6/op5nkgeWSpnpJbXV/reE6V9ruWxX1fmqZDH77r3vb3z61cf9vMs8sji92AW9yVZ5JHFfXsW348s8sgy0pecke5lb8gijyzyuNbs/YOamWsojzp5ZNnrR5VnxpztD9VnufRbuWby6CePLCv61N7ctJFHFv0qizyyOO9msm9kcV+SRR5ZWv+DbR0AAAAAAAAAAAAAAAAAAAAAAAAAAPy3Nx/gAa1AnAAA
+  </data>
+ </layer>
+ <layer name="background" width="100" height="100" opacity="0.83">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3XUQqDMBBFURfZ/a/F3yIRNDO0T3MOCAptPnKbabttAMAbfQYX/6NHFj2yjHp0XdynR67vfby7p5X3MuZ8ZNEjy9nMqdwzb7SnM2eia53V6ZFldk+vvP7K+sf71XWfj8qFHmnMqyzd56O6zur0yFKZLWZOv47vYZ/xPnpkqcwc86qf85FFj+ex11n0yKJHFj2y6PFbfltl0SPLcT+rz9TokaH7v7kuNXpk6Z5TetTokcW8yqJHJnMqix5ZzKksegAAAAAAAAAAAAAAAAAAAAAAAAAAQKYdbjAU1ECcAAA=
+  </data>
+ </layer>
+ <layer name="foreground" width="100" height="100" opacity="0.86">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3ZQQ7CIBAF0F7N+1/KpYlpKzDQftP3EpJpoiz4OiBuGwDUvU4G1ztad3ncQx5ZzvKYNWi3er3k0UceWY56y3fd05eOavqsWDt5jJNHlpaeM1I7m42Z1fdXzPNE8shSOSO1vL7S954o7XMtj/26Mk+FPH7Xve/tnV+/+rCfZ5FHFr8Hs7gvySKPLO7bs/h+ZJFHlpG+5Ix0L3tDFnlkkce1Zu8f1MxcQ3nUySPLXj+qPDPmbH+oPsul38o1k0c/eWRZ0af25qaNPLLoV1nkkcV5N5N9I4v7kizyyNL6H2zrAAAAAAAAAAAAAAAAAAAAAAAAAADgv70BxqnB8ECcAAA=
+  </data>
+ </layer>
+</map>
