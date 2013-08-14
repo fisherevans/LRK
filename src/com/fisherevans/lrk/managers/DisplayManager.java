@@ -5,11 +5,9 @@ import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.UIComponent;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
+import org.newdawn.slick.Image;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.PrintWriter;
 
@@ -80,6 +78,7 @@ public class DisplayManager
     public static void refreshDisplay()
     {
         LRKState state = StateLibrary.getActiveState();
+        updateMouse();
         if(state != null)
         {
             state.resize();
@@ -185,5 +184,24 @@ public class DisplayManager
     public static Dimension getDimensions()
     {
         return new Dimension((int)_windowWidth, (int)_windowHeight);
+    }
+
+    public static void updateMouse()
+    {
+        try
+        {
+            LRKState activeState = StateLibrary.getActiveState();
+            if(activeState.getCursor() != null)
+            {
+                Image cursorImage = activeState.getCursor().getScaledCopy(getForegroundScale());
+                Game.getContainer().setMouseCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
+            }
+            else
+                Game.getContainer().setDefaultMouseCursor();
+        }
+        catch(Exception e)
+        {
+            Game.getContainer().setDefaultMouseCursor();
+        }
     }
 }

@@ -24,6 +24,9 @@ public class TargetLightController extends LightController
     @Override
     public void update(float delta)
     {
+        if(_target == null || _target.isDead())
+            getLight().getManager().removeLight(getLight());
+
         getLight().setPosition(_target.getBody().getPosition());
     }
 

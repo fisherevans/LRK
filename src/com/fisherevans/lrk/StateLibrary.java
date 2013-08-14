@@ -1,6 +1,7 @@
 package com.fisherevans.lrk;
 
 import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.states.options.OptionsState;
@@ -92,20 +93,7 @@ public class StateLibrary
 
         _activeState = state;
 
-
-        if(_activeState.getCursor() != null)
-        {
-            try
-            {
-                Game.getContainer().setMouseCursor(_activeState.getCursor(), _activeState.getCursor().getWidth()/2, _activeState.getCursor().getHeight()/2);
-            }
-            catch(Exception e)
-            {
-                Game.getContainer().setDefaultMouseCursor();
-            }
-        }
-        else
-            Game.getContainer().setDefaultMouseCursor();
+        DisplayManager.updateMouse();
 
         _activeState.resize();
         for(UIComponent ui:_activeState.getUIComponents())

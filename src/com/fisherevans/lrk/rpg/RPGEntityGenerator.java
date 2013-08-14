@@ -47,6 +47,8 @@ public class RPGEntityGenerator
 
         Player character = new Player(entity, inventory);
 
+        character.equip(enchanted);
+
         return character;
     }
     public static RPGEntity getBlob()

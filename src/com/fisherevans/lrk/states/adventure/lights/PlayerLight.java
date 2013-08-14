@@ -19,9 +19,10 @@ public class PlayerLight extends Light
 {
     private AdventureEntity _player;
 
-    public PlayerLight(AdventureEntity player)
+    public PlayerLight(AdventureEntity player, LightManager manager)
     {
-        super(1f, new Color(0.85f, 0.8f, 0.7f), new Vec2(0, 0));
+        super(1f, new Color(0.75f, 0.7f, 0.6f), new Vec2(0, 0), manager);
+        //super(1f, new Color(1f, 1f, 0f), new Vec2(0, 0), manager);
         setController(new TargetLightController(this, player));
         _player = player;
     }

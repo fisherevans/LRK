@@ -3,6 +3,7 @@ package com.fisherevans.lrk.states.adventure.lights;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.common.Vec2;
+import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
 
@@ -46,5 +47,10 @@ public class ShadowMap
 
         _lines.add(line);
         return true;
+    }
+
+    public ArrayList<ShadowLine> getLines()
+    {
+        return _lines;
     }
 }

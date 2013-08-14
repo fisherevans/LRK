@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.renderer.QuadBasedLineStripRenderer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,29 +26,32 @@ public class Light
     private Vec2 _position;
     private LightController _controller;
 
-    public Light(Image image, float radius, Color color, Vec2 position, LightController controller)
+    private LightManager _manager;
+
+    public Light(Image image, float radius, Color color, Vec2 position, LightController controller, LightManager manager)
     {
         _image = image;
         _radius = radius;
         _color = color;
         _position = position;
         _controller = controller;
+        _manager = manager;
     }
 
-    public Light(Image image, float radius, Color color, Vec2 position)
+    public Light(Image image, float radius, Color color, Vec2 position, LightManager manager)
     {
-        this(image, radius, color, position, null);
+        this(image, radius, color, position, null, manager);
     }
 
-    public Light(float radius, Color color, Vec2 position)
+    public Light(float radius, Color color, Vec2 position, LightManager manager)
     {
-        this(null, radius, color, position, null);
+        this(null, radius, color, position, null, manager);
         _image = getDefaultImage();
     }
 
-    public Light(float radius, Color color, Vec2 position, String controller)
+    public Light(float radius, Color color, Vec2 position, String controller, LightManager manager)
     {
-        this(null, radius, color, position, null);
+        this(null, radius, color, position, null, manager);
         _image = getDefaultImage();
         setController(controller);
     }
@@ -120,6 +124,11 @@ public class Light
     public void setController(LightController controller)
     {
         _controller = controller;
+    }
+
+    public LightManager getManager()
+    {
+        return _manager;
     }
 
     public void setController(String key)

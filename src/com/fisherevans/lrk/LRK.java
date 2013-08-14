@@ -129,7 +129,10 @@ public class LRK extends BasicGame
         gfx.resetTransform();
 
         if(StateLibrary.getActiveState().getGrabMouse())
-            GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(), StateLibrary.getActiveState().getCursor());
+            GFX.drawImageCentered(InputManager.getMouseX(), InputManager.getMouseY(),
+                    StateLibrary.getActiveState().getCursor().getWidth()*DisplayManager.getForegroundScale(),
+                    StateLibrary.getActiveState().getCursor().getHeight()*DisplayManager.getForegroundScale(),
+                    StateLibrary.getActiveState().getCursor());
 
     }
 

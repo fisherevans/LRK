@@ -7,6 +7,8 @@ import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.managers.MusicManager;
+import com.fisherevans.lrk.rpg.RPGEntityGenerator;
+import com.fisherevans.lrk.states.adventure.entities.DumbBlob;
 import com.fisherevans.lrk.states.adventure.entities.PlayerEntity;
 import com.fisherevans.lrk.states.adventure.lights.Light;
 import com.fisherevans.lrk.states.adventure.lights.LightManager;
@@ -19,6 +21,7 @@ import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import com.fisherevans.lrk.states.adventure.entities.Wall;
 import com.fisherevans.lrk.states.adventure.ui.PlayerStats;
+import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
 import com.fisherevans.lrk.tools.JBox2DUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
@@ -87,35 +90,37 @@ public class AdventureState extends LRKState
         _entities = new ArrayList<>();
         _entitiesToDelete = new ArrayList<>();
 
-        _playerEntity = new PlayerEntity(7, 7, _world, this);
+        _playerEntity = new PlayerEntity(18, 18, _world, this);
         _camera = _playerEntity;
 
         _entities.add(_playerEntity);
-        //_entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 33, 14, _world, this));
-        //_entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 33, 16, _world, this));
-        //_entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 27, 27, _world, this));
-        //_entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 25, 27, _world, this));
-        //_entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 23, 27, _world, this));
 
-        _lightManager = new LightManager(this, new Color(0.1f, 0.1f, 0.2f));
-        _lightManager.addLight(new PlayerLight(_playerEntity));
+        _lightManager = new LightManager(this, new Color(0.2f, 0.2f, 0.3f));
+        //_lightManager = new LightManager(this, new Color(0.7f, 0.7f, 0.85f));
+        Light playerLight = new PlayerLight(_playerEntity, _lightManager);
+        _lightManager.addLight(playerLight);
+        _lightManager.setCameraLight(playerLight);
 
-        Light torch1 = new Light(3, new Color(1f, 0.95f, 0.8f), new Vec2(10, 10));
-        torch1.setController("torch");
-        _lightManager.addLight(torch1);
-        Light torch2 = new Light(3, new Color(1f, 0.95f, 0.8f), new Vec2(25, 10));
-        torch2.setController("torch");
-        _lightManager.addLight(torch2);
-        Light torch3 = new Light(3, new Color(1f, 0.95f, 0.8f), new Vec2(10, 25));
-        torch3.setController("torch");
-        _lightManager.addLight(torch3);
-        Light torch4 = new Light(3, new Color(1f, 0.95f, 0.8f), new Vec2(25, 25));
-        torch4.setController("torch");
-        _lightManager.addLight(torch4);
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(9, 16), "torch", _lightManager));
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(9, 20), "torch", _lightManager));
+
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(16, 9), "torch", _lightManager));
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(20, 9), "torch", _lightManager));
+
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(27, 16), "torch", _lightManager));
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(27, 20), "torch", _lightManager));
+
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(16, 27), "torch", _lightManager));
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.7f), new Vec2(20, 27), "torch", _lightManager));
+
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(15, 15), "torch", _lightManager));
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(21, 15), "torch", _lightManager));
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(15, 21), "torch", _lightManager));
+        _lightManager.addLight(new Light(3.5f, new Color(1f, 0.95f, 0.8f), new Vec2(21, 21), "torch", _lightManager));
 
         try // load the map
         {
-            _map = new TiledMap("res/maps/level_test.tmx");
+            _map = new TiledMap("res/maps/level_arena.tmx");
         }
         catch(Exception e)
         {
@@ -141,7 +146,8 @@ public class AdventureState extends LRKState
                     {
                         wall = new Wall(x, y, def, _world, this);
                         _walls.add(wall); // but if it does, add the tile shape to the world
-                        _shadowMap.addLines(wall.getLines());
+                        if(id == 1)
+                            _shadowMap.addLines(wall.getLines());
                     }
                 }
             }
@@ -224,7 +230,7 @@ public class AdventureState extends LRKState
         // LIGHTING SYSTEM
         _lightManager.render(gfx, xShift, yShift);
 
-        /*/ DRAW THE PRETTY VIGNETTE
+        //*/ DRAW THE PRETTY VIGNETTE
         GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE,
                 yShift + _camera.getY()*TILE_SIZE,
                 vignetteSize, vignetteSize,
@@ -276,9 +282,26 @@ public class AdventureState extends LRKState
         }
     }
 
+    private float lastSpawn = 0;
+    private float spawnRate = 20;
+
     @Override
     public void update(float delta) throws SlickException
     {
+        lastSpawn += delta;
+        if(lastSpawn >= spawnRate)
+        {
+            lastSpawn -= spawnRate;
+            if(Math.random() > 0.5)
+                _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 8, 18, _world, this));
+            if(Math.random() > 0.5)
+                _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 18, 8, _world, this));
+            if(Math.random() > 0.5)
+                _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 18, 28, _world, this));
+            if(Math.random() > 0.5)
+                _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 28, 18, _world, this));
+        }
+
         // AIM SHIFT BASED ON MOUSE
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         _aimShift.mulLocal(0.3f/DisplayManager.getBackgroundScale()); // scale it by about a third (for moving the viewport)
@@ -337,7 +360,14 @@ public class AdventureState extends LRKState
     @Override
     public void keyMenu()
     {
-        StateLibrary.setActiveState("options");
+        try
+        {
+            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), StateLibrary.getActiveState(), StateLibrary.getState("options"), 0.5f));
+        }
+        catch (SlickException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     @Override
@@ -413,8 +443,23 @@ public class AdventureState extends LRKState
         return _foregroundSpriteSystem;
     }
 
+    public PlayerEntity getCamera()
+    {
+        return _camera;
+    }
+
+    public ShadowMap getShadowMap()
+    {
+        return _shadowMap;
+    }
+
     public static Vec2 getDrawPosition(Vec2 worldPos, float xShift, float yShift)
     {
         return new Vec2(xShift + worldPos.x * TILE_SIZE, yShift + worldPos.y * TILE_SIZE);
+    }
+
+    public LightManager getLightManager()
+    {
+        return _lightManager;
     }
 }

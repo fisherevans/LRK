@@ -59,4 +59,11 @@ public class PlayerEntity extends ActiveEntity
         super.healthDecreased(entity, amount);
         SoundManager.play("human-hurt_01");
     }
+
+    @Override
+    public void destroy()
+    {
+        super.destroy();
+        getState().keyMenu();
+    }
 }

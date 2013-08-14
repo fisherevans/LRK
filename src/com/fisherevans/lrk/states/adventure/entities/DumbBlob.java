@@ -6,8 +6,11 @@ import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.rpg.entitycomponents.Health;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.adventure.entities.controllers.MindlessZombieController;
+import com.fisherevans.lrk.states.adventure.lights.Light;
+import com.fisherevans.lrk.states.adventure.lights.light_controllers.TargetLightController;
 import com.fisherevans.lrk.states.adventure.sprites.GlobalSpinFade;
 import org.jbox2d.dynamics.*;
+import org.newdawn.slick.Color;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,9 +25,13 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
     {
         super(rpgEntity, state, 2.25f);
         setTeam(Team.Hostile);
-        setController(new MindlessZombieController(this, getState().getPlayerEntity(), 10));
+        setController(new MindlessZombieController(this, getState().getPlayerEntity(), 15));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-blob"));
+
+        Light light = new Light(3, new Color(0, 0.4f, 0.7f), getBody().getPosition().clone(), state.getLightManager());
+        light.setController(new TargetLightController(light, this));
+        state.getLightManager().addLight(light);
     }
 
     @Override

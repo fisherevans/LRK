@@ -35,6 +35,7 @@ public class JBox2DUtils
             case 5: vs = new Vec2 [] { new Vec2(-0.5f, -0.0f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.0f),  }; break;
             case 6: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.0f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 7: vs = new Vec2 [] { new Vec2(-0.5f, -0.0f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.0f),  }; break;
+            case 8: vs = new Vec2 [] { new Vec2(-0.21875f, -0.21875f), new Vec2(0.21875f, -0.21875f), new Vec2(0.21875f, 0.21875f), new Vec2(-0.21875f, 0.21875f), new Vec2(-0.21875f, -0.21875f),  }; break;
             case 10: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 11: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  }; break;
             case 12: vs = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, -0.0f), new Vec2(-0.5f, -0.5f),  }; break;

@@ -25,7 +25,7 @@ public abstract class LRKState extends RenderComponent
     {
         setID(id);
 
-        _cursor = Resources.getImage("gui/default_mouse").getScaledCopy(2f);
+        _cursor = Resources.getImage("gui/default_mouse");
         _uiComponents = new ArrayList<>();
 
         init();
