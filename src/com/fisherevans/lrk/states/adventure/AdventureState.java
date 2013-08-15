@@ -230,7 +230,7 @@ public class AdventureState extends LRKState
         // LIGHTING SYSTEM
         _lightManager.render(gfx, xShift, yShift);
 
-        /*/ DRAW THE PRETTY VIGNETTE
+        //*/ DRAW THE PRETTY VIGNETTE
         GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE,
                 yShift + _camera.getY()*TILE_SIZE,
                 vignetteSize, vignetteSize,
