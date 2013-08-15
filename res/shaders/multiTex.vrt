@@ -1,0 +1,11 @@
+attribute vec4 gl_Color;
+
+varying vec4 gl_FrontColor; // writable on the vertex shader
+varying vec4 gl_BackColor; // writable on the vertex shader
+
+void main(void){
+  gl_FrontColor = gl_Color;
+  
+  gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+  gl_Position = ftransform();
+}

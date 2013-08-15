@@ -30,6 +30,6 @@ public class PlayerLight extends Light
     @Override
     public float getRadius()
     {
-        return _player.getState().getRenderDistance();
+        return _player.getState().getRenderDistance()*0.666f;
     }
 }

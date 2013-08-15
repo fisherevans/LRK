@@ -1,0 +1,9 @@
+/* Vertex shader */
+uniform float waveTime;
+uniform float waveWidth;
+uniform float waveHeight;
+ 
+void main(void){
+  gl_TexCoord[0]  = gl_MultiTexCoord0;
+  gl_Position = ftransform();
+}

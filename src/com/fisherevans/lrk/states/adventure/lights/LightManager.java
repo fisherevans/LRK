@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
+import shader.Shader;
 
 import java.util.ArrayList;
 
@@ -26,10 +27,15 @@ public class LightManager
 {
     private AdventureState _parent;
     private ArrayList<Light> _lights, _toRemove;
-    private Image _lightBuffer, _visibleBuffer;
-    private Graphics _lightGfx, _visibleGfx;
+    private Image _lightBuffer, _lightFrameBuffer, _visibleBuffer;
+    private Graphics _lightGfx, _lightFrameGfx, _visibleGfx;
     private Color _ambientLight;
     private Light _cameraLight;
+    private Shader _blurH, _blurV;
+
+    private final int LIGHT_SIZE = 256;
+    private final float DEFAULT_LIGHT_RADIUS = 4f;
+    private final Color LIGHT_BUFFER_CLEAR_COLOR = new Color(1f, 1f, 1f, 0f);
 
     public LightManager(AdventureState parent, Color ambientLight)
     {
@@ -38,6 +44,18 @@ public class LightManager
         _lights = new ArrayList<>();
         _toRemove = new ArrayList<>();
         resize();
+
+        try
+        {
+            _blurH = Shader.makeShader("res/shaders/bassicBlur.vrt", "res/shaders/blurHorz.frg");
+            _blurV = Shader.makeShader("res/shaders/bassicBlur.vrt", "res/shaders/blurVert.frg");
+
+            _lightBuffer = new Image(LIGHT_SIZE, LIGHT_SIZE);
+            _lightGfx = _lightBuffer.getGraphics();
+        } catch (SlickException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     public void update(float delta)
@@ -55,11 +73,12 @@ public class LightManager
 
     public void render(Graphics gfx, float xShift, float yShift)
     {
+        GL11.glEnable(GL11.GL_BLEND);
         float x, y, fullSize, halfSize;
 
-        _lightGfx.clear();
-        _lightGfx.fillRect(0, 0, _lightBuffer.getWidth(), _lightBuffer.getHeight());
-        GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        _lightFrameGfx.clear();
+        _lightFrameGfx.setColor(_ambientLight);
+        _lightFrameGfx.fillRect(0, 0, _lightFrameBuffer.getWidth(), _lightFrameBuffer.getHeight());
         Light light;
         for(int id = _lights.size()-1;id >= 0;id--)
         {
@@ -68,42 +87,53 @@ public class LightManager
             {
                 halfSize = light.getRadius()*AdventureState.TILE_SIZE;
                 fullSize = halfSize*2f;
+
                 x = xShift+light.getPosition().x*AdventureState.TILE_SIZE - halfSize;
                 y = yShift+light.getPosition().y*AdventureState.TILE_SIZE - halfSize;
-                _lightGfx.drawImage(light.getImage().getScaledCopy((int) fullSize, (int) fullSize), x, y, light.getColor());
+
+                _lightGfx.clear();
+                _lightGfx.drawImage(light.getImage().getScaledCopy(_lightBuffer.getWidth(), _lightBuffer.getHeight()), 0, 0);
+                removeShadows(_lightGfx, light.getRadius(), (DEFAULT_LIGHT_RADIUS/light.getRadius())*AdventureState.TILE_SIZE, light.getPosition());
+                _lightGfx.flush();
+                //GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+                //GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+                //GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+                gfx.setDrawMode(Graphics.MODE_ADD);
+                _lightFrameGfx.drawImage(_lightBuffer.getScaledCopy((int)fullSize, (int)fullSize), x, y);//, light.getColor());
+                gfx.setDrawMode(Graphics.MODE_NORMAL);
             }
         }
-        gfx.setDrawMode(Graphics.MODE_NORMAL);
-        _lightGfx.flush();
 
-        paintBuffer(gfx);
-        //paintBufferDebug(gfx);
+        _lightFrameGfx.flush();
+        //paintBuffer(gfx);
+        paintBufferDebug(gfx);
 
-        _visibleGfx.clear();
+        /*_visibleGfx.clear();
         _visibleGfx.setColor(Color.white);
-        _visibleGfx.fillRect(0, 0, _lightBuffer.getWidth(), _lightBuffer.getHeight());
-        _visibleGfx.setColor(Color.black);
+        _visibleGfx.fillRect(0, 0, _lightFrameBuffer.getWidth(), _lightFrameBuffer.getHeight());
+        _visibleGfx.setColor(_ambientLight);
         Rectangle lightRect = new Rectangle(_parent.getCamera().getX() - _parent.getRenderDistance(), _parent.getCamera().getY() - _parent.getRenderDistance(),
                 _parent.getRenderDistance()*2, _parent.getRenderDistance()*2);
+        float rayLength = new Vec2(lightRect.getX(), lightRect.getY()).sub(new Vec2(lightRect.getCenterX(), lightRect.getCenterY())).length();
         Vec2 pL = _parent.getCamera().getBody().getPosition().clone();
         Vec2 pA, pB, pX, pY;
         float[] points = new float[8];
         Polygon fillShape;
-        /*
+        *//*
           X _______ Y
             \    /
            A \__/ B
 
               * L
-         */
+         *//*
         for(ShadowLine line:_parent.getShadowMap().getLines())
         {
             if(line.getBoundingBox().intersects(lightRect))
             {
                 pA = line.getPointA();
                 pB = line.getPointB();
-                pX = pA.add(pA.sub(pL));
-                pY = pB.add(pB.sub(pL));
+                pX = pA.add(pA.sub(pL).mul(rayLength));
+                pY = pB.add(pB.sub(pL).mul(rayLength));
                 points[0] = (pA.x*AdventureState.TILE_SIZE) + xShift; points[1] = (pA.y*AdventureState.TILE_SIZE) + yShift;
                 points[2] = (pX.x*AdventureState.TILE_SIZE) + xShift; points[3] = (pX.y*AdventureState.TILE_SIZE) + yShift;
                 points[4] = (pY.x*AdventureState.TILE_SIZE) + xShift; points[5] = (pY.y*AdventureState.TILE_SIZE) + yShift;
@@ -115,21 +145,65 @@ public class LightManager
         }
         _visibleGfx.flush();
 
-        GL11.glBlendFunc(GL11.GL_ZERO, GL11.GL_SRC_COLOR);
+
+        _blurH.startShader();
+        _blurH.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
+        _blurH.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale()*2);
+
+        _blurV.startShader();
+        _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowHeight());
+        _blurV.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale()*2);
+
+        GL11.glBlendFunc(GL11.GL_DST_COLOR, GL11.GL_ONE_MINUS_SRC_ALPHA);
         gfx.drawImage(_visibleBuffer, 0, 0);
         gfx.setDrawMode(Graphics.MODE_NORMAL);
+
+        Shader.forceFixedShader();*/
+    }
+
+    private void removeShadows(Graphics gfx, float lightRadius, float pixelPerUnit, Vec2 lightPoint)
+    {
+        gfx.setColor(Color.black);
+
+        //GL14.glBlendFuncSeparate(GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ZERO, GL11.GL_SRC_COLOR);
+        //GL11.glBlendFunc(GL11.GL_ZERO, GL11.GL_SRC_COLOR);
+
+        Rectangle lightRect = new Rectangle(lightPoint.x - lightRadius, lightPoint.y - lightRadius, lightRadius*2f, lightRadius*2f);
+
+        Vec2 pA, pB, pX, pY;
+        float[] points = new float[8];
+        Polygon fillShape;
+        for(ShadowLine line:_parent.getShadowMap().getLines())
+        {
+            if(line.getBoundingBox().intersects(lightRect))
+            {
+                pA = line.getPointA();
+                pB = line.getPointB();
+                pX = pA.add(pA.sub(lightPoint).mul(lightRadius*1.5f));
+                pY = pB.add(pB.sub(lightPoint).mul(lightRadius*1.5f));
+                points[0] = (pA.x-lightPoint.x+lightRadius)*pixelPerUnit; points[1] = (pA.y-lightPoint.y+lightRadius)*pixelPerUnit;
+                points[2] = (pX.x-lightPoint.x+lightRadius)*pixelPerUnit; points[3] = (pX.y-lightPoint.y+lightRadius)*pixelPerUnit;
+                points[4] = (pY.x-lightPoint.x+lightRadius)*pixelPerUnit; points[5] = (pY.y-lightPoint.y+lightRadius)*pixelPerUnit;
+                points[6] = (pB.x-lightPoint.x+lightRadius)*pixelPerUnit; points[7] = (pB.y-lightPoint.y+lightRadius)*pixelPerUnit;
+                fillShape = new Polygon(points);
+                gfx.fill(fillShape);
+            }
+        }
+
+        //gfx.setDrawMode(Graphics.MODE_NORMAL);
     }
 
     private void paintBuffer(Graphics gfx)
     {
-        GL11.glBlendFunc(GL11.GL_DST_COLOR, GL11.GL_ZERO);
-        _lightBuffer.draw(0, 0);
+        GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
+        //GL11.glBlendFunc(GL11.GL_DST_COLOR, GL11.GL_ZERO);
+        _lightFrameBuffer.draw(0, 0);
         gfx.setDrawMode(Graphics.MODE_NORMAL);
     }
 
     private void paintBufferDebug(Graphics gfx)
     {
-        _lightBuffer.draw(0, 0, new Color(1f, 1f, 1f, 0.95f));
+        gfx.drawImage(_lightFrameBuffer, 0, 0);
     }
 
     public void addLight(Light newLight)
@@ -148,9 +222,9 @@ public class LightManager
     {
         try
         {
-            _lightBuffer = new Image((int)DisplayManager.getBackgroundWidth()+2, (int)DisplayManager.getBackgroundHeight()+2);
-            _lightGfx = _lightBuffer.getGraphics();
-            _lightGfx.setColor(_ambientLight);
+            _lightFrameBuffer = new Image((int)DisplayManager.getBackgroundWidth()+2, (int)DisplayManager.getBackgroundHeight()+2);
+            _lightFrameGfx = _lightFrameBuffer.getGraphics();
+            _lightFrameGfx.setColor(_ambientLight);
 
             _visibleBuffer = new Image((int)DisplayManager.getBackgroundWidth()+2, (int)DisplayManager.getBackgroundHeight()+2);
             _visibleGfx = _visibleBuffer.getGraphics();

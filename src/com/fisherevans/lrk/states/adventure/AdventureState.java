@@ -95,7 +95,7 @@ public class AdventureState extends LRKState
 
         _entities.add(_playerEntity);
 
-        _lightManager = new LightManager(this, new Color(0.2f, 0.2f, 0.3f));
+        _lightManager = new LightManager(this, new Color(0.2f, 0.2f, 0.3f, 1f));
         //_lightManager = new LightManager(this, new Color(0.7f, 0.7f, 0.85f));
         Light playerLight = new PlayerLight(_playerEntity, _lightManager);
         _lightManager.addLight(playerLight);
@@ -230,7 +230,7 @@ public class AdventureState extends LRKState
         // LIGHTING SYSTEM
         _lightManager.render(gfx, xShift, yShift);
 
-        //*/ DRAW THE PRETTY VIGNETTE
+        /*/ DRAW THE PRETTY VIGNETTE
         GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE,
                 yShift + _camera.getY()*TILE_SIZE,
                 vignetteSize, vignetteSize,
@@ -283,7 +283,7 @@ public class AdventureState extends LRKState
     }
 
     private float lastSpawn = 0;
-    private float spawnRate = 20;
+    private float spawnRate = 20000;
 
     @Override
     public void update(float delta) throws SlickException
