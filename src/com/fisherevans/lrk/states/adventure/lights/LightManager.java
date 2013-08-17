@@ -189,9 +189,6 @@ public class LightManager
         {
             _mapBuffer = new Image((int)DisplayManager.getBackgroundWidth()+1, (int)DisplayManager.getBackgroundHeight()+1);
             _mapGfx = _mapBuffer.getGraphics();
-
-            _blurH.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
-            _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowHeight());
         }
         catch (SlickException e)
         {

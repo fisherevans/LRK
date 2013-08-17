@@ -18,7 +18,7 @@
  </layer>
  <layer name="foreground" width="100" height="100" opacity="0.86">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3a0Q3CIBQFUBzJEbqD+89i+lcJ+FGbcsFDchJqbCLc0L5Kt1LKBgBAjFfD6N/0z/b5PzZ5jM2ilYdM7pn3lufjM4/9+Nv3R49lBfUaONvkIY8VHfPo9et57/VHj2UF1kcWeeSoa9pjv66tWp/X58rktxxaNe3ZVtfCo8c4k6uuUb0mD3nMTB5Z3D8yqa/yeP7IIo8s/r/KYn1kkUcW+4NzsH+ex/slWVyTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAq7wB0pTqq0CcAAA=
+   H4sIAAAAAAAAC+3aQQ6DIBQFQHqkHsEj9f6bxp0l0IU18qBDMgk2NSm8oN/iVkrZAACI8WoY/Zv+2T7/xyaPsVm08pDJPfPe8nx85rEff/v+6LGsoF4DZ5s85LGiYx69fj3vvf7osazA+sgijxx1TXvs17VV6/P6XJn8lkOrpj3b6lp49BhnctU1qtfkIY+ZySOL+0cm9VUezx9Z5JHF/1dZrI8s8shif3AO9s/zeL8ki2sSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwlTdZXQS+QJwAAA==
   </data>
  </layer>
 </map>

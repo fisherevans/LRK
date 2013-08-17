@@ -86,7 +86,8 @@ public class Game
             getContainer().setUpdateOnlyWhenVisible(false);
             getContainer().setShowFPS(false);
             getContainer().setClearEachFrame(false);
-            //getContainer().setTargetFrameRate(120);
+            getContainer().setTargetFrameRate(60);
+            getContainer().setVSync(true);
 
             gameCanvas.start();
 

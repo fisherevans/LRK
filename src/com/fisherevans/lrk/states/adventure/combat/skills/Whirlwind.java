@@ -20,7 +20,7 @@ public class Whirlwind extends Skill
 
     public Whirlwind(AdventureEntity.Team... effects)
     {
-        super("Whirlwind", "Spin around like a princess.", 5f, 1f);
+        super("Whirlwind", "Spin around like a princess.", 1f, 1f);
         _effects = effects;
     }
 
@@ -29,7 +29,7 @@ public class Whirlwind extends Skill
     {
         SoundManager.play("whirlwind"); // PLAY THE SOUND
 
-        MovingHealthAOE effect = new MovingHealthAOE(1.4f, 1f, 0.25f, -5, owner, _effects);
+        MovingHealthAOE effect = new MovingHealthAOE(1.4f, 1f, 0.25f, -500, owner, _effects);
         owner.getState().getEntityEffectQueue().addEntityEffect(effect); // AND ADD IT TO THE EFFECT QUEUE
 
         owner.getState().getBackgroundSpriteSystem().addSprite(SpriteGenerator.getWhirlwind(owner)); // ADD A SLASH SPRITE

@@ -28,6 +28,7 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
     private Axis _aim, _move;
     private Map<Directional, Integer> _directionalMap;
     private Map<Axis, Integer> _axisMap;
+    private Map<Integer, Axis> _reverseAxisMap;
     private Map<Axis, Double> _axisLastValues;
 
     private ArrayList<InputManager.ControlKey> _keyQueue;
@@ -86,10 +87,12 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         }
 
         _axisMap = new HashMap<Axis, Integer> ();
+        _reverseAxisMap = new HashMap<Integer, Axis> ();
         _axisLastValues = new HashMap<Axis, Double> ();
         for(int x = 0;x < _device.getNumberOfAxes();x++)
         {
             _axisMap.put(_device.getAxis(x), x);
+            _reverseAxisMap.put(x, _device.getAxis(x));
             _axisLastValues.put(_device.getAxis(x), 0.0);
             LRK.log(_device.getAxis(x).getName() + " - " + _device.getAxis(x));
         }
@@ -227,18 +230,30 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
         if(_device == null)
             return false;
 
-        switch(key)
+        try
         {
-            case Up:
-                return (_dpad.getDirection() == 0 && !_dpad.isCentered());
-            case Right:
-                return (_dpad.getDirection() == 9000 && !_dpad.isCentered());
-            case Down:
-                return (_dpad.getDirection() == 18000 && !_dpad.isCentered());
-            case Left:
-                return (_dpad.getDirection() == 27000 && !_dpad.isCentered());
-            default:
-                return false;
+            switch(key)
+            {
+                case Up:
+                    return (_dpad.getDirection() == 0 && !_dpad.isCentered());
+                case Right:
+                    return (_dpad.getDirection() == 9000 && !_dpad.isCentered());
+                case Down:
+                    return (_dpad.getDirection() == 18000 && !_dpad.isCentered());
+                case Left:
+                    return (_dpad.getDirection() == 27000 && !_dpad.isCentered());
+                case Mouse1:
+                    return (_reverseAxisMap.get(AXIS_TRIGGER).getValue() < -AXIS_THRESHOLD_TRIGGER);
+                case Mouse2:
+                    return (_reverseAxisMap.get(AXIS_TRIGGER).getValue() > AXIS_THRESHOLD_TRIGGER);
+                default:
+                    return false;
+            }
+        }
+        catch(Exception e)
+        {
+            LRK.log("Failed to check if button is down: " + key);
+            return false;
         }
     }
 

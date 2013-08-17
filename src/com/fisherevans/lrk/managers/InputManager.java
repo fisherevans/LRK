@@ -476,11 +476,11 @@ public class InputManager implements KeyListener, MouseListener
 
     public static boolean isLeftMousePressed()
     {
-        return leftMousePressed;
+        return leftMousePressed || (xboxController != null && xboxController.isButtonDown(ControlKey.Mouse1));
     }
 
     public static boolean isRightMousePressed()
     {
-        return rightMousePressed;
+        return rightMousePressed || (xboxController != null && xboxController.isButtonDown(ControlKey.Mouse2));
     }
 }
