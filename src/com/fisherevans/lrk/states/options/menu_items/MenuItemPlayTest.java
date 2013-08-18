@@ -23,7 +23,7 @@ public class MenuItemPlayTest extends MenuItem
     @Override
     public Menu select() throws SlickException
     {
-        AdventureState adventure = new AdventureState();
+        AdventureState adventure = new AdventureState("template");
         StateLibrary.addState(adventure.getID(), adventure);
 
         try

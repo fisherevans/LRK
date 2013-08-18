@@ -65,7 +65,9 @@ public class AdventureState extends LRKState
 
     private ShadowMap _shadowMap;
 
-    public AdventureState() throws SlickException
+    private String _levelName = "template";
+
+    public AdventureState(String levelName) throws SlickException
     {
         super(StateLibrary.getTempID());
         addUIComponent(new PlayerStats(this));
@@ -74,6 +76,7 @@ public class AdventureState extends LRKState
         _backgroundSpriteSystem = new SpriteSystem(this);
         _foregroundSpriteSystem = new SpriteSystem(this);
         _vignette = Resources.getImage("gui/states/adventure/vignette");
+        _levelName = levelName;
     }
 
     @Override
@@ -90,7 +93,7 @@ public class AdventureState extends LRKState
         _entities = new ArrayList<>();
         _entitiesToDelete = new ArrayList<>();
 
-        _playerEntity = new PlayerEntity(34, 21, _world, this);
+        _playerEntity = new PlayerEntity(13, 7, _world, this);
         _camera = _playerEntity;
 
         _entities.add(_playerEntity);
@@ -103,7 +106,7 @@ public class AdventureState extends LRKState
 
         try // load the map
         {
-            _map = new TiledMap("res/maps/level_catacombs.tmx");
+            _map = new TiledMap("res/maps/template.tmx");
         }
         catch(Exception e)
         {
@@ -115,24 +118,23 @@ public class AdventureState extends LRKState
         // a list of wall's in the world
         _shadowMap = new ShadowMap(this);
         _walls = new ArrayList<AdventureEntity>();
-        int layerId = _map.getLayerIndex("collision");
+        int collisionId = _map.getLayerIndex("collision");
+        int lightsId = _map.getLayerIndex("lights");
         Wall wall;
         for(int y = 0;y < _map.getHeight();y++)
         {
             for (int x = 0; x < _map.getWidth(); x++) // loop through each tile in the map
             {
-                int id = _map.getTileId(x, y, layerId); // get the global id
-                if(id > 0) // if the tile isn't empty
+                int collisionTileId = _map.getTileId(x, y, collisionId); // get the global id
+                int lightsTileId = _map.getTileId(x, y, lightsId); // get the global id
+                if(collisionTileId > 0) // if the tile isn't empty
                 {
-                    FixtureDef def = JBox2DUtils.generateFixture(id); // get the shape based on the id
+                    FixtureDef def = JBox2DUtils.generateFixture(collisionTileId); // get the shape based on the id
                     if (def != null) // null means the tile id doesn't have a predefined shape
                     {
                         wall = new Wall(x, y, def, _world, this);
                         _walls.add(wall); // but if it does, add the tile shape to the world
-                        if(id == 1)
-                            _shadowMap.addLines(wall.getLines());
-                        else if(id == 8)
-                            _lightManager.addLight(new Light(3.5f, new Color(0.6f, 0.5f, 0.35f), new Vec2(x, y), "torch", _lightManager));
+                        _shadowMap.addLines(wall.getLines());
                     }
                 }
             }
@@ -198,10 +200,13 @@ public class AdventureState extends LRKState
         // DRAW THE BACKGROUND SPRITES
         _backgroundSpriteSystem.render(gfx, xShift, yShift);
 
+        // DRAW THE OBJECTS LAYER
+        drawMapLayer(xShift, yShift, startX, startY, getLayerIds("objects"));
+
         // DRAW THE FOREGROUND LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("foreground"));
 
-        // DRAW THE ENTITIE IDENTIFIERS (NAME, HEALTHBAR, ETC)
+        // DRAW THE ENTITIES IDENTIFIERS (NAME, HEALTHBAR, ETC)
         for(AdventureEntity ent:_entities)
             if(inRenderArea(ent))
                 ent.renderIdentifiers(gfx);
