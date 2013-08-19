@@ -48,11 +48,10 @@ public class AdventureState extends LRKState
 
     public static float TILES_WIDE, TILES_HIGH;
 
-    private ArrayList<AdventureEntity> _entities, _entitiesToDelete, _walls;
-    private Vec2[] _entitiesDrawPos;
-    private PlayerEntity _playerEntity, _camera;
     private TiledMap _map;
-    private World _world;
+
+    private EntityManager _entityManager;
+
     private Vec2 _aimShift;
 
     private EntityEffectQueue _entityEffectQueue;
@@ -82,27 +81,16 @@ public class AdventureState extends LRKState
     @Override
     public void init() throws SlickException
     {
-        MusicManager.play("calm_wip");
         resize();
 
-        //setCursor(Resources.getAbsoluteImage("res/test/images/cursor.png").getScaledCopy(2f));
-
-        _world = new World(new Vec2(0, 0f), true);
-
-        // a list of entities in the world
-        _entities = new ArrayList<>();
-        _entitiesToDelete = new ArrayList<>();
-
-        _playerEntity = new PlayerEntity(13, 7, _world, this);
-        _camera = _playerEntity;
-
-        _entities.add(_playerEntity);
+        MusicManager.play("calm_wip");
+        Game.lrk.getPlayer().reset();
 
         _lightManager = new LightManager(this, new Color(0.25f, 0.25f, 0.35f));
         //_lightManager = new LightManager(this, new Color(0.7f, 0.7f, 0.85f));
-        Light playerLight = new PlayerLight(_playerEntity, _lightManager);
-        _lightManager.addLight(playerLight);
-        _lightManager.setCameraLight(playerLight);
+        //Light playerLight = new PlayerLight(_playerEntity, _lightManager);
+        //_lightManager.addLight(playerLight);
+        //_lightManager.setCameraLight(playerLight);
 
         try // load the map
         {
@@ -115,34 +103,10 @@ public class AdventureState extends LRKState
             System.exit(111);
         }
 
-        // a list of wall's in the world
+        _entityManager = new EntityManager(this, _map);
+
         _shadowMap = new ShadowMap(this);
-        _walls = new ArrayList<AdventureEntity>();
-        int collisionId = _map.getLayerIndex("collision");
-        int lightsId = _map.getLayerIndex("lights");
-        Wall wall;
-        for(int y = 0;y < _map.getHeight();y++)
-        {
-            for (int x = 0; x < _map.getWidth(); x++) // loop through each tile in the map
-            {
-                int collisionTileId = _map.getTileId(x, y, collisionId); // get the global id
-                int lightsTileId = _map.getTileId(x, y, lightsId); // get the global id
-                if(collisionTileId > 0) // if the tile isn't empty
-                {
-                    FixtureDef def = JBox2DUtils.generateFixture(collisionTileId); // get the shape based on the id
-                    if (def != null) // null means the tile id doesn't have a predefined shape
-                    {
-                        wall = new Wall(x, y, def, _world, this);
-                        _walls.add(wall); // but if it does, add the tile shape to the world
-                        _shadowMap.addLines(wall.getLines());
-                    }
-                }
-            }
-        }
-
         _aimShift = new Vec2(0, 0);
-
-        Game.lrk.getPlayer().reset();
     }
 
     @Override
@@ -163,18 +127,18 @@ public class AdventureState extends LRKState
     {
         // WHEN DRAWING ENTITIES, SHIFT EACH BY X AND Y SHIFT
         // SUBTRACT THE CAMERA POS AND ADD HALF THE DISPLAY AND SUBTRACT THE AIM SHIFT
-        float xShift = (TILES_WIDE/2f - _camera.getX())*TILE_SIZE - _aimShift.x;
-        float yShift = (TILES_HIGH/2f - _camera.getY())*TILE_SIZE - _aimShift.y;
+        float xShift = (TILES_WIDE/2f - _entityManager.getCamera().getX())*TILE_SIZE - _aimShift.x;
+        float yShift = (TILES_HIGH/2f - _entityManager.getCamera().getY())*TILE_SIZE - _aimShift.y;
 
         // WHAT TILE TO START DRAWING AT
-        int startX = (int)(_camera.getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2 - 1;
-        int startY = (int)(_camera.getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
+        int startX = (int)(_entityManager.getCamera().getX()+_aimShift.x/TILE_SIZE) - (int)TILES_WIDE/2 - 1;
+        int startY = (int)(_entityManager.getCamera().getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
 
         // CALC THE RENDER SIZE FOR THE VIGNETTE
         int vignetteSize = (int) (getRenderDistance() *TILE_SIZE*2);
 
         // PRE-CALC THE DRAW COORID'S FOR THE ENTITIES
-        for(AdventureEntity ent:_entities) // FOR EACH ENTITY
+        for(AdventureEntity ent:_entityManager.getEntities()) // FOR EACH ENTITY
         {
             if(inRenderArea(ent)) // IF THEIR IN RENDER DISTANCE
                 ent.getDrawPosition().set(getDrawPosition(ent.getBody().getPosition(), xShift, yShift)); // DRAW THEM WITH THE X AND Y SHIFTS
@@ -184,8 +148,8 @@ public class AdventureState extends LRKState
 
 
         // CLIP THE DRAWING AROUND THE RENDER DISTANCE
-        GFX.clip(xShift + _camera.getX()*TILE_SIZE-vignetteSize/2f + 1,
-                yShift + _camera.getY()*TILE_SIZE-vignetteSize/2f + 1,
+        GFX.clip(xShift + _entityManager.getCamera().getX()*TILE_SIZE-vignetteSize/2f + 1,
+                yShift + _entityManager.getCamera().getY()*TILE_SIZE-vignetteSize/2f + 1,
                 vignetteSize - 2, vignetteSize - 2,
                 DisplayManager.getBackgroundScale());
 
@@ -193,7 +157,7 @@ public class AdventureState extends LRKState
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
         // DRAW THE ENTITIES
-        for(AdventureEntity ent:_entities)
+        for(AdventureEntity ent:_entityManager.getEntities())
             if(inRenderArea(ent))
                 ent.render(gfx);
 
@@ -207,7 +171,7 @@ public class AdventureState extends LRKState
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("foreground"));
 
         // DRAW THE ENTITIES IDENTIFIERS (NAME, HEALTHBAR, ETC)
-        for(AdventureEntity ent:_entities)
+        for(AdventureEntity ent:_entityManager.getEntities())
             if(inRenderArea(ent))
                 ent.renderIdentifiers(gfx);
 
@@ -221,8 +185,8 @@ public class AdventureState extends LRKState
         _lightManager.render(gfx, xShift, yShift);
 
         //*/ DRAW THE PRETTY VIGNETTE
-        GFX.drawImageCentered(xShift + _camera.getX()*TILE_SIZE,
-                yShift + _camera.getY()*TILE_SIZE,
+        GFX.drawImageCentered(xShift + _entityManager.getCamera().getX()*TILE_SIZE,
+                yShift + _entityManager.getCamera().getY()*TILE_SIZE,
                 vignetteSize, vignetteSize,
                 _vignette);
         //*/
@@ -272,22 +236,9 @@ public class AdventureState extends LRKState
         }
     }
 
-    private float lastSpawn = -40;
-    private float spawnRate = 0.3f;
-
     @Override
     public void update(float delta) throws SlickException
     {
-        lastSpawn += delta;
-        if(lastSpawn >= spawnRate && _entities.size() < 200)
-        {
-            lastSpawn = 0;
-            _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 18, 14, _world, this));
-            _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 34, 14, _world, this));
-            _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 34, 30, _world, this));
-            _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), 18, 30, _world, this));
-        }
-
         // AIM SHIFT BASED ON MOUSE
         _aimShift.set(InputManager.getMouseXOrigin(), InputManager.getMouseYOrigin());
         _aimShift.mulLocal(0.2f/DisplayManager.getBackgroundScale()); // scale it for moving the viewport
@@ -296,36 +247,17 @@ public class AdventureState extends LRKState
         if(_entityEffectQueue.getQueueSize() > 0)
         {
             _entityEffectQueue.update(delta);
-            for(AdventureEntity entity: _entities)
+            for(AdventureEntity entity:_entityManager.getEntities())
                 _entityEffectQueue.processEntity(entity);
             _entityEffectQueue.clearComplete();
         }
 
-        // UPDATE EACH ENTITY
-        for(AdventureEntity entity: _entities)
-            entity.update(delta); // logic
-
-        // DELETING DEAD ENTITIES
-        if(_entitiesToDelete.size() > 0)
-        {
-            for(AdventureEntity entity:_entitiesToDelete)
-            {
-                entity.destroy();
-                _world.destroyBody(entity.getBody());
-                _entities.remove(entity);
-            }
-            _entitiesToDelete.clear();
-        }
+        _entityManager.update(delta);
 
         _backgroundSpriteSystem.update(delta);
         _foregroundSpriteSystem.update(delta);
 
         _lightManager.update(delta);
-
-        // UPDATE THE 2D PHYSICS WORLD
-        _world.step(delta, 5, 5);
-
-        Collections.sort(_entities, new EntityCompareY());
     }
 
     @Override
@@ -373,29 +305,14 @@ public class AdventureState extends LRKState
     public void mouseEvent(MouseInputType type, float x, float y)
     {
         if(type == MouseInputType.LeftPressed)
-            _playerEntity.leftMousePress(x, y);
+            _entityManager.getPlayer().leftMousePress(x, y);
         if(type == MouseInputType.RightPressed)
-            _playerEntity.rightMousePress(x, y);
-    }
-
-    public PlayerEntity getPlayerEntity()
-    {
-        return _playerEntity;
-    }
-
-    public ArrayList<AdventureEntity> getEntities()
-    {
-        return _entities;
+            _entityManager.getPlayer().rightMousePress(x, y);
     }
 
     public EntityEffectQueue getEntityEffectQueue()
     {
         return _entityEffectQueue;
-    }
-
-    public void killEntity(AdventureEntity entity)
-    {
-        _entitiesToDelete.add(entity);
     }
 
     public int getRenderDistance()
@@ -415,8 +332,8 @@ public class AdventureState extends LRKState
 
     public boolean inRenderArea(Vec2 position, float renderPadding)
     {
-        return Math.abs(position.x-_camera.getX())-renderPadding <= getRenderDistance()
-                && Math.abs(position.y-_camera.getY())-renderPadding <= getRenderDistance();
+        return Math.abs(position.x-_entityManager.getCamera().getX())-renderPadding <= getRenderDistance()
+                && Math.abs(position.y-_entityManager.getCamera().getY())-renderPadding <= getRenderDistance();
     }
 
     public SpriteSystem getBackgroundSpriteSystem()
@@ -427,11 +344,6 @@ public class AdventureState extends LRKState
     public SpriteSystem getForegroundSpriteSystem()
     {
         return _foregroundSpriteSystem;
-    }
-
-    public PlayerEntity getCamera()
-    {
-        return _camera;
     }
 
     public ShadowMap getShadowMap()
@@ -447,5 +359,10 @@ public class AdventureState extends LRKState
     public LightManager getLightManager()
     {
         return _lightManager;
+    }
+
+    public EntityManager getEntityManager()
+    {
+        return _entityManager;
     }
 }

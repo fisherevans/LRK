@@ -199,7 +199,7 @@ public abstract class AdventureEntity implements Health.HealthListener
     @Override
     public void healthDepleted(RPGEntity entity)
     {
-        getState().killEntity(this);
+        getState().getEntityManager().removeEntity(this);
     }
 
     @Override

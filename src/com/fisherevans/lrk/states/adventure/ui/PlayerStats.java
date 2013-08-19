@@ -40,7 +40,7 @@ public class PlayerStats extends UIComponent
     {
         super(parent, false, false);
         _playerHealth = Game.lrk.getPlayer().getEntity().getHealth();
-        _controller = ((AdventureState)getParent()).getPlayerEntity().getController();
+        _controller = ((AdventureState)getParent()).getEntityManager().getPlayer().getController();
 
         _bgImg = Resources.getImage("gui/states/adventure/stats_bg");
         _healthImg = Resources.getImage("gui/states/adventure/stats_health");

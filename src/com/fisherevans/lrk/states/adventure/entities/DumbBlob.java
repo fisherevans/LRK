@@ -25,7 +25,7 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
     {
         super(rpgEntity, state, 2.25f);
         setTeam(Team.Hostile);
-        setController(new MindlessZombieController(this, getState().getPlayerEntity(), 15));
+        setController(new MindlessZombieController(this, getState().getEntityManager().getPlayer(), 15));
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-blob"));
 
