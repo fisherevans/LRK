@@ -1,10 +1,11 @@
 package com.fisherevans.lrk.states.adventure.lights;
 
 import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.DisplayManager;
+import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import org.jbox2d.common.Vec2;
-import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 import org.newdawn.slick.Color;
@@ -13,6 +14,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.tiled.TiledMap;
 import shader.Shader;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
  */
 public class LightManager
 {
-    private AdventureState _parent;
+    private AdventureState _state;
     private ArrayList<Light> _lights, _toRemove;
     private Image _lightBuffer, _mapBuffer, _visibleBuffer;
     private Graphics _lightGfx, _mapGfx, _visibleGfx;
@@ -34,16 +36,26 @@ public class LightManager
     private Light _cameraLight;
     private Shader _blurH, _blurV;
 
+    private ArrayList<ShadowLine> _shadowLines;
+
+    private Image _vignette;
+
     private final int LIGHT_SIZE = 256;
     private final float DEFAULT_LIGHT_RADIUS = 4f;
 
+    private int _lightsMapIndex, _shadowMapIndex;
+
     public LightManager(AdventureState parent, Color ambientLight)
     {
-        _parent = parent;
+        _state = parent;
         _ambientLight = ambientLight;
 
         _lights = new ArrayList<>();
         _toRemove = new ArrayList<>();
+
+        _shadowLines = new ArrayList<>();
+
+        _vignette = Resources.getImage("gui/states/adventure/vignette");
 
         try
         {
@@ -59,6 +71,9 @@ public class LightManager
         }
 
         resize();
+
+        _lightsMapIndex = _state.getTiledMap().getLayerIndex("lights");
+        _shadowMapIndex = _state.getTiledMap().getLayerIndex("shadows");
     }
 
     public void update(float delta)
@@ -87,7 +102,7 @@ public class LightManager
         for(int id = _lights.size()-1;id >= 0;id--) // FOR EACH LIGHT, GOING BACKWARDS
         {
             light = _lights.get(id);
-            if(_parent.inRenderArea(light.getPosition(), light.getRadius())) // IF THE LIGHT IS IN THE RENDER AREA
+            if(_state.inRenderArea(light.getPosition(), light.getRadius())) // IF THE LIGHT IS IN THE RENDER AREA
             {
                 halfSize = light.getRadius()*AdventureState.TILE_SIZE;
                 fullSize = halfSize*2f;
@@ -127,6 +142,16 @@ public class LightManager
         //Shader.forceFixedShader();
     }
 
+    public void paintVignette(Graphics gfx, float xShift, float yShift, float size)
+    {
+        //*/ DRAW THE PRETTY VIGNETTE
+        GFX.drawImageCentered(xShift + getState().getEntityManager().getCamera().getX() * AdventureState.TILE_SIZE,
+                yShift + getState().getEntityManager().getCamera().getY() * AdventureState.TILE_SIZE,
+                size, size,
+                _vignette);
+        //*/
+    }
+
     private void paintShadows(Graphics gfx, float lightRadius, float pixelPerUnit, Vec2 lightPoint)
     {
         paintShadows(gfx, Color.black, lightRadius, pixelPerUnit, lightPoint);
@@ -141,7 +166,7 @@ public class LightManager
         Vec2 pA, pB, pX, pY;
         float[] points = new float[8];
         Polygon fillShape;
-        for(ShadowLine line:_parent.getShadowMap().getLines())
+        for(ShadowLine line:_shadowLines)
         {
             if(line.getBoundingBox().intersects(lightRect))
             {
@@ -198,6 +223,70 @@ public class LightManager
         }
     }
 
+    public void processTile(int x, int y, TiledMap tiledMap)
+    {
+        processLightTile(x, y, tiledMap.getLocalTileId(x, y, _lightsMapIndex));
+        processShadowTile(x, y, tiledMap.getLocalTileId(x, y, _shadowMapIndex));
+    }
+
+    private void processLightTile(int x, int y, int id)
+    {
+        if(id < 0)
+            return;
+
+        switch(id)
+        {
+            case 0: // PLAYER
+                addLight(new Light(3, new Color(0.6f, 0.5f, 0.3f), new Vec2(x, y), "torch", this));
+                break;
+        }
+    }
+
+    private void processShadowTile(int x, int y, int id)
+    {
+        if(id < 0)
+            return;
+
+        switch(id)
+        {
+            case 0:
+                addShadowLine(new ShadowLine(x-0.5f, y-0.5f, x+0.5f, y-0.5f));
+                addShadowLine(new ShadowLine(x-0.5f, y-0.5f, x-0.5f, y+0.5f));
+                addShadowLine(new ShadowLine(x+0.5f, y+0.5f, x+0.5f, y-0.5f));
+                addShadowLine(new ShadowLine(x+0.5f, y+0.5f, x-0.5f, y+0.5f));
+                break;
+        }
+    }
+
+    public void addShadowLine(float x1, float y1, float x2, float y2)
+    {
+        addShadowLine(new ShadowLine(x1, y1, x2, y2));
+    }
+
+    public void addShadowLines(ShadowLine ... lines)
+    {
+        int count = 0;
+        for(ShadowLine line:lines)
+            if(addShadowLine(line))
+                count++;
+
+        LRK.log("Added " + count + " shadow lines");
+    }
+
+    public boolean addShadowLine(ShadowLine line)
+    {
+        if(_shadowLines.contains(line))
+            return false;
+
+        _shadowLines.add(line);
+        return true;
+    }
+
+    public ArrayList<ShadowLine> getShadowLines()
+    {
+        return _shadowLines;
+    }
+
     public Light getCameraLight()
     {
         return _cameraLight;
@@ -206,5 +295,10 @@ public class LightManager
     public void setCameraLight(Light cameraLight)
     {
         _cameraLight = cameraLight;
+    }
+
+    public AdventureState getState()
+    {
+        return _state;
     }
 }

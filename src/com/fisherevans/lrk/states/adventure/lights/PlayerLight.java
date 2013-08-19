@@ -1,12 +1,8 @@
 package com.fisherevans.lrk.states.adventure.lights;
 
-import com.fisherevans.lrk.Resources;
-import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
-import com.fisherevans.lrk.states.adventure.entities.PlayerEntity;
 import com.fisherevans.lrk.states.adventure.lights.light_controllers.TargetLightController;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,19 +13,16 @@ import org.newdawn.slick.Image;
  */
 public class PlayerLight extends Light
 {
-    private AdventureEntity _player;
-
-    public PlayerLight(AdventureEntity player, LightManager manager)
+    public PlayerLight(LightManager manager)
     {
         super(1f, new Color(0.75f, 0.6f, 0.4f), new Vec2(0, 0), manager);
         //super(1f, new Color(1f, 1f, 0f), new Vec2(0, 0), manager);
-        setController(new TargetLightController(this, player));
-        _player = player;
+        setController(new TargetLightController(this, getManager().getState().getEntityManager().getPlayer()));
     }
 
     @Override
     public float getRadius()
     {
-        return _player.getState().getRenderDistance()*0.666f;
+        return getManager().getState().getRenderDistance()*0.666f;
     }
 }

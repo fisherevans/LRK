@@ -17,7 +17,7 @@ public class TorchController extends LightController
     private long _nextFlicker;
 
     private final int FLICKER_DURATION = 150;
-    private final float FLICKER_DELTA = 0.25f;
+    private final float FLICKER_DELTA = 0.15f;
 
     public TorchController(Light light)
     {

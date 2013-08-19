@@ -11,6 +11,7 @@
     <orderEntry type="library" name="jinput" level="project" />
     <orderEntry type="library" name="jxinput" level="project" />
     <orderEntry type="library" name="jbox2d-library-2.1.2.2-SNAPSHOT-jar-with-dependencies" level="project" />
+    <orderEntry type="library" name="slf4j-api-1.7.5" level="project" />
   </component>
 </module>
 

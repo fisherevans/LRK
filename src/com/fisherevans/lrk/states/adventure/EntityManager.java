@@ -6,15 +6,19 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import com.fisherevans.lrk.states.adventure.entities.DumbBlob;
 import com.fisherevans.lrk.states.adventure.entities.PlayerEntity;
 import com.fisherevans.lrk.states.adventure.entities.Wall;
+import com.fisherevans.lrk.states.adventure.lights.PlayerLight;
 import com.fisherevans.lrk.tools.JBox2DUtils;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,15 +31,15 @@ public class EntityManager
 {
     private AdventureState _state;
 
-    private ArrayList<AdventureEntity> _entities, _entitiesToDelete, _collisionEntities, _collisionEntitiesToDelete;
+    private ArrayList<AdventureEntity> _entities, _entitiesToDelete;
     private AdventureEntity _camera;
     private PlayerEntity _player;
 
     private EntityCompareY _entityCompareY;
 
-    private World _world;
+    private int _entitiesMapIndex;
 
-    public EntityManager(AdventureState state, TiledMap map)
+    public EntityManager(AdventureState state)
     {
         _state = state;
 
@@ -44,82 +48,32 @@ public class EntityManager
         _entities = new ArrayList<>();
         _entitiesToDelete = new ArrayList<>();
 
-        _collisionEntities = new ArrayList<>();
-        _collisionEntitiesToDelete = new ArrayList<>();
-
-        _world = new World(new Vec2(0, 0f), true);
-
-        _player = new PlayerEntity(0, 0, _world, _state);
+        _player = new PlayerEntity(5, 6, _state.getWorld(), _state);
         _entities.add(_player);
         _camera = _player;
 
-        loadMap(map);
+        _entitiesMapIndex = _state.getTiledMap().getLayerIndex("entities");
     }
 
-    private void loadMap(TiledMap map)
+    public void processTile(int x, int y, TiledMap tiledMap)
     {
-        int collisionIndex = map.getLayerIndex("collision");
-        int entitiesIndex = map.getLayerIndex("entities");
-
-        for(int y = 0;y < map.getHeight();y++)
-        {
-            for (int x = 0; x < map.getWidth(); x++) // loop through each tile in the map
-            {
-                processCollisionTile(x, y, map.getTileId(x, y, collisionIndex));
-                processEntitiesTile(x, y, map.getTileId(x, y, entitiesIndex));
-            }
-        }
+        processEntitiesTile(x, y, tiledMap.getLocalTileId(x, y, _entitiesMapIndex));
     }
 
-    private void processCollisionTile(int x, int y, int id)
+    private void processEntitiesTile(int x, int y, int id)
     {
-        if(id == 0)
-            return;
-
-        FixtureDef collisionBodyDef = new FixtureDef();
-        collisionBodyDef.density = 1f;
-        collisionBodyDef.friction = 0.2f;
-        collisionBodyDef.restitution = 0.0f;
-
-        PolygonShape bodyDefShape = new PolygonShape();
-        Vec2[] shapePoints = {};
-
-        boolean noMatch = false;
-        switch(id)
-        {
-            case 1:
-                shapePoints = new Vec2 [] { new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f),  };
-                break;
-            case 2:
-                shapePoints = new Vec2 [] { new Vec2(-0.21875f, -0.21875f), new Vec2(0.21875f, -0.21875f), new Vec2(0.21875f, 0.21875f), new Vec2(-0.21875f, 0.21875f), new Vec2(-0.21875f, -0.21875f),  };
-                break;
-            default:
-                noMatch = true;
-        }
-
-        if(!noMatch)
-        {
-            bodyDefShape.set(shapePoints, shapePoints.length-1);
-            collisionBodyDef.shape = bodyDefShape;
-            _collisionEntities.add(new Wall(x, y, collisionBodyDef, _world, _state));
-        }
-        else
-            LRK.log("Failed to load the collision tile: " + id);
-    }
-
-    private void processEntitiesTile(int x, int y, int id)w
-    {
-        if(id == 0)
+        if(id < 0)
             return;
 
         boolean noMatch = false;
         switch(id)
         {
-            case 193: // PLAYER
+            case 0: // PLAYER
                 _player.getBody().getPosition().set(x, y);
+                _state.getLightManager().addLight(new PlayerLight(_state.getLightManager()));
                 break;
-            case 194: // DUMB BLOB
-                //_entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), x, y, _world, _state));
+            case 1: // DUMB BLOB
+                _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), x, y, _state.getWorld(), _state));
                 break;
             default:
                 noMatch = true;
@@ -138,9 +92,6 @@ public class EntityManager
         for(AdventureEntity entity:_entities)
             entity.update(delta);
 
-        // Update the physics world
-        _world.step(delta, 5, 5);
-
         // Sort the entities by their Y value
         Collections.sort(_entities, _entityCompareY);
     }
@@ -152,30 +103,16 @@ public class EntityManager
             for(AdventureEntity entity:_entitiesToDelete)
             {
                 _entities.remove(entity);
-                _world.destroyBody(entity.getBody());
+                entity.destroy();
+                _state.getWorld().destroyBody(entity.getBody());
             }
             _entitiesToDelete.clear();
-        }
-
-        if(_collisionEntitiesToDelete.size() > 0)
-        {
-            for(AdventureEntity entity:_entitiesToDelete)
-            {
-                _collisionEntities.remove(entity);
-                _world.destroyBody(entity.getBody());
-            }
-            _collisionEntitiesToDelete.clear();
         }
     }
 
     public void removeEntity(AdventureEntity entity)
     {
         _entitiesToDelete.add(entity);
-    }
-
-    public void removeCollisionEntity(AdventureEntity entity)
-    {
-        _collisionEntitiesToDelete.add(entity);
     }
 
     public ArrayList<AdventureEntity> getEntities()
@@ -191,5 +128,19 @@ public class EntityManager
     public PlayerEntity getPlayer()
     {
         return _player;
+    }
+
+    public class EntityCompareY implements Comparator<AdventureEntity>
+    {
+        @Override
+        public int compare(AdventureEntity ent1, AdventureEntity ent2)
+        {
+            if(ent1.getY() > ent2.getY())
+                return 1;
+            else if(ent1.getY() < ent2.getY())
+                return -1;
+            else
+                return 0;
+        }
     }
 }

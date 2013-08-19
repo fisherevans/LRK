@@ -12,13 +12,13 @@ import java.util.ArrayList;
  * Time: 6:38 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EntityEffectQueue
+public class EffectManager
 {
     private AdventureState _parentState;
 
     private ArrayList<EntityEffect> _queue;
 
-    public EntityEffectQueue(AdventureState parentState)
+    public EffectManager(AdventureState parentState)
     {
         _parentState = parentState;
         _queue = new ArrayList<>();

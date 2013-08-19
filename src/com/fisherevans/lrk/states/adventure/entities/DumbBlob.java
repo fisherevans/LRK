@@ -46,6 +46,6 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
     {
         super.destroy();
         SoundManager.play("monster-death_01");
-        getState().getBackgroundSpriteSystem().addSprite(new GlobalSpinFade(getX(), getY(), 1, getImage(), 6, 1, getDegrees()));
+        getState().getBackgroundSpriteManager().addSprite(new GlobalSpinFade(getX(), getY(), 1, getImage(), 6, 1, getDegrees()));
     }
 }

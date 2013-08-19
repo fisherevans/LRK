@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="8" height="8" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="collision" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/collision_sheet.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="65" name="lights" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/lights_sheet.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="129" name="template" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/template_sheet.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="193" name="entities" tilewidth="32" tileheight="32">
+  <image source="../tilesheets/entities_sheet.png" width="512" height="512"/>
+ </tileset>
+ <layer name="background" width="8" height="8" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGJpgIx65TVD5TTj0gcQ3Q9kAyhMejgABAAA=
+  </data>
+ </layer>
+ <layer name="objects" width="8" height="8" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGJqgmUr6ANfB0zwAAQAA
+  </data>
+ </layer>
+ <layer name="foreground" width="8" height="8" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2tiYGBoGmS4B4i7oTS6XCcQdzFAQBceORhANxcdAABJXsIMAAEAAA==
+  </data>
+ </layer>
+ <layer name="lights" width="8" height="8" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGJrAkUr6AB3GBRUAAQAA
+  </data>
+ </layer>
+ <layer name="entities" width="8" height="8" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGNkAAFiFlg0AAQAA
+  </data>
+ </layer>
+ <layer name="shadows" width="8" height="8" visible="0" opacity="0.61">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGJyAEY84Ix41uPThkgMAJiOmrgABAAA=
+  </data>
+ </layer>
+ <layer name="collision" width="8" height="8" opacity="0.53">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACw3DBVICAQAAwKM7BAnpkpAG6fz/q9id2VAQBGEjRo0ZN2HSlGkzZs2Zt2DRL0uW/bZi1Zp1f2zYtGXbjl179h04dOSvYydOnfnn3IVLV67duHXn3n8PHj159uLVm3cfPn359gPwD8WbAAEAAA==
+  </data>
+ </layer>
+</map>

@@ -2,7 +2,6 @@ package com.fisherevans.lrk.states.adventure.entities;
 
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.adventure.lights.ShadowLine;
-import com.fisherevans.lrk.states.adventure.lights.ShadowMap;
 import org.jbox2d.dynamics.*;
 import org.newdawn.slick.Image;
 

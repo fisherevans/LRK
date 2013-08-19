@@ -211,10 +211,15 @@ public class TiledMap {
 	 *            The index of the layer to retireve the tile from
 	 * @return The global ID of the tile
 	 */
-	public int getTileId(int x,int y,int layerIndex) {
-		Layer layer = (Layer) layers.get(layerIndex);
-		return layer.getTileID(x,y);
-	}
+    public int getTileId(int x,int y,int layerIndex) {
+        Layer layer = (Layer) layers.get(layerIndex);
+        return layer.getTileID(x,y);
+    }
+
+    public int getLocalTileId(int x,int y,int layerIndex) {
+        Layer layer = (Layer) layers.get(layerIndex);
+        return layer.getLocalTileID(x,y);
+    }
 	
 	/**
 	 * Set the global ID of a tile at specified location in the map

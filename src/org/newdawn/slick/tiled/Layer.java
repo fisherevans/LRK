@@ -103,7 +103,7 @@ public class Layer {
 
                         if (tileId == 0) {
 	                        data[x][y][0] = -1;
-	                        data[x][y][1] = 0;
+	                        data[x][y][1] = -1;
 	                        data[x][y][2] = 0;
                         } else {
 	                        TileSet set = map.findTileSet(tileId);
@@ -133,9 +133,13 @@ public class Layer {
 	 * @param y The y coorindate of the tile
 	 * @return The global ID of the tile
 	 */
-	public int getTileID(int x, int y) {
-		return data[x][y][2];
-	}
+    public int getTileID(int x, int y) {
+        return data[x][y][2];
+    }
+
+    public int getLocalTileID(int x, int y) {
+        return data[x][y][1];
+    }
 	
 	/**
 	 * Set the global tile ID at a specified location

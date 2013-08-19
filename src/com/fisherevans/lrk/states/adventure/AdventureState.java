@@ -2,36 +2,21 @@ package com.fisherevans.lrk.states.adventure;
 
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.LRK;
-import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.managers.MusicManager;
-import com.fisherevans.lrk.rpg.RPGEntityGenerator;
-import com.fisherevans.lrk.states.adventure.entities.DumbBlob;
-import com.fisherevans.lrk.states.adventure.entities.PlayerEntity;
-import com.fisherevans.lrk.states.adventure.lights.Light;
 import com.fisherevans.lrk.states.adventure.lights.LightManager;
-import com.fisherevans.lrk.states.adventure.lights.PlayerLight;
-import com.fisherevans.lrk.states.adventure.lights.ShadowMap;
-import com.fisherevans.lrk.states.adventure.lights.light_controllers.TorchController;
 import com.fisherevans.lrk.states.character.CharacterState;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
-import com.fisherevans.lrk.states.adventure.entities.Wall;
 import com.fisherevans.lrk.states.adventure.ui.PlayerStats;
 import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
-import com.fisherevans.lrk.tools.JBox2DUtils;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.*;
 import org.newdawn.slick.tiled.TiledMap;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,33 +33,27 @@ public class AdventureState extends LRKState
 
     public static float TILES_WIDE, TILES_HIGH;
 
-    private TiledMap _map;
+    private TiledMap _tiledMap;
+    private World _world;
 
     private EntityManager _entityManager;
-
-    private Vec2 _aimShift;
-
-    private EntityEffectQueue _entityEffectQueue;
-
-    private SpriteSystem _backgroundSpriteSystem, _foregroundSpriteSystem;
-
+    private CollisionManager _collisionManager;
     private LightManager _lightManager;
+    private EffectManager _effectManager;
+    private SpriteManager _backgroundSpriteManager;
+    private SpriteManager _foregroundSpriteManager;
 
-    private Image _vignette;
+    private Vec2 _aimShift = new Vec2(0, 0);
 
-    private ShadowMap _shadowMap;
 
-    private String _levelName = "template";
+    private String _levelName = "small_test";
 
     public AdventureState(String levelName) throws SlickException
     {
         super(StateLibrary.getTempID());
         addUIComponent(new PlayerStats(this));
         setGrabMouse(true);
-        _entityEffectQueue = new EntityEffectQueue(this);
-        _backgroundSpriteSystem = new SpriteSystem(this);
-        _foregroundSpriteSystem = new SpriteSystem(this);
-        _vignette = Resources.getImage("gui/states/adventure/vignette");
+
         _levelName = levelName;
     }
 
@@ -86,7 +65,6 @@ public class AdventureState extends LRKState
         MusicManager.play("calm_wip");
         Game.lrk.getPlayer().reset();
 
-        _lightManager = new LightManager(this, new Color(0.25f, 0.25f, 0.35f));
         //_lightManager = new LightManager(this, new Color(0.7f, 0.7f, 0.85f));
         //Light playerLight = new PlayerLight(_playerEntity, _lightManager);
         //_lightManager.addLight(playerLight);
@@ -94,7 +72,7 @@ public class AdventureState extends LRKState
 
         try // load the map
         {
-            _map = new TiledMap("res/maps/template.tmx");
+            _tiledMap = new TiledMap("res/maps/template.tmx");
         }
         catch(Exception e)
         {
@@ -103,10 +81,27 @@ public class AdventureState extends LRKState
             System.exit(111);
         }
 
-        _entityManager = new EntityManager(this, _map);
+        _world = new World(new Vec2(0, 0f), true);
+        _world.setAllowSleep(true);
 
-        _shadowMap = new ShadowMap(this);
-        _aimShift = new Vec2(0, 0);
+        _entityManager = new EntityManager(this);
+        _collisionManager = new CollisionManager(this);
+        _lightManager = new LightManager(this, new Color(0.25f, 0.25f, 0.35f));
+
+        _effectManager = new EffectManager(this);
+
+        _backgroundSpriteManager = new SpriteManager(this);
+        _foregroundSpriteManager = new SpriteManager(this);
+
+        for(int y = 0;y < _tiledMap.getHeight();y++)
+        {
+            for (int x = 0; x < _tiledMap.getWidth(); x++) // loop through each tile in the map
+            {
+                _collisionManager.processTile(x, y, _tiledMap);
+                _entityManager.processTile(x, y, _tiledMap);
+                _lightManager.processTile(x, y, _tiledMap);
+            }
+        }
     }
 
     @Override
@@ -138,7 +133,7 @@ public class AdventureState extends LRKState
         int vignetteSize = (int) (getRenderDistance() *TILE_SIZE*2);
 
         // PRE-CALC THE DRAW COORID'S FOR THE ENTITIES
-        for(AdventureEntity ent:_entityManager.getEntities()) // FOR EACH ENTITY
+        for(AdventureEntity ent: _entityManager.getEntities()) // FOR EACH ENTITY
         {
             if(inRenderArea(ent)) // IF THEIR IN RENDER DISTANCE
                 ent.getDrawPosition().set(getDrawPosition(ent.getBody().getPosition(), xShift, yShift)); // DRAW THEM WITH THE X AND Y SHIFTS
@@ -146,23 +141,23 @@ public class AdventureState extends LRKState
                 ent.getDrawPosition().set(new Vec2(-1000, -1000));
         }
 
+        float clipX = xShift + _entityManager.getCamera().getX()*TILE_SIZE-vignetteSize/2f + 1;
+        float clipY = yShift + _entityManager.getCamera().getY()*TILE_SIZE-vignetteSize/2f + 1;
+        float clipSize = vignetteSize - 2;
 
         // CLIP THE DRAWING AROUND THE RENDER DISTANCE
-        GFX.clip(xShift + _entityManager.getCamera().getX()*TILE_SIZE-vignetteSize/2f + 1,
-                yShift + _entityManager.getCamera().getY()*TILE_SIZE-vignetteSize/2f + 1,
-                vignetteSize - 2, vignetteSize - 2,
-                DisplayManager.getBackgroundScale());
+        GFX.clip(clipX, clipY, clipSize, clipSize, DisplayManager.getBackgroundScale());
 
         // DRAW THE BACKGROUND LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
         // DRAW THE ENTITIES
-        for(AdventureEntity ent:_entityManager.getEntities())
+        for(AdventureEntity ent: _entityManager.getEntities())
             if(inRenderArea(ent))
                 ent.render(gfx);
 
         // DRAW THE BACKGROUND SPRITES
-        _backgroundSpriteSystem.render(gfx, xShift, yShift);
+        _backgroundSpriteManager.render(gfx, xShift, yShift);
 
         // DRAW THE OBJECTS LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("objects"));
@@ -170,13 +165,8 @@ public class AdventureState extends LRKState
         // DRAW THE FOREGROUND LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("foreground"));
 
-        // DRAW THE ENTITIES IDENTIFIERS (NAME, HEALTHBAR, ETC)
-        for(AdventureEntity ent:_entityManager.getEntities())
-            if(inRenderArea(ent))
-                ent.renderIdentifiers(gfx);
-
         // DRAW THE FOREGROUND SPRITES
-        _foregroundSpriteSystem.render(gfx, xShift, yShift);
+        _foregroundSpriteManager.render(gfx, xShift, yShift);
 
         // UN-CLIP THE GRAPHICS ELEMENT
         GFX.unClip();
@@ -184,12 +174,19 @@ public class AdventureState extends LRKState
         // LIGHTING SYSTEM
         _lightManager.render(gfx, xShift, yShift);
 
-        //*/ DRAW THE PRETTY VIGNETTE
-        GFX.drawImageCentered(xShift + _entityManager.getCamera().getX()*TILE_SIZE,
-                yShift + _entityManager.getCamera().getY()*TILE_SIZE,
-                vignetteSize, vignetteSize,
-                _vignette);
-        //*/
+        // CLIP THE DRAWING AROUND THE RENDER DISTANCE
+        GFX.clip(clipX, clipY, clipSize, clipSize, DisplayManager.getBackgroundScale());
+
+        // DRAW THE ENTITIES IDENTIFIERS (NAME, HEALTHBAR, ETC)
+        for(AdventureEntity ent: _entityManager.getEntities())
+            if(inRenderArea(ent))
+                ent.renderIdentifiers(gfx);
+
+        // DRAW THE VIGNETTE
+        _lightManager.paintVignette(gfx, xShift, yShift, vignetteSize);
+
+        // UN-CLIP THE GRAPHICS ELEMENT
+        GFX.unClip();
     }
 
     /**
@@ -202,7 +199,7 @@ public class AdventureState extends LRKState
         int[] layerIds = new int[layers.length];
 
         for(int layerNumber = 0;layerNumber < layers.length;layerNumber++)
-            layerIds[layerNumber] = _map.getLayerIndex(layers[layerNumber]);
+            layerIds[layerNumber] = _tiledMap.getLayerIndex(layers[layerNumber]);
 
         return layerIds;
     }
@@ -228,7 +225,7 @@ public class AdventureState extends LRKState
             {
                 for(Integer layerId:layerIds) // FOR EACH LAYER
                 {
-                    tile = _map.getTileImage(x, y, layerId); // GET THE TILE FOR THAT LAYER | v- IF IT'S NOT NULL AND IT'S IN THE RENDER DISTANCE
+                    tile = _tiledMap.getTileImage(x, y, layerId); // GET THE TILE FOR THAT LAYER | v- IF IT'S NOT NULL AND IT'S IN THE RENDER DISTANCE
                     if(tile != null)
                         GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile); // DRAW THE TILE WITH THE X AND Y SHIFT
                 }
@@ -244,20 +241,24 @@ public class AdventureState extends LRKState
         _aimShift.mulLocal(0.2f/DisplayManager.getBackgroundScale()); // scale it for moving the viewport
 
         // EFFECT QUEUE
-        if(_entityEffectQueue.getQueueSize() > 0)
+        if(_effectManager.getQueueSize() > 0)
         {
-            _entityEffectQueue.update(delta);
-            for(AdventureEntity entity:_entityManager.getEntities())
-                _entityEffectQueue.processEntity(entity);
-            _entityEffectQueue.clearComplete();
+            _effectManager.update(delta);
+            for(AdventureEntity entity: _entityManager.getEntities())
+                _effectManager.processEntity(entity);
+            _effectManager.clearComplete();
         }
 
         _entityManager.update(delta);
+        _collisionManager.update(delta);
 
-        _backgroundSpriteSystem.update(delta);
-        _foregroundSpriteSystem.update(delta);
+        _backgroundSpriteManager.update(delta);
+        _foregroundSpriteManager.update(delta);
 
         _lightManager.update(delta);
+
+        // Update the physics world
+        _world.step(delta, 5, 5);
     }
 
     @Override
@@ -310,9 +311,9 @@ public class AdventureState extends LRKState
             _entityManager.getPlayer().rightMousePress(x, y);
     }
 
-    public EntityEffectQueue getEntityEffectQueue()
+    public EffectManager getEffectManager()
     {
-        return _entityEffectQueue;
+        return _effectManager;
     }
 
     public int getRenderDistance()
@@ -332,23 +333,18 @@ public class AdventureState extends LRKState
 
     public boolean inRenderArea(Vec2 position, float renderPadding)
     {
-        return Math.abs(position.x-_entityManager.getCamera().getX())-renderPadding <= getRenderDistance()
-                && Math.abs(position.y-_entityManager.getCamera().getY())-renderPadding <= getRenderDistance();
+        return Math.abs(position.x- _entityManager.getCamera().getX())-renderPadding <= getRenderDistance()
+                && Math.abs(position.y- _entityManager.getCamera().getY())-renderPadding <= getRenderDistance();
     }
 
-    public SpriteSystem getBackgroundSpriteSystem()
+    public SpriteManager getBackgroundSpriteManager()
     {
-        return _backgroundSpriteSystem;
+        return _backgroundSpriteManager;
     }
 
-    public SpriteSystem getForegroundSpriteSystem()
+    public SpriteManager getForegroundSpriteManager()
     {
-        return _foregroundSpriteSystem;
-    }
-
-    public ShadowMap getShadowMap()
-    {
-        return _shadowMap;
+        return _foregroundSpriteManager;
     }
 
     public static Vec2 getDrawPosition(Vec2 worldPos, float xShift, float yShift)
@@ -364,5 +360,15 @@ public class AdventureState extends LRKState
     public EntityManager getEntityManager()
     {
         return _entityManager;
+    }
+
+    public TiledMap getTiledMap()
+    {
+        return _tiledMap;
+    }
+
+    public World getWorld()
+    {
+        return _world;
     }
 }

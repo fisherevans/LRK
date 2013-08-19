@@ -15,13 +15,13 @@ import java.util.ArrayList;
  * Time: 6:03 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SpriteSystem
+public class SpriteManager
 {
     private AdventureState _parent;
 
     private ArrayList<Sprite> _sprites;
 
-    public SpriteSystem(AdventureState parent)
+    public SpriteManager(AdventureState parent)
     {
         _parent = parent;
         _sprites = new ArrayList<>();

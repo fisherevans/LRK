@@ -216,7 +216,7 @@ public abstract class AdventureEntity implements Health.HealthListener
     public void healthDecreased(RPGEntity entity, float amount)
     {
         _damageHue = 1f;
-        _state.getForegroundSpriteSystem().addSprite(new Number(-amount, getBody().getPosition().clone(), _numColorDamage, _numColorHeal));
+        _state.getForegroundSpriteManager().addSprite(new Number(-amount, getBody().getPosition().clone(), _numColorDamage, _numColorHeal));
     }
 
     public boolean isDead()
