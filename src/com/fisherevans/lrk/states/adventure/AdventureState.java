@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure;
 
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
@@ -7,6 +8,7 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.states.adventure.lights.LightManager;
+import com.fisherevans.lrk.states.adventure.ui.AdventureDebugUI;
 import com.fisherevans.lrk.states.character.CharacterState;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
@@ -39,12 +41,13 @@ public class AdventureState extends LRKState
     private EntityManager _entityManager;
     private CollisionManager _collisionManager;
     private LightManager _lightManager;
+
     private EffectManager _effectManager;
+
     private SpriteManager _backgroundSpriteManager;
     private SpriteManager _foregroundSpriteManager;
 
     private Vec2 _aimShift = new Vec2(0, 0);
-
 
     private String _levelName = "small_test";
 
@@ -52,6 +55,7 @@ public class AdventureState extends LRKState
     {
         super(StateLibrary.getTempID());
         addUIComponent(new PlayerStats(this));
+        addUIComponent(new AdventureDebugUI(this));
         setGrabMouse(true);
 
         _levelName = levelName;
@@ -151,13 +155,13 @@ public class AdventureState extends LRKState
         // DRAW THE BACKGROUND LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("background"));
 
+        // DRAW THE BACKGROUND SPRITES
+        _backgroundSpriteManager.render(gfx, xShift, yShift);
+
         // DRAW THE ENTITIES
         for(AdventureEntity ent: _entityManager.getEntities())
             if(inRenderArea(ent))
                 ent.render(gfx);
-
-        // DRAW THE BACKGROUND SPRITES
-        _backgroundSpriteManager.render(gfx, xShift, yShift);
 
         // DRAW THE OBJECTS LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("objects"));
@@ -183,7 +187,7 @@ public class AdventureState extends LRKState
                 ent.renderIdentifiers(gfx);
 
         // DRAW THE VIGNETTE
-        _lightManager.paintVignette(gfx, xShift, yShift, vignetteSize);
+        _lightManager.renderVignette(gfx, xShift, yShift, vignetteSize);
 
         // UN-CLIP THE GRAPHICS ELEMENT
         GFX.unClip();
@@ -370,5 +374,10 @@ public class AdventureState extends LRKState
     public World getWorld()
     {
         return _world;
+    }
+
+    public CollisionManager getCollisionManager()
+    {
+        return _collisionManager;
     }
 }

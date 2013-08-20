@@ -9,8 +9,9 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,6 +26,8 @@ public class CollisionManager
 
     private ArrayList<AdventureEntity> _collisionEntities, _collisionEntitiesToDelete;
 
+    private Map<Integer, Shape> _collisionShapes;
+
     private int _collisionMapIndex;
 
     public CollisionManager(AdventureState state)
@@ -35,6 +38,49 @@ public class CollisionManager
         _collisionEntitiesToDelete = new ArrayList<>();
 
         _collisionMapIndex = _state.getTiledMap().getLayerIndex("collision");
+
+        loadCollisionShapes();
+    }
+
+    private void loadCollisionShapes()
+    {
+        _collisionShapes = new HashMap<>();
+        try
+        {
+            Scanner input = new Scanner(new File("res/tilesheets/collision_definitions.txt")); // read the file
+            String line;
+            String[] lineSplit, pointStrings, coords;
+            ArrayList<Vec2> points;
+            while(input.hasNextLine()) // for each line
+            {
+                try
+                {
+                    line = input.nextLine().replaceAll(" +", ""); // strip white spaces
+                    lineSplit = line.split("="); // split up id and points
+                    if(lineSplit[0].startsWith("#") || lineSplit.length < 2) // if it's a comment or there's no points, skip
+                        continue;
+                    pointStrings = lineSplit[1].split(";"); // get the points in string form
+                    PolygonShape shape = new PolygonShape();
+                    points = new ArrayList<>();
+                    for(String pointString:pointStrings) // for each point
+                    {
+                        coords = pointString.split(","); // split up x and y
+                        if(coords.length < 2) // if there's not 2 coords, skip it
+                            continue;
+                        points.add(new Vec2(new Float(coords[0]), new Float(coords[1]))); // add the new point
+                    }
+                    points.add(points.get(0).clone()); // loop back and add the first point
+                    shape.set(points.toArray(new Vec2[] { }), points.size()-1);
+                    _collisionShapes.put(new Integer(lineSplit[0]), shape); // store the polygon
+                } catch (Exception e) // if there is an error parsing a line
+                {
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) // if there is an error loading the file
+        {
+            e.printStackTrace();
+        }
     }
 
     public void processTile(int x, int y, TiledMap tiledMap)
@@ -44,40 +90,15 @@ public class CollisionManager
 
     private void processCollisionTile(int x, int y, int id)
     {
-        if(id < 0)
-            return;
-
-        FixtureDef collisionBodyDef = new FixtureDef();
-        collisionBodyDef.density = 1f;
-        collisionBodyDef.friction = 0.2f;
-        collisionBodyDef.restitution = 0.0f;
-
-        Shape shape = null;
-
-        switch(id)
+        if(_collisionShapes != null && _collisionShapes.containsKey(id))
         {
-            case 0:
-                shape = getPolygonShape(new Vec2(-0.5f, -0.5f), new Vec2(0.5f, -0.5f), new Vec2(0.5f, 0.5f), new Vec2(-0.5f, 0.5f), new Vec2(-0.5f, -0.5f));
-                break;
-            case 1:
-                shape = getPolygonShape(new Vec2(-0.21875f, -0.21875f), new Vec2(0.21875f, -0.21875f), new Vec2(0.21875f, 0.21875f), new Vec2(-0.21875f, 0.21875f), new Vec2(-0.21875f, -0.21875f));
-                break;
-        }
-
-        if(shape != null)
-        {
-            collisionBodyDef.shape = shape;
+            FixtureDef collisionBodyDef = new FixtureDef();
+            collisionBodyDef.density = 1f;
+            collisionBodyDef.friction = 0.2f;
+            collisionBodyDef.restitution = 0.0f;
+            collisionBodyDef.shape = _collisionShapes.get(id);
             _collisionEntities.add(new Wall(x, y, collisionBodyDef, _state.getWorld(), _state));
         }
-        else
-            LRK.log("Failed to load the collision tile: " + id);
-    }
-
-    public Shape getPolygonShape(Vec2 ... points)
-    {
-        PolygonShape polygon = new PolygonShape();
-        polygon.set(points, points.length-1);
-        return polygon;
     }
 
     public void update(float delta)
@@ -103,5 +124,10 @@ public class CollisionManager
     public void removeCollisionEntity(AdventureEntity entity)
     {
         _collisionEntitiesToDelete.add(entity);
+    }
+
+    public Map<Integer, Shape> getCollisionShapes()
+    {
+        return _collisionShapes;
     }
 }

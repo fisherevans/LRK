@@ -65,11 +65,15 @@ public class EntityManager
         if(id < 0)
             return;
 
+        LRK.log("Checking id " + id);
+
         boolean noMatch = false;
         switch(id)
         {
             case 0: // PLAYER
-                _player.getBody().getPosition().set(x, y);
+                LRK.log("Setting player position " + x + ", " + y);
+                _player.getBody().getPosition().x = x;
+                _player.getBody().getPosition().y = y;
                 _state.getLightManager().addLight(new PlayerLight(_state.getLightManager()));
                 break;
             case 1: // DUMB BLOB

@@ -1,7 +1,10 @@
 package com.fisherevans.lrk.states;
 
+import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.launcher.*;
 import com.fisherevans.lrk.managers.DisplayManager;
+import org.lwjgl.opengl.ARBShaderObjects;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Game;
 

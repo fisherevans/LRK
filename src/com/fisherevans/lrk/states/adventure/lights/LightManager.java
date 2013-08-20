@@ -5,9 +5,10 @@ import com.fisherevans.lrk.Resources;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.adventure.AdventureState;
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
+import org.lwjgl.opengl.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -16,6 +17,7 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 import shader.Shader;
+import sun.security.krb5.internal.KRBCred;
 
 import java.util.ArrayList;
 
@@ -30,20 +32,18 @@ public class LightManager
 {
     private AdventureState _state;
     private ArrayList<Light> _lights, _toRemove;
-    private Image _lightBuffer, _mapBuffer, _visibleBuffer;
-    private Graphics _lightGfx, _mapGfx, _visibleGfx;
+    private Image _lightBuffer, _mapBuffer, _blurBuffer;
+    private Graphics _lightGfx, _mapGfx, _blurGfx;
     private Color _ambientLight;
-    private Light _cameraLight;
     private Shader _blurH, _blurV;
 
+    private int _lightsMapIndex, _shadowMapIndex;
     private ArrayList<ShadowLine> _shadowLines;
 
     private Image _vignette;
 
     private final int LIGHT_SIZE = 256;
     private final float DEFAULT_LIGHT_RADIUS = 4f;
-
-    private int _lightsMapIndex, _shadowMapIndex;
 
     public LightManager(AdventureState parent, Color ambientLight)
     {
@@ -65,7 +65,7 @@ public class LightManager
             _lightBuffer = new Image(LIGHT_SIZE, LIGHT_SIZE);
             _lightGfx = _lightBuffer.getGraphics();
         }
-        catch (SlickException e)
+        catch (Exception e)
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -91,11 +91,11 @@ public class LightManager
 
     public void render(Graphics gfx, float xShift, float yShift)
     {
-        // CLEAr THE LIGHT FRAME WITH AMBIENT LIGHT
-        Graphics.setCurrent(_mapGfx);
-        _mapGfx.clear();
-        _mapGfx.setColor(_ambientLight);
-        _mapGfx.fillRect(0, 0, _mapBuffer.getWidth(), _mapBuffer.getHeight());
+        // CLEAR THE LIGHT FRAME WITH AMBIENT LIGHT
+        Graphics.setCurrent(_blurGfx);
+        _blurGfx.clear();
+        _blurGfx.setColor(_ambientLight);
+        _blurGfx.fillRect(0, 0, _blurBuffer.getWidth(), _blurBuffer.getHeight());
 
         float x, y, fullSize, halfSize;
         Light light;
@@ -117,32 +117,37 @@ public class LightManager
                 _lightGfx.flush();
 
                 // DRAW THE LIGHT TO THE FRAME BUFFER
-                Graphics.setCurrent(_mapGfx);
+                Graphics.setCurrent(_blurGfx);
                 GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
-                _mapGfx.drawImage(_lightBuffer.getScaledCopy((int) fullSize, (int) fullSize), x, y);//, light.getColor());
+                _blurGfx.drawImage(_lightBuffer.getScaledCopy((int) fullSize, (int) fullSize), x, y);//, light.getColor());
                 gfx.setDrawMode(Graphics.MODE_NORMAL);
             }
         }
-        _mapGfx.flush();
+        _blurGfx.flush();
 
-        // DRAW THE LIGHT MAP OVER THE SCENE
-        Graphics.setCurrent(gfx);
-
-        /*_blurV.startShader();
-        _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowHeight());
-        _blurV.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
-
+        // BLUR HORIZONTALLY TO THE BLUR BUFFER
         _blurH.startShader();
         _blurH.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
-        _blurH.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());*/
+        _blurH.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
 
-        paintBuffer(gfx);
-        //paintBufferDebug(gfx);
+        Graphics.setCurrent(_mapGfx);
+        _mapGfx.drawImage(_blurBuffer, 0, 0);
+        _mapGfx.flush();
+        Shader.forceFixedShader();
 
-        //Shader.forceFixedShader();
+        // BLUR VERTICALLY TO THE GAME GRAPHICS - THIS TIME APPLY THE BLENDING FUNCTION
+
+        _blurV.startShader();
+        _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
+        _blurV.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
+        Graphics.setCurrent(gfx);
+        GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
+        gfx.drawImage(_mapBuffer, 0, 0);
+        gfx.setDrawMode(Graphics.MODE_NORMAL);
+        Shader.forceFixedShader();
     }
 
-    public void paintVignette(Graphics gfx, float xShift, float yShift, float size)
+    public void renderVignette(Graphics gfx, float xShift, float yShift, float size)
     {
         //*/ DRAW THE PRETTY VIGNETTE
         GFX.drawImageCentered(xShift + getState().getEntityManager().getCamera().getX() * AdventureState.TILE_SIZE,
@@ -184,18 +189,6 @@ public class LightManager
         }
     }
 
-    private void paintBuffer(Graphics gfx)
-    {
-        GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
-        _mapBuffer.draw(0, 0);
-        gfx.setDrawMode(Graphics.MODE_NORMAL);
-    }
-
-    private void paintBufferDebug(Graphics gfx)
-    {
-        gfx.drawImage(_mapBuffer, 0, 0);
-    }
-
     public void addLight(Light newLight)
     {
         if(!_lights.contains(newLight))
@@ -214,6 +207,9 @@ public class LightManager
         {
             _mapBuffer = new Image((int)DisplayManager.getBackgroundWidth()+1, (int)DisplayManager.getBackgroundHeight()+1);
             _mapGfx = _mapBuffer.getGraphics();
+
+            _blurBuffer = new Image((int)DisplayManager.getBackgroundWidth()+1, (int)DisplayManager.getBackgroundHeight()+1);
+            _blurGfx = _blurBuffer.getGraphics();
         }
         catch (SlickException e)
         {
@@ -244,33 +240,23 @@ public class LightManager
 
     private void processShadowTile(int x, int y, int id)
     {
-        if(id < 0)
-            return;
-
-        switch(id)
+        if(_state.getCollisionManager().getCollisionShapes() != null)
         {
-            case 0:
-                addShadowLine(new ShadowLine(x-0.5f, y-0.5f, x+0.5f, y-0.5f));
-                addShadowLine(new ShadowLine(x-0.5f, y-0.5f, x-0.5f, y+0.5f));
-                addShadowLine(new ShadowLine(x+0.5f, y+0.5f, x+0.5f, y-0.5f));
-                addShadowLine(new ShadowLine(x+0.5f, y+0.5f, x-0.5f, y+0.5f));
-                break;
+            Shape shape = _state.getCollisionManager().getCollisionShapes().get(id);
+            if(shape != null && shape instanceof PolygonShape)
+            {
+                PolygonShape polygon = ((PolygonShape)shape);
+                int delta;
+                for(int pointId = 0;pointId < polygon.getVertexCount();pointId++)
+                {
+                    delta = pointId < polygon.getVertexCount()-1 ? 1 : -pointId;
+                    addShadowLine(new ShadowLine(polygon.getVertex(pointId).x + x, polygon.getVertex(pointId).y + y,
+                            polygon.getVertex(pointId+delta).x + x, polygon.getVertex(pointId+delta).y + y));
+                }
+            }
         }
-    }
-
-    public void addShadowLine(float x1, float y1, float x2, float y2)
-    {
-        addShadowLine(new ShadowLine(x1, y1, x2, y2));
-    }
-
-    public void addShadowLines(ShadowLine ... lines)
-    {
-        int count = 0;
-        for(ShadowLine line:lines)
-            if(addShadowLine(line))
-                count++;
-
-        LRK.log("Added " + count + " shadow lines");
+        else
+            LRK.log("INIT COLLISION MANAGER FIRST!!!");
     }
 
     public boolean addShadowLine(ShadowLine line)
@@ -285,16 +271,6 @@ public class LightManager
     public ArrayList<ShadowLine> getShadowLines()
     {
         return _shadowLines;
-    }
-
-    public Light getCameraLight()
-    {
-        return _cameraLight;
-    }
-
-    public void setCameraLight(Light cameraLight)
-    {
-        _cameraLight = cameraLight;
     }
 
     public AdventureState getState()
