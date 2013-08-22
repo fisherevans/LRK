@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.rpg.items;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 /**
@@ -11,21 +12,33 @@ import org.newdawn.slick.Image;
  */
 public class Light extends Equipment
 {
-    private int _lightStrength = 0;
+    private float _lightStrength = 0;
+    private Color _lightColor;
 
-    public Light(String name, String description, Image image, int lightStrength)
+    public Light(String name, String description, Image image, float lightStrength, Color lightColor)
     {
         super(name, description, image, Position.Light, 0, 0);
         _lightStrength = lightStrength;
+        _lightColor = lightColor;
     }
 
-    public int getLightStrength()
+    public float getLightStrength()
     {
         return _lightStrength;
     }
 
-    public void setLightStrength(int lightStrength)
+    public void setLightStrength(float lightStrength)
     {
         _lightStrength = lightStrength;
+    }
+
+    public Color getLightColor()
+    {
+        return _lightColor;
+    }
+
+    public void setLightColor(Color lightColor)
+    {
+        _lightColor = lightColor;
     }
 }

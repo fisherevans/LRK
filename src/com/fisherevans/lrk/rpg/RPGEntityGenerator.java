@@ -6,6 +6,7 @@ import com.fisherevans.lrk.rpg.items.enchantments.UnholyMight;
 import com.fisherevans.lrk.states.adventure.combat.skills.Slash;
 import com.fisherevans.lrk.states.adventure.combat.skills.Whirlwind;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
+import org.newdawn.slick.Color;
 
 /**
  * User: Fisher evans
@@ -42,8 +43,8 @@ public class RPGEntityGenerator
         inventory.addItem(new Consumable("Book of Earthworms", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/book_01"), null, 5));
         inventory.addItem(new Consumable("Hamburger", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/hamburger"), null, 5));
 
-        inventory.addItem(new Light("Torch", "A simple petro torch", Resources.getImage("equipment/lights/torch_01"), 2));
-        inventory.addItem(new Light("Lantern", "A simple butane lantern", Resources.getImage("equipment/lights/lantern_01"), 5));
+        inventory.addItem(new Light("Torch", "A simple petro torch", Resources.getImage("equipment/lights/torch_01"), 1f, new Color(0.4f, 0.35f, 0.2f)));
+        inventory.addItem(new Light("Lantern", "A simple butane lantern", Resources.getImage("equipment/lights/lantern_01"), 2f, new Color(0.6f, 0.55f, 0.4f)));
 
         Player character = new Player(entity, inventory);
 

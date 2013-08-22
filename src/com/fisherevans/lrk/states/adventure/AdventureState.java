@@ -31,7 +31,8 @@ public class AdventureState extends LRKState
 
     public static final float
         TILE_SIZE = 32f,
-        DEFAULT_RENDER_DISTANCE = 5f;
+            DEFAULT_RENDER_DISTANCE = 7.5f,
+            MAX_RENDER_DISTANCE = 11f;
 
     public static float TILES_WIDE, TILES_HIGH;
 
@@ -169,9 +170,6 @@ public class AdventureState extends LRKState
         // DRAW THE FOREGROUND LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("foreground"));
 
-        // DRAW THE FOREGROUND SPRITES
-        _foregroundSpriteManager.render(gfx, xShift, yShift);
-
         // UN-CLIP THE GRAPHICS ELEMENT
         GFX.unClip();
 
@@ -185,6 +183,9 @@ public class AdventureState extends LRKState
         for(AdventureEntity ent: _entityManager.getEntities())
             if(inRenderArea(ent))
                 ent.renderIdentifiers(gfx);
+
+        // DRAW THE FOREGROUND SPRITES
+        _foregroundSpriteManager.render(gfx, xShift, yShift);
 
         // DRAW THE VIGNETTE
         _lightManager.renderVignette(gfx, xShift, yShift, vignetteSize);
@@ -320,9 +321,10 @@ public class AdventureState extends LRKState
         return _effectManager;
     }
 
-    public int getRenderDistance()
+    public float getRenderDistance()
     {
-        return (int) (DEFAULT_RENDER_DISTANCE + Game.lrk.getPlayer().getLightStength());
+        float distance = DEFAULT_RENDER_DISTANCE + Game.lrk.getPlayer().getLightStength();
+        return distance > MAX_RENDER_DISTANCE ? MAX_RENDER_DISTANCE : distance;
     }
 
     public boolean inRenderArea(AdventureEntity entity)

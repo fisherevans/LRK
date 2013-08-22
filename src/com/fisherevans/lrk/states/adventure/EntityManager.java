@@ -48,7 +48,7 @@ public class EntityManager
         _entities = new ArrayList<>();
         _entitiesToDelete = new ArrayList<>();
 
-        _player = new PlayerEntity(5, 6, _state.getWorld(), _state);
+        _player = new PlayerEntity(0, 0, state.getWorld(), _state);
         _entities.add(_player);
         _camera = _player;
 
@@ -72,8 +72,7 @@ public class EntityManager
         {
             case 0: // PLAYER
                 LRK.log("Setting player position " + x + ", " + y);
-                _player.getBody().getPosition().x = x;
-                _player.getBody().getPosition().y = y;
+                _player.getBody().setTransform(new Vec2(x, y), _player.getBody().getAngle());
                 _state.getLightManager().addLight(new PlayerLight(_state.getLightManager()));
                 break;
             case 1: // DUMB BLOB

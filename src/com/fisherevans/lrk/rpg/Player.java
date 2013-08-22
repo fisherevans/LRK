@@ -123,7 +123,7 @@ public class Player
         return null;
     }
 
-    public int getLightStength()
+    public float getLightStength()
     {
         Equipment light = getEquipment(Equipment.Position.Light);
         if(light == null)

@@ -42,6 +42,8 @@ public class LightManager
 
     private Image _vignette;
 
+    private boolean userShaders = true;
+
     private final int LIGHT_SIZE = 256;
     private final float DEFAULT_LIGHT_RADIUS = 4f;
 
@@ -125,26 +127,35 @@ public class LightManager
         }
         _blurGfx.flush();
 
-        // BLUR HORIZONTALLY TO THE BLUR BUFFER
-        _blurH.startShader();
-        _blurH.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
-        _blurH.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
+        if(userShaders)
+        {
+            // BLUR HORIZONTALLY TO THE BLUR BUFFER
+            _blurH.startShader();
+            _blurH.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
+            _blurH.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
 
-        Graphics.setCurrent(_mapGfx);
-        _mapGfx.drawImage(_blurBuffer, 0, 0);
-        _mapGfx.flush();
-        Shader.forceFixedShader();
+            Graphics.setCurrent(_mapGfx);
+            _mapGfx.drawImage(_blurBuffer, 0, 0);
+            _mapGfx.flush();
+            Shader.forceFixedShader();
 
-        // BLUR VERTICALLY TO THE GAME GRAPHICS - THIS TIME APPLY THE BLENDING FUNCTION
+            // BLUR VERTICALLY TO THE GAME GRAPHICS - THIS TIME APPLY THE BLENDING FUNCTION
 
-        _blurV.startShader();
-        _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
-        _blurV.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
-        Graphics.setCurrent(gfx);
-        GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
-        gfx.drawImage(_mapBuffer, 0, 0);
-        gfx.setDrawMode(Graphics.MODE_NORMAL);
-        Shader.forceFixedShader();
+            _blurV.startShader();
+            _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
+            _blurV.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
+            Graphics.setCurrent(gfx);
+            GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
+            gfx.drawImage(_mapBuffer, 0, 0);
+            gfx.setDrawMode(Graphics.MODE_NORMAL);
+            Shader.forceFixedShader();
+        }
+        else
+        {
+            GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
+            gfx.drawImage(_blurBuffer, 0, 0);
+            gfx.setDrawMode(Graphics.MODE_NORMAL);
+        }
     }
 
     public void renderVignette(Graphics gfx, float xShift, float yShift, float size)
@@ -233,7 +244,9 @@ public class LightManager
         switch(id)
         {
             case 0: // PLAYER
-                addLight(new Light(3, new Color(0.6f, 0.5f, 0.3f), new Vec2(x, y), "torch", this));
+                Light torchLight = new Light(Resources.getImage("lights/torch"), 3, new Color(1f, 0.9f, 0.75f), new Vec2(x, y), this);
+                torchLight.setController("torch");
+                addLight(torchLight);
                 break;
         }
     }
