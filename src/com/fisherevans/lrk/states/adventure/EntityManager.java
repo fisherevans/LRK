@@ -73,7 +73,6 @@ public class EntityManager
             case 0: // PLAYER
                 LRK.log("Setting player position " + x + ", " + y);
                 _player.getBody().setTransform(new Vec2(x, y), _player.getBody().getAngle());
-                _state.getLightManager().addLight(new PlayerLight(_state.getLightManager()));
                 break;
             case 1: // DUMB BLOB
                 _entities.add(new DumbBlob(RPGEntityGenerator.getBlob(), x, y, _state.getWorld(), _state));

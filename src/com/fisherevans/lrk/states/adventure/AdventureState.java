@@ -8,6 +8,7 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.InputManager;
 import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.states.adventure.lights.LightManager;
+import com.fisherevans.lrk.states.adventure.lights.PlayerLight;
 import com.fisherevans.lrk.states.adventure.ui.AdventureDebugUI;
 import com.fisherevans.lrk.states.character.CharacterState;
 import com.fisherevans.lrk.states.GFX;
@@ -107,6 +108,8 @@ public class AdventureState extends LRKState
                 _lightManager.processTile(x, y, _tiledMap);
             }
         }
+
+        _lightManager.addLight(new PlayerLight(_lightManager));
     }
 
     @Override
