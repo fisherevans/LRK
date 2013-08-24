@@ -8,6 +8,7 @@ import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.managers.MusicManager;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.options.OptionsState;
 import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -25,7 +26,7 @@ public class SplashState extends LRKState
 {
     public SplashState() throws SlickException
     {
-        super(StateLibrary.getID("splash"));
+        super();
         addUIComponent(new TitleUI(this));
     }
 
@@ -64,11 +65,11 @@ public class SplashState extends LRKState
     @Override
     public void keySelect()
     {
-        LRKState options = StateLibrary.getState("options");
-
         try
         {
-            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), this, options, 0.5f));
+            LRKState options = new OptionsState();
+            int optionsId = StateLibrary.addState(options);
+            StateLibrary.setNewActiveState(new SimpleFadeTransition(this.getID(), optionsId, 0.5f));
         }
         catch (SlickException e)
         {

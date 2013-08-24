@@ -11,26 +11,25 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class TransitionState extends LRKState
 {
-    private LRKState _state1, _state2;
+    private int _stateId1, _stateId2;
     private float _duration, _current;
 
     /**
      * creates the transition state
-     * @param id see @getID(int id)
-     * @param state1 the original state (transition from)
-     * @param state2 the new state (transition to)
+     * @param stateId1 the original state (transition from)
+     * @param stateId2 the new state (transition to)
      * @param duration how long to make the transition last
      * @throws SlickException if any graphics error occurs
      */
-    public TransitionState(int id, LRKState state1, LRKState state2, float duration) throws SlickException
+    public TransitionState(int stateId1, int stateId2, float duration) throws SlickException
     {
-        super(id);
-
-        _state1 = state1;
-        _state2 = state2;
+        super();
 
         _duration = duration;
         _current = 0;
+
+        _stateId1 = stateId1;
+        _stateId2 = stateId2;
     }
 
     @Override
@@ -39,7 +38,7 @@ public abstract class TransitionState extends LRKState
         _current += delta;
 
         if(_current >= _duration)
-            StateLibrary.setActiveState(_state2);
+            StateLibrary.setActiveState(_stateId2);
         else
             transitionUpdate(delta);
     }
@@ -65,7 +64,7 @@ public abstract class TransitionState extends LRKState
      */
     public LRKState getState1()
     {
-        return _state1;
+        return StateLibrary.getState(_stateId1);
     }
 
     /**
@@ -73,7 +72,7 @@ public abstract class TransitionState extends LRKState
      */
     public LRKState getState2()
     {
-        return _state2;
+        return StateLibrary.getState(_stateId2);
     }
 
     /**

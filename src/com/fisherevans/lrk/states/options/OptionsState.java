@@ -29,13 +29,7 @@ public class OptionsState extends LRKState
 
     public OptionsState() throws SlickException
     {
-        super(StateLibrary.getID("options"));
-    }
-
-    @Override
-    public int getID()
-    {
-        return StateLibrary.getID("options");
+        super();
     }
 
     @Override

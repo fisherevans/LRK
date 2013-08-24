@@ -29,10 +29,10 @@ public class Game
     public static CanvasGameContainer gameCanvas;
     public static LRK lrk;
 
-    public Game()
+    public Game(String[] args)
     {
         loadNatives();
-        startGame();
+        startGame(args);
     }
 
     /**
@@ -67,11 +67,11 @@ public class Game
     /**
      * initiates the game objects
      */
-    private void startGame()
+    private void startGame(String[] args)
     {
         try
         {
-            lrk = new LRK("Lost Relics of Kazar - A Prequel [" + LRK.VERSION + "]");
+            lrk = new LRK("Lost Relics of Kazar - A Prequel [" + LRK.VERSION + "]", args);
             gameCanvas = new CanvasGameContainer(lrk);
             gameCanvas.setBackground(Color.black);
             gameCanvas.setPreferredSize(DisplayManager.getDimensions());
@@ -99,7 +99,7 @@ public class Game
 
             DisplayManager.updateCanvasStats();
 
-            window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            //window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
         catch(Exception e)
         {
@@ -171,6 +171,6 @@ public class Game
      */
     public static void main(String[] args)
     {
-        new Game();
+        new Game(args);
     }
 }

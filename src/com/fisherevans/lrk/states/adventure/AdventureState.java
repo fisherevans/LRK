@@ -15,6 +15,7 @@ import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import com.fisherevans.lrk.states.adventure.ui.PlayerStats;
+import com.fisherevans.lrk.states.options.OptionsState;
 import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
@@ -51,13 +52,11 @@ public class AdventureState extends LRKState
 
     private Vec2 _aimShift = new Vec2(0, 0);
 
-    private String _levelName = "small_test";
+    private String _levelName;
 
     public AdventureState(String levelName) throws SlickException
     {
-        super(StateLibrary.getTempID());
-        addUIComponent(new PlayerStats(this));
-        addUIComponent(new AdventureDebugUI(this));
+        super();
         setGrabMouse(true);
 
         _levelName = levelName;
@@ -78,7 +77,7 @@ public class AdventureState extends LRKState
 
         try // load the map
         {
-            _tiledMap = new TiledMap("res/maps/template.tmx");
+            _tiledMap = new TiledMap("res/maps/" + _levelName + ".tmx");
         }
         catch(Exception e)
         {
@@ -110,6 +109,10 @@ public class AdventureState extends LRKState
         }
 
         _lightManager.addLight(new PlayerLight(_lightManager));
+
+        clearUIComponents();
+        addUIComponent(new PlayerStats(this));
+        addUIComponent(new AdventureDebugUI(this));
     }
 
     @Override
@@ -289,7 +292,9 @@ public class AdventureState extends LRKState
     {
         try
         {
-            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), StateLibrary.getActiveState(), StateLibrary.getState("options"), 0.5f));
+            LRKState options = new OptionsState();
+            int optionsId = StateLibrary.addState(options);
+            StateLibrary.setNewActiveState(new SimpleFadeTransition(this.getID(), optionsId, 0.5f));
         }
         catch (SlickException e)
         {
@@ -302,7 +307,7 @@ public class AdventureState extends LRKState
     {
         try
         {
-            StateLibrary.setActiveState(new CharacterState(this));
+            StateLibrary.setNewActiveState(new CharacterState(this));
         } catch (SlickException e)
         {
             LRK.log("Failed to change states - code 207");

@@ -4,8 +4,6 @@ import com.fisherevans.lrk.launcher.Game;
 import com.fisherevans.lrk.managers.DisplayManager;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.UIComponent;
-import com.fisherevans.lrk.states.options.OptionsState;
-import com.fisherevans.lrk.states.splash.SplashState;
 import org.newdawn.slick.SlickException;
 
 import java.util.HashMap;
@@ -34,19 +32,50 @@ public class StateLibrary
 
         _nextTempID = START_TEMP_ID;
         _states = new HashMap<Integer, LRKState>();
-
-        addState(getID("splash"), new SplashState());
-        addState(getID("options"), new OptionsState());
     }
 
     /**
-     * sets the current active state for the LRK object to use
-     * @param id the int id of the state to set acive
-     * @return returns false if the id doesn't exist. The active state is not set if this happens.
+     * Adds a state to the library for later use
+     * @param state the state to add to the map
+     * @return state you passed (for ease of use)
      */
-    public static boolean setActiveState(String id)
+    public static int addState(LRKState state)
     {
-        return setActiveState(getID(id));
+        state.setID(getNextId());
+        _states.put(state.getID(), state);
+
+        try
+        {
+            state.init();
+        }
+        catch (SlickException e)
+        {
+            LRK.log("Failed to init() the added state: " + state.toString());
+        }
+
+        return state.getID();
+    }
+
+    /**
+     * destroys the state at the given id (to free up RAM)
+     * @param id the id of the state to remove
+     * @return true if a state was removed - false if there was no state at that id
+     */
+    public static boolean removeState(int id)
+    {
+        if(_states.containsKey(id))
+        {
+            _states.remove(id);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public static boolean setNewActiveState(LRKState state)
+    {
+        int stateId = addState(state);
+        return setActiveState(stateId);
     }
 
     /**
@@ -71,12 +100,12 @@ public class StateLibrary
      * @param state the new state to set as active
      * @return the state passed to this method (for ease of use)
      */
-    public static boolean setActiveState(LRKState state)
+    private static boolean setActiveState(LRKState state)
     {
         if(state == null) return false;
 
         if(!_states.containsKey(state.getID()))
-            _states.put(state.getID(), state);
+            addState(state);
 
         try
         {
@@ -111,28 +140,6 @@ public class StateLibrary
     }
 
     /**
-     * Adds a state to the library for later use
-     * @param id the id to map the state with
-     * @param state the state to add to the map
-     * @return state you passed (for ease of use)
-     */
-    public static LRKState addState(int id, LRKState state)
-    {
-        _states.put(id, state);
-        return state;
-    }
-
-    /**
-     * get the state at a given id
-     * @param id the id of the state to look up
-     * @return returns the the state you're looking for - null if the ID isn't mapped.
-     */
-    public static LRKState getState(String id)
-    {
-        return getState(getID(id));
-    }
-
-    /**
      * get the state at a given id
      * @param id the id of the state to look up
      * @return returns the the state you're looking for - null if the ID isn't mapped.
@@ -147,53 +154,9 @@ public class StateLibrary
         return state;
     }
 
-    /**
-     * destroys the state at the given id (to free up RAM)
-     * @param id the id of the state to remove
-     * @return true if a state was removed - false if there was no state at that id
-     */
-    public static boolean destroyState(int id)
-    {
-        if(_states.containsKey(id))
-        {
-            _states.remove(id);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    /**
-     * destroys all temporary states (anything below START_TEMP_ID). DOES NOT destroy the active state een if it's a temp state
-     */
-    public static void destroyTempStates()
-    {
-        for(Integer key:_states.keySet())
-        {
-            if(key >= START_TEMP_ID && (_activeState == null || key != _activeState.getID()))
-                destroyState(key);
-        }
-    }
-
     /** get a temp ID for a temp state to use. garunteed to be unique in the library */
-    public static Integer getTempID()
+    private static Integer getNextId()
     {
         return _nextTempID++;
-    }
-
-    /**
-     * get an integer it of a predefined string id
-     * @param id the id you're looking for in string form
-     * @return the int mapping. returns -1 if the string id does not exist.
-     */
-    public static Integer getID(String id)
-    {
-        switch(id)
-        {
-            case "splash": return 1;
-            case "profile": return 2;
-            case "options": return 3;
-            default: LRK.log("State: " + id + " does not exist"); return -1;
-        }
     }
 }

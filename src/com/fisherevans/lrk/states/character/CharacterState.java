@@ -34,7 +34,7 @@ public class CharacterState extends LRKState
 
     public CharacterState(LRKState lastState) throws SlickException
     {
-        super(StateLibrary.getTempID());
+        super();
         _lastState = lastState;
 
         _inventoryList = new InventoryList(this);
@@ -96,7 +96,7 @@ public class CharacterState extends LRKState
 
     public void keyBack()
     {
-        StateLibrary.setActiveState(_lastState);
+        StateLibrary.setActiveState(_lastState.getID());
     }
 
     public float getForeHalfWidth()

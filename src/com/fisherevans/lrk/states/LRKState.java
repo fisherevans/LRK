@@ -16,19 +16,15 @@ import java.util.ArrayList;
  */
 public abstract class LRKState extends RenderComponent
 {
-    private int _id;
+    private int _id = -1;
     private Image _cursor = null;
     private boolean _grabMouse = false;
     private ArrayList<UIComponent> _uiComponents;
 
-    public LRKState(int id) throws SlickException
+    public LRKState() throws SlickException
     {
-        setID(id);
-
         _cursor = Resources.getImage("gui/default_mouse");
         _uiComponents = new ArrayList<>();
-
-        init();
     }
 
     /**
@@ -106,5 +102,10 @@ public abstract class LRKState extends RenderComponent
     public void addUIComponent(UIComponent ui)
     {
         _uiComponents.add(ui);
+    }
+
+    public void clearUIComponents()
+    {
+        _uiComponents.clear();
     }
 }

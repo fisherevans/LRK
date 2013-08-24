@@ -23,7 +23,7 @@ public class QuitState extends LRKState
 
     public QuitState() throws SlickException
     {
-        super(StateLibrary.getTempID());
+        super();
     }
 
     @Override

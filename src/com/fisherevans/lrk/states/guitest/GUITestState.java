@@ -14,9 +14,9 @@ import org.newdawn.slick.SlickException;
  */
 public class GUITestState extends LRKState
 {
-    public GUITestState(int id) throws SlickException
+    public GUITestState() throws SlickException
     {
-        super(id);
+        super();
     }
 
     @Override

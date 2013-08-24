@@ -2,8 +2,10 @@ package com.fisherevans.lrk.states.options.menu_items;
 
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
+import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.options.Menu;
+import com.fisherevans.lrk.states.options.OptionsState;
 import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
 import org.newdawn.slick.SlickException;
 
@@ -23,12 +25,11 @@ public class MenuItemPlayTest extends MenuItem
     @Override
     public Menu select() throws SlickException
     {
-        AdventureState adventure = new AdventureState("template");
-        StateLibrary.addState(adventure.getID(), adventure);
-
         try
         {
-            StateLibrary.setActiveState(new SimpleFadeTransition(StateLibrary.getTempID(), StateLibrary.getActiveState(), adventure, 0.5f));
+            LRKState adventure = new AdventureState("template");
+            int adventureId = StateLibrary.addState(adventure);
+            StateLibrary.setNewActiveState(new SimpleFadeTransition(StateLibrary.getActiveState().getID(), adventureId, 0.5f));
         }
         catch (SlickException e)
         {

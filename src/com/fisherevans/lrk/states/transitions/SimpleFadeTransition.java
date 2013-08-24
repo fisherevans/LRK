@@ -13,9 +13,9 @@ import org.newdawn.slick.SlickException;
  */
 public class SimpleFadeTransition extends TransitionState
 {
-    public SimpleFadeTransition(int id, LRKState state1, LRKState state2, float duration) throws SlickException
+    public SimpleFadeTransition(int stateId1, int stateId2, float duration) throws SlickException
     {
-        super(id, state1, state2, duration);
+        super(stateId1, stateId2, duration);
     }
 
     @Override

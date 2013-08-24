@@ -10,7 +10,9 @@ import com.fisherevans.lrk.rpg.Player;
 import com.fisherevans.lrk.rpg.RPGEntityGenerator;
 import com.fisherevans.lrk.states.GFX;
 import com.fisherevans.lrk.states.UIComponent;
+import com.fisherevans.lrk.states.adventure.AdventureState;
 import com.fisherevans.lrk.states.quit.QuitState;
+import com.fisherevans.lrk.states.splash.SplashState;
 import org.newdawn.slick.*;
 
 import java.sql.Timestamp;
@@ -22,8 +24,8 @@ import java.sql.Timestamp;
  */
 public class LRK extends BasicGame
 {
-    public static boolean DEBUG = true;
-    public static final String VERSION = "0.2 Alpha";
+    public static boolean DEBUG = false;
+    public static final String VERSION = "0.8.3 Alpha";
 
     // Game Component Managers
     private InputManager _inputManager;
@@ -41,14 +43,18 @@ public class LRK extends BasicGame
     private long pauseEndTime = 0;
     private boolean paused = false;
 
+    private String[] _args;
+
     /**
      * Create a new basic game
      *
      * @param title The title for the game
      */
-    public LRK(String title)
+    public LRK(String title, String[] args)
     {
         super(title);
+
+        _args = args;
 
         _displayManager = new DisplayManager();
         _inputManager = new InputManager();
@@ -69,14 +75,35 @@ public class LRK extends BasicGame
 
         StateLibrary.resetStates();
 
-        StateLibrary.setActiveState("splash");
-
         InputManager.connectInput(Game.getContainer().getInput());
-
 
         _notifications.init();
 
         _player = RPGEntityGenerator.getAnarok();
+
+        StateLibrary.setNewActiveState(new SplashState());
+
+        String[] argSplit;
+        for(String arg:_args)
+        {
+            argSplit = arg.split("=");
+            switch(argSplit[0])
+            {
+                case "test-map":
+                {
+                    if(argSplit.length >= 2)
+                    {
+                        StateLibrary.setNewActiveState(new AdventureState(argSplit[1]));
+                    }
+                    break;
+                }
+                case "debug":
+                {
+                    DEBUG = true;
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -153,7 +180,7 @@ public class LRK extends BasicGame
     {
         try
         {
-            StateLibrary.setActiveState(new QuitState());
+            StateLibrary.setNewActiveState(new QuitState());
         }
         catch (SlickException e)
         {
