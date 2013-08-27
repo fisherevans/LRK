@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure.combat.effects;
 
+import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
 /**
@@ -11,17 +12,27 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  */
 public class HealthAOE extends AOE
 {
-    private float _healthDiff;
+    private RPGEntity _server;
 
-    public HealthAOE(float x, float y, float radius, float duration, float rate, float healthDiff, AdventureEntity.Team... effects)
+    public HealthAOE(float x, float y, float radius, float duration, float rate, RPGEntity server, AdventureEntity.Team... effects)
     {
         super(x, y, radius, duration, rate, effects);
-        _healthDiff = healthDiff;
+        _server = server;
     }
 
     @Override
-    public void effect(AdventureEntity entity)
+    public void effect(AdventureEntity receiverAdventure)
     {
-        entity.getRpgEntity().getHealth().adjustHealth(_healthDiff);
+        float serverP, receiverD, statDifference, damage;
+        RPGEntity receiver = receiverAdventure.getRpgEntity();
+
+        serverP = _server.getTotalPower();
+        receiverD = receiver.getTotalDefence();
+
+        statDifference = serverP - receiverD;
+
+        damage = statDifference < 0 ? 0 : statDifference*statDifference;
+
+        receiver.getHealth().adjustHealth(-damage);
     }
 }

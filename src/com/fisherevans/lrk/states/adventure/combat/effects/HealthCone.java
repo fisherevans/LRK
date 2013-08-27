@@ -1,6 +1,6 @@
 package com.fisherevans.lrk.states.adventure.combat.effects;
 
-import com.fisherevans.lrk.LRK;
+import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import org.jbox2d.common.Vec2;
 
@@ -13,17 +13,27 @@ import org.jbox2d.common.Vec2;
  */
 public class HealthCone extends Cone
 {
-    private float _healthDiff;
+    private RPGEntity _server;
 
-    public HealthCone(float aimAngle, float widthAngle, float length, Vec2 pos, float healthDiff, AdventureEntity.Team... effects)
+    public HealthCone(float aimAngle, float widthAngle, float length, Vec2 pos, RPGEntity server, AdventureEntity.Team... effects)
     {
         super(aimAngle, widthAngle, length, pos, effects);
-        _healthDiff = healthDiff;
+        _server = server;
     }
 
     @Override
-    public void effect(AdventureEntity entity)
+    public void effect(AdventureEntity receiverAdventure)
     {
-        entity.getRpgEntity().getHealth().adjustHealth(_healthDiff);
+        float serverP, receiverD, statDifference, damage;
+        RPGEntity receiver = receiverAdventure.getRpgEntity();
+
+        serverP = _server.getTotalPower();
+        receiverD = receiver.getTotalDefence();
+
+        statDifference = serverP - receiverD;
+
+        damage = statDifference < 0 ? 0 : statDifference*statDifference;
+
+        receiver.getHealth().adjustHealth(-damage);
     }
 }

@@ -30,7 +30,7 @@ public class Slash extends Skill
         SoundManager.play("slash"); // PLAY THE SOUND
 
         HealthCone effect = new HealthCone((float)Math.toRadians(owner.getDegrees()), (float) Math.toRadians(90), // CREATE THE HEALTH CONE EFFECT
-                1f, owner.getBody().getPosition().clone(), -(float)(Math.round(Math.random()*5 + 5)), _effects);
+                1f, owner.getBody().getPosition().clone(), owner.getRpgEntity(), _effects);
         owner.getState().getEffectManager().addEntityEffect(effect); // AND ADD IT TO THE EFFECT QUEUE
 
         owner.getState().getBackgroundSpriteManager().addSprite(SpriteGenerator.getSlash(owner, _clockWise)); // ADD A SLASH SPRITE

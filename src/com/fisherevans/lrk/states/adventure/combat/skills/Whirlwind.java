@@ -28,7 +28,7 @@ public class Whirlwind extends Skill
     {
         SoundManager.play("whirlwind"); // PLAY THE SOUND
 
-        MovingHealthAOE effect = new MovingHealthAOE(1.4f, 1f, 0.25f, -500, owner, _effects);
+        MovingHealthAOE effect = new MovingHealthAOE(1.4f, 1f, 0.25f, owner, _effects);
         owner.getState().getEffectManager().addEntityEffect(effect); // AND ADD IT TO THE EFFECT QUEUE
 
         owner.getState().getBackgroundSpriteManager().addSprite(SpriteGenerator.getWhirlwind(owner)); // ADD A SLASH SPRITE

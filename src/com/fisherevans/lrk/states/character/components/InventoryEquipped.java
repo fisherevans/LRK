@@ -141,13 +141,13 @@ public class InventoryEquipped extends UIComponent
         {
             if(position == Equipment.Position.OffHand)
             {
-                Weapon mainHand = (Weapon) Game.lrk.getPlayer().getEquipment(Equipment.Position.MainHand);
+                Weapon mainHand = (Weapon) Game.lrk.getPlayer().getEntity().getEquipment(Equipment.Position.MainHand);
                 if(mainHand != null && mainHand.isTwoHanded())
                     color = _highlightRed;
             }
             else if(position == Equipment.Position.MainHand)
             {
-                Weapon mainHand = (Weapon) Game.lrk.getPlayer().getEquipment(Equipment.Position.MainHand);
+                Weapon mainHand = (Weapon) Game.lrk.getPlayer().getEntity().getEquipment(Equipment.Position.MainHand);
                 if(mainHand != null && mainHand.isTwoHanded() && selected.getPosition() == Equipment.Position.OffHand)
                     color = _highlightRed;
             }
@@ -158,7 +158,7 @@ public class InventoryEquipped extends UIComponent
 
         GFX.drawImageCenteredRounded(startX()+x, startY()+y, _emptyImage, _iconScale, color);
 
-        Equipment equipment = Game.lrk.getPlayer().getEquipment(position);
+        Equipment equipment = Game.lrk.getPlayer().getEntity().getEquipment(position);
         if(equipment != null)
         {
             GFX.drawImageCenteredRounded(startX() + x, startY() + y, equipment.getImage(), _iconScale, Color.white);

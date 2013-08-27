@@ -20,13 +20,11 @@ public class Player
 {
     private RPGEntity _entity;
     private Inventory _inventory;
-    private Map<Equipment.Position, Equipment> _equipment;
 
     public Player(RPGEntity entity, Inventory inventory)
     {
         _entity = entity;
         _inventory = inventory;
-        _equipment = new HashMap<>();
     }
 
     public Player(RPGEntity entity)
@@ -59,35 +57,6 @@ public class Player
         _inventory = inventory;
     }
 
-    public Map<Equipment.Position, Equipment> getEquipmentMap()
-    {
-        return _equipment;
-    }
-
-    public Equipment getEquipment(Equipment.Position position)
-    {
-        if(_equipment.containsKey(position))
-            return _equipment.get(position);
-        else
-            return null;
-    }
-
-    public void equip(Equipment newItem)
-    {
-        if(newItem.getPosition() == Equipment.Position.OffHand)
-        {
-            Equipment mainHand = getEquipment(Equipment.Position.MainHand);
-            if(mainHand != null && mainHand instanceof Weapon && ((Weapon)mainHand).isTwoHanded())
-                _equipment.remove(Equipment.Position.MainHand);
-        }
-        else if(newItem.getPosition() == Equipment.Position.MainHand)
-        {
-            if(newItem instanceof Weapon && ((Weapon)newItem).isTwoHanded() && _equipment.containsKey(Equipment.Position.OffHand))
-                _equipment.remove(Equipment.Position.OffHand);
-        }
-        _equipment.put(newItem.getPosition(), newItem);
-    }
-
     public Skill getMainSkill()
     {
         return getWeaponSkill(Equipment.Position.MainHand);
@@ -110,7 +79,7 @@ public class Player
 
     public Skill getWeaponSkill(Equipment.Position position, boolean primary)
     {
-        Equipment weapon = getEquipment(position);
+        Equipment weapon = _entity.getEquipment(position);
 
         if(weapon != null && weapon instanceof Weapon)
         {
@@ -125,7 +94,7 @@ public class Player
 
     public float getLightStength()
     {
-        Equipment light = getEquipment(Equipment.Position.Light);
+        Equipment light = _entity.getEquipment(Equipment.Position.Light);
         if(light == null)
             return 0;
         else

@@ -153,9 +153,9 @@ public class InventoryList extends UIComponent
         if(_tab == Equipment.class)
         {
             if(((Equipment)getCurrentItem()).isEquipped())
-                Game.lrk.getPlayer().getEquipmentMap().remove(((Equipment) getCurrentItem()).getPosition());
+                Game.lrk.getPlayer().getEntity().getEquipmentMap().remove(((Equipment) getCurrentItem()).getPosition());
             else
-            Game.lrk.getPlayer().equip((Equipment)getCurrentItem());
+            Game.lrk.getPlayer().getEntity().equip((Equipment)getCurrentItem());
             //decreaseCurrentPosition();
             //fetchCurrentItems();
         }

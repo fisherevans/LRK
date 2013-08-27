@@ -25,7 +25,7 @@ public class PlayerLight extends Light
     @Override
     public Color getColor()
     {
-        Equipment light = Game.lrk.getPlayer().getEquipment(Equipment.Position.Light);
+        Equipment light = Game.lrk.getPlayer().getEntity().getEquipment(Equipment.Position.Light);
         if(light != null && light instanceof com.fisherevans.lrk.rpg.items.Light)
             return ((com.fisherevans.lrk.rpg.items.Light)light).getLightColor();
         else

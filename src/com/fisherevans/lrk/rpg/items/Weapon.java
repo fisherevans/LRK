@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.rpg.items;
 
 import com.fisherevans.lrk.states.adventure.combat.Skill;
+import com.fisherevans.lrk.states.adventure.combat.skills.Slash;
 import com.fisherevans.lrk.states.adventure.combat.skills.Splash;
 import org.newdawn.slick.Image;
 

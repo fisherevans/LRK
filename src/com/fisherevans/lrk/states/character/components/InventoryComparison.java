@@ -78,12 +78,12 @@ public class InventoryComparison extends UIComponent
         if(_displaySelected)
         {
             displayItem = (Equipment) _parent.getInventoryList().getCurrentItem();
-            compareItem = Game.lrk.getPlayer().getEquipment(displayItem.getPosition());
+            compareItem = Game.lrk.getPlayer().getEntity().getEquipment(displayItem.getPosition());
         }
         else
         {
             compareItem = (Equipment) _parent.getInventoryList().getCurrentItem();
-            displayItem = Game.lrk.getPlayer().getEquipment(compareItem.getPosition());
+            displayItem = Game.lrk.getPlayer().getEntity().getEquipment(compareItem.getPosition());
         }
 
         if(displayItem != null)

@@ -92,7 +92,7 @@ public class Health extends EntityComponent
 
     public void adjustHealth(float amount)
     {
-        if(amount < 0)
+        if(amount <= 0)
             subtractHealth(-amount);
         else
             addHealth(amount);
