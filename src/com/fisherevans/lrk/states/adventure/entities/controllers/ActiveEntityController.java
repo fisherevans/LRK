@@ -45,6 +45,8 @@ public abstract class ActiveEntityController
         if(_actionCoolDown < 0)
             _actionCoolDown = 0;
 
+        getEntity().getRpgEntity().regenHealth(delta);
+
         update(delta);
     }
 

@@ -42,7 +42,7 @@ public class Number extends Sprite
         if(Math.floor(number) == number)
             _number = ((int)number)+"";
         else
-            _number = number+"";
+            _number = String.format("%.1f", number);
 
         _worldPosition = worldPosition;
         _velocity = new Vec2(((float)(Math.random()*0.8f))-0.4f, ((float)(-Math.random()*1.5f)-1.5f));

@@ -26,16 +26,6 @@ public class HealthAOE extends AOE
     @Override
     public void effect(AdventureEntity receiverAdventure)
     {
-        float serverP, receiverD, statDifference, damage;
-        RPGEntity receiver = receiverAdventure.getRpgEntity();
-
-        serverP = _server.getTotalPower();
-        receiverD = receiver.getTotalDefence();
-
-        statDifference = serverP - receiverD;
-
-        damage = statDifference < 0 ? 0 : statDifference*statDifference;
-
-        receiver.getHealth().adjustHealth(-damage);
+        _skill.damage(_server, receiverAdventure.getRpgEntity());
     }
 }

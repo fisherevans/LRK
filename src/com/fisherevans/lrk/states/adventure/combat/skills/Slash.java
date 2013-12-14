@@ -42,6 +42,6 @@ public class Slash extends HealthSkill
     @Override
     public float getHealthDiff()
     {
-        return 10;
+        return -10;
     }
 }

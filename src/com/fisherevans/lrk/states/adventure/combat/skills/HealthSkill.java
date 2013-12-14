@@ -1,5 +1,6 @@
 package com.fisherevans.lrk.states.adventure.combat.skills;
 
+import com.fisherevans.lrk.rpg.RPGEntity;
 import com.fisherevans.lrk.states.adventure.combat.Skill;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
@@ -18,4 +19,9 @@ public abstract class HealthSkill extends Skill
     }
 
     public abstract float getHealthDiff();
+
+    public void damage(RPGEntity dealer, RPGEntity receiver)
+    {
+        receiver.getHealth().adjustHealth((float) (Math.log((dealer.getTotalPower()/receiver.getTotalDefence()) + 1)*getHealthDiff()));
+    }
 }

@@ -19,7 +19,7 @@ public class Whirlwind extends HealthSkill
 
     public Whirlwind(AdventureEntity.Team... effects)
     {
-        super("Whirlwind", "Spin around like a princess.", 1f, 1f);
+        super("Whirlwind", "Spin around like a princess.", 6f, 1f);
         _effects = effects;
     }
 
@@ -39,6 +39,6 @@ public class Whirlwind extends HealthSkill
     @Override
     public float getHealthDiff()
     {
-        return 4;
+        return -4;
     }
 }

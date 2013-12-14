@@ -31,11 +31,11 @@ public class RPGEntityGenerator
         enchanted.setSecondarySkill(new Whirlwind(AdventureEntity.Team.Hostile));
         inventory.addItem(enchanted);
 
-        inventory.addItem(new Armor("Iron Helm", "A modest helmet", Resources.getImage("equipment/armor/iron-helm_01"), Equipment.Position.Head, 0, 1));
-        inventory.addItem(new Armor("Rusty Chainmail", "Old, but useful", Resources.getImage("equipment/armor/chainmail_01"), Equipment.Position.Chest, 0, 2));
-        inventory.addItem(new Armor("Leather Boots", "Light and reliable", Resources.getImage("equipment/armor/leather-boots_01"), Equipment.Position.Legs, 0, 1));
-        inventory.addItem(new Armor("Dragon Plate", "Stronger than diamond", Resources.getImage("equipment/armor/special/dragon-plate"), Equipment.Position.Chest, 2, 5));
-        inventory.addItem(new Armor("Steel Plate", "Stronger than diamond", Resources.getImage("equipment/armor/steel-plate_01"), Equipment.Position.Chest, 2, 3));
+        inventory.addItem(new Armor("Iron Helm", "A modest helmet", Resources.getImage("equipment/armor/iron-helm_01"), Equipment.Position.Head, 0, 4));
+        inventory.addItem(new Armor("Rusty Chainmail", "Old, but useful", Resources.getImage("equipment/armor/chainmail_01"), Equipment.Position.Chest, 0, 6));
+        inventory.addItem(new Armor("Leather Boots", "Light and reliable", Resources.getImage("equipment/armor/leather-boots_01"), Equipment.Position.Legs, 0, 3));
+        inventory.addItem(new Armor("Dragon Plate", "Stronger than diamond", Resources.getImage("equipment/armor/special/dragon-plate"), Equipment.Position.Chest, 2, 12));
+        inventory.addItem(new Armor("Steel Plate", "Stronger than diamond", Resources.getImage("equipment/armor/steel-plate_01"), Equipment.Position.Chest, 2, 8));
 
         inventory.addItem(new Consumable("Health Potion", "Heals you for 20 health over 10 seconds", Resources.getImage("consumables/potion_02"), null, 10));
         inventory.addItem(new Consumable("Iron Flesh Potion", "Increases your armor by 10 for 3 seconds", Resources.getImage("consumables/potion_03"), null, 5));
@@ -54,7 +54,8 @@ public class RPGEntityGenerator
     }
     public static RPGEntity getBlob()
     {
-        RPGEntity entity = new RPGEntity("Dumb Blob", RPGEntity.Profession.Warrior, 3, 50, 10, 7);
+        RPGEntity entity = new RPGEntity("Dumb Blob", RPGEntity.Profession.Warrior, 3, 50, 20, 3);
+        entity.getHealth().setRegenRate(10);
         return entity;
     }
 }

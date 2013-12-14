@@ -15,8 +15,9 @@ import java.util.ArrayList;
 public class Health extends EntityComponent
 {
     public static final float BASE_HEALTH = 50;
+    public static final float BASE_HEALTH_REGEN_RATE = 2.5f;
 
-    private float _maximumHealth, _currentHealth;
+    private float _maximumHealth, _currentHealth, _regenRate;
     private ArrayList<HealthListener> _listeners;
 
     /**
@@ -26,7 +27,7 @@ public class Health extends EntityComponent
      */
     public Health(RPGEntity parentEntity, float health)
     {
-        this(parentEntity, health, health);
+        this(parentEntity, health, health, BASE_HEALTH_REGEN_RATE);
     }
 
     /**
@@ -35,11 +36,12 @@ public class Health extends EntityComponent
      * @param maximumHealth max health
      * @param currentHealth current health
      */
-    public Health(RPGEntity parentEntity, float maximumHealth, float currentHealth)
+    public Health(RPGEntity parentEntity, float maximumHealth, float currentHealth, float regenRate)
     {
         super(parentEntity);
         _maximumHealth = maximumHealth;
         _currentHealth = currentHealth;
+        _regenRate = regenRate;
 
         _listeners = new ArrayList<>();
     }
@@ -197,6 +199,16 @@ public class Health extends EntityComponent
     public void reset()
     {
         _currentHealth = _maximumHealth;
+    }
+
+    public float getRegenRate()
+    {
+        return _regenRate;
+    }
+
+    public void setRegenRate(float regenRate)
+    {
+        _regenRate = regenRate;
     }
 
     // SUB CLASSES

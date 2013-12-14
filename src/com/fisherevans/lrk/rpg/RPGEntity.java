@@ -114,4 +114,9 @@ public class RPGEntity
     {
         return _profession;
     }
+
+    public void regenHealth(float delta)
+    {
+        getHealth().addHealth(getHealth().getRegenRate() * delta);
+    }
 }
