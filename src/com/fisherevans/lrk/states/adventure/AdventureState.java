@@ -307,7 +307,8 @@ public class AdventureState extends LRKState
     {
         try
         {
-            StateLibrary.setNewActiveState(new CharacterState(this));
+            int charId = StateLibrary.addState(new CharacterState(this));
+            StateLibrary.setNewActiveState(new SimpleFadeTransition(StateLibrary.getActiveState().getID(), charId, 0.5f));
         } catch (SlickException e)
         {
             LRK.log("Failed to change states - code 207");

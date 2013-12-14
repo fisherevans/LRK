@@ -41,11 +41,25 @@ public class SimpleFadeTransition extends TransitionState
         if(interp < 0.5f) // fade out of the first one
         {
             getState1().render(gfx);
-            GFX.fill(gfx, new Color(0, 0, 0, (interp*2f)));
         }
         else // fade into the second one
         {
             getState2().render(gfx);
+        }
+    }
+
+    @Override
+    public void renderUI(Graphics gfx) throws SlickException {
+        float interp = getInterpolation();
+
+        if(interp < 0.5f) // fade out of the first one
+        {
+            getState1().renderUI(gfx);
+            GFX.fill(gfx, new Color(0, 0, 0, (interp * 2f)));
+        }
+        else // fade into the second one
+        {
+            getState2().renderUI(gfx);
             GFX.fill(gfx, new Color(0, 0, 0, (1f - (interp-0.5f)*2f)));
         }
     }

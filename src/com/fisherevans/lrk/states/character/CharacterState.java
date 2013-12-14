@@ -9,6 +9,7 @@ import com.fisherevans.lrk.states.character.components.InventoryComparison;
 import com.fisherevans.lrk.states.character.components.InventoryEquipped;
 import com.fisherevans.lrk.states.character.components.InventoryList;
 import com.fisherevans.lrk.states.character.components.InventoryStats;
+import com.fisherevans.lrk.states.transitions.SimpleFadeTransition;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -96,7 +97,12 @@ public class CharacterState extends LRKState
 
     public void keyBack()
     {
-        StateLibrary.setActiveState(_lastState.getID());
+        try {
+            StateLibrary.setNewActiveState(new SimpleFadeTransition(this.getID(), _lastState.getID(), 0.5f));
+        } catch (SlickException e) {
+            e.printStackTrace();
+            StateLibrary.setActiveState(_lastState.getID());
+        }
     }
 
     public float getForeHalfWidth()

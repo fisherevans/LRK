@@ -2,6 +2,7 @@ package com.fisherevans.lrk.states.transitions;
 
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.states.LRKState;
+import com.fisherevans.lrk.states.RenderComponent;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -81,5 +82,11 @@ public abstract class TransitionState extends LRKState
     public float getDuration()
     {
         return _duration;
+    }
+
+    @Override
+    public void resize() {
+        getState1().resize();
+        getState2().resize();
     }
 }
