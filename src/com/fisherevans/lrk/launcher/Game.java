@@ -42,16 +42,17 @@ public class Game
     {
         String os = getOS();
         LRK.log("OS Type: " + os);
-        System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/" + os).getAbsolutePath());
 
         if(os.equals("windows"))
         {
             try
             {
-                File jxNative = new File("lib/jxinput/natives/windows/jxinput.dll");
+                File jxNative = new File("lib/jxinput/jxinput.dll");
+                LRK.log(jxNative.getAbsolutePath());
                 System.load(jxNative.getAbsolutePath());
                 LRK.log("Loaded JXInput natives! :)");
                 InputManager.jxNativesLoaded = true;
+                //System.exit(1);
             }
             catch(Exception e)
             {
@@ -62,6 +63,7 @@ public class Game
         else
             LRK.log("No controller support in non-windows OS.");
 
+        System.setProperty("org.lwjgl.librarypath", new File("lib/lwjgl/native/" + os).getAbsolutePath());
     }
 
     /**

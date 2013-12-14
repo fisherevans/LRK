@@ -29,7 +29,7 @@ public class DumbBlob extends ActiveEntity implements Health.HealthListener
         setBody(JBox2DUtils.getCircleBody(world, x, y, JBox2DUtils.DEFAULT_CIRCLE_RADIUS));
         setImage(Resources.getImage("entities/dummy-blob"));
 
-        Light light = new Light(3, new Color(0, 0.4f, 0.7f), getBody().getPosition().clone(), state.getLightManager());
+        Light light = new Light(3, new Color(0, 0.1f, 0.166f), getBody().getPosition().clone(), state.getLightManager());
         light.setController(new TargetLightController(light, this));
         state.getLightManager().addLight(light);
     }

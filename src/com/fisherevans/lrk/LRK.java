@@ -69,7 +69,6 @@ public class LRK extends BasicGame
     @Override
     public void init(GameContainer container) throws SlickException
     {
-
         Options.load();
         Resources.loadResources();
 
@@ -104,6 +103,8 @@ public class LRK extends BasicGame
                 }
             }
         }
+
+        _inputManager.loadController();
     }
 
     @Override

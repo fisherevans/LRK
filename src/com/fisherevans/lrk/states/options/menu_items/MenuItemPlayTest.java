@@ -29,7 +29,7 @@ public class MenuItemPlayTest extends MenuItem
         {
             LRKState adventure = new AdventureState("template");
             int adventureId = StateLibrary.addState(adventure);
-            StateLibrary.setNewActiveState(new SimpleFadeTransition(StateLibrary.getActiveState().getID(), adventureId, 0.5f));
+            StateLibrary.setNewActiveState(new SimpleFadeTransition(StateLibrary.getActiveState().getID(), adventureId, 2f));
         }
         catch (SlickException e)
         {

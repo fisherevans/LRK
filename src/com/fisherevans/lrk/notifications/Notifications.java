@@ -144,6 +144,11 @@ public class Notifications
         _notifications.add(notification);
     }
 
+    public void addNotification(String message, Color background, Image icon)
+    {
+        addNotification(new Notification(message, background, icon));
+    }
+
     public int getRenderScale()
     {
         return renderScale;

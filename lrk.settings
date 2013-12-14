@@ -7,5 +7,5 @@ input.back=29
 input.menu=1
 input.forcequit=68
 audio.master=0.8
-audio.music=0.4
-audio.sfx=0.7
+audio.music=0.0
+audio.sfx=0.2

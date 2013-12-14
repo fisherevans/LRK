@@ -14,6 +14,7 @@ public abstract class TransitionState extends LRKState
 {
     private int _stateId1, _stateId2;
     private float _duration, _current;
+    private boolean _started = false;
 
     /**
      * creates the transition state
@@ -36,7 +37,10 @@ public abstract class TransitionState extends LRKState
     @Override
     public void update(float delta) throws SlickException
     {
-        _current += delta;
+        if(_started)
+            _current += delta;
+        else
+            _started = true;
 
         if(_current >= _duration)
             StateLibrary.setActiveState(_stateId2);

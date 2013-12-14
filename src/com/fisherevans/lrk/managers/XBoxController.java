@@ -59,6 +59,8 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
     private final int DIRECTIONAL_DOWN = 18000;
     private final int DIRECTIONAL_LEFT = 27000;
 
+    private float _dmx, _dmy;
+
     /**
      * creates the xbox controller, sets up the listeners, etc
      * @param controller the controller to base this input method on
@@ -96,6 +98,9 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
             _axisLastValues.put(_device.getAxis(x), 0.0);
             LRK.log(_device.getAxis(x).getName() + " - " + _device.getAxis(x));
         }
+
+        _dmx = DisplayManager.getBackgroundWidth()/2;
+        _dmy = DisplayManager.getBackgroundHeight()/2;
     }
 
     @Override
@@ -212,12 +217,27 @@ public class XBoxController implements JXInputDirectionalEventListener, JXInputB
             return;
 
         double lr = _device.getAxis(AXIS_AIM_LR).getValue();
-        if(Math.abs(lr) > AXIS_THRESHOLD_CENTERED)
-            InputManager.addMouseX((float)lr*delta*MOUSE_MOVE_SCALE*DisplayManager.getBackgroundScale());
-
         double ud = _device.getAxis(AXIS_AIM_UD).getValue();
-        if(Math.abs(ud) > AXIS_THRESHOLD_CENTERED)
-            InputManager.addMouseY((float)ud*delta*MOUSE_MOVE_SCALE*DisplayManager.getBackgroundScale());
+
+        if(Math.abs(lr) > AXIS_THRESHOLD_CENTERED || Math.abs(ud) > AXIS_THRESHOLD_CENTERED)
+        {
+            double scale = DisplayManager.getBackgroundWidth()*0.2f;
+
+            _dmx = (float) (lr*scale + DisplayManager.getBackgroundWidth()/2)*DisplayManager.getBackgroundScale();
+            _dmy = (float) (ud*scale + DisplayManager.getBackgroundHeight()/2)*DisplayManager.getBackgroundScale();
+
+            float mx = InputManager.getMouseX();
+            float my = InputManager.getMouseY();
+
+            float diffX = _dmx - mx;
+            float diffY = _dmy - my;
+
+            mx += diffX/4f;
+            my += diffY/4f;
+
+            InputManager.setMouseX(mx);
+            InputManager.setMouseY(my);
+        }
     }
 
     /**

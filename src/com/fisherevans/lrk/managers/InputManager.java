@@ -3,11 +3,15 @@ package com.fisherevans.lrk.managers;
 import com.fisherevans.lrk.LRK;
 import com.fisherevans.lrk.StateLibrary;
 import com.fisherevans.lrk.launcher.Game;
+import com.fisherevans.lrk.notifications.Notifications;
+import com.fisherevans.lrk.notifications.types.Notification;
 import com.fisherevans.lrk.states.LRKState;
 import com.fisherevans.lrk.states.RenderComponent;
 import com.fisherevans.lrk.states.UIComponent;
 import com.fisherevans.lrk.tools.LRKMath;
 import de.hardcode.jxinput.JXInputDevice;
+import de.hardcode.jxinput.JXInputManager;
+import de.hardcode.jxinput.event.JXInputEventManager;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.*;
 
@@ -32,8 +36,6 @@ public class InputManager implements KeyListener, MouseListener
     public static boolean jxNativesLoaded = false;
     protected static XBoxController xboxController = null;
     private static boolean _queryControllerMovement = true;
-    private static XBoxControllerDiscoverer _contollerDiscoverer;
-    private static Thread _contollerDiscovererThread;
 
     private static float _mouseX, _mouseY;
 
@@ -48,17 +50,29 @@ public class InputManager implements KeyListener, MouseListener
 
         _mouseX = DisplayManager.getWindowWidth()/2f;
         _mouseY = DisplayManager.getWindowHeight()/2f;
+    }
 
+    public void loadController() {
         if(InputManager.jxNativesLoaded)
         {
-            _contollerDiscoverer = new XBoxControllerDiscoverer();
-            _contollerDiscovererThread = new Thread(_contollerDiscoverer);
-            _contollerDiscovererThread.start();
+            JXInputEventManager.setTriggerIntervall(-1);
+            JXInputDevice dev;
+            String name;
+            JXInputManager.updateFeatures();
+            for(int id = 0;id < JXInputManager.getNumberOfDevices();id++)
+            {
+                dev = JXInputManager.getJXInputDevice(id);
+                name = dev.getName().toLowerCase();
+                if(name.contains("xbox") && name.contains("360"))
+                {
+                    Game.lrk.getNotifications().addNotification("XBox 360 Controller Connected!", Notification.GREY, Notifications.IMG_COG);
+                    InputManager.setXboxController(new XBoxController(dev));
+                    break;
+                }
+            }
         }
         else
-        {
             LRK.log("Failed to load the JX Natives");
-        }
     }
 
     /**

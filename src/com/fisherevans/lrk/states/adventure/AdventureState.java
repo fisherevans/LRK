@@ -91,7 +91,8 @@ public class AdventureState extends LRKState
 
         _entityManager = new EntityManager(this);
         _collisionManager = new CollisionManager(this);
-        _lightManager = new LightManager(this, new Color(0.25f, 0.25f, 0.35f));
+        //_lightManager = new LightManager(this, new Color(0.25f, 0.25f, 0.35f));
+        _lightManager = new LightManager(this, new Color(0.15f, 0.15f, 0.25f));
 
         _effectManager = new EffectManager(this);
 
@@ -141,7 +142,8 @@ public class AdventureState extends LRKState
         int startY = (int)(_entityManager.getCamera().getY()+_aimShift.y/TILE_SIZE) - (int)TILES_HIGH/2 - 1;
 
         // CALC THE RENDER SIZE FOR THE VIGNETTE
-        int vignetteSize = (int) (getRenderDistance() *TILE_SIZE*2);
+        float vignetteSize = getRenderDistance()*TILE_SIZE*2f;
+        vignetteSize = vignetteSize < 1 ? 1 : vignetteSize;
 
         // PRE-CALC THE DRAW COORID'S FOR THE ENTITIES
         for(AdventureEntity ent: _entityManager.getEntities()) // FOR EACH ENTITY
