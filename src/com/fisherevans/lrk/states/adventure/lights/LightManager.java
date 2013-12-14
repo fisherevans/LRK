@@ -43,6 +43,8 @@ public class LightManager
     private Image _vignette;
 
     private boolean userShaders = true;
+    private boolean blendLights = true;
+    private float shadowBlurSize = 1.5f;
 
     private final int LIGHT_SIZE = 256;
     private final float DEFAULT_LIGHT_RADIUS = 4f;
@@ -131,8 +133,8 @@ public class LightManager
         {
             // BLUR HORIZONTALLY TO THE BLUR BUFFER
             _blurH.startShader();
-            _blurH.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
-            _blurH.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
+            _blurH.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth()*shadowBlurSize);
+            _blurH.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale()*shadowBlurSize);
 
             Graphics.setCurrent(_mapGfx);
             _mapGfx.drawImage(_blurBuffer, 0, 0);
@@ -142,17 +144,20 @@ public class LightManager
             // BLUR VERTICALLY TO THE GAME GRAPHICS - THIS TIME APPLY THE BLENDING FUNCTION
 
             _blurV.startShader();
-            _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth());
-            _blurV.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale());
+            _blurV.setUniformFloatVariable("resolution", DisplayManager.getWindowWidth()*shadowBlurSize);
+            _blurV.setUniformFloatVariable("radius", DisplayManager.getBackgroundScale()*shadowBlurSize);
             Graphics.setCurrent(gfx);
-            GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
+
+            if(blendLights)
+                GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
             gfx.drawImage(_mapBuffer, 0, 0);
             gfx.setDrawMode(Graphics.MODE_NORMAL);
             Shader.forceFixedShader();
         }
         else
         {
-            GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
+            if(blendLights)
+                GL14.glBlendFuncSeparate(GL11.GL_DST_COLOR, GL11.GL_ZERO, GL11.GL_ONE, GL11.GL_ONE);
             gfx.drawImage(_blurBuffer, 0, 0);
             gfx.setDrawMode(Graphics.MODE_NORMAL);
         }

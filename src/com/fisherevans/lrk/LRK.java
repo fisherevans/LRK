@@ -24,7 +24,7 @@ import java.sql.Timestamp;
  */
 public class LRK extends BasicGame
 {
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     public static final String VERSION = "0.8.3 Alpha";
 
     // Game Component Managers

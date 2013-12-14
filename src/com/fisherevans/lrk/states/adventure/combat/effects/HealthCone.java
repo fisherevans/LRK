@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states.adventure.combat.effects;
 
 import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.states.adventure.combat.skills.HealthSkill;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 import org.jbox2d.common.Vec2;
 
@@ -14,11 +15,13 @@ import org.jbox2d.common.Vec2;
 public class HealthCone extends Cone
 {
     private RPGEntity _server;
+    private HealthSkill _skill;
 
-    public HealthCone(float aimAngle, float widthAngle, float length, Vec2 pos, RPGEntity server, AdventureEntity.Team... effects)
+    public HealthCone(float aimAngle, float widthAngle, float length, Vec2 pos, RPGEntity server, HealthSkill skill, AdventureEntity.Team... effects)
     {
         super(aimAngle, widthAngle, length, pos, effects);
         _server = server;
+        _skill = skill;
     }
 
     @Override

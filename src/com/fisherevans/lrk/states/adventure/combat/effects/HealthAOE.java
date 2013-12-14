@@ -1,6 +1,7 @@
 package com.fisherevans.lrk.states.adventure.combat.effects;
 
 import com.fisherevans.lrk.rpg.RPGEntity;
+import com.fisherevans.lrk.states.adventure.combat.skills.HealthSkill;
 import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 
 /**
@@ -13,10 +14,12 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
 public class HealthAOE extends AOE
 {
     private RPGEntity _server;
+    private HealthSkill _skill;
 
-    public HealthAOE(float x, float y, float radius, float duration, float rate, RPGEntity server, AdventureEntity.Team... effects)
+    public HealthAOE(float x, float y, float radius, float duration, float rate, RPGEntity server, HealthSkill skill, AdventureEntity.Team... effects)
     {
         super(x, y, radius, duration, rate, effects);
+        _skill = skill;
         _server = server;
     }
 

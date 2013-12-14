@@ -13,7 +13,7 @@ import com.fisherevans.lrk.states.adventure.sprites.SpriteGenerator;
  * Time: 3:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Whirlwind extends Skill
+public class Whirlwind extends HealthSkill
 {
     private AdventureEntity.Team[] _effects;
 
@@ -28,11 +28,17 @@ public class Whirlwind extends Skill
     {
         SoundManager.play("whirlwind"); // PLAY THE SOUND
 
-        MovingHealthAOE effect = new MovingHealthAOE(1.4f, 1f, 0.25f, owner, _effects);
+        MovingHealthAOE effect = new MovingHealthAOE(1.4f, 1f, 0.25f, owner, this, _effects);
         owner.getState().getEffectManager().addEntityEffect(effect); // AND ADD IT TO THE EFFECT QUEUE
 
         owner.getState().getBackgroundSpriteManager().addSprite(SpriteGenerator.getWhirlwind(owner)); // ADD A SLASH SPRITE
 
         return true;
+    }
+
+    @Override
+    public float getHealthDiff()
+    {
+        return 4;
     }
 }

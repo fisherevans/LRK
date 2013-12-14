@@ -55,6 +55,10 @@ public class InputManager implements KeyListener, MouseListener
             _contollerDiscovererThread = new Thread(_contollerDiscoverer);
             _contollerDiscovererThread.start();
         }
+        else
+        {
+            LRK.log("Failed to load the JX Natives");
+        }
     }
 
     /**

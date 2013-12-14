@@ -40,7 +40,7 @@ public class XBoxControllerDiscoverer implements Runnable
             for(int id = 0;id < JXInputManager.getNumberOfDevices();id++)
             {
                 name = JXInputManager.getJXInputDevice(id).getName().toLowerCase();
-                //LRK.log(name);
+                LRK.log(name);
                 if(name.contains("xbox") && name.contains("360"))
                 {
                     if(InputManager.getXboxController() == null)
@@ -48,12 +48,15 @@ public class XBoxControllerDiscoverer implements Runnable
                         Game.lrk.getNotifications().addNotification(new Notification(CONNECTED, Notification.GREY, Notifications.IMG_COG));
                         InputManager.setXboxController(new XBoxController(JXInputManager.getJXInputDevice(id)));
                     }
-                    found = true;
-                    break;
+                    if(InputManager.getXboxController() != null)
+                    {
+                        found = true;
+                        break;
+                    }
                 }
             }
 
-            //LRK.log("Found? " + found + " - Null? " + (InputManager.getXboxController() == null));
+            LRK.log("Found? " + found + " - Null? " + (InputManager.getXboxController() == null));
             if(!found)
             {
                 if(InputManager.getXboxController() != null)
