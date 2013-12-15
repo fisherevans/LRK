@@ -15,10 +15,13 @@ import java.util.ArrayList;
 public class Health extends EntityComponent
 {
     public static final float BASE_HEALTH = 50;
-    public static final float BASE_HEALTH_REGEN_RATE = 2.5f;
+    public static final float BASE_HEALTH_REGEN_RATE = 0.025f;
+    public static final float TIME_T0_REGEN = 10f;
 
     private float _maximumHealth, _currentHealth, _regenRate;
     private ArrayList<HealthListener> _listeners;
+
+    private float _timeSinceDamage = 9999;
 
     /**
      * Creates the health object with a maximum health, sets it to it
@@ -137,6 +140,8 @@ public class Health extends EntityComponent
             callDepletedListeners();
             _currentHealth = 0;
         }
+
+        _timeSinceDamage = 0;
     }
 
     /**
@@ -199,6 +204,7 @@ public class Health extends EntityComponent
     public void reset()
     {
         _currentHealth = _maximumHealth;
+        _timeSinceDamage = 9999;
     }
 
     public float getRegenRate()
@@ -209,6 +215,13 @@ public class Health extends EntityComponent
     public void setRegenRate(float regenRate)
     {
         _regenRate = regenRate;
+    }
+
+    public void regen(float delta)
+    {
+        _timeSinceDamage += delta;
+        if(_timeSinceDamage > TIME_T0_REGEN)
+            addHealth(getMaximumHealth()*getRegenRate()*delta);
     }
 
     // SUB CLASSES

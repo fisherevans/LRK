@@ -13,15 +13,35 @@ import com.fisherevans.lrk.states.adventure.entities.AdventureEntity;
  */
 public abstract class HealthSkill extends Skill
 {
-    public HealthSkill(String name, String description, float coolDown, float actionTime)
+    private float _base, _shift;
+    private boolean _constant = false;
+
+    public HealthSkill(String name, String description, float coolDown, float actionTime, float damageLow, float damageHigh)
     {
         super(name, description, coolDown, actionTime);
+        _base = damageLow;
+        _shift = damageHigh - damageLow;
     }
 
-    public abstract float getHealthDiff();
+    public HealthSkill(String name, String description, float coolDown, float actionTime, float damage)
+    {
+        super(name, description, coolDown, actionTime);
+        _base = damage;
+        _shift = 0;
+        _constant = true;
+    }
+
+    public float getHealthDiff()
+    {
+        if(_constant)
+            return _base;
+
+        return (float) (_base + Math.random()*_shift);
+    }
 
     public void damage(RPGEntity dealer, RPGEntity receiver)
     {
-        receiver.getHealth().adjustHealth((float) (Math.log((dealer.getTotalPower()/receiver.getTotalDefence()) + 1)*getHealthDiff()));
+        float compareScale = (float) Math.log((dealer.getTotalPower() / receiver.getTotalDefence()) + 1);
+        receiver.getHealth().adjustHealth(compareScale*getHealthDiff());
     }
 }

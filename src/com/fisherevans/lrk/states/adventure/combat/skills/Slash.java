@@ -20,7 +20,7 @@ public class Slash extends HealthSkill
 
     public Slash(AdventureEntity.Team... effects)
     {
-        super("Slash", "Slash with your weapon.", 0.5f, 0.25f);
+        super("Slash", "Slash with your weapon.", 0.5f, 0.25f, -10, -15);
         _effects = effects;
     }
 
@@ -37,11 +37,5 @@ public class Slash extends HealthSkill
         _clockWise = !_clockWise;
 
         return true;
-    }
-
-    @Override
-    public float getHealthDiff()
-    {
-        return -10;
     }
 }

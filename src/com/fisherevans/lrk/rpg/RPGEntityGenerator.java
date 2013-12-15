@@ -17,7 +17,7 @@ public class RPGEntityGenerator
 {
     public static Player getAnarok()
     {
-        RPGEntity entity = new RPGEntity("Anarok", RPGEntity.Profession.Warrior, 3, 50, 5, 10);
+        RPGEntity entity = new RPGEntity("Anarok", RPGEntity.Profession.Warrior, 3, 150, 10, 10);
 
         Inventory inventory = new Inventory();
         inventory.addItem(new Weapon("Short Sword", "A simple sword", Resources.getImage("equipment/weapons/sword_01"), Equipment.Position.MainHand, 2, 0));
@@ -25,7 +25,7 @@ public class RPGEntityGenerator
         inventory.addItem(new Weapon("Wooden Shield", "Won't do you much good", Resources.getImage("equipment/weapons/wood-shield_01"), Equipment.Position.OffHand, 0, 2));
         inventory.addItem(new Weapon("Scythe", "Cuts more then grain", Resources.getImage("equipment/weapons/special/scythe"), Equipment.Position.MainHand, 3, 0, true));
 
-        Weapon enchanted = new Weapon("Giant Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 5, 0, true);
+        Weapon enchanted = new Weapon("Giant Tuning Fork", "A large, powerful sword", Resources.getImage("equipment/weapons/special/tuning-fork"), Equipment.Position.MainHand, 6, 0, true);
         enchanted.setEnchantment(new UnholyMight(0.45f));
         enchanted.setSkill(new Slash(AdventureEntity.Team.Hostile));
         enchanted.setSecondarySkill(new Whirlwind(AdventureEntity.Team.Hostile));
@@ -44,7 +44,7 @@ public class RPGEntityGenerator
         inventory.addItem(new Consumable("Hamburger", "Your attacks set foes on fire 10 seconds", Resources.getImage("consumables/hamburger"), null, 5));
 
         inventory.addItem(new Light("Torch", "A simple petro torch", Resources.getImage("equipment/lights/torch_01"), 0.25f, new Color(0.3f, 0.28f, 0.12f)));
-        inventory.addItem(new Light("Lantern", "A simple butane lantern", Resources.getImage("equipment/lights/lantern_01"), 2f, new Color(0.6f, 0.55f, 0.4f)));
+        inventory.addItem(new Light("Lantern", "A simple butane lantern", Resources.getImage("equipment/lights/lantern_01"), 3f, new Color(0.6f, 0.55f, 0.4f)));
 
         Player character = new Player(entity, inventory);
 
@@ -54,8 +54,7 @@ public class RPGEntityGenerator
     }
     public static RPGEntity getBlob()
     {
-        RPGEntity entity = new RPGEntity("Dumb Blob", RPGEntity.Profession.Warrior, 3, 50, 20, 3);
-        entity.getHealth().setRegenRate(10);
+        RPGEntity entity = new RPGEntity("Dumb Blob", RPGEntity.Profession.Warrior, 3, 100, 10, 3);
         return entity;
     }
 }
