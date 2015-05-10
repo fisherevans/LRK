@@ -26,6 +26,8 @@ public class Number extends Sprite
     private float _duration = 1f;
     private float _timePassed = 0;
 
+    private float _bgXShift, _numXShift;
+
     private static final Vec2 GRAVITY = new Vec2(0, 6f);
 
     private static final Color POSITIVE = new Color(0f, 1f, 0f);
@@ -44,6 +46,9 @@ public class Number extends Sprite
         else
             _number = String.format("%.1f", number);
 
+        _bgXShift = _fontBg.getWidth(_number)/2f;
+        _numXShift = _font.getWidth(_number)/2f;
+
         _worldPosition = worldPosition;
         _velocity = new Vec2(((float)(Math.random()*0.8f))-0.4f, ((float)(-Math.random()*1.5f)-1.5f));
     }
@@ -54,8 +59,8 @@ public class Number extends Sprite
         Vec2 drawPos = AdventureState.getDrawPosition(_worldPosition, xShift, yShift);
         _color.a = 1-(_timePassed/_duration);
         _colorBg.a = _color.a;
-        GFX.drawTextAbsolute(drawPos.x, drawPos.y, _fontBg, _colorBg, _number);
-        GFX.drawTextAbsolute(drawPos.x, drawPos.y, _font, _color, _number);
+        GFX.drawTextAbsolute(drawPos.x-_bgXShift, drawPos.y, _fontBg, _colorBg, _number);
+        GFX.drawTextAbsolute(drawPos.x-_numXShift, drawPos.y, _font, _color, _number);
     }
 
     @Override

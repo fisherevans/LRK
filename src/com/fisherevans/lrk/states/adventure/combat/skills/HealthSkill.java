@@ -42,6 +42,7 @@ public abstract class HealthSkill extends Skill
     public void damage(RPGEntity dealer, RPGEntity receiver)
     {
         float compareScale = (float) Math.log((dealer.getTotalPower() / receiver.getTotalDefence()) + 1);
-        receiver.getHealth().adjustHealth(compareScale*getHealthDiff());
+        int damage = (int) (compareScale*getHealthDiff());
+        receiver.getHealth().adjustHealth(damage);
     }
 }

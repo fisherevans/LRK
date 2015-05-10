@@ -210,6 +210,7 @@ public abstract class AdventureEntity implements Health.HealthListener
     @Override
     public void healthIncreased(RPGEntity entity, float amount)
     {
+        _state.getForegroundSpriteManager().addSprite(new Number(amount, getBody().getPosition().clone(), _numColorHeal, _numColorHeal));
     }
 
     @Override

@@ -101,7 +101,7 @@ public class Game
 
             DisplayManager.updateCanvasStats();
 
-            //window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
         catch(Exception e)
         {

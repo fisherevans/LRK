@@ -178,6 +178,11 @@ public class AdventureState extends LRKState
         // DRAW THE FOREGROUND LAYER
         drawMapLayer(xShift, yShift, startX, startY, getLayerIds("foreground"));
 
+        // DRAW THE ENTITIES IDENTIFIERS (NAME, HEALTHBAR, ETC)
+        for(AdventureEntity ent: _entityManager.getEntities())
+            if(inRenderArea(ent))
+                ent.renderIdentifiers(gfx);
+
         // UN-CLIP THE GRAPHICS ELEMENT
         GFX.unClip();
 
@@ -186,11 +191,6 @@ public class AdventureState extends LRKState
 
         // CLIP THE DRAWING AROUND THE RENDER DISTANCE
         GFX.clip(clipX, clipY, clipSize, clipSize, DisplayManager.getBackgroundScale());
-
-        // DRAW THE ENTITIES IDENTIFIERS (NAME, HEALTHBAR, ETC)
-        for(AdventureEntity ent: _entityManager.getEntities())
-            if(inRenderArea(ent))
-                ent.renderIdentifiers(gfx);
 
         // DRAW THE FOREGROUND SPRITES
         _foregroundSpriteManager.render(gfx, xShift, yShift);
