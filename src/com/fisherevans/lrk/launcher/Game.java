@@ -54,6 +54,10 @@ public class Game
                 InputManager.jxNativesLoaded = true;
                 //System.exit(1);
             }
+            catch(UnsatisfiedLinkError e) {
+                LRK.log("Non-fatal error loading JXInput natives. (DLL doesn't exist?)");
+                e.printStackTrace();
+            }
             catch(Exception e)
             {
                 LRK.log("Non-fatal error loading JXInput natives. (DLL doesn't exist?)");
