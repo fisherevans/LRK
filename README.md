@@ -1,8 +1,8 @@
 # LRK (Lost Relics of Kazar)
 
-Contact E-Mail: contact@fisherevans.com
+Demo video playlist (I'm so sorry about the random music...):
 
-Project Website: [fisherevans.com](http://fisherevans.com/projects/view/lrk)
+[![Watch a demo](https://img.youtube.com/vi/8Dn0nhBkNEI/hqdefault.jpg)](https://www.youtube.com/watch?v=8Dn0nhBkNEI&list=PLw0J95aO2meHpdqWGUrWeJsyGZT-yMfdD&index=9)
 
 ## Intro
 
